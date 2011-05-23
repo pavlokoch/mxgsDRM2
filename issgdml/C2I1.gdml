@@ -1,0 +1,1594 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<gdml xmlns:gdml="http://cern.ch/2001/Schemas/GDML" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="/home/ersmark/sys/build/gdml-2.6.0/GDMLSchema/gdml.xsd" >
+ <define>
+  <position name="PMA1_1_Inside_Physical_147576344inPMA1_1_Hull_Logical_147573776p" unit="mm" x="0" y="0" z="0" />
+  <position name="PMA1_2_Inside_Physical_147576552inPMA1_2_Hull_Logical_147574064p" unit="mm" x="0" y="0" z="0" />
+  <position name="PMA1_3_Inside_Physical_147576848inPMA1_3_Hull_Logical_147576024p" unit="mm" x="0" y="0" z="-9.8663540437548" />
+  <position name="Node1_Inside0_Physical_147585384inNode1_Interior_Logical_147584936p" unit="mm" x="0" y="0" z="0" />
+  <position name="Node1_InsideAntiRefOpening_Physical_147585176inNode1_Interior_Logical_147584936p" unit="mm" x="0" y="0" z="2529.2322747338" />
+  <position name="Node1_InsideRefOpening_Physical_147580808inNode1_Interior_Logical_147584936p" unit="mm" x="0" y="0" z="-2529.2322747338" />
+  <position name="Node1_Interior_Physical_147585024inNode1_Hull_Logical_147579448p" unit="mm" x="0" y="0" z="0" />
+  <position name="USLab_Inside0_Physical_147594208inUSLab_Interior_Logical_147593824p" unit="mm" x="0" y="0" z="200.302664396606" />
+  <position name="USLab_InsideAntiRefOpening_Physical_147589552inUSLab_Interior_Logical_147593824p" unit="mm" x="0" y="0" z="4212" />
+  <position name="USLab_InsideRefOpening_Physical_147589416inUSLab_Interior_Logical_147593824p" unit="mm" x="0" y="0" z="-4011.69733560339" />
+  <position name="USLab_Interior_Physical_147593912inUSLab_Hull_Logical_147588152p" unit="mm" x="0" y="0" z="0" />
+  <position name="Airlock_Inside_Physical_147602944inAirlock_Hull_Logical_147598624p" unit="mm" x="0" y="0" z="0" />
+  <position name="Node2_Inside0_Physical_147615760inNode2_Interior_Logical_147615312p" unit="mm" x="0" y="0" z="218.745983356582" />
+  <position name="Node2_InsideAntiRefOpening_Physical_147615552inNode2_Interior_Logical_147615312p" unit="mm" x="0" y="0" z="3218" />
+  <position name="Node2_InsideRefOpening_Physical_147611184inNode2_Interior_Logical_147615312p" unit="mm" x="0" y="0" z="-2999.25401664342" />
+  <position name="Node2_Interior_Physical_147615400inNode2_Hull_Logical_147609824p" unit="mm" x="0" y="0" z="0" />
+  <position name="PMA2_1_Inside_Physical_147620296inPMA2_1_Hull_Logical_147617752p" unit="mm" x="0" y="0" z="0" />
+  <position name="PMA2_2_Inside_Physical_147620504inPMA2_2_Hull_Logical_147618040p" unit="mm" x="0" y="0" z="0" />
+  <position name="PMA2_3_Inside_Physical_147620800inPMA2_3_Hull_Logical_147619976p" unit="mm" x="0" y="0" z="-7.20440691541043" />
+  <position name="JEMPM1_Inside1_Physical_147638120inJEMPM1_Interior_Logical_147637968p" unit="mm" x="0" y="0" z="2642.84472680938" />
+  <position name="JEMPM1_Inside0_Physical_147623168inJEMPM1_Interior_Logical_147637968p" unit="mm" x="0" y="0" z="-1524.3398744113" />
+  <position name="JEMPM1_InsideRefOpening_Physical_147629616inJEMPM1_Interior_Logical_147637968p" unit="mm" x="0" y="0" z="-4461.64711113582" />
+  <position name="JEMPM1_Interior_Physical_147638056inJEMPM1_Hull_Logical_147628488p" unit="mm" x="0" y="0" z="0" />
+  <position name="JEMPS_Inside0_Physical_147646920inJEMPS_Interior_Logical_147646680p" unit="mm" x="0" y="0" z="151.52770885029" />
+  <position name="JEMPS_InsideRefOpening_Physical_147642920inJEMPS_Interior_Logical_147646680p" unit="mm" x="0" y="0" z="-1583.26157179017" />
+  <position name="JEMPS_Interior_Physical_147646768inJEMPS_Hull_Logical_147641656p" unit="mm" x="0" y="0" z="0" />
+  <position name="Cupola_Inside_Physical_147652792inCupola_Hull_Logical_147649288p" unit="mm" x="0" y="0" z="0" />
+  <position name="Columbus2_PrtCabin_Physical_147736520inColumbus2_PrtInterior_Logical_147735888p" unit="mm" x="0" y="0" z="0" />
+  <position name="Columbus2_PrtInterior_Physical_147736280inColumbus2_PrtHull_Logical_147734560p" unit="mm" x="0" y="0" z="0" />
+  <position name="Columbus2_InrTrk_Physical_147746112inColumbus2_CylCabin_Logical_147741792p" unit="mm" x="0" y="0" z="19.484" />
+  <position name="Columbus2_CylCabin_Physical_147741880inColumbus2_CylInterior_Logical_147740928p" unit="mm" x="0" y="0" z="0" />
+  <position name="Columbus2_CylInterior_Physical_147741016inColumbus2_CylHull_Logical_147740704p" unit="mm" x="0" y="0" z="0" />
+  <position name="Columbus2_StbInterior_Physical_147564992inColumbus2_StbHull_Logical_147564520p" unit="mm" x="0" y="0" z="-5.4345472" />
+  <position name="Columbus2_EpfNadir_Physical_147745888inColumbus2_OtrTrk_Logical_147730328p" unit="mm" x="0" y="-2790.304" z="2007.104" />
+  <position name="Columbus2_EpfStbNadir_Physical_147745680inColumbus2_OtrTrk_Logical_147730328p" unit="mm" x="0" y="-1267.828" z="3529.579" />
+  <position name="Columbus2_EpfStbZenith_Physical_147745472inColumbus2_OtrTrk_Logical_147730328p" unit="mm" x="0" y="1267.828" z="3529.579" />
+  <position name="Columbus2_EpfZenith_Physical_147565200inColumbus2_OtrTrk_Logical_147730328p" unit="mm" x="0" y="2790.304" z="2007.104" />
+  <position name="Columbus2_StbHull_Physical_147564608inColumbus2_OtrTrk_Logical_147730328p" unit="mm" x="0" y="0" z="1392.166" />
+  <position name="Columbus2_StbMDPS3E_Physical_147564248inColumbus2_OtrTrk_Logical_147730328p" unit="mm" x="0" y="0" z="1712.291" />
+  <position name="Columbus2_StbMDPS3_Physical_147564024inColumbus2_OtrTrk_Logical_147730328p" unit="mm" x="0" y="0" z="1442.166" />
+  <position name="Columbus2_StbMDPS2E_Physical_147742808inColumbus2_OtrTrk_Logical_147730328p" unit="mm" x="0" y="0" z="1717.741" />
+  <position name="Columbus2_StbMDPS2_Physical_147742584inColumbus2_OtrTrk_Logical_147730328p" unit="mm" x="0" y="0" z="1442.166" />
+  <position name="Columbus2_StbMDPS1E_Physical_147742344inColumbus2_OtrTrk_Logical_147730328p" unit="mm" x="0" y="0" z="1763.656" />
+  <position name="Columbus2_StbMDPS1_Physical_147742120inColumbus2_OtrTrk_Logical_147730328p" unit="mm" x="0" y="0" z="1467.166" />
+  <position name="Columbus2_CylHull_Physical_147740792inColumbus2_OtrTrk_Logical_147730328p" unit="mm" x="0" y="0" z="-1419.484" />
+  <position name="Columbus2_CylMDPS3Fwd_Physical_147740568inColumbus2_OtrTrk_Logical_147730328p" unit="mm" x="0" y="0" z="-1419.484" />
+  <position name="Columbus2_CylMDPS2Fwd_Physical_147737952inColumbus2_OtrTrk_Logical_147730328p" unit="mm" x="0" y="0" z="-1419.484" />
+  <position name="Columbus2_CylMDPS1Bwd_Physical_147736968inColumbus2_OtrTrk_Logical_147730328p" unit="mm" x="0" y="0" z="-1419.484" />
+  <position name="Columbus2_CylMDPS1Fwd_Physical_147736744inColumbus2_OtrTrk_Logical_147730328p" unit="mm" x="0" y="0" z="-1419.484" />
+  <position name="Columbus2_PrtHull_Physical_147735736inColumbus2_OtrTrk_Logical_147730328p" unit="mm" x="0" y="0" z="-4254.179" />
+  <position name="Columbus2_PrtMDPS1_Physical_147734408inColumbus2_OtrTrk_Logical_147730328p" unit="mm" x="0" y="0" z="-4254.179" />
+  <position name="Columbus2_OtrTrk_Physical_147730416inWorldLogical_147564344p" unit="mm" x="10931" y="6755.44897959184" z="4861" />
+  <rotation name="Columbus2_OtrTrk_Physical_147730416inWorldLogical_147564344r" unit="degree" x="90" y="0" z="0" />
+  <position name="MSC_6_Physical_144924128inWorldLogical_147564344p" unit="mm" x="2938.71912683198" y="2870" z="630.223300970874" />
+  <position name="MSC_5_Physical_147707952inWorldLogical_147564344p" unit="mm" x="2848.54436955043" y="2870" z="-1150.72815533981" />
+  <rotation name="MSC_5_Physical_147707952inWorldLogical_147564344r" unit="degree" x="-180" y="0" z="0" />
+  <position name="MSC_4_Physical_147707648inWorldLogical_147564344p" unit="mm" x="2848.54436955043" y="1585.00970873786" z="-0.999999999999982" />
+  <rotation name="MSC_4_Physical_147707648inWorldLogical_147564344r" unit="degree" x="-90" y="0" z="0" />
+  <position name="MSC_3_Physical_147707416inWorldLogical_147564344p" unit="mm" x="2848.54436955043" y="4154.99029126214" z="-0.999999999999982" />
+  <rotation name="MSC_3_Physical_147707416inWorldLogical_147564344r" unit="degree" x="90" y="0" z="0" />
+  <position name="MSC_2_Physical_147707184inWorldLogical_147564344p" unit="mm" x="2815.66538865871" y="2870" z="-0.999999999999973" />
+  <rotation name="MSC_2_Physical_147707184inWorldLogical_147564344r" unit="degree" x="0" y="-90" z="0" />
+  <position name="MSC_1_Physical_147706896inWorldLogical_147564344p" unit="mm" x="2086.5" y="2864" z="1.778740728927e-14" />
+  <rotation name="MSC_1_Physical_147706896inWorldLogical_147564344r" unit="degree" x="0" y="-90" z="0" />
+  <position name="P1_4_Physical_147703720inWorldLogical_147564344p" unit="mm" x="-828.272413793103" y="-7131.39655172414" z="-0.999999999999964" />
+  <rotation name="P1_4_Physical_147703720inWorldLogical_147564344r" unit="degree" x="0" y="90" z="0" />
+  <position name="P1_3_Physical_147703432inWorldLogical_147564344p" unit="mm" x="-118.410344827586" y="-13461" z="-0.999999999999993" />
+  <rotation name="P1_3_Physical_147703432inWorldLogical_147564344r" unit="degree" x="0" y="90" z="0" />
+  <position name="P1_2_Physical_147703144inWorldLogical_147564344p" unit="mm" x="1133.46206896552" y="-13461" z="-0.999999999999959" />
+  <rotation name="P1_2_Physical_147703144inWorldLogical_147564344r" unit="degree" x="0" y="-90" z="0" />
+  <position name="P1_1_Physical_147702912inWorldLogical_147564344p" unit="mm" x="235.462068965517" y="-13461" z="-0.999999999999986" />
+  <rotation name="P1_1_Physical_147702912inWorldLogical_147564344r" unit="degree" x="0" y="-90" z="0" />
+  <position name="S1_4_Physical_147700560inWorldLogical_147564344p" unit="mm" x="-828.272413793103" y="7131.39655172414" z="-0.999999999999964" />
+  <rotation name="S1_4_Physical_147700560inWorldLogical_147564344r" unit="degree" x="0" y="90" z="0" />
+  <position name="S1_3_Physical_147700272inWorldLogical_147564344p" unit="mm" x="-118.410344827586" y="13461" z="-0.999999999999993" />
+  <rotation name="S1_3_Physical_147700272inWorldLogical_147564344r" unit="degree" x="0" y="90" z="0" />
+  <position name="S1_2_Physical_147699984inWorldLogical_147564344p" unit="mm" x="1133.46206896552" y="13461" z="-0.999999999999959" />
+  <rotation name="S1_2_Physical_147699984inWorldLogical_147564344r" unit="degree" x="0" y="-90" z="0" />
+  <position name="S1_1_Physical_147699752inWorldLogical_147564344p" unit="mm" x="235.462068965517" y="13461" z="-0.999999999999986" />
+  <rotation name="S1_1_Physical_147699752inWorldLogical_147564344r" unit="degree" x="0" y="-90" z="0" />
+  <position name="S0_2_Physical_147697336inWorldLogical_147564344p" unit="mm" x="-781.972037914692" y="0" z="-0.999999999999952" />
+  <rotation name="S0_2_Physical_147697336inWorldLogical_147564344r" unit="degree" x="0" y="90" z="0" />
+  <position name="S0_1_Physical_147697104inWorldLogical_147564344p" unit="mm" x="898" y="0" z="-0.999999999999945" />
+  <rotation name="S0_1_Physical_147697104inWorldLogical_147564344r" unit="degree" x="0" y="-90" z="0" />
+  <position name="Z1_3_Physical_147695088inWorldLogical_147564344p" unit="mm" x="-6391.6763803681" y="0" z="776.196319018405" />
+  <rotation name="Z1_3_Physical_147695088inWorldLogical_147564344r" unit="degree" x="0" y="90" z="0" />
+  <position name="Z1_2_Physical_147694856inWorldLogical_147564344p" unit="mm" x="-4810.39570552147" y="-1.72128565474997e-13" z="776.196319018405" />
+  <rotation name="Z1_2_Physical_147694856inWorldLogical_147564344r" unit="degree" x="-180" y="0" z="0" />
+  <position name="Z1_1_Physical_147694568inWorldLogical_147564344p" unit="mm" x="-4459" y="-2.8363160351337e-14" z="2413.38957055215" />
+  <rotation name="Z1_1_Physical_147694568inWorldLogical_147564344r" unit="degree" x="-180" y="0" z="0" />
+  <position name="ESP2_13_Physical_147659568inWorldLogical_147564344p" unit="mm" x="-213.062055335968" y="3722.75568181818" z="6423.86363636364" />
+  <position name="ESP2_12_Physical_147659360inWorldLogical_147564344p" unit="mm" x="9.7561264822134" y="4976.10795454545" z="6563.125" />
+  <position name="ESP2_11_Physical_147659152inWorldLogical_147564344p" unit="mm" x="-825.812055335968" y="4976.10795454545" z="6312.45454545455" />
+  <position name="ESP2_10_Physical_147658944inWorldLogical_147564344p" unit="mm" x="9.7561264822134" y="6591.53977272727" z="6256.75" />
+  <position name="ESP2_9_Physical_147658392inWorldLogical_147564344p" unit="mm" x="-268.766600790514" y="3694.90340909091" z="5073.02840909091" />
+  <rotation name="ESP2_9_Physical_147658392inWorldLogical_147564344r" unit="degree" x="-180" y="0" z="0" />
+  <position name="ESP2_8_Physical_147658104inWorldLogical_147564344p" unit="mm" x="-1382.85750988142" y="6452.27840909091" z="5254.06818181818" />
+  <rotation name="ESP2_8_Physical_147658104inWorldLogical_147564344r" unit="degree" x="-180" y="0" z="0" />
+  <position name="ESP2_7_Physical_147657816inWorldLogical_147564344p" unit="mm" x="-732.712845849803" y="5226.77840909091" z="5671.85227272727" />
+  <rotation name="ESP2_7_Physical_147657816inWorldLogical_147564344r" unit="degree" x="0" y="-90" z="0" />
+  <position name="ESP2_6_Physical_147657528inWorldLogical_147564344p" unit="mm" x="-2037.38591897233" y="4112.6875" z="5671.85227272727" />
+  <rotation name="ESP2_6_Physical_147657528inWorldLogical_147564344r" unit="degree" x="0" y="-90" z="0" />
+  <position name="ESP2_4_Physical_147657240inWorldLogical_147564344p" unit="mm" x="-2148.79500988142" y="4112.6875" z="6368.15909090909" />
+  <rotation name="ESP2_4_Physical_147657240inWorldLogical_147564344r" unit="degree" x="0" y="-90" z="0" />
+  <position name="ESP2_4_Physical_147656936inWorldLogical_147564344p" unit="mm" x="-2148.79500988142" y="3444.23295454545" z="5164.94090909091" />
+  <rotation name="ESP2_4_Physical_147656936inWorldLogical_147564344r" unit="degree" x="0" y="-90" z="0" />
+  <position name="ESP2_3_Physical_147656704inWorldLogical_147564344p" unit="mm" x="-2148.79500988142" y="4781.14204545455" z="5164.94090909091" />
+  <rotation name="ESP2_3_Physical_147656704inWorldLogical_147564344r" unit="degree" x="0" y="-90" z="0" />
+  <position name="ESP2_2_Physical_147656552inWorldLogical_147564344p" unit="mm" x="-2274.13023715415" y="4112.6875" z="5905.81136363636" />
+  <position name="ESP2_1_Physical_147644048inWorldLogical_147564344p" unit="mm" x="-2274.13023715415" y="3792.38636363636" z="5220.64545454545" />
+  <rotation name="ESP2_1_Physical_147644048inWorldLogical_147564344r" unit="degree" x="0" y="-90" z="0" />
+  <position name="Cupola_Hull_Physical_147649376inWorldLogical_147564344p" unit="mm" x="-4463" y="-3309.5" z="4898" />
+  <rotation name="Cupola_Hull_Physical_147649376inWorldLogical_147564344r" unit="degree" x="-90" y="0" z="0" />
+  <position name="JEMPS_Hull_Physical_147641744inWorldLogical_147564344p" unit="mm" x="10964" y="-9916" z="862.538461538462" />
+  <rotation name="JEMPS_Hull_Physical_147641744inWorldLogical_147564344r" unit="degree" x="-180" y="0" z="0" />
+  <position name="JEMPM2_3_Physical_147631848inWorldLogical_147564344p" unit="mm" x="10935" y="-13114.6722326454" z="6552.24615384615" />
+  <rotation name="JEMPM2_3_Physical_147631848inWorldLogical_147564344r" unit="degree" x="-90" y="0" z="0" />
+  <position name="JEMPM2_2_Physical_147621568inWorldLogical_147564344p" unit="mm" x="10935" y="-12584.1538461538" z="6552.24615384615" />
+  <position name="JEMPM2_1_Physical_147621280inWorldLogical_147564344p" unit="mm" x="10935" y="-12540.3846153846" z="5291.69230769231" />
+  <rotation name="JEMPM2_1_Physical_147621280inWorldLogical_147564344r" unit="degree" x="-90" y="0" z="0" />
+  <position name="JEMPM1_Hull_Physical_147628576inWorldLogical_147564344p" unit="mm" x="10935" y="-7236.72448979592" z="4854" />
+  <rotation name="JEMPM1_Hull_Physical_147628576inWorldLogical_147564344r" unit="degree" x="-90" y="0" z="0" />
+  <position name="PMA2_3_Hull_Physical_147620064inWorldLogical_147564344p" unit="mm" x="14969.3949275362" y="10" z="5573" />
+  <rotation name="PMA2_3_Hull_Physical_147620064inWorldLogical_147564344r" unit="degree" x="0" y="-90" z="0" />
+  <position name="PMA2_2_Hull_Physical_147618128inWorldLogical_147564344p" unit="mm" x="13967.8442028985" y="10" z="5022.22988505747" />
+  <rotation name="PMA2_2_Hull_Physical_147618128inWorldLogical_147564344r" unit="degree" x="0" y="-90" z="0" />
+  <position name="PMA2_1_Hull_Physical_147617840inWorldLogical_147564344p" unit="mm" x="13388.9492753623" y="10" z="4826" />
+  <rotation name="PMA2_1_Hull_Physical_147617840inWorldLogical_147564344r" unit="degree" x="0" y="-90" z="0" />
+  <position name="Node2_Hull_Physical_147609912inWorldLogical_147564344p" unit="mm" x="9986" y="8" z="4861" />
+  <rotation name="Node2_Hull_Physical_147609912inWorldLogical_147564344r" unit="degree" x="0" y="90" z="0" />
+  <position name="HPGA4_2_Physical_147606912inWorldLogical_147564344p" unit="mm" x="-2845.91258957692" y="3431.52173913043" z="2252.51717344812" />
+  <rotation name="HPGA4_2_Physical_147606912inWorldLogical_147564344r" unit="degree" x="-180" y="-32" z="-4.38438178803594e-15" />
+  <position name="HPGA4_1_Physical_147606608inWorldLogical_147564344p" unit="mm" x="-3142.1904502097" y="3431.52173913043" z="2726.66086400918" />
+  <rotation name="HPGA4_1_Physical_147606608inWorldLogical_147564344r" unit="degree" x="-180" y="-32" z="-4.38438178803594e-15" />
+  <position name="HPGA3_2_Physical_147606032inWorldLogical_147564344p" unit="mm" x="-3031.0575915238" y="3431.52173913043" z="7554.37634326503" />
+  <rotation name="HPGA3_2_Physical_147606032inWorldLogical_147564344r" unit="degree" x="0" y="-28" z="0" />
+  <position name="HPGA3_1_Physical_147605728inWorldLogical_147564344p" unit="mm" x="-3293.53914227739" y="3431.52173913043" z="7060.7203440976" />
+  <rotation name="HPGA3_1_Physical_147605728inWorldLogical_147564344r" unit="degree" x="0" y="-28" z="0" />
+  <position name="HPGA2_2_Physical_147605152inWorldLogical_147564344p" unit="mm" x="-5105.81181384184" y="3431.52173913043" z="7845.96403347192" />
+  <rotation name="HPGA2_2_Physical_147605152inWorldLogical_147564344r" unit="degree" x="0" y="12" z="0" />
+  <position name="HPGA2_1_Physical_147604920inWorldLogical_147564344p" unit="mm" x="-4989.56838750563" y="3431.52173913043" z="7299.08170990165" />
+  <rotation name="HPGA2_1_Physical_147604920inWorldLogical_147564344r" unit="degree" x="0" y="12" z="0" />
+  <position name="HPGA1_2_Physical_147604344inWorldLogical_147564344p" unit="mm" x="-6882.59471108832" y="3431.52173913043" z="6735.70685598594" />
+  <rotation name="HPGA1_2_Physical_147604344inWorldLogical_147564344r" unit="degree" x="0" y="52" z="0" />
+  <position name="HPGA1_1_Physical_147604112inWorldLogical_147564344p" unit="mm" x="-6442.0178987468" y="3431.52173913043" z="6391.49052513136" />
+  <rotation name="HPGA1_1_Physical_147604112inWorldLogical_147564344r" unit="degree" x="0" y="52" z="0" />
+  <position name="Airlock_Hull_Physical_147598712inWorldLogical_147564344p" unit="mm" x="-4469" y="4886.5" z="4850" />
+  <rotation name="Airlock_Hull_Physical_147598712inWorldLogical_147564344r" unit="degree" x="90" y="0" z="0" />
+  <position name="USLab_Hull_Physical_147588240inWorldLogical_147564344p" unit="mm" x="2256" y="7" z="4854" />
+  <rotation name="USLab_Hull_Physical_147588240inWorldLogical_147564344r" unit="degree" x="0" y="90" z="0" />
+  <position name="Node1_Hull_Physical_147579536inWorldLogical_147564344p" unit="mm" x="-4970.25" y="-2" z="4856" />
+  <rotation name="Node1_Hull_Physical_147579536inWorldLogical_147564344r" unit="degree" x="0" y="90" z="0" />
+  <position name="PMA1_3_Hull_Physical_147576112inWorldLogical_147564344p" unit="mm" x="-9523.06449275363" y="-2" z="4109" />
+  <rotation name="PMA1_3_Hull_Physical_147576112inWorldLogical_147564344r" unit="degree" x="0" y="90" z="0" />
+  <position name="PMA1_2_Hull_Physical_147574152inWorldLogical_147564344p" unit="mm" x="-8482.75942028986" y="-2" z="4659.77011494253" />
+  <rotation name="PMA1_2_Hull_Physical_147574152inWorldLogical_147564344r" unit="degree" x="0" y="90" z="0" />
+  <position name="PMA1_1_Hull_Physical_147573864inWorldLogical_147564344p" unit="mm" x="-7884.94492753623" y="-2" z="4856" />
+  <rotation name="PMA1_1_Hull_Physical_147573864inWorldLogical_147564344r" unit="degree" x="0" y="90" z="0" />
+ </define>
+ <materials>
+  <material Z="1" formula=" " name="Vacuum_147558976" >
+   <D value="1e-25" />
+   <atom value="1.01" />
+  </material>
+  <element Z="7" formula="N" name="Nitrogen_147560104" >
+   <atom value="14.0067" />
+  </element>
+  <element Z="8" formula="O" name="Oxygen_147561152" >
+   <atom value="15.9994" />
+  </element>
+  <material formula=" " name="Air_147559664" >
+   <D value="0.00125" />
+   <fraction n="0.79" ref="Nitrogen_147560104" />
+   <fraction n="0.21" ref="Oxygen_147561152" />
+  </material>
+  <material Z="13" formula=" " name="Aluminum_147561704" >
+   <D value="2.71" />
+   <atom value="26.9815" />
+  </material>
+  <material Z="13" formula=" " name="Node1_Interior_147579680" >
+   <D value="0.139891" />
+   <atom value="26.9815" />
+  </material>
+  <material Z="13" formula=" " name="USLab_Interior_147588384" >
+   <D value="0.200652" />
+   <atom value="26.9815" />
+  </material>
+  <material Z="13" formula=" " name="HPGA1_1_147603080" >
+   <D value="0.0861767" />
+   <atom value="26.9815" />
+  </material>
+  <material Z="13" formula=" " name="Node2_Interior_147610056" >
+   <D value="0.149452" />
+   <atom value="26.9815" />
+  </material>
+  <material Z="13" formula=" " name="JEMPM1_Interior_147621640" >
+   <D value="0.136892" />
+   <atom value="26.9815" />
+  </material>
+  <material Z="13" formula=" " name="JEMPM2_1_147620936" >
+   <D value="0.240429" />
+   <atom value="26.9815" />
+  </material>
+  <material Z="13" formula=" " name="JEMPS_Interior_147641888" >
+   <D value="0.076651" />
+   <atom value="26.9815" />
+  </material>
+  <material Z="13" formula=" " name="ESP2_1_147655464" >
+   <D value="0.395311" />
+   <atom value="26.9815" />
+  </material>
+  <material Z="13" formula=" " name="Z1_1_147661680" >
+   <D value="0.316037" />
+   <atom value="26.9815" />
+  </material>
+  <material Z="13" formula=" " name="S0_1_147695536" >
+   <D value="0.0910874" />
+   <atom value="26.9815" />
+  </material>
+  <material Z="13" formula=" " name="S1_1_147698040" >
+   <D value="0.0782133" />
+   <atom value="26.9815" />
+  </material>
+  <material Z="13" formula=" " name="P1_1_147701264" >
+   <D value="0.0784206" />
+   <atom value="26.9815" />
+  </material>
+  <material Z="13" formula=" " name="MSC_1_147705328" >
+   <D value="0.84807" />
+   <atom value="26.9815" />
+  </material>
+  <element Z="13" formula="Al" name="Aluminum_147561840" >
+   <atom value="26.9815" />
+  </element>
+  <element Z="29" formula="Cu" name="Copper_144925000" >
+   <atom value="63.546" />
+  </element>
+  <element Z="12" formula="Mg" name="Magnesium_144925296" >
+   <atom value="24.3051" />
+  </element>
+  <element Z="30" formula="Zi" name="Zinc_144925584" >
+   <atom value="65.409" />
+  </element>
+  <material formula=" " name="Aluminum7075_147704304" >
+   <D value="2.7957" />
+   <fraction n="0.903" ref="Aluminum_147561840" />
+   <fraction n="0.016" ref="Copper_144925000" />
+   <fraction n="0.025" ref="Magnesium_144925296" />
+   <fraction n="0.056" ref="Zinc_144925584" />
+  </material>
+  <element Z="6" formula="C" name="Carbon_144926296" >
+   <atom value="12.0107" />
+  </element>
+  <element Z="26" formula="Fe" name="Iron_144927160" >
+   <atom value="55.85" />
+  </element>
+  <material formula=" " name="Steel_144926144" >
+   <D value="7.7" />
+   <fraction n="0.01" ref="Carbon_144926296" />
+   <fraction n="0.99" ref="Iron_144927160" />
+  </material>
+  <element Z="1" formula="H" name="Hydrogen_147713856" >
+   <atom value="1.00794" />
+  </element>
+  <material formula=" " name="Plastic_147713720" >
+   <D value="0.93" />
+   <fraction n="0.143719" ref="Hydrogen_147713856" />
+   <fraction n="0.856281" ref="Carbon_144926296" />
+  </material>
+  <material formula=" " name="Epoxy_147714736" >
+   <D value="0.875" />
+   <fraction n="0.922577" ref="Carbon_144926296" />
+   <fraction n="0.0774228" ref="Hydrogen_147713856" />
+  </material>
+  <material Z="6" formula=" " name="Graphite_147715504" >
+   <D value="2.15" />
+   <atom value="12.0107" />
+  </material>
+  <material formula=" " name="Composite_147714600" >
+   <D value="1.65" />
+   <fraction n="0.961289" ref="Carbon_144926296" />
+   <fraction n="0.0387114" ref="Hydrogen_147713856" />
+  </material>
+  <element Z="14" formula="Si" name="Silicon_147719032" >
+   <atom value="28.0855" />
+  </element>
+  <material formula=" " name="SiliconDioxide_147718520" >
+   <D value="2.6" />
+   <fraction n="0.467435" ref="Silicon_147719032" />
+   <fraction n="0.532565" ref="Oxygen_147561152" />
+  </material>
+  <element Z="11" formula="Na" name="Sodium_147719728" >
+   <atom value="22.9898" />
+  </element>
+  <material formula=" " name="SodiumCarbonate_147719576" >
+   <D value="2.5" />
+   <fraction n="0.433817" ref="Sodium_147719728" />
+   <fraction n="0.113321" ref="Carbon_144926296" />
+   <fraction n="0.452863" ref="Oxygen_147561152" />
+  </material>
+  <element Z="20" formula="Ca" name="Calcium_147721600" >
+   <atom value="40.078" />
+  </element>
+  <material formula=" " name="CalciumOxide_147721464" >
+   <D value="3.35" />
+   <fraction n="0.714691" ref="Calcium_147721600" />
+   <fraction n="0.285309" ref="Oxygen_147561152" />
+  </material>
+  <material formula=" " name="Glass_147718384" >
+   <D value="2.6" />
+   <fraction n="0.327204" ref="Silicon_147719032" />
+   <fraction n="0.483521" ref="Oxygen_147561152" />
+   <fraction n="0.0650725" ref="Sodium_147719728" />
+   <fraction n="0.0169981" ref="Carbon_144926296" />
+   <fraction n="0.107204" ref="Calcium_147721600" />
+  </material>
+  <material Z="29" formula=" " name="Copper_147723280" >
+   <D value="8.96" />
+   <atom value="63.546" />
+  </material>
+  <material Z="28" formula=" " name="Nickel_147725328" >
+   <D value="8.908" />
+   <atom value="58.6934" />
+  </material>
+  <element Z="28" formula="Ni" name="Nickel_147725464" >
+   <atom value="58.6934" />
+  </element>
+  <material formula=" " name="Columbus2Interior_147704168" >
+   <D value="0.201799" />
+   <fraction n="0.6321" ref="Aluminum_147561840" />
+   <fraction n="0.0312" ref="Copper_144925000" />
+   <fraction n="0.0175" ref="Magnesium_144925296" />
+   <fraction n="0.0392" ref="Zinc_144925584" />
+   <fraction n="0.115977" ref="Carbon_144926296" />
+   <fraction n="0.099" ref="Iron_144927160" />
+   <fraction n="0.0155332" ref="Hydrogen_147713856" />
+   <fraction n="0.00981613" ref="Silicon_147719032" />
+   <fraction n="0.0145056" ref="Oxygen_147561152" />
+   <fraction n="0.00195217" ref="Sodium_147719728" />
+   <fraction n="0.00321611" ref="Calcium_147721600" />
+   <fraction n="0.02" ref="Nickel_147725464" />
+  </material>
+  <material Z="13" formula=" " name="EPF_147727496" >
+   <D value="0.229259" />
+   <atom value="26.9815" />
+  </material>
+  <material Z="13" formula=" " name="Aluminum6061T6_147732928" >
+   <D value="2.7126" />
+   <atom value="26.9815" />
+  </material>
+  <material formula=" " name="Aluminum2219_147734648" >
+   <D value="2.851" />
+   <fraction n="0.947" ref="Aluminum_147561840" />
+   <fraction n="0.053" ref="Copper_144925000" />
+  </material>
+  <material formula=" " name="Kevlar29_147737192" >
+   <D value="1.44" />
+   <fraction n="0.0423075" ref="Hydrogen_147713856" />
+   <fraction n="0.705796" ref="Carbon_144926296" />
+   <fraction n="0.117584" ref="Nitrogen_147560104" />
+   <fraction n="0.134313" ref="Oxygen_147561152" />
+  </material>
+  <element Z="39" formula="Y" name="Yttrium_147738176" >
+   <atom value="88.9059" />
+  </element>
+  <element Z="40" formula="Zr" name="Zirconium_147739936" >
+   <atom value="91.224" />
+  </element>
+  <material formula=" " name="NextTel650_147738736" >
+   <D value="4.1" />
+   <fraction n="0.44706" ref="Oxygen_147561152" />
+   <fraction n="0.471033" ref="Aluminum_147561840" />
+   <fraction n="0.0078743" ref="Yttrium_147738176" />
+   <fraction n="0.0740317" ref="Zirconium_147739936" />
+  </material>
+ </materials>
+ <solids>
+  <box aunit="radian" lunit="mm" name="WorldSolid_147563880" x="50000" y="50000" z="50000" />
+  <polycone aunit="degree" deltaphi="360" lunit="mm" name="PMA1_1_Hull_Solid_147571168" startphi="0" >
+   <zplane rmax="1045.37011494253" rmin="0" z="-50.4449275362321" />
+   <zplane rmax="1045.37011494253" rmin="0" z="15.6913043478263" />
+   <zplane rmax="1248.73563218391" rmin="0" z="15.6913043478263" />
+   <zplane rmax="1248.73563218391" rmin="0" z="50.4449275362321" />
+  </polycone>
+  <eltube dx="1320.09195402299" dy="1123.86206896552" dz="547.369565217391" lunit="mm" name="PMA1_2_Hull_Solid_147574008" />
+  <polycone aunit="degree" deltaphi="360" lunit="mm" name="PMA1_3_Hull_Solid_147574296" startphi="0" >
+   <zplane rmax="776" rmin="0" z="-492.935507246377" />
+   <zplane rmax="776" rmin="0" z="202.136956521739" />
+   <zplane rmax="767.080459770115" rmin="0" z="202.136956521739" />
+   <zplane rmax="767.080459770115" rmin="0" z="492.935507246377" />
+  </polycone>
+  <tube aunit="degree" deltaphi="360" lunit="mm" name="PMA1_1_Inside_Solid_147563520" rmax="1025.63740685502" rmin="0" startphi="0" z="100.889855072464" />
+  <eltube dx="1300.35924593548" dy="1104.12936087801" dz="527.636857129882" lunit="mm" name="PMA1_2_Inside_Solid_147576408" />
+  <tube aunit="degree" deltaphi="360" lunit="mm" name="PMA1_3_Inside_Solid_147576688" rmax="747.347751682605" rmin="0" startphi="0" z="966.138306405244" />
+  <polycone aunit="degree" deltaphi="360" lunit="mm" name="Node1_Hull_Solid_147577152" startphi="0" >
+   <zplane rmax="1206" rmin="0" z="-2864.25" />
+   <zplane rmax="1306.5" rmin="0" z="-2462.25" />
+   <zplane rmax="2211" rmin="0" z="-2211" />
+   <zplane rmax="2211" rmin="0" z="2211" />
+   <zplane rmax="1306.5" rmin="0" z="2462.25" />
+   <zplane rmax="1206" rmin="0" z="2864.25" />
+  </polycone>
+  <polycone aunit="degree" deltaphi="360" lunit="mm" name="Node1_Interior_Solid_147580984" startphi="0" >
+   <zplane rmax="653.25" rmin="0" z="-2864.25" />
+   <zplane rmax="653.25" rmin="0" z="-2842.16636963297" />
+   <zplane rmax="1188.75762244167" rmin="0" z="-2842.16636963297" />
+   <zplane rmax="1288.19551836734" rmin="0" z="-2444.41478593028" />
+   <zplane rmax="2188.91636963297" rmin="0" z="-2194.2145494676" />
+   <zplane rmax="2188.91636963297" rmin="0" z="2194.2145494676" />
+   <zplane rmax="1288.19551836734" rmin="0" z="2444.41478593028" />
+   <zplane rmax="1188.75762244167" rmin="0" z="2842.16636963297" />
+   <zplane rmax="653.25" rmin="0" z="2842.16636963297" />
+   <zplane rmax="653.25" rmin="0" z="2864.25" />
+  </polycone>
+  <tube aunit="degree" deltaphi="360" lunit="mm" name="Node1_InsideRefOpening_Solid_147572232" rmax="653.25" rmin="0" startphi="0" z="670.035450532398" />
+  <tube aunit="degree" deltaphi="360" lunit="mm" name="Node1_InsideAntiRefOpening_Solid_147580872" rmax="653.25" rmin="0" startphi="0" z="670.035450532398" />
+  <box aunit="radian" lunit="mm" name="Node1_Inside0_Solid_147585240" x="2742.04182624215" y="2742.04182624215" z="4388.4290989352" />
+  <polycone aunit="degree" deltaphi="360" lunit="mm" name="USLab_Hull_Solid_147585640" startphi="0" >
+   <zplane rmax="1195.56081081081" rmin="0" z="-4362" />
+   <zplane rmax="1287.52702702703" rmin="0" z="-3932.82432432432" />
+   <zplane rmax="2207.18918918919" rmin="0" z="-3687.58108108108" />
+   <zplane rmax="2207.18918918919" rmin="0" z="4160.2027027027" />
+   <zplane rmax="1379.49324324324" rmin="0" z="4344.13513513513" />
+   <zplane rmax="1011.62837837838" rmin="0" z="4344.13513513513" />
+   <zplane rmax="1011.62837837838" rmin="0" z="4362" />
+  </polycone>
+  <polycone aunit="degree" deltaphi="360" lunit="mm" name="USLab_Interior_Solid_147589616" startphi="0" >
+   <zplane rmax="613.108108108108" rmin="0" z="-4362" />
+   <zplane rmax="613.108108108108" rmin="0" z="-4327.91546392976" />
+   <zplane rmax="1168.00633364883" rmin="0" z="-4327.91546392976" />
+   <zplane rmax="1258.5732823301" rmin="0" z="-3905.26970341715" />
+   <zplane rmax="2173.10465311895" rmin="0" z="-3661.39467120679" />
+   <zplane rmax="2173.10465311895" rmin="0" z="4132.861055651" />
+   <zplane rmax="1375.75170775644" rmin="0" z="4310.0505990649" />
+   <zplane rmax="977.543842308141" rmin="0" z="4310.0505990649" />
+   <zplane rmax="977.543842308141" rmin="0" z="4327.91546392976" />
+   <zplane rmax="613.108108108108" rmin="0" z="4327.91546392976" />
+   <zplane rmax="613.108108108108" rmin="0" z="4362" />
+  </polycone>
+  <tube aunit="degree" deltaphi="360" lunit="mm" name="USLab_InsideRefOpening_Solid_147581816" rmax="613.108108108108" rmin="0" startphi="0" z="700.605328793212" />
+  <tube aunit="degree" deltaphi="360" lunit="mm" name="USLab_InsideAntiRefOpening_Solid_147589480" rmax="613.108108108108" rmin="0" startphi="0" z="300" />
+  <box aunit="radian" lunit="mm" name="USLab_Inside0_Solid_147594064" x="2719.68068230363" y="2719.68068230363" z="7723.39467120679" />
+  <polycone aunit="degree" deltaphi="360" lunit="mm" name="Airlock_Hull_Solid_147594584" startphi="0" >
+   <zplane rmax="972.347826086957" rmin="0" z="-2677.5" />
+   <zplane rmax="972.347826086957" rmin="0" z="-2621.79565217391" />
+   <zplane rmax="1336.97826086957" rmin="0" z="-2621.79565217391" />
+   <zplane rmax="2139.1652173913" rmin="0" z="-2330.09130434783" />
+   <zplane rmax="2139.1652173913" rmin="0" z="-579.865217391304" />
+   <zplane rmax="1507.13913043478" rmin="0" z="-579.865217391304" />
+   <zplane rmax="1264.05217391304" rmin="0" z="-385.395652173913" />
+   <zplane rmax="1264.05217391304" rmin="0" z="-288.160869565217" />
+   <zplane rmax="875.113043478261" rmin="0" z="-93.6913043478257" />
+   <zplane rmax="875.113043478261" rmin="0" z="2628.88260869565" />
+   <zplane rmax="923.730434782609" rmin="0" z="2628.88260869565" />
+   <zplane rmax="923.730434782609" rmin="0" z="2677.5" />
+  </polycone>
+  <polycone aunit="degree" deltaphi="360" lunit="mm" name="Airlock_Inside_Solid_147598856" startphi="0" >
+   <zplane rmax="632.026086956522" rmin="0" z="-2677.5" />
+   <zplane rmax="632.026086956522" rmin="0" z="-2630.37226175642" />
+   <zplane rmax="925.220087843375" rmin="0" z="-2630.37226175642" />
+   <zplane rmax="925.220087843375" rmin="0" z="-2574.66791393033" />
+   <zplane rmax="1328.6755326364" rmin="0" z="-2574.66791393033" />
+   <zplane rmax="2092.03747914772" rmin="0" z="-2297.08175156258" />
+   <zplane rmax="2092.03747914772" rmin="0" z="-626.992955634885" />
+   <zplane rmax="1490.60761248854" rmin="0" z="-626.992955634885" />
+   <zplane rmax="1216.92443566946" rmin="0" z="-408.046414179621" />
+   <zplane rmax="1216.92443566946" rmin="0" z="-317.287413612659" />
+   <zplane rmax="827.98530523468" rmin="0" z="-122.817848395267" />
+   <zplane rmax="827.98530523468" rmin="0" z="2630.37226175642" />
+  </polycone>
+  <box aunit="radian" lunit="mm" name="HPGA1_1_Solid_147582176" x="1312.66956521739" y="1750.22608695652" z="729.260869565217" />
+  <trd aunit="radian" lunit="mm" name="HPGA1_2_Solid_147590648" x1="1312.66956521739" x2="583.408695652174" y1="1750.22608695652" y2="1750.22608695652" z="388.939130434783" />
+  <box aunit="radian" lunit="mm" name="HPGA2_1_Solid_147604776" x="1312.66956521739" y="1750.22608695652" z="729.260869565217" />
+  <trd aunit="radian" lunit="mm" name="HPGA2_2_Solid_147590576" x1="1312.66956521739" x2="583.408695652174" y1="1750.22608695652" y2="1750.22608695652" z="388.939130434783" />
+  <box aunit="radian" lunit="mm" name="HPGA3_1_Solid_147605584" x="1312.66956521739" y="1750.22608695652" z="729.260869565217" />
+  <trd aunit="radian" lunit="mm" name="HPGA3_2_Solid_147605872" x1="1312.66956521739" x2="583.408695652174" y1="1750.22608695652" y2="1750.22608695652" z="388.939130434783" />
+  <box aunit="radian" lunit="mm" name="HPGA4_1_Solid_147606464" x="1312.66956521739" y="1750.22608695652" z="729.260869565217" />
+  <trd aunit="radian" lunit="mm" name="HPGA4_2_Solid_147606752" x1="1312.66956521739" x2="583.408695652174" y1="1750.22608695652" y2="1750.22608695652" z="388.939130434783" />
+  <polycone aunit="degree" deltaphi="360" lunit="mm" name="Node2_Hull_Solid_147607224" startphi="0" >
+   <zplane rmax="1222.61224489796" rmin="0" z="-3368" />
+   <zplane rmax="1294.5306122449" rmin="0" z="-2936.48979591837" />
+   <zplane rmax="2247.44897959184" rmin="0" z="-2648.81632653061" />
+   <zplane rmax="2247.44897959184" rmin="0" z="3104.65306122449" />
+   <zplane rmax="1006.85714285714" rmin="0" z="3356.36734693878" />
+   <zplane rmax="988.877551020408" rmin="0" z="3368" />
+  </polycone>
+  <polycone aunit="degree" deltaphi="360" lunit="mm" name="Node2_Interior_Solid_147611360" startphi="0" >
+   <zplane rmax="647.265306122449" rmin="0" z="-3368" />
+   <zplane rmax="647.265306122449" rmin="0" z="-3343.34859401245" />
+   <zplane rmax="1201.72937111918" rmin="0" z="-3343.34859401245" />
+   <zplane rmax="1272.73420051884" rmin="0" z="-2917.31961761452" />
+   <zplane rmax="2222.79757360429" rmin="0" z="-2630.50803328684" />
+   <zplane rmax="2222.79757360429" rmin="0" z="3084.50108499965" />
+   <zplane rmax="997.383165032603" rmin="0" z="3333.13589253594" />
+   <zplane rmax="981.598270294339" rmin="0" z="3343.34859401245" />
+   <zplane rmax="647.265306122449" rmin="0" z="3343.34859401245" />
+   <zplane rmax="647.265306122449" rmin="0" z="3368" />
+  </polycone>
+  <tube aunit="degree" deltaphi="360" lunit="mm" name="Node2_InsideRefOpening_Solid_147607776" rmax="647.265306122449" rmin="0" startphi="0" z="737.491966713164" />
+  <tube aunit="degree" deltaphi="360" lunit="mm" name="Node2_InsideAntiRefOpening_Solid_147611248" rmax="647.265306122449" rmin="0" startphi="0" z="300" />
+  <box aunit="radian" lunit="mm" name="Node2_Inside0_Solid_147615616" x="2789.95708440792" y="2789.95708440792" z="5698.50803328684" />
+  <polycone aunit="degree" deltaphi="360" lunit="mm" name="PMA2_1_Hull_Solid_147615904" startphi="0" >
+   <zplane rmax="1045.37011494253" rmin="0" z="-34.9492753623188" />
+   <zplane rmax="1045.37011494253" rmin="0" z="0.41304347826086" />
+   <zplane rmax="1248.73563218391" rmin="0" z="0.41304347826086" />
+   <zplane rmax="1248.73563218391" rmin="0" z="34.9492753623188" />
+  </polycone>
+  <eltube dx="1320.09195402299" dy="1123.86206896552" dz="543.945652173913" lunit="mm" name="PMA2_2_Hull_Solid_147617984" />
+  <polycone aunit="degree" deltaphi="360" lunit="mm" name="PMA2_3_Hull_Solid_147618272" startphi="0" >
+   <zplane rmax="776" rmin="0" z="-457.605072463768" />
+   <zplane rmax="776" rmin="0" z="233.119565217391" />
+   <zplane rmax="767.080459770115" rmin="0" z="233.119565217391" />
+   <zplane rmax="767.080459770115" rmin="0" z="457.605072463768" />
+  </polycone>
+  <tube aunit="degree" deltaphi="360" lunit="mm" name="PMA2_1_Inside_Solid_147616152" rmax="1030.96130111171" rmin="0" startphi="0" z="69.8985507246377" />
+  <eltube dx="1305.68314019217" dy="1109.4532551347" dz="529.536838343092" lunit="mm" name="PMA2_2_Inside_Solid_147620360" />
+  <tube aunit="degree" deltaphi="360" lunit="mm" name="PMA2_3_Inside_Solid_147620640" rmax="752.671645939294" rmin="0" startphi="0" z="900.801331096715" />
+  <polycone aunit="degree" deltaphi="360" lunit="mm" name="JEMPM1_Hull_Solid_147621776" startphi="0" >
+   <zplane rmax="962.923076923077" rmin="0" z="-4997.27551020408" />
+   <zplane rmax="1050.46153846154" rmin="0" z="-4982.10910518053" />
+   <zplane rmax="1575.69230769231" rmin="0" z="-4982.10910518053" />
+   <zplane rmax="2276" rmin="0" z="-4631.95525902669" />
+   <zplane rmax="2276" rmin="0" z="-4281.80141287284" />
+   <zplane rmax="2100.92307692308" rmin="0" z="-4281.80141287284" />
+   <zplane rmax="2013.38461538462" rmin="0" z="-4106.72448979592" />
+   <zplane rmax="2100.92307692308" rmin="0" z="-3931.647566719" />
+   <zplane rmax="2100.92307692308" rmin="0" z="882.96781789639" />
+   <zplane rmax="2013.38461538462" rmin="0" z="1058.04474097331" />
+   <zplane rmax="2100.92307692308" rmin="0" z="1233.12166405024" />
+   <zplane rmax="2188.46153846154" rmin="0" z="1233.12166405024" />
+   <zplane rmax="2188.46153846154" rmin="0" z="1408.19858712716" />
+   <zplane rmax="2100.92307692308" rmin="0" z="1408.19858712716" />
+   <zplane rmax="2100.92307692308" rmin="0" z="4384.50627943485" />
+   <zplane rmax="2188.46153846154" rmin="0" z="4384.50627943485" />
+   <zplane rmax="2188.46153846154" rmin="0" z="4559.58320251177" />
+   <zplane rmax="1925.84615384615" rmin="0" z="4559.58320251177" />
+   <zplane rmax="1488.15384615385" rmin="0" z="4822.19858712716" />
+   <zplane rmax="1488.15384615385" rmin="0" z="4997.27551020408" />
+  </polycone>
+  <polycone aunit="degree" deltaphi="360" lunit="mm" name="JEMPM1_Interior_Solid_147629712" startphi="0" >
+   <zplane rmax="612.769230769231" rmin="0" z="-4997.27551020408" />
+   <zplane rmax="612.769230769231" rmin="0" z="-4973.43129926513" />
+   <zplane rmax="960.872794309391" rmin="0" z="-4973.43129926513" />
+   <zplane rmax="1048.41125584785" rmin="0" z="-4958.26489424158" />
+   <zplane rmax="1570.06345304087" rmin="0" z="-4958.26489424158" />
+   <zplane rmax="2252.15578906105" rmin="0" z="-4617.21872623149" />
+   <zplane rmax="2252.15578906104" rmin="0" z="-4305.6456238118" />
+   <zplane rmax="2086.18654412788" rmin="0" z="-4305.6456238118" />
+   <zplane rmax="1986.72597711994" rmin="0" z="-4106.72448979592" />
+   <zplane rmax="2077.07886598412" rmin="0" z="-3926.01871206756" />
+   <zplane rmax="2077.07886598412" rmin="0" z="877.338963244953" />
+   <zplane rmax="1986.72597711994" rmin="0" z="1058.04474097331" />
+   <zplane rmax="2086.18654412788" rmin="0" z="1256.96587498919" />
+   <zplane rmax="2164.61732752258" rmin="0" z="1256.96587498919" />
+   <zplane rmax="2164.61732752258" rmin="0" z="1384.3543761882" />
+   <zplane rmax="2077.07886598412" rmin="0" z="1384.3543761882" />
+   <zplane rmax="2077.07886598412" rmin="0" z="4408.35049037381" />
+   <zplane rmax="2164.61732752258" rmin="0" z="4408.35049037381" />
+   <zplane rmax="2164.61732752258" rmin="0" z="4535.73899157282" />
+   <zplane rmax="1919.24168975921" rmin="0" z="4535.73899157282" />
+   <zplane rmax="1464.30963521489" rmin="0" z="4808.69822429941" />
+   <zplane rmax="1464.30963521489" rmin="0" z="4973.43129926513" />
+  </polycone>
+  <tube aunit="degree" deltaphi="360" lunit="mm" name="JEMPM1_InsideRefOpening_Solid_147612336" rmax="612.769230769231" rmin="0" startphi="0" z="1071.25679813652" />
+  <box aunit="radian" lunit="mm" name="JEMPM1_Inside0_Solid_147623024" x="2583.8797118" y="2583.8797118" z="4803.35767531251" />
+  <box aunit="radian" lunit="mm" name="JEMPM1_Inside1_Solid_147623232" x="2583.8797118" y="2583.8797118" z="3531.01152712885" />
+  <tube aunit="degree" deltaphi="360" lunit="mm" name="JEMPM2_1_Solid_147623376" rmax="805.353846153846" rmin="0" startphi="0" z="612.769230769231" />
+  <box aunit="radian" lunit="mm" name="JEMPM2_2_Solid_147621424" x="962.923076923077" y="700.307692307692" z="910.4" />
+  <tube aunit="degree" deltaphi="360" lunit="mm" name="JEMPM2_3_Solid_147630608" rmax="437.692307692308" rmin="0" startphi="0" z="360.729080675422" />
+  <polycone aunit="degree" deltaphi="360" lunit="mm" name="JEMPS_Hull_Solid_147632184" startphi="0" >
+   <zplane rmax="1030.70967741935" rmin="0" z="-1890.53846153846" />
+   <zplane rmax="1030.70967741935" rmin="0" z="-1759.89164598842" />
+   <zplane rmax="1202.49462365591" rmin="0" z="-1759.89164598842" />
+   <zplane rmax="2061.41935483871" rmin="0" z="-1287.48304383788" />
+   <zplane rmax="2276.15053763441" rmin="0" z="-1287.48304383788" />
+   <zplane rmax="2276.15053763441" rmin="0" z="1804.64598842018" />
+   <zplane rmax="2233.20430107527" rmin="0" z="1890.53846153846" />
+  </polycone>
+  <polycone aunit="degree" deltaphi="360" lunit="mm" name="JEMPS_Interior_Solid_147643072" startphi="0" >
+   <zplane rmax="687.139784946237" rmin="0" z="-1890.53846153846" />
+   <zplane rmax="687.139784946237" rmin="0" z="-1879.04009974246" />
+   <zplane rmax="1019.21131562335" rmin="0" z="-1879.04009974246" />
+   <zplane rmax="1019.21131562335" rmin="0" z="-1748.39328419242" />
+   <zplane rmax="1199.54119163589" rmin="0" z="-1748.39328419242" />
+   <zplane rmax="2058.46592281869" rmin="0" z="-1275.98468204188" />
+   <zplane rmax="2264.65217583841" rmin="0" z="-1275.98468204188" />
+   <zplane rmax="2264.65217583841" rmin="0" z="1801.93159340644" />
+   <zplane rmax="2226.0979226704" rmin="0" z="1879.04009974246" />
+  </polycone>
+  <tube aunit="degree" deltaphi="360" lunit="mm" name="JEMPS_InsideRefOpening_Solid_147639288" rmax="687.139784946237" rmin="0" startphi="0" z="614.553779496581" />
+  <box aunit="radian" lunit="mm" name="JEMPS_Inside0_Solid_147642984" x="2849.14843053514" y="2849.14843053514" z="2855.02478178434" />
+  <polycone aunit="degree" deltaphi="360" lunit="mm" name="Cupola_Hull_Solid_147647152" startphi="0" >
+   <zplane rmax="1563.21721311475" rmin="0" z="-1096.5" />
+   <zplane rmax="1563.21721311475" rmin="0" z="-878.090163934426" />
+   <zplane rmax="1908.77049180328" rmin="0" z="-878.090163934426" />
+   <zplane rmax="1908.77049180328" rmin="0" z="-88.2540983606557" />
+   <zplane rmax="1579.67213114754" rmin="0" z="-88.2540983606557" />
+   <zplane rmax="987.295081967213" rmin="0" z="1096.5" />
+  </polycone>
+  <polycone aunit="degree" deltaphi="360" lunit="mm" name="Cupola_Inside_Solid_147649736" startphi="0" >
+   <zplane rmax="1184.75409836066" rmin="0" z="-1096.5" />
+   <zplane rmax="1184.75409836066" rmin="0" z="-1078.6133576107" />
+   <zplane rmax="1545.33057072545" rmin="0" z="-1078.6133576107" />
+   <zplane rmax="1545.33057072545" rmin="0" z="-860.203521545126" />
+   <zplane rmax="1890.88384941398" rmin="0" z="-860.203521545126" />
+   <zplane rmax="1890.88384941398" rmin="0" z="-106.140740749956" />
+   <zplane rmax="1568.61757820634" rmin="0" z="-106.140740749956" />
+   <zplane rmax="976.240529026011" rmin="0" z="1078.6133576107" />
+  </polycone>
+  <box aunit="radian" lunit="mm" name="ESP2_1_Solid_147650368" x="334.227272727273" y="2088.92045454545" z="111.409090909091" />
+  <box aunit="radian" lunit="mm" name="ESP2_2_Solid_147656408" x="111.409090909091" y="1448.31818181818" z="1036.10454545455" />
+  <tube aunit="degree" deltaphi="360" lunit="mm" name="ESP2_3_Solid_147649592" rmax="55.7045454545455" rmin="0" startphi="0" z="139.261363636364" />
+  <tube aunit="degree" deltaphi="360" lunit="mm" name="ESP2_4_Solid_147649520" rmax="55.7045454545455" rmin="0" startphi="0" z="139.261363636364" />
+  <tube aunit="degree" deltaphi="360" lunit="mm" name="ESP2_4_Solid_147657080" rmax="55.7045454545455" rmin="0" startphi="0" z="139.261363636364" />
+  <box aunit="radian" lunit="mm" name="ESP2_6_Solid_147657384" x="1392.61363636364" y="1336.90909090909" z="83.5568181818182" />
+  <box aunit="radian" lunit="mm" name="ESP2_7_Solid_147657672" x="222.818181818182" y="4344.95454545455" z="2525.78932806324" />
+  <box aunit="radian" lunit="mm" name="ESP2_8_Solid_147657960" x="946.977272727273" y="1169.79545454545" z="612.75" />
+  <box aunit="radian" lunit="mm" name="ESP2_9_Solid_147658248" x="1559.72727272727" y="1225.5" z="974.829545454545" />
+  <box aunit="radian" lunit="mm" name="ESP2_10_Solid_147658800" x="891.272727272727" y="1309.05681818182" z="946.977272727273" />
+  <box aunit="radian" lunit="mm" name="ESP2_11_Solid_147659008" x="1336.90909090909" y="1002.68181818182" z="1058.38636363636" />
+  <box aunit="radian" lunit="mm" name="ESP2_12_Solid_147659216" x="334.227272727273" y="1002.68181818182" z="1559.72727272727" />
+  <box aunit="radian" lunit="mm" name="ESP2_13_Solid_147659424" x="1336.90909090909" y="1141.94318181818" z="1281.20454545455" />
+  <box aunit="radian" lunit="mm" name="Z1_1_Solid_147694424" x="2208.77300613497" y="2208.77300613497" z="463.220858895706" />
+  <box aunit="radian" lunit="mm" name="Z1_2_Solid_147694712" x="2911.56441717791" y="2911.56441717791" z="2811.16564417178" />
+  <trd aunit="radian" lunit="mm" name="Z1_3_Solid_147694256" x1="2811.16564417178" x2="1957.77607361963" y1="2911.56441717791" y2="2007.9754601227" z="250.996932515337" />
+  <trd aunit="radian" lunit="mm" name="S0_1_Solid_147696752" x1="4328" x2="1710" y1="13198" y2="13198" z="1796" />
+  <trd aunit="radian" lunit="mm" name="S0_2_Solid_147696680" x1="4328" x2="1751.39336492891" y1="13198" y2="8256.56872037915" z="1563.74407582938" />
+  <box aunit="radian" lunit="mm" name="S1_1_Solid_147699608" x="4346" y="13724" z="470.924137931035" />
+  <trd aunit="radian" lunit="mm" name="S1_2_Solid_147699320" x1="4346" x2="1710" y1="13724" y2="13724" z="1325.07586206897" />
+  <box aunit="radian" lunit="mm" name="S1_3_Solid_147700128" x="1892.96551724138" y="13724" z="236.620689655172" />
+  <box aunit="radian" lunit="mm" name="S1_4_Solid_147700416" x="1892.96551724138" y="1064.79310344828" z="1183.10344827586" />
+  <box aunit="radian" lunit="mm" name="P1_1_Solid_147702768" x="4346" y="13724" z="470.924137931035" />
+  <trd aunit="radian" lunit="mm" name="P1_2_Solid_147702480" x1="4346" x2="1710" y1="13724" y2="13724" z="1325.07586206897" />
+  <box aunit="radian" lunit="mm" name="P1_3_Solid_147703288" x="1892.96551724138" y="13724" z="236.620689655172" />
+  <box aunit="radian" lunit="mm" name="P1_4_Solid_147703576" x="1892.96551724138" y="1064.79310344828" z="1183.10344827586" />
+  <box aunit="radian" lunit="mm" name="MSC_1_Solid_147706752" x="2590" y="2608" z="581" />
+  <box aunit="radian" lunit="mm" name="MSC_2_Solid_147707040" x="901.747572815534" y="1983.84466019417" z="877.33077731742" />
+  <trd aunit="radian" lunit="mm" name="MSC_3_Solid_147706488" x1="811.572815533981" x2="135.26213592233" y1="901.747572815534" y2="270.52427184466" z="586.135922330097" />
+  <trd aunit="radian" lunit="mm" name="MSC_4_Solid_147706416" x1="811.572815533981" x2="135.26213592233" y1="901.747572815534" y2="270.52427184466" z="586.135922330097" />
+  <trd aunit="radian" lunit="mm" name="MSC_5_Solid_147707792" x1="811.572815533981" x2="135.26213592233" y1="1487.88349514563" y2="270.52427184466" z="1397.70873786408" />
+  <box aunit="radian" lunit="mm" name="MSC_6_Solid_144923984" x="991.922330097087" y="1442.79611650485" z="360.699029126214" />
+  <tube aunit="degree" deltaphi="360" lunit="mm" name="Columbus2_OtrTrk_Solid_147728776" rmax="3500" rmin="0" startphi="0" z="9000" />
+  <cone aunit="degree" deltaphi="360" lunit="mm" name="Columbus2_PrtMDPS1_Solid_147732752" rmax1="1089.65" rmax2="2238.6" rmin1="1085.58289930807" rmin2="2234.53289930807" startphi="0" z="491.64" />
+  <cone aunit="degree" deltaphi="360" lunit="mm" name="Columbus2_PrtHull_Solid_147734472" rmax1="939.65" rmax2="2088.6" rmin1="0" rmin2="0" startphi="0" z="491.64" />
+  <cone aunit="degree" deltaphi="360" lunit="mm" name="Columbus2_PrtInterior_Solid_147735800" rmax1="929.990635856667" rmax2="2078.94063585667" rmin1="0" rmin2="0" startphi="0" z="491.64" />
+  <cone aunit="degree" deltaphi="360" lunit="mm" name="Columbus2_PrtCabin_Solid_147736344" rmax1="919.990635856667" rmax2="1305.79110429448" rmin1="0" rmin2="0" startphi="0" z="491.64" />
+  <tube aunit="degree" deltaphi="180" lunit="mm" name="Columbus2_CylMDPS1Fwd_Solid_147736584" rmax="2238.6" rmin="2236.03" startphi="-90" z="5177.75" />
+  <tube aunit="degree" deltaphi="180" lunit="mm" name="Columbus2_CylMDPS1Bwd_Solid_147736808" rmax="2238.6" rmin="2237" startphi="90" z="5177.75" />
+  <tube aunit="degree" deltaphi="180" lunit="mm" name="Columbus2_CylMDPS2Fwd_Solid_147737032" rmax="2188.6" rmin="2183" startphi="-90" z="5177.75" />
+  <tube aunit="degree" deltaphi="180" lunit="mm" name="Columbus2_CylMDPS3Fwd_Solid_147738016" rmax="2183" rmin="2177.7" startphi="-90" z="5177.75" />
+  <tube aunit="degree" deltaphi="360" lunit="mm" name="Columbus2_CylHull_Solid_147740632" rmax="2088.6" rmin="0" startphi="0" z="5177.75" />
+  <tube aunit="degree" deltaphi="360" lunit="mm" name="Columbus2_CylInterior_Solid_147740856" rmax="2074.8706176" rmin="0" startphi="0" z="5177.75" />
+  <box aunit="radian" lunit="mm" name="Columbus2_CylCabin_Solid_147741080" x="2133.6" y="2133.6" z="5177.75" />
+  <cone aunit="degree" deltaphi="360" lunit="mm" name="Columbus2_StbMDPS1_Solid_147741944" rmax1="2238.6" rmax2="560" rmin1="2229.45666564006" rmin2="550.856665640063" startphi="0" z="595.55" />
+  <tube aunit="degree" deltaphi="360" lunit="mm" name="Columbus2_StbMDPS1E_Solid_147742184" rmax="550.856665640063" rmin="0" startphi="0" z="2.57" />
+  <cone aunit="degree" deltaphi="360" lunit="mm" name="Columbus2_StbMDPS2_Solid_147742408" rmax1="2188.6" rmax2="650.928553437998" rmin1="2168.67678116123" rmin2="631.005334599226" startphi="0" z="545.55" />
+  <tube aunit="degree" deltaphi="360" lunit="mm" name="Columbus2_StbMDPS2E_Solid_147742648" rmax="650.928553437998" rmin="0" startphi="0" z="5.6" />
+  <cone aunit="degree" deltaphi="360" lunit="mm" name="Columbus2_StbMDPS3_Solid_147742872" rmax1="2168.67678116123" rmax2="631.005334599226" rmin1="2149.82087761739" rmin2="612.149431055388" startphi="0" z="545.55" />
+  <tube aunit="degree" deltaphi="360" lunit="mm" name="Columbus2_StbMDPS3E_Solid_147564088" rmax="612.149431055388" rmin="0" startphi="0" z="5.3" />
+  <cone aunit="degree" deltaphi="360" lunit="mm" name="Columbus2_StbHull_Solid_147564432" rmax1="2088.6" rmax2="832.785660313995" rmin1="0" rmin2="0" startphi="0" z="445.55" />
+  <cone aunit="degree" deltaphi="360" lunit="mm" name="Columbus2_StbInterior_Solid_147564672" rmax1="2075.08067293083" rmax2="849.901648264289" rmin1="0" rmin2="0" startphi="0" z="434.6809056" />
+  <box aunit="radian" lunit="mm" name="Columbus2_EpfZenith_Solid_147565056" x="1159.5" y="1254.2" z="869.83" />
+  <box aunit="radian" lunit="mm" name="Columbus2_EpfStbZenith_Solid_147564760" x="1159.5" y="869.83" z="1254.2" />
+  <box aunit="radian" lunit="mm" name="Columbus2_EpfStbNadir_Solid_147745536" x="1159.5" y="869.83" z="1254.2" />
+  <box aunit="radian" lunit="mm" name="Columbus2_EpfNadir_Solid_147745744" x="1159.5" y="1254.2" z="869.83" />
+  <tube aunit="degree" deltaphi="360" lunit="mm" name="Columbus2_InrTrk_Solid_147745952" rmax="1000" rmin="0" startphi="0" z="4300" />
+ </solids>
+ <structure>
+  <volume name="PMA1_1_Inside_Logical_147576256" >
+   <materialref ref="Air_147559664" />
+   <solidref ref="PMA1_1_Inside_Solid_147563520" />
+  </volume>
+  <volume name="PMA1_1_Hull_Logical_147573776" >
+   <materialref ref="Aluminum_147561704" />
+   <solidref ref="PMA1_1_Hull_Solid_147571168" />
+   <physvol>
+    <volumeref ref="PMA1_1_Inside_Logical_147576256" />
+    <positionref ref="PMA1_1_Inside_Physical_147576344inPMA1_1_Hull_Logical_147573776p" />
+   </physvol>
+  </volume>
+  <volume name="PMA1_2_Inside_Logical_147576464" >
+   <materialref ref="Air_147559664" />
+   <solidref ref="PMA1_2_Inside_Solid_147576408" />
+  </volume>
+  <volume name="PMA1_2_Hull_Logical_147574064" >
+   <materialref ref="Aluminum_147561704" />
+   <solidref ref="PMA1_2_Hull_Solid_147574008" />
+   <physvol>
+    <volumeref ref="PMA1_2_Inside_Logical_147576464" />
+    <positionref ref="PMA1_2_Inside_Physical_147576552inPMA1_2_Hull_Logical_147574064p" />
+   </physvol>
+  </volume>
+  <volume name="PMA1_3_Inside_Logical_147576760" >
+   <materialref ref="Air_147559664" />
+   <solidref ref="PMA1_3_Inside_Solid_147576688" />
+  </volume>
+  <volume name="PMA1_3_Hull_Logical_147576024" >
+   <materialref ref="Aluminum_147561704" />
+   <solidref ref="PMA1_3_Hull_Solid_147574296" />
+   <physvol>
+    <volumeref ref="PMA1_3_Inside_Logical_147576760" />
+    <positionref ref="PMA1_3_Inside_Physical_147576848inPMA1_3_Hull_Logical_147576024p" />
+   </physvol>
+  </volume>
+  <volume name="Node1_InsideRefOpening_Logical_147580720" >
+   <materialref ref="Air_147559664" />
+   <solidref ref="Node1_InsideRefOpening_Solid_147572232" />
+  </volume>
+  <volume name="Node1_InsideAntiRefOpening_Logical_147585088" >
+   <materialref ref="Air_147559664" />
+   <solidref ref="Node1_InsideAntiRefOpening_Solid_147580872" />
+  </volume>
+  <volume name="Node1_Inside0_Logical_147585296" >
+   <materialref ref="Air_147559664" />
+   <solidref ref="Node1_Inside0_Solid_147585240" />
+  </volume>
+  <volume name="Node1_Interior_Logical_147584936" >
+   <materialref ref="Node1_Interior_147579680" />
+   <solidref ref="Node1_Interior_Solid_147580984" />
+   <physvol>
+    <volumeref ref="Node1_Inside0_Logical_147585296" />
+    <positionref ref="Node1_Inside0_Physical_147585384inNode1_Interior_Logical_147584936p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Node1_InsideAntiRefOpening_Logical_147585088" />
+    <positionref ref="Node1_InsideAntiRefOpening_Physical_147585176inNode1_Interior_Logical_147584936p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Node1_InsideRefOpening_Logical_147580720" />
+    <positionref ref="Node1_InsideRefOpening_Physical_147580808inNode1_Interior_Logical_147584936p" />
+   </physvol>
+  </volume>
+  <volume name="Node1_Hull_Logical_147579448" >
+   <materialref ref="Aluminum_147561704" />
+   <solidref ref="Node1_Hull_Solid_147577152" />
+   <physvol>
+    <volumeref ref="Node1_Interior_Logical_147584936" />
+    <positionref ref="Node1_Interior_Physical_147585024inNode1_Hull_Logical_147579448p" />
+   </physvol>
+  </volume>
+  <volume name="USLab_InsideRefOpening_Logical_147589328" >
+   <materialref ref="Air_147559664" />
+   <solidref ref="USLab_InsideRefOpening_Solid_147581816" />
+  </volume>
+  <volume name="USLab_InsideAntiRefOpening_Logical_147593976" >
+   <materialref ref="Air_147559664" />
+   <solidref ref="USLab_InsideAntiRefOpening_Solid_147589480" />
+  </volume>
+  <volume name="USLab_Inside0_Logical_147594120" >
+   <materialref ref="Air_147559664" />
+   <solidref ref="USLab_Inside0_Solid_147594064" />
+  </volume>
+  <volume name="USLab_Interior_Logical_147593824" >
+   <materialref ref="USLab_Interior_147588384" />
+   <solidref ref="USLab_Interior_Solid_147589616" />
+   <physvol>
+    <volumeref ref="USLab_Inside0_Logical_147594120" />
+    <positionref ref="USLab_Inside0_Physical_147594208inUSLab_Interior_Logical_147593824p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="USLab_InsideAntiRefOpening_Logical_147593976" />
+    <positionref ref="USLab_InsideAntiRefOpening_Physical_147589552inUSLab_Interior_Logical_147593824p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="USLab_InsideRefOpening_Logical_147589328" />
+    <positionref ref="USLab_InsideRefOpening_Physical_147589416inUSLab_Interior_Logical_147593824p" />
+   </physvol>
+  </volume>
+  <volume name="USLab_Hull_Logical_147588152" >
+   <materialref ref="Aluminum_147561704" />
+   <solidref ref="USLab_Hull_Solid_147585640" />
+   <physvol>
+    <volumeref ref="USLab_Interior_Logical_147593824" />
+    <positionref ref="USLab_Interior_Physical_147593912inUSLab_Hull_Logical_147588152p" />
+   </physvol>
+  </volume>
+  <volume name="Airlock_Inside_Logical_147602856" >
+   <materialref ref="Air_147559664" />
+   <solidref ref="Airlock_Inside_Solid_147598856" />
+  </volume>
+  <volume name="Airlock_Hull_Logical_147598624" >
+   <materialref ref="Aluminum_147561704" />
+   <solidref ref="Airlock_Hull_Solid_147594584" />
+   <physvol>
+    <volumeref ref="Airlock_Inside_Logical_147602856" />
+    <positionref ref="Airlock_Inside_Physical_147602944inAirlock_Hull_Logical_147598624p" />
+   </physvol>
+  </volume>
+  <volume name="HPGA1_1_Logical_147604024" >
+   <materialref ref="HPGA1_1_147603080" />
+   <solidref ref="HPGA1_1_Solid_147582176" />
+  </volume>
+  <volume name="HPGA1_2_Logical_147604256" >
+   <materialref ref="HPGA1_1_147603080" />
+   <solidref ref="HPGA1_2_Solid_147590648" />
+  </volume>
+  <volume name="HPGA2_1_Logical_147604832" >
+   <materialref ref="HPGA1_1_147603080" />
+   <solidref ref="HPGA2_1_Solid_147604776" />
+  </volume>
+  <volume name="HPGA2_2_Logical_147605064" >
+   <materialref ref="HPGA1_1_147603080" />
+   <solidref ref="HPGA2_2_Solid_147590576" />
+  </volume>
+  <volume name="HPGA3_1_Logical_147605640" >
+   <materialref ref="HPGA1_1_147603080" />
+   <solidref ref="HPGA3_1_Solid_147605584" />
+  </volume>
+  <volume name="HPGA3_2_Logical_147605944" >
+   <materialref ref="HPGA1_1_147603080" />
+   <solidref ref="HPGA3_2_Solid_147605872" />
+  </volume>
+  <volume name="HPGA4_1_Logical_147606520" >
+   <materialref ref="HPGA1_1_147603080" />
+   <solidref ref="HPGA4_1_Solid_147606464" />
+  </volume>
+  <volume name="HPGA4_2_Logical_147606824" >
+   <materialref ref="HPGA1_1_147603080" />
+   <solidref ref="HPGA4_2_Solid_147606752" />
+  </volume>
+  <volume name="Node2_InsideRefOpening_Logical_147611096" >
+   <materialref ref="Air_147559664" />
+   <solidref ref="Node2_InsideRefOpening_Solid_147607776" />
+  </volume>
+  <volume name="Node2_InsideAntiRefOpening_Logical_147615464" >
+   <materialref ref="Air_147559664" />
+   <solidref ref="Node2_InsideAntiRefOpening_Solid_147611248" />
+  </volume>
+  <volume name="Node2_Inside0_Logical_147615672" >
+   <materialref ref="Air_147559664" />
+   <solidref ref="Node2_Inside0_Solid_147615616" />
+  </volume>
+  <volume name="Node2_Interior_Logical_147615312" >
+   <materialref ref="Node2_Interior_147610056" />
+   <solidref ref="Node2_Interior_Solid_147611360" />
+   <physvol>
+    <volumeref ref="Node2_Inside0_Logical_147615672" />
+    <positionref ref="Node2_Inside0_Physical_147615760inNode2_Interior_Logical_147615312p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Node2_InsideAntiRefOpening_Logical_147615464" />
+    <positionref ref="Node2_InsideAntiRefOpening_Physical_147615552inNode2_Interior_Logical_147615312p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Node2_InsideRefOpening_Logical_147611096" />
+    <positionref ref="Node2_InsideRefOpening_Physical_147611184inNode2_Interior_Logical_147615312p" />
+   </physvol>
+  </volume>
+  <volume name="Node2_Hull_Logical_147609824" >
+   <materialref ref="Aluminum_147561704" />
+   <solidref ref="Node2_Hull_Solid_147607224" />
+   <physvol>
+    <volumeref ref="Node2_Interior_Logical_147615312" />
+    <positionref ref="Node2_Interior_Physical_147615400inNode2_Hull_Logical_147609824p" />
+   </physvol>
+  </volume>
+  <volume name="PMA2_1_Inside_Logical_147620208" >
+   <materialref ref="Air_147559664" />
+   <solidref ref="PMA2_1_Inside_Solid_147616152" />
+  </volume>
+  <volume name="PMA2_1_Hull_Logical_147617752" >
+   <materialref ref="Aluminum_147561704" />
+   <solidref ref="PMA2_1_Hull_Solid_147615904" />
+   <physvol>
+    <volumeref ref="PMA2_1_Inside_Logical_147620208" />
+    <positionref ref="PMA2_1_Inside_Physical_147620296inPMA2_1_Hull_Logical_147617752p" />
+   </physvol>
+  </volume>
+  <volume name="PMA2_2_Inside_Logical_147620416" >
+   <materialref ref="Air_147559664" />
+   <solidref ref="PMA2_2_Inside_Solid_147620360" />
+  </volume>
+  <volume name="PMA2_2_Hull_Logical_147618040" >
+   <materialref ref="Aluminum_147561704" />
+   <solidref ref="PMA2_2_Hull_Solid_147617984" />
+   <physvol>
+    <volumeref ref="PMA2_2_Inside_Logical_147620416" />
+    <positionref ref="PMA2_2_Inside_Physical_147620504inPMA2_2_Hull_Logical_147618040p" />
+   </physvol>
+  </volume>
+  <volume name="PMA2_3_Inside_Logical_147620712" >
+   <materialref ref="Air_147559664" />
+   <solidref ref="PMA2_3_Inside_Solid_147620640" />
+  </volume>
+  <volume name="PMA2_3_Hull_Logical_147619976" >
+   <materialref ref="Aluminum_147561704" />
+   <solidref ref="PMA2_3_Hull_Solid_147618272" />
+   <physvol>
+    <volumeref ref="PMA2_3_Inside_Logical_147620712" />
+    <positionref ref="PMA2_3_Inside_Physical_147620800inPMA2_3_Hull_Logical_147619976p" />
+   </physvol>
+  </volume>
+  <volume name="JEMPM1_InsideRefOpening_Logical_147629528" >
+   <materialref ref="Air_147559664" />
+   <solidref ref="JEMPM1_InsideRefOpening_Solid_147612336" />
+  </volume>
+  <volume name="JEMPM1_Inside0_Logical_147623080" >
+   <materialref ref="Air_147559664" />
+   <solidref ref="JEMPM1_Inside0_Solid_147623024" />
+  </volume>
+  <volume name="JEMPM1_Inside1_Logical_147623288" >
+   <materialref ref="Air_147559664" />
+   <solidref ref="JEMPM1_Inside1_Solid_147623232" />
+  </volume>
+  <volume name="JEMPM1_Interior_Logical_147637968" >
+   <materialref ref="JEMPM1_Interior_147621640" />
+   <solidref ref="JEMPM1_Interior_Solid_147629712" />
+   <physvol>
+    <volumeref ref="JEMPM1_Inside1_Logical_147623288" />
+    <positionref ref="JEMPM1_Inside1_Physical_147638120inJEMPM1_Interior_Logical_147637968p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="JEMPM1_Inside0_Logical_147623080" />
+    <positionref ref="JEMPM1_Inside0_Physical_147623168inJEMPM1_Interior_Logical_147637968p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="JEMPM1_InsideRefOpening_Logical_147629528" />
+    <positionref ref="JEMPM1_InsideRefOpening_Physical_147629616inJEMPM1_Interior_Logical_147637968p" />
+   </physvol>
+  </volume>
+  <volume name="JEMPM1_Hull_Logical_147628488" >
+   <materialref ref="Aluminum_147561704" />
+   <solidref ref="JEMPM1_Hull_Solid_147621776" />
+   <physvol>
+    <volumeref ref="JEMPM1_Interior_Logical_147637968" />
+    <positionref ref="JEMPM1_Interior_Physical_147638056inJEMPM1_Hull_Logical_147628488p" />
+   </physvol>
+  </volume>
+  <volume name="JEMPM2_1_Logical_147621192" >
+   <materialref ref="JEMPM2_1_147620936" />
+   <solidref ref="JEMPM2_1_Solid_147623376" />
+  </volume>
+  <volume name="JEMPM2_2_Logical_147621480" >
+   <materialref ref="JEMPM2_1_147620936" />
+   <solidref ref="JEMPM2_2_Solid_147621424" />
+  </volume>
+  <volume name="JEMPM2_3_Logical_147631760" >
+   <materialref ref="JEMPM2_1_147620936" />
+   <solidref ref="JEMPM2_3_Solid_147630608" />
+  </volume>
+  <volume name="JEMPS_InsideRefOpening_Logical_147642832" >
+   <materialref ref="Air_147559664" />
+   <solidref ref="JEMPS_InsideRefOpening_Solid_147639288" />
+  </volume>
+  <volume name="JEMPS_Inside0_Logical_147646832" >
+   <materialref ref="Air_147559664" />
+   <solidref ref="JEMPS_Inside0_Solid_147642984" />
+  </volume>
+  <volume name="JEMPS_Interior_Logical_147646680" >
+   <materialref ref="JEMPS_Interior_147641888" />
+   <solidref ref="JEMPS_Interior_Solid_147643072" />
+   <physvol>
+    <volumeref ref="JEMPS_Inside0_Logical_147646832" />
+    <positionref ref="JEMPS_Inside0_Physical_147646920inJEMPS_Interior_Logical_147646680p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="JEMPS_InsideRefOpening_Logical_147642832" />
+    <positionref ref="JEMPS_InsideRefOpening_Physical_147642920inJEMPS_Interior_Logical_147646680p" />
+   </physvol>
+  </volume>
+  <volume name="JEMPS_Hull_Logical_147641656" >
+   <materialref ref="Aluminum_147561704" />
+   <solidref ref="JEMPS_Hull_Solid_147632184" />
+   <physvol>
+    <volumeref ref="JEMPS_Interior_Logical_147646680" />
+    <positionref ref="JEMPS_Interior_Physical_147646768inJEMPS_Hull_Logical_147641656p" />
+   </physvol>
+  </volume>
+  <volume name="Cupola_Inside_Logical_147652704" >
+   <materialref ref="Air_147559664" />
+   <solidref ref="Cupola_Inside_Solid_147649736" />
+  </volume>
+  <volume name="Cupola_Hull_Logical_147649288" >
+   <materialref ref="Aluminum_147561704" />
+   <solidref ref="Cupola_Hull_Solid_147647152" />
+   <physvol>
+    <volumeref ref="Cupola_Inside_Logical_147652704" />
+    <positionref ref="Cupola_Inside_Physical_147652792inCupola_Hull_Logical_147649288p" />
+   </physvol>
+  </volume>
+  <volume name="ESP2_1_Logical_147643960" >
+   <materialref ref="ESP2_1_147655464" />
+   <solidref ref="ESP2_1_Solid_147650368" />
+  </volume>
+  <volume name="ESP2_2_Logical_147656464" >
+   <materialref ref="ESP2_1_147655464" />
+   <solidref ref="ESP2_2_Solid_147656408" />
+  </volume>
+  <volume name="ESP2_3_Logical_147656616" >
+   <materialref ref="ESP2_1_147655464" />
+   <solidref ref="ESP2_3_Solid_147649592" />
+  </volume>
+  <volume name="ESP2_4_Logical_147656848" >
+   <materialref ref="ESP2_1_147655464" />
+   <solidref ref="ESP2_4_Solid_147649520" />
+  </volume>
+  <volume name="ESP2_4_Logical_147657152" >
+   <materialref ref="ESP2_1_147655464" />
+   <solidref ref="ESP2_4_Solid_147657080" />
+  </volume>
+  <volume name="ESP2_6_Logical_147657440" >
+   <materialref ref="ESP2_1_147655464" />
+   <solidref ref="ESP2_6_Solid_147657384" />
+  </volume>
+  <volume name="ESP2_7_Logical_147657728" >
+   <materialref ref="ESP2_1_147655464" />
+   <solidref ref="ESP2_7_Solid_147657672" />
+  </volume>
+  <volume name="ESP2_8_Logical_147658016" >
+   <materialref ref="ESP2_1_147655464" />
+   <solidref ref="ESP2_8_Solid_147657960" />
+  </volume>
+  <volume name="ESP2_9_Logical_147658304" >
+   <materialref ref="ESP2_1_147655464" />
+   <solidref ref="ESP2_9_Solid_147658248" />
+  </volume>
+  <volume name="ESP2_10_Logical_147658856" >
+   <materialref ref="ESP2_1_147655464" />
+   <solidref ref="ESP2_10_Solid_147658800" />
+  </volume>
+  <volume name="ESP2_11_Logical_147659064" >
+   <materialref ref="ESP2_1_147655464" />
+   <solidref ref="ESP2_11_Solid_147659008" />
+  </volume>
+  <volume name="ESP2_12_Logical_147659272" >
+   <materialref ref="ESP2_1_147655464" />
+   <solidref ref="ESP2_12_Solid_147659216" />
+  </volume>
+  <volume name="ESP2_13_Logical_147659480" >
+   <materialref ref="ESP2_1_147655464" />
+   <solidref ref="ESP2_13_Solid_147659424" />
+  </volume>
+  <volume name="Z1_1_Logical_147694480" >
+   <materialref ref="Z1_1_147661680" />
+   <solidref ref="Z1_1_Solid_147694424" />
+  </volume>
+  <volume name="Z1_2_Logical_147694768" >
+   <materialref ref="Z1_1_147661680" />
+   <solidref ref="Z1_2_Solid_147694712" />
+  </volume>
+  <volume name="Z1_3_Logical_147695000" >
+   <materialref ref="Z1_1_147661680" />
+   <solidref ref="Z1_3_Solid_147694256" />
+  </volume>
+  <volume name="S0_1_Logical_147697016" >
+   <materialref ref="S0_1_147695536" />
+   <solidref ref="S0_1_Solid_147696752" />
+  </volume>
+  <volume name="S0_2_Logical_147697248" >
+   <materialref ref="S0_1_147695536" />
+   <solidref ref="S0_2_Solid_147696680" />
+  </volume>
+  <volume name="S1_1_Logical_147699664" >
+   <materialref ref="S1_1_147698040" />
+   <solidref ref="S1_1_Solid_147699608" />
+  </volume>
+  <volume name="S1_2_Logical_147699896" >
+   <materialref ref="S1_1_147698040" />
+   <solidref ref="S1_2_Solid_147699320" />
+  </volume>
+  <volume name="S1_3_Logical_147700184" >
+   <materialref ref="S1_1_147698040" />
+   <solidref ref="S1_3_Solid_147700128" />
+  </volume>
+  <volume name="S1_4_Logical_147700472" >
+   <materialref ref="S1_1_147698040" />
+   <solidref ref="S1_4_Solid_147700416" />
+  </volume>
+  <volume name="P1_1_Logical_147702824" >
+   <materialref ref="P1_1_147701264" />
+   <solidref ref="P1_1_Solid_147702768" />
+  </volume>
+  <volume name="P1_2_Logical_147703056" >
+   <materialref ref="P1_1_147701264" />
+   <solidref ref="P1_2_Solid_147702480" />
+  </volume>
+  <volume name="P1_3_Logical_147703344" >
+   <materialref ref="P1_1_147701264" />
+   <solidref ref="P1_3_Solid_147703288" />
+  </volume>
+  <volume name="P1_4_Logical_147703632" >
+   <materialref ref="P1_1_147701264" />
+   <solidref ref="P1_4_Solid_147703576" />
+  </volume>
+  <volume name="MSC_1_Logical_147706808" >
+   <materialref ref="MSC_1_147705328" />
+   <solidref ref="MSC_1_Solid_147706752" />
+  </volume>
+  <volume name="MSC_2_Logical_147707096" >
+   <materialref ref="MSC_1_147705328" />
+   <solidref ref="MSC_2_Solid_147707040" />
+  </volume>
+  <volume name="MSC_3_Logical_147707328" >
+   <materialref ref="MSC_1_147705328" />
+   <solidref ref="MSC_3_Solid_147706488" />
+  </volume>
+  <volume name="MSC_4_Logical_147707560" >
+   <materialref ref="MSC_1_147705328" />
+   <solidref ref="MSC_4_Solid_147706416" />
+  </volume>
+  <volume name="MSC_5_Logical_147707864" >
+   <materialref ref="MSC_1_147705328" />
+   <solidref ref="MSC_5_Solid_147707792" />
+  </volume>
+  <volume name="MSC_6_Logical_144924040" >
+   <materialref ref="MSC_1_147705328" />
+   <solidref ref="MSC_6_Solid_144923984" />
+  </volume>
+  <volume name="Columbus2_PrtMDPS1_Logical_147732840" >
+   <materialref ref="Aluminum6061T6_147732928" />
+   <solidref ref="Columbus2_PrtMDPS1_Solid_147732752" />
+  </volume>
+  <volume name="Columbus2_PrtCabin_Logical_147736432" >
+   <materialref ref="Air_147559664" />
+   <solidref ref="Columbus2_PrtCabin_Solid_147736344" />
+  </volume>
+  <volume name="Columbus2_PrtInterior_Logical_147735888" >
+   <materialref ref="Columbus2Interior_147704168" />
+   <solidref ref="Columbus2_PrtInterior_Solid_147735800" />
+   <physvol>
+    <volumeref ref="Columbus2_PrtCabin_Logical_147736432" />
+    <positionref ref="Columbus2_PrtCabin_Physical_147736520inColumbus2_PrtInterior_Logical_147735888p" />
+   </physvol>
+  </volume>
+  <volume name="Columbus2_PrtHull_Logical_147734560" >
+   <materialref ref="Aluminum2219_147734648" />
+   <solidref ref="Columbus2_PrtHull_Solid_147734472" />
+   <physvol>
+    <volumeref ref="Columbus2_PrtInterior_Logical_147735888" />
+    <positionref ref="Columbus2_PrtInterior_Physical_147736280inColumbus2_PrtHull_Logical_147734560p" />
+   </physvol>
+  </volume>
+  <volume name="Columbus2_CylMDPS1Fwd_Logical_147736656" >
+   <materialref ref="Aluminum6061T6_147732928" />
+   <solidref ref="Columbus2_CylMDPS1Fwd_Solid_147736584" />
+  </volume>
+  <volume name="Columbus2_CylMDPS1Bwd_Logical_147736880" >
+   <materialref ref="Aluminum6061T6_147732928" />
+   <solidref ref="Columbus2_CylMDPS1Bwd_Solid_147736808" />
+  </volume>
+  <volume name="Columbus2_CylMDPS2Fwd_Logical_147737104" >
+   <materialref ref="Kevlar29_147737192" />
+   <solidref ref="Columbus2_CylMDPS2Fwd_Solid_147737032" />
+  </volume>
+  <volume name="Columbus2_CylMDPS3Fwd_Logical_147738088" >
+   <materialref ref="NextTel650_147738736" />
+   <solidref ref="Columbus2_CylMDPS3Fwd_Solid_147738016" />
+  </volume>
+  <volume name="Columbus2_InrTrk_Logical_147746024" >
+   <materialref ref="Air_147559664" />
+   <solidref ref="Columbus2_InrTrk_Solid_147745952" />
+  </volume>
+  <volume name="Columbus2_CylCabin_Logical_147741792" >
+   <materialref ref="Air_147559664" />
+   <solidref ref="Columbus2_CylCabin_Solid_147741080" />
+   <physvol>
+    <volumeref ref="Columbus2_InrTrk_Logical_147746024" />
+    <positionref ref="Columbus2_InrTrk_Physical_147746112inColumbus2_CylCabin_Logical_147741792p" />
+   </physvol>
+  </volume>
+  <volume name="Columbus2_CylInterior_Logical_147740928" >
+   <materialref ref="Columbus2Interior_147704168" />
+   <solidref ref="Columbus2_CylInterior_Solid_147740856" />
+   <physvol>
+    <volumeref ref="Columbus2_CylCabin_Logical_147741792" />
+    <positionref ref="Columbus2_CylCabin_Physical_147741880inColumbus2_CylInterior_Logical_147740928p" />
+   </physvol>
+  </volume>
+  <volume name="Columbus2_CylHull_Logical_147740704" >
+   <materialref ref="Aluminum2219_147734648" />
+   <solidref ref="Columbus2_CylHull_Solid_147740632" />
+   <physvol>
+    <volumeref ref="Columbus2_CylInterior_Logical_147740928" />
+    <positionref ref="Columbus2_CylInterior_Physical_147741016inColumbus2_CylHull_Logical_147740704p" />
+   </physvol>
+  </volume>
+  <volume name="Columbus2_StbMDPS1_Logical_147742032" >
+   <materialref ref="Aluminum6061T6_147732928" />
+   <solidref ref="Columbus2_StbMDPS1_Solid_147741944" />
+  </volume>
+  <volume name="Columbus2_StbMDPS1E_Logical_147742256" >
+   <materialref ref="Aluminum6061T6_147732928" />
+   <solidref ref="Columbus2_StbMDPS1E_Solid_147742184" />
+  </volume>
+  <volume name="Columbus2_StbMDPS2_Logical_147742496" >
+   <materialref ref="Kevlar29_147737192" />
+   <solidref ref="Columbus2_StbMDPS2_Solid_147742408" />
+  </volume>
+  <volume name="Columbus2_StbMDPS2E_Logical_147742720" >
+   <materialref ref="Kevlar29_147737192" />
+   <solidref ref="Columbus2_StbMDPS2E_Solid_147742648" />
+  </volume>
+  <volume name="Columbus2_StbMDPS3_Logical_147563936" >
+   <materialref ref="NextTel650_147738736" />
+   <solidref ref="Columbus2_StbMDPS3_Solid_147742872" />
+  </volume>
+  <volume name="Columbus2_StbMDPS3E_Logical_147564160" >
+   <materialref ref="NextTel650_147738736" />
+   <solidref ref="Columbus2_StbMDPS3E_Solid_147564088" />
+  </volume>
+  <volume name="Columbus2_StbInterior_Logical_147564904" >
+   <materialref ref="Columbus2Interior_147704168" />
+   <solidref ref="Columbus2_StbInterior_Solid_147564672" />
+  </volume>
+  <volume name="Columbus2_StbHull_Logical_147564520" >
+   <materialref ref="Aluminum2219_147734648" />
+   <solidref ref="Columbus2_StbHull_Solid_147564432" />
+   <physvol>
+    <volumeref ref="Columbus2_StbInterior_Logical_147564904" />
+    <positionref ref="Columbus2_StbInterior_Physical_147564992inColumbus2_StbHull_Logical_147564520p" />
+   </physvol>
+  </volume>
+  <volume name="Columbus2_EpfZenith_Logical_147565112" >
+   <materialref ref="EPF_147727496" />
+   <solidref ref="Columbus2_EpfZenith_Solid_147565056" />
+  </volume>
+  <volume name="Columbus2_EpfStbZenith_Logical_147745384" >
+   <materialref ref="EPF_147727496" />
+   <solidref ref="Columbus2_EpfStbZenith_Solid_147564760" />
+  </volume>
+  <volume name="Columbus2_EpfStbNadir_Logical_147745592" >
+   <materialref ref="EPF_147727496" />
+   <solidref ref="Columbus2_EpfStbNadir_Solid_147745536" />
+  </volume>
+  <volume name="Columbus2_EpfNadir_Logical_147745800" >
+   <materialref ref="EPF_147727496" />
+   <solidref ref="Columbus2_EpfNadir_Solid_147745744" />
+  </volume>
+  <volume name="Columbus2_OtrTrk_Logical_147730328" >
+   <materialref ref="Vacuum_147558976" />
+   <solidref ref="Columbus2_OtrTrk_Solid_147728776" />
+   <physvol>
+    <volumeref ref="Columbus2_EpfNadir_Logical_147745800" />
+    <positionref ref="Columbus2_EpfNadir_Physical_147745888inColumbus2_OtrTrk_Logical_147730328p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus2_EpfStbNadir_Logical_147745592" />
+    <positionref ref="Columbus2_EpfStbNadir_Physical_147745680inColumbus2_OtrTrk_Logical_147730328p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus2_EpfStbZenith_Logical_147745384" />
+    <positionref ref="Columbus2_EpfStbZenith_Physical_147745472inColumbus2_OtrTrk_Logical_147730328p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus2_EpfZenith_Logical_147565112" />
+    <positionref ref="Columbus2_EpfZenith_Physical_147565200inColumbus2_OtrTrk_Logical_147730328p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus2_StbHull_Logical_147564520" />
+    <positionref ref="Columbus2_StbHull_Physical_147564608inColumbus2_OtrTrk_Logical_147730328p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus2_StbMDPS3E_Logical_147564160" />
+    <positionref ref="Columbus2_StbMDPS3E_Physical_147564248inColumbus2_OtrTrk_Logical_147730328p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus2_StbMDPS3_Logical_147563936" />
+    <positionref ref="Columbus2_StbMDPS3_Physical_147564024inColumbus2_OtrTrk_Logical_147730328p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus2_StbMDPS2E_Logical_147742720" />
+    <positionref ref="Columbus2_StbMDPS2E_Physical_147742808inColumbus2_OtrTrk_Logical_147730328p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus2_StbMDPS2_Logical_147742496" />
+    <positionref ref="Columbus2_StbMDPS2_Physical_147742584inColumbus2_OtrTrk_Logical_147730328p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus2_StbMDPS1E_Logical_147742256" />
+    <positionref ref="Columbus2_StbMDPS1E_Physical_147742344inColumbus2_OtrTrk_Logical_147730328p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus2_StbMDPS1_Logical_147742032" />
+    <positionref ref="Columbus2_StbMDPS1_Physical_147742120inColumbus2_OtrTrk_Logical_147730328p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus2_CylHull_Logical_147740704" />
+    <positionref ref="Columbus2_CylHull_Physical_147740792inColumbus2_OtrTrk_Logical_147730328p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus2_CylMDPS3Fwd_Logical_147738088" />
+    <positionref ref="Columbus2_CylMDPS3Fwd_Physical_147740568inColumbus2_OtrTrk_Logical_147730328p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus2_CylMDPS2Fwd_Logical_147737104" />
+    <positionref ref="Columbus2_CylMDPS2Fwd_Physical_147737952inColumbus2_OtrTrk_Logical_147730328p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus2_CylMDPS1Bwd_Logical_147736880" />
+    <positionref ref="Columbus2_CylMDPS1Bwd_Physical_147736968inColumbus2_OtrTrk_Logical_147730328p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus2_CylMDPS1Fwd_Logical_147736656" />
+    <positionref ref="Columbus2_CylMDPS1Fwd_Physical_147736744inColumbus2_OtrTrk_Logical_147730328p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus2_PrtHull_Logical_147734560" />
+    <positionref ref="Columbus2_PrtHull_Physical_147735736inColumbus2_OtrTrk_Logical_147730328p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus2_PrtMDPS1_Logical_147732840" />
+    <positionref ref="Columbus2_PrtMDPS1_Physical_147734408inColumbus2_OtrTrk_Logical_147730328p" />
+   </physvol>
+  </volume>
+  <volume name="WorldLogical_147564344" >
+   <materialref ref="Vacuum_147558976" />
+   <solidref ref="WorldSolid_147563880" />
+   <physvol>
+    <volumeref ref="Columbus2_OtrTrk_Logical_147730328" />
+    <positionref ref="Columbus2_OtrTrk_Physical_147730416inWorldLogical_147564344p" />
+    <rotationref ref="Columbus2_OtrTrk_Physical_147730416inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="MSC_6_Logical_144924040" />
+    <positionref ref="MSC_6_Physical_144924128inWorldLogical_147564344p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="MSC_5_Logical_147707864" />
+    <positionref ref="MSC_5_Physical_147707952inWorldLogical_147564344p" />
+    <rotationref ref="MSC_5_Physical_147707952inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="MSC_4_Logical_147707560" />
+    <positionref ref="MSC_4_Physical_147707648inWorldLogical_147564344p" />
+    <rotationref ref="MSC_4_Physical_147707648inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="MSC_3_Logical_147707328" />
+    <positionref ref="MSC_3_Physical_147707416inWorldLogical_147564344p" />
+    <rotationref ref="MSC_3_Physical_147707416inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="MSC_2_Logical_147707096" />
+    <positionref ref="MSC_2_Physical_147707184inWorldLogical_147564344p" />
+    <rotationref ref="MSC_2_Physical_147707184inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="MSC_1_Logical_147706808" />
+    <positionref ref="MSC_1_Physical_147706896inWorldLogical_147564344p" />
+    <rotationref ref="MSC_1_Physical_147706896inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="P1_4_Logical_147703632" />
+    <positionref ref="P1_4_Physical_147703720inWorldLogical_147564344p" />
+    <rotationref ref="P1_4_Physical_147703720inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="P1_3_Logical_147703344" />
+    <positionref ref="P1_3_Physical_147703432inWorldLogical_147564344p" />
+    <rotationref ref="P1_3_Physical_147703432inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="P1_2_Logical_147703056" />
+    <positionref ref="P1_2_Physical_147703144inWorldLogical_147564344p" />
+    <rotationref ref="P1_2_Physical_147703144inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="P1_1_Logical_147702824" />
+    <positionref ref="P1_1_Physical_147702912inWorldLogical_147564344p" />
+    <rotationref ref="P1_1_Physical_147702912inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="S1_4_Logical_147700472" />
+    <positionref ref="S1_4_Physical_147700560inWorldLogical_147564344p" />
+    <rotationref ref="S1_4_Physical_147700560inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="S1_3_Logical_147700184" />
+    <positionref ref="S1_3_Physical_147700272inWorldLogical_147564344p" />
+    <rotationref ref="S1_3_Physical_147700272inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="S1_2_Logical_147699896" />
+    <positionref ref="S1_2_Physical_147699984inWorldLogical_147564344p" />
+    <rotationref ref="S1_2_Physical_147699984inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="S1_1_Logical_147699664" />
+    <positionref ref="S1_1_Physical_147699752inWorldLogical_147564344p" />
+    <rotationref ref="S1_1_Physical_147699752inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="S0_2_Logical_147697248" />
+    <positionref ref="S0_2_Physical_147697336inWorldLogical_147564344p" />
+    <rotationref ref="S0_2_Physical_147697336inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="S0_1_Logical_147697016" />
+    <positionref ref="S0_1_Physical_147697104inWorldLogical_147564344p" />
+    <rotationref ref="S0_1_Physical_147697104inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Z1_3_Logical_147695000" />
+    <positionref ref="Z1_3_Physical_147695088inWorldLogical_147564344p" />
+    <rotationref ref="Z1_3_Physical_147695088inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Z1_2_Logical_147694768" />
+    <positionref ref="Z1_2_Physical_147694856inWorldLogical_147564344p" />
+    <rotationref ref="Z1_2_Physical_147694856inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Z1_1_Logical_147694480" />
+    <positionref ref="Z1_1_Physical_147694568inWorldLogical_147564344p" />
+    <rotationref ref="Z1_1_Physical_147694568inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="ESP2_13_Logical_147659480" />
+    <positionref ref="ESP2_13_Physical_147659568inWorldLogical_147564344p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="ESP2_12_Logical_147659272" />
+    <positionref ref="ESP2_12_Physical_147659360inWorldLogical_147564344p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="ESP2_11_Logical_147659064" />
+    <positionref ref="ESP2_11_Physical_147659152inWorldLogical_147564344p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="ESP2_10_Logical_147658856" />
+    <positionref ref="ESP2_10_Physical_147658944inWorldLogical_147564344p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="ESP2_9_Logical_147658304" />
+    <positionref ref="ESP2_9_Physical_147658392inWorldLogical_147564344p" />
+    <rotationref ref="ESP2_9_Physical_147658392inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="ESP2_8_Logical_147658016" />
+    <positionref ref="ESP2_8_Physical_147658104inWorldLogical_147564344p" />
+    <rotationref ref="ESP2_8_Physical_147658104inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="ESP2_7_Logical_147657728" />
+    <positionref ref="ESP2_7_Physical_147657816inWorldLogical_147564344p" />
+    <rotationref ref="ESP2_7_Physical_147657816inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="ESP2_6_Logical_147657440" />
+    <positionref ref="ESP2_6_Physical_147657528inWorldLogical_147564344p" />
+    <rotationref ref="ESP2_6_Physical_147657528inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="ESP2_4_Logical_147657152" />
+    <positionref ref="ESP2_4_Physical_147657240inWorldLogical_147564344p" />
+    <rotationref ref="ESP2_4_Physical_147657240inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="ESP2_4_Logical_147656848" />
+    <positionref ref="ESP2_4_Physical_147656936inWorldLogical_147564344p" />
+    <rotationref ref="ESP2_4_Physical_147656936inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="ESP2_3_Logical_147656616" />
+    <positionref ref="ESP2_3_Physical_147656704inWorldLogical_147564344p" />
+    <rotationref ref="ESP2_3_Physical_147656704inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="ESP2_2_Logical_147656464" />
+    <positionref ref="ESP2_2_Physical_147656552inWorldLogical_147564344p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="ESP2_1_Logical_147643960" />
+    <positionref ref="ESP2_1_Physical_147644048inWorldLogical_147564344p" />
+    <rotationref ref="ESP2_1_Physical_147644048inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Cupola_Hull_Logical_147649288" />
+    <positionref ref="Cupola_Hull_Physical_147649376inWorldLogical_147564344p" />
+    <rotationref ref="Cupola_Hull_Physical_147649376inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="JEMPS_Hull_Logical_147641656" />
+    <positionref ref="JEMPS_Hull_Physical_147641744inWorldLogical_147564344p" />
+    <rotationref ref="JEMPS_Hull_Physical_147641744inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="JEMPM2_3_Logical_147631760" />
+    <positionref ref="JEMPM2_3_Physical_147631848inWorldLogical_147564344p" />
+    <rotationref ref="JEMPM2_3_Physical_147631848inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="JEMPM2_2_Logical_147621480" />
+    <positionref ref="JEMPM2_2_Physical_147621568inWorldLogical_147564344p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="JEMPM2_1_Logical_147621192" />
+    <positionref ref="JEMPM2_1_Physical_147621280inWorldLogical_147564344p" />
+    <rotationref ref="JEMPM2_1_Physical_147621280inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="JEMPM1_Hull_Logical_147628488" />
+    <positionref ref="JEMPM1_Hull_Physical_147628576inWorldLogical_147564344p" />
+    <rotationref ref="JEMPM1_Hull_Physical_147628576inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="PMA2_3_Hull_Logical_147619976" />
+    <positionref ref="PMA2_3_Hull_Physical_147620064inWorldLogical_147564344p" />
+    <rotationref ref="PMA2_3_Hull_Physical_147620064inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="PMA2_2_Hull_Logical_147618040" />
+    <positionref ref="PMA2_2_Hull_Physical_147618128inWorldLogical_147564344p" />
+    <rotationref ref="PMA2_2_Hull_Physical_147618128inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="PMA2_1_Hull_Logical_147617752" />
+    <positionref ref="PMA2_1_Hull_Physical_147617840inWorldLogical_147564344p" />
+    <rotationref ref="PMA2_1_Hull_Physical_147617840inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Node2_Hull_Logical_147609824" />
+    <positionref ref="Node2_Hull_Physical_147609912inWorldLogical_147564344p" />
+    <rotationref ref="Node2_Hull_Physical_147609912inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="HPGA4_2_Logical_147606824" />
+    <positionref ref="HPGA4_2_Physical_147606912inWorldLogical_147564344p" />
+    <rotationref ref="HPGA4_2_Physical_147606912inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="HPGA4_1_Logical_147606520" />
+    <positionref ref="HPGA4_1_Physical_147606608inWorldLogical_147564344p" />
+    <rotationref ref="HPGA4_1_Physical_147606608inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="HPGA3_2_Logical_147605944" />
+    <positionref ref="HPGA3_2_Physical_147606032inWorldLogical_147564344p" />
+    <rotationref ref="HPGA3_2_Physical_147606032inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="HPGA3_1_Logical_147605640" />
+    <positionref ref="HPGA3_1_Physical_147605728inWorldLogical_147564344p" />
+    <rotationref ref="HPGA3_1_Physical_147605728inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="HPGA2_2_Logical_147605064" />
+    <positionref ref="HPGA2_2_Physical_147605152inWorldLogical_147564344p" />
+    <rotationref ref="HPGA2_2_Physical_147605152inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="HPGA2_1_Logical_147604832" />
+    <positionref ref="HPGA2_1_Physical_147604920inWorldLogical_147564344p" />
+    <rotationref ref="HPGA2_1_Physical_147604920inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="HPGA1_2_Logical_147604256" />
+    <positionref ref="HPGA1_2_Physical_147604344inWorldLogical_147564344p" />
+    <rotationref ref="HPGA1_2_Physical_147604344inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="HPGA1_1_Logical_147604024" />
+    <positionref ref="HPGA1_1_Physical_147604112inWorldLogical_147564344p" />
+    <rotationref ref="HPGA1_1_Physical_147604112inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Airlock_Hull_Logical_147598624" />
+    <positionref ref="Airlock_Hull_Physical_147598712inWorldLogical_147564344p" />
+    <rotationref ref="Airlock_Hull_Physical_147598712inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="USLab_Hull_Logical_147588152" />
+    <positionref ref="USLab_Hull_Physical_147588240inWorldLogical_147564344p" />
+    <rotationref ref="USLab_Hull_Physical_147588240inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Node1_Hull_Logical_147579448" />
+    <positionref ref="Node1_Hull_Physical_147579536inWorldLogical_147564344p" />
+    <rotationref ref="Node1_Hull_Physical_147579536inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="PMA1_3_Hull_Logical_147576024" />
+    <positionref ref="PMA1_3_Hull_Physical_147576112inWorldLogical_147564344p" />
+    <rotationref ref="PMA1_3_Hull_Physical_147576112inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="PMA1_2_Hull_Logical_147574064" />
+    <positionref ref="PMA1_2_Hull_Physical_147574152inWorldLogical_147564344p" />
+    <rotationref ref="PMA1_2_Hull_Physical_147574152inWorldLogical_147564344r" />
+   </physvol>
+   <physvol>
+    <volumeref ref="PMA1_1_Hull_Logical_147573776" />
+    <positionref ref="PMA1_1_Hull_Physical_147573864inWorldLogical_147564344p" />
+    <rotationref ref="PMA1_1_Hull_Physical_147573864inWorldLogical_147564344r" />
+   </physvol>
+  </volume>
+ </structure>
+ <setup name="Default" version="1.0" >
+  <world ref="WorldLogical_147564344" />
+ </setup>
+</gdml>

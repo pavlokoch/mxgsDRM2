@@ -1,0 +1,611 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<gdml xmlns:gdml="http://cern.ch/2001/Schemas/GDML" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="/home/ersmark/sys/build/gdml-2.6.0/GDMLSchema/gdml.xsd" >
+ <define>
+  <position name="Columbus2_PrtCabin_Physical_147606680inColumbus2_PrtInterior_Logical_147606352p" unit="mm" x="0" y="0" z="0" />
+  <position name="Columbus2_PrtInterior_Physical_147606440inColumbus2_PrtHull_Logical_147604256p" unit="mm" x="0" y="0" z="0" />
+  <position name="ICRUSpherePhantom15_01_150.000mm_Physical_147662088inColumbus2_InrTrk_Logical_147614616p" unit="mm" x="0" y="0" z="-1990" />
+  <position name="ICRUSpherePhantom14_01_150.000mm_Physical_147661152inColumbus2_InrTrk_Logical_147614616p" unit="mm" x="0" y="840" z="-1990" />
+  <position name="ICRUSpherePhantom13_01_150.000mm_Physical_147660216inColumbus2_InrTrk_Logical_147614616p" unit="mm" x="0" y="-840" z="-1990" />
+  <position name="ICRUSpherePhantom12_01_150.000mm_Physical_147659280inColumbus2_InrTrk_Logical_147614616p" unit="mm" x="-840" y="0" z="-1990" />
+  <position name="ICRUSpherePhantom11_01_150.000mm_Physical_147658344inColumbus2_InrTrk_Logical_147614616p" unit="mm" x="840" y="0" z="-1990" />
+  <position name="ICRUSpherePhantom10_01_150.000mm_Physical_147657408inColumbus2_InrTrk_Logical_147614616p" unit="mm" x="0" y="0" z="0" />
+  <position name="ICRUSpherePhantom09_01_150.000mm_Physical_147656472inColumbus2_InrTrk_Logical_147614616p" unit="mm" x="0" y="840" z="0" />
+  <position name="ICRUSpherePhantom08_01_150.000mm_Physical_147655536inColumbus2_InrTrk_Logical_147614616p" unit="mm" x="0" y="-840" z="0" />
+  <position name="ICRUSpherePhantom07_01_150.000mm_Physical_147654600inColumbus2_InrTrk_Logical_147614616p" unit="mm" x="-840" y="0" z="0" />
+  <position name="ICRUSpherePhantom06_01_150.000mm_Physical_147622240inColumbus2_InrTrk_Logical_147614616p" unit="mm" x="840" y="0" z="0" />
+  <position name="ICRUSpherePhantom05_01_150.000mm_Physical_147621304inColumbus2_InrTrk_Logical_147614616p" unit="mm" x="0" y="0" z="1990" />
+  <position name="ICRUSpherePhantom04_01_150.000mm_Physical_147620368inColumbus2_InrTrk_Logical_147614616p" unit="mm" x="0" y="840" z="1990" />
+  <position name="ICRUSpherePhantom03_01_150.000mm_Physical_147619432inColumbus2_InrTrk_Logical_147614616p" unit="mm" x="0" y="-840" z="1990" />
+  <position name="ICRUSpherePhantom02_01_150.000mm_Physical_147618520inColumbus2_InrTrk_Logical_147614616p" unit="mm" x="-840" y="0" z="1990" />
+  <position name="ICRUSpherePhantom01_01_150.000mm_Physical_147617128inColumbus2_InrTrk_Logical_147614616p" unit="mm" x="840" y="0" z="1990" />
+  <position name="Columbus2_InrTrk_Physical_147614704inColumbus2_CylCabin_Logical_147611688p" unit="mm" x="0" y="0" z="7.01490560000001" />
+  <position name="Columbus2_CylCabin_Physical_147611776inColumbus2_CylInterior_Logical_147610824p" unit="mm" x="0" y="0" z="0" />
+  <position name="Columbus2_CylInterior_Physical_147610912inColumbus2_CylHull_Logical_147610600p" unit="mm" x="0" y="0" z="0" />
+  <position name="Columbus2_StbInterior_Physical_147613648inColumbus2_StbHull_Logical_147613320p" unit="mm" x="0" y="0" z="-5.4345472" />
+  <position name="Columbus2_EpfNadir_Physical_147614480inColumbus2_OtrTrk_Logical_147600024p" unit="mm" x="0" y="-2790.304" z="2007.104" />
+  <position name="Columbus2_EpfStbNadir_Physical_147614272inColumbus2_OtrTrk_Logical_147600024p" unit="mm" x="0" y="-1267.828" z="3529.579" />
+  <position name="Columbus2_EpfStbZenith_Physical_147614064inColumbus2_OtrTrk_Logical_147600024p" unit="mm" x="0" y="1267.828" z="3529.579" />
+  <position name="Columbus2_EpfZenith_Physical_147613856inColumbus2_OtrTrk_Logical_147600024p" unit="mm" x="0" y="2790.304" z="2007.104" />
+  <position name="Columbus2_StbHull_Physical_147613408inColumbus2_OtrTrk_Logical_147600024p" unit="mm" x="0" y="0" z="1404.6350944" />
+  <position name="Columbus2_StbMDPS3E_Physical_147613168inColumbus2_OtrTrk_Logical_147600024p" unit="mm" x="0" y="0" z="1724.7600944" />
+  <position name="Columbus2_StbMDPS3_Physical_147612944inColumbus2_OtrTrk_Logical_147600024p" unit="mm" x="0" y="0" z="1454.6350944" />
+  <position name="Columbus2_StbMDPS2E_Physical_147612704inColumbus2_OtrTrk_Logical_147600024p" unit="mm" x="0" y="0" z="1730.2100944" />
+  <position name="Columbus2_StbMDPS2_Physical_147612480inColumbus2_OtrTrk_Logical_147600024p" unit="mm" x="0" y="0" z="1454.6350944" />
+  <position name="Columbus2_StbMDPS1E_Physical_147612240inColumbus2_OtrTrk_Logical_147600024p" unit="mm" x="0" y="0" z="1776.1250944" />
+  <position name="Columbus2_StbMDPS1_Physical_147612016inColumbus2_OtrTrk_Logical_147600024p" unit="mm" x="0" y="0" z="1479.6350944" />
+  <position name="Columbus2_CylHull_Physical_147610688inColumbus2_OtrTrk_Logical_147600024p" unit="mm" x="0" y="0" z="-1407.0149056" />
+  <position name="Columbus2_CylMDPS3Fwd_Physical_147610464inColumbus2_OtrTrk_Logical_147600024p" unit="mm" x="0" y="0" z="-1407.0149056" />
+  <position name="Columbus2_CylMDPS2Fwd_Physical_147607824inColumbus2_OtrTrk_Logical_147600024p" unit="mm" x="0" y="0" z="-1407.0149056" />
+  <position name="Columbus2_CylMDPS1Bwd_Physical_147607128inColumbus2_OtrTrk_Logical_147600024p" unit="mm" x="0" y="0" z="-1407.0149056" />
+  <position name="Columbus2_CylMDPS1Fwd_Physical_147606904inColumbus2_OtrTrk_Logical_147600024p" unit="mm" x="0" y="0" z="-1407.0149056" />
+  <position name="Columbus2_PrtHullClosing_Physical_147606200inColumbus2_OtrTrk_Logical_147600024p" unit="mm" x="0" y="0" z="-4492.9644528" />
+  <position name="Columbus2_PrtMDPS1Closing_Physical_147605976inColumbus2_OtrTrk_Logical_147600024p" unit="mm" x="0" y="0" z="-4499.199" />
+  <position name="Columbus2_PrtHull_Physical_147605432inColumbus2_OtrTrk_Logical_147600024p" unit="mm" x="0" y="0" z="-4241.7099056" />
+  <position name="Columbus2_PrtMDPS1_Physical_147604104inColumbus2_OtrTrk_Logical_147600024p" unit="mm" x="0" y="0" z="-4241.7099056" />
+  <position name="Columbus2_OtrTrk_Physical_147600112inWorldLogical_147576824p" unit="mm" x="0" y="0" z="0" />
+  <rotation name="Columbus2_OtrTrk_Physical_147600112inWorldLogical_147576824r" unit="degree" x="90" y="0" z="0" />
+ </define>
+ <materials>
+  <material Z="1" formula=" " name="Vacuum_147571456" >
+   <D value="1e-25" />
+   <atom value="1.01" />
+  </material>
+  <element Z="7" formula="N" name="Nitrogen_147572584" >
+   <atom value="14.0067" />
+  </element>
+  <element Z="8" formula="O" name="Oxygen_147573632" >
+   <atom value="15.9994" />
+  </element>
+  <material formula=" " name="Air_147572144" >
+   <D value="0.00125" />
+   <fraction n="0.79" ref="Nitrogen_147572584" />
+   <fraction n="0.21" ref="Oxygen_147573632" />
+  </material>
+  <material Z="13" formula=" " name="Aluminum_147574184" >
+   <D value="2.71" />
+   <atom value="26.9815" />
+  </material>
+  <element Z="13" formula="Al" name="Aluminum_147574320" >
+   <atom value="26.9815" />
+  </element>
+  <element Z="29" formula="Cu" name="Copper_147578888" >
+   <atom value="63.546" />
+  </element>
+  <element Z="12" formula="Mg" name="Magnesium_147579184" >
+   <atom value="24.3051" />
+  </element>
+  <element Z="30" formula="Zi" name="Zinc_147579440" >
+   <atom value="65.409" />
+  </element>
+  <material formula=" " name="Aluminum7075_147577928" >
+   <D value="2.7957" />
+   <fraction n="0.903" ref="Aluminum_147574320" />
+   <fraction n="0.016" ref="Copper_147578888" />
+   <fraction n="0.025" ref="Magnesium_147579184" />
+   <fraction n="0.056" ref="Zinc_147579440" />
+  </material>
+  <element Z="6" formula="C" name="Carbon_147580192" >
+   <atom value="12.0107" />
+  </element>
+  <element Z="26" formula="Fe" name="Iron_147580464" >
+   <atom value="55.85" />
+  </element>
+  <material formula=" " name="Steel_147580040" >
+   <D value="7.7" />
+   <fraction n="0.01" ref="Carbon_147580192" />
+   <fraction n="0.99" ref="Iron_147580464" />
+  </material>
+  <element Z="1" formula="H" name="Hydrogen_147583344" >
+   <atom value="1.00794" />
+  </element>
+  <material formula=" " name="Plastic_147583208" >
+   <D value="0.93" />
+   <fraction n="0.143719" ref="Hydrogen_147583344" />
+   <fraction n="0.856281" ref="Carbon_147580192" />
+  </material>
+  <material formula=" " name="Epoxy_147584432" >
+   <D value="0.875" />
+   <fraction n="0.922577" ref="Carbon_147580192" />
+   <fraction n="0.0774228" ref="Hydrogen_147583344" />
+  </material>
+  <material Z="6" formula=" " name="Graphite_147585200" >
+   <D value="2.15" />
+   <atom value="12.0107" />
+  </material>
+  <material formula=" " name="Composite_147584296" >
+   <D value="1.65" />
+   <fraction n="0.961289" ref="Carbon_147580192" />
+   <fraction n="0.0387114" ref="Hydrogen_147583344" />
+  </material>
+  <element Z="14" formula="Si" name="Silicon_147588728" >
+   <atom value="28.0855" />
+  </element>
+  <material formula=" " name="SiliconDioxide_147588216" >
+   <D value="2.6" />
+   <fraction n="0.467435" ref="Silicon_147588728" />
+   <fraction n="0.532565" ref="Oxygen_147573632" />
+  </material>
+  <element Z="11" formula="Na" name="Sodium_147589424" >
+   <atom value="22.9898" />
+  </element>
+  <material formula=" " name="SodiumCarbonate_147589272" >
+   <D value="2.5" />
+   <fraction n="0.433817" ref="Sodium_147589424" />
+   <fraction n="0.113321" ref="Carbon_147580192" />
+   <fraction n="0.452863" ref="Oxygen_147573632" />
+  </material>
+  <element Z="20" formula="Ca" name="Calcium_147591296" >
+   <atom value="40.078" />
+  </element>
+  <material formula=" " name="CalciumOxide_147591160" >
+   <D value="3.35" />
+   <fraction n="0.714691" ref="Calcium_147591296" />
+   <fraction n="0.285309" ref="Oxygen_147573632" />
+  </material>
+  <material formula=" " name="Glass_147588080" >
+   <D value="2.6" />
+   <fraction n="0.327204" ref="Silicon_147588728" />
+   <fraction n="0.483521" ref="Oxygen_147573632" />
+   <fraction n="0.0650725" ref="Sodium_147589424" />
+   <fraction n="0.0169981" ref="Carbon_147580192" />
+   <fraction n="0.107204" ref="Calcium_147591296" />
+  </material>
+  <material Z="29" formula=" " name="Copper_147592976" >
+   <D value="8.96" />
+   <atom value="63.546" />
+  </material>
+  <material Z="28" formula=" " name="Nickel_147595024" >
+   <D value="8.908" />
+   <atom value="58.6934" />
+  </material>
+  <element Z="28" formula="Ni" name="Nickel_147595160" >
+   <atom value="58.6934" />
+  </element>
+  <material formula=" " name="Columbus2Interior_147577792" >
+   <D value="0.201799" />
+   <fraction n="0.6321" ref="Aluminum_147574320" />
+   <fraction n="0.0312" ref="Copper_147578888" />
+   <fraction n="0.0175" ref="Magnesium_147579184" />
+   <fraction n="0.0392" ref="Zinc_147579440" />
+   <fraction n="0.115977" ref="Carbon_147580192" />
+   <fraction n="0.099" ref="Iron_147580464" />
+   <fraction n="0.0155332" ref="Hydrogen_147583344" />
+   <fraction n="0.00981613" ref="Silicon_147588728" />
+   <fraction n="0.0145056" ref="Oxygen_147573632" />
+   <fraction n="0.00195217" ref="Sodium_147589424" />
+   <fraction n="0.00321611" ref="Calcium_147591296" />
+   <fraction n="0.02" ref="Nickel_147595160" />
+  </material>
+  <material Z="13" formula=" " name="EPF_147597192" >
+   <D value="0.229259" />
+   <atom value="26.9815" />
+  </material>
+  <material Z="13" formula=" " name="Aluminum6061T6_147602624" >
+   <D value="2.7126" />
+   <atom value="26.9815" />
+  </material>
+  <material formula=" " name="Aluminum2219_147604344" >
+   <D value="2.851" />
+   <fraction n="0.947" ref="Aluminum_147574320" />
+   <fraction n="0.053" ref="Copper_147578888" />
+  </material>
+  <material formula=" " name="Kevlar29_147607352" >
+   <D value="1.44" />
+   <fraction n="0.0423075" ref="Hydrogen_147583344" />
+   <fraction n="0.705796" ref="Carbon_147580192" />
+   <fraction n="0.117584" ref="Nitrogen_147572584" />
+   <fraction n="0.134313" ref="Oxygen_147573632" />
+  </material>
+  <element Z="39" formula="Y" name="Yttrium_147608200" >
+   <atom value="88.9059" />
+  </element>
+  <element Z="40" formula="Zr" name="Zirconium_147609832" >
+   <atom value="91.224" />
+  </element>
+  <material formula=" " name="NextTel650_147608048" >
+   <D value="4.1" />
+   <fraction n="0.44706" ref="Oxygen_147573632" />
+   <fraction n="0.471033" ref="Aluminum_147574320" />
+   <fraction n="0.0078743" ref="Yttrium_147608200" />
+   <fraction n="0.0740317" ref="Zirconium_147609832" />
+  </material>
+  <material formula=" " name="ICRU_Tissue_147615872" >
+   <D value="1" />
+   <fraction n="0.762" ref="Oxygen_147573632" />
+   <fraction n="0.111" ref="Carbon_147580192" />
+   <fraction n="0.101" ref="Hydrogen_147583344" />
+   <fraction n="0.026" ref="Nitrogen_147572584" />
+  </material>
+ </materials>
+ <solids>
+  <box aunit="radian" lunit="mm" name="WorldSolid_147576360" x="12000" y="12000" z="12000" />
+  <tube aunit="degree" deltaphi="360" lunit="mm" name="Columbus2_OtrTrk_Solid_147598472" rmax="3500" rmin="0" startphi="0" z="9000" />
+  <cone aunit="degree" deltaphi="360" lunit="mm" name="Columbus2_PrtMDPS1_Solid_147602448" rmax1="1089.65" rmax2="2238.6" rmin1="1085.58289930807" rmin2="2234.53289930807" startphi="0" z="491.64" />
+  <cone aunit="degree" deltaphi="360" lunit="mm" name="Columbus2_PrtHull_Solid_147604168" rmax1="939.65" rmax2="2088.6" rmin1="0" rmin2="0" startphi="0" z="491.64" />
+  <tube aunit="degree" deltaphi="360" lunit="mm" name="Columbus2_PrtMDPS1Closing_Solid_147605496" rmax="1089.65" rmin="0" startphi="0" z="1.6" />
+  <tube aunit="degree" deltaphi="360" lunit="mm" name="Columbus2_PrtHullClosing_Solid_147606040" rmax="1089.65" rmin="0" startphi="0" z="10.8690944" />
+  <cone aunit="degree" deltaphi="360" lunit="mm" name="Columbus2_PrtInterior_Solid_147606264" rmax1="929.990635856667" rmax2="2078.94063585667" rmin1="0" rmin2="0" startphi="0" z="491.64" />
+  <cone aunit="degree" deltaphi="360" lunit="mm" name="Columbus2_PrtCabin_Solid_147606504" rmax1="919.990635856667" rmax2="1305.79110429448" rmin1="0" rmin2="0" startphi="0" z="491.64" />
+  <tube aunit="degree" deltaphi="180" lunit="mm" name="Columbus2_CylMDPS1Fwd_Solid_147606744" rmax="2238.6" rmin="2236.03" startphi="-90" z="5177.75" />
+  <tube aunit="degree" deltaphi="180" lunit="mm" name="Columbus2_CylMDPS1Bwd_Solid_147606968" rmax="2238.6" rmin="2237" startphi="90" z="5177.75" />
+  <tube aunit="degree" deltaphi="180" lunit="mm" name="Columbus2_CylMDPS2Fwd_Solid_147607192" rmax="2188.6" rmin="2183" startphi="-90" z="5177.75" />
+  <tube aunit="degree" deltaphi="180" lunit="mm" name="Columbus2_CylMDPS3Fwd_Solid_147607888" rmax="2183" rmin="2177.7" startphi="-90" z="5177.75" />
+  <tube aunit="degree" deltaphi="360" lunit="mm" name="Columbus2_CylHull_Solid_147610528" rmax="2088.6" rmin="0" startphi="0" z="5177.75" />
+  <tube aunit="degree" deltaphi="360" lunit="mm" name="Columbus2_CylInterior_Solid_147610752" rmax="2074.8706176" rmin="0" startphi="0" z="5177.75" />
+  <box aunit="radian" lunit="mm" name="Columbus2_CylCabin_Solid_147610976" x="2133.6" y="2133.6" z="5177.75" />
+  <cone aunit="degree" deltaphi="360" lunit="mm" name="Columbus2_StbMDPS1_Solid_147611840" rmax1="2238.6" rmax2="560" rmin1="2229.45666564006" rmin2="550.856665640063" startphi="0" z="595.55" />
+  <tube aunit="degree" deltaphi="360" lunit="mm" name="Columbus2_StbMDPS1E_Solid_147612080" rmax="550.856665640063" rmin="0" startphi="0" z="2.57" />
+  <cone aunit="degree" deltaphi="360" lunit="mm" name="Columbus2_StbMDPS2_Solid_147612304" rmax1="2188.6" rmax2="650.928553437998" rmin1="2168.67678116123" rmin2="631.005334599226" startphi="0" z="545.55" />
+  <tube aunit="degree" deltaphi="360" lunit="mm" name="Columbus2_StbMDPS2E_Solid_147612544" rmax="650.928553437998" rmin="0" startphi="0" z="5.6" />
+  <cone aunit="degree" deltaphi="360" lunit="mm" name="Columbus2_StbMDPS3_Solid_147612768" rmax1="2168.67678116123" rmax2="631.005334599226" rmin1="2149.82087761739" rmin2="612.149431055388" startphi="0" z="545.55" />
+  <tube aunit="degree" deltaphi="360" lunit="mm" name="Columbus2_StbMDPS3E_Solid_147613008" rmax="612.149431055388" rmin="0" startphi="0" z="5.3" />
+  <cone aunit="degree" deltaphi="360" lunit="mm" name="Columbus2_StbHull_Solid_147613232" rmax1="2088.6" rmax2="832.785660313995" rmin1="0" rmin2="0" startphi="0" z="445.55" />
+  <cone aunit="degree" deltaphi="360" lunit="mm" name="Columbus2_StbInterior_Solid_147613472" rmax1="2075.08067293083" rmax2="849.901648264289" rmin1="0" rmin2="0" startphi="0" z="434.6809056" />
+  <box aunit="radian" lunit="mm" name="Columbus2_EpfZenith_Solid_147613712" x="1159.5" y="1254.2" z="869.83" />
+  <box aunit="radian" lunit="mm" name="Columbus2_EpfStbZenith_Solid_147613920" x="1159.5" y="869.83" z="1254.2" />
+  <box aunit="radian" lunit="mm" name="Columbus2_EpfStbNadir_Solid_147614128" x="1159.5" y="869.83" z="1254.2" />
+  <box aunit="radian" lunit="mm" name="Columbus2_EpfNadir_Solid_147614336" x="1159.5" y="1254.2" z="869.83" />
+  <tube aunit="degree" deltaphi="360" lunit="mm" name="Columbus2_InrTrk_Solid_147614544" rmax="1000" rmin="0" startphi="0" z="4300" />
+  <sphere aunit="degree" deltaphi="360" deltatheta="180" lunit="mm" name="ICRUSpherePhantom01_01_150.000mm_Solid_147615696" rmax="150" rmin="0" startphi="0" starttheta="0" />
+  <sphere aunit="degree" deltaphi="360" deltatheta="180" lunit="mm" name="ICRUSpherePhantom02_01_150.000mm_Solid_147618344" rmax="150" rmin="0" startphi="0" starttheta="0" />
+  <sphere aunit="degree" deltaphi="360" deltatheta="180" lunit="mm" name="ICRUSpherePhantom03_01_150.000mm_Solid_147619256" rmax="150" rmin="0" startphi="0" starttheta="0" />
+  <sphere aunit="degree" deltaphi="360" deltatheta="180" lunit="mm" name="ICRUSpherePhantom04_01_150.000mm_Solid_147620192" rmax="150" rmin="0" startphi="0" starttheta="0" />
+  <sphere aunit="degree" deltaphi="360" deltatheta="180" lunit="mm" name="ICRUSpherePhantom05_01_150.000mm_Solid_147621128" rmax="150" rmin="0" startphi="0" starttheta="0" />
+  <sphere aunit="degree" deltaphi="360" deltatheta="180" lunit="mm" name="ICRUSpherePhantom06_01_150.000mm_Solid_147622064" rmax="150" rmin="0" startphi="0" starttheta="0" />
+  <sphere aunit="degree" deltaphi="360" deltatheta="180" lunit="mm" name="ICRUSpherePhantom07_01_150.000mm_Solid_147654424" rmax="150" rmin="0" startphi="0" starttheta="0" />
+  <sphere aunit="degree" deltaphi="360" deltatheta="180" lunit="mm" name="ICRUSpherePhantom08_01_150.000mm_Solid_147655360" rmax="150" rmin="0" startphi="0" starttheta="0" />
+  <sphere aunit="degree" deltaphi="360" deltatheta="180" lunit="mm" name="ICRUSpherePhantom09_01_150.000mm_Solid_147656296" rmax="150" rmin="0" startphi="0" starttheta="0" />
+  <sphere aunit="degree" deltaphi="360" deltatheta="180" lunit="mm" name="ICRUSpherePhantom10_01_150.000mm_Solid_147657232" rmax="150" rmin="0" startphi="0" starttheta="0" />
+  <sphere aunit="degree" deltaphi="360" deltatheta="180" lunit="mm" name="ICRUSpherePhantom11_01_150.000mm_Solid_147658168" rmax="150" rmin="0" startphi="0" starttheta="0" />
+  <sphere aunit="degree" deltaphi="360" deltatheta="180" lunit="mm" name="ICRUSpherePhantom12_01_150.000mm_Solid_147659104" rmax="150" rmin="0" startphi="0" starttheta="0" />
+  <sphere aunit="degree" deltaphi="360" deltatheta="180" lunit="mm" name="ICRUSpherePhantom13_01_150.000mm_Solid_147660040" rmax="150" rmin="0" startphi="0" starttheta="0" />
+  <sphere aunit="degree" deltaphi="360" deltatheta="180" lunit="mm" name="ICRUSpherePhantom14_01_150.000mm_Solid_147660976" rmax="150" rmin="0" startphi="0" starttheta="0" />
+  <sphere aunit="degree" deltaphi="360" deltatheta="180" lunit="mm" name="ICRUSpherePhantom15_01_150.000mm_Solid_147661912" rmax="150" rmin="0" startphi="0" starttheta="0" />
+ </solids>
+ <structure>
+  <volume name="Columbus2_PrtMDPS1_Logical_147602536" >
+   <materialref ref="Aluminum6061T6_147602624" />
+   <solidref ref="Columbus2_PrtMDPS1_Solid_147602448" />
+  </volume>
+  <volume name="Columbus2_PrtCabin_Logical_147606592" >
+   <materialref ref="Air_147572144" />
+   <solidref ref="Columbus2_PrtCabin_Solid_147606504" />
+  </volume>
+  <volume name="Columbus2_PrtInterior_Logical_147606352" >
+   <materialref ref="Columbus2Interior_147577792" />
+   <solidref ref="Columbus2_PrtInterior_Solid_147606264" />
+   <physvol>
+    <volumeref ref="Columbus2_PrtCabin_Logical_147606592" />
+    <positionref ref="Columbus2_PrtCabin_Physical_147606680inColumbus2_PrtInterior_Logical_147606352p" />
+   </physvol>
+  </volume>
+  <volume name="Columbus2_PrtHull_Logical_147604256" >
+   <materialref ref="Aluminum2219_147604344" />
+   <solidref ref="Columbus2_PrtHull_Solid_147604168" />
+   <physvol>
+    <volumeref ref="Columbus2_PrtInterior_Logical_147606352" />
+    <positionref ref="Columbus2_PrtInterior_Physical_147606440inColumbus2_PrtHull_Logical_147604256p" />
+   </physvol>
+  </volume>
+  <volume name="Columbus2_PrtMDPS1Closing_Logical_147605568" >
+   <materialref ref="Aluminum2219_147604344" />
+   <solidref ref="Columbus2_PrtMDPS1Closing_Solid_147605496" />
+  </volume>
+  <volume name="Columbus2_PrtHullClosing_Logical_147606112" >
+   <materialref ref="Aluminum6061T6_147602624" />
+   <solidref ref="Columbus2_PrtHullClosing_Solid_147606040" />
+  </volume>
+  <volume name="Columbus2_CylMDPS1Fwd_Logical_147606816" >
+   <materialref ref="Aluminum6061T6_147602624" />
+   <solidref ref="Columbus2_CylMDPS1Fwd_Solid_147606744" />
+  </volume>
+  <volume name="Columbus2_CylMDPS1Bwd_Logical_147607040" >
+   <materialref ref="Aluminum6061T6_147602624" />
+   <solidref ref="Columbus2_CylMDPS1Bwd_Solid_147606968" />
+  </volume>
+  <volume name="Columbus2_CylMDPS2Fwd_Logical_147607264" >
+   <materialref ref="Kevlar29_147607352" />
+   <solidref ref="Columbus2_CylMDPS2Fwd_Solid_147607192" />
+  </volume>
+  <volume name="Columbus2_CylMDPS3Fwd_Logical_147607960" >
+   <materialref ref="NextTel650_147608048" />
+   <solidref ref="Columbus2_CylMDPS3Fwd_Solid_147607888" />
+  </volume>
+  <volume name="ICRUSpherePhantom01_01_150.000mm_Logical_147615784" >
+   <materialref ref="ICRU_Tissue_147615872" />
+   <solidref ref="ICRUSpherePhantom01_01_150.000mm_Solid_147615696" />
+  </volume>
+  <volume name="ICRUSpherePhantom02_01_150.000mm_Logical_147618432" >
+   <materialref ref="ICRU_Tissue_147615872" />
+   <solidref ref="ICRUSpherePhantom02_01_150.000mm_Solid_147618344" />
+  </volume>
+  <volume name="ICRUSpherePhantom03_01_150.000mm_Logical_147619344" >
+   <materialref ref="ICRU_Tissue_147615872" />
+   <solidref ref="ICRUSpherePhantom03_01_150.000mm_Solid_147619256" />
+  </volume>
+  <volume name="ICRUSpherePhantom04_01_150.000mm_Logical_147620280" >
+   <materialref ref="ICRU_Tissue_147615872" />
+   <solidref ref="ICRUSpherePhantom04_01_150.000mm_Solid_147620192" />
+  </volume>
+  <volume name="ICRUSpherePhantom05_01_150.000mm_Logical_147621216" >
+   <materialref ref="ICRU_Tissue_147615872" />
+   <solidref ref="ICRUSpherePhantom05_01_150.000mm_Solid_147621128" />
+  </volume>
+  <volume name="ICRUSpherePhantom06_01_150.000mm_Logical_147622152" >
+   <materialref ref="ICRU_Tissue_147615872" />
+   <solidref ref="ICRUSpherePhantom06_01_150.000mm_Solid_147622064" />
+  </volume>
+  <volume name="ICRUSpherePhantom07_01_150.000mm_Logical_147654512" >
+   <materialref ref="ICRU_Tissue_147615872" />
+   <solidref ref="ICRUSpherePhantom07_01_150.000mm_Solid_147654424" />
+  </volume>
+  <volume name="ICRUSpherePhantom08_01_150.000mm_Logical_147655448" >
+   <materialref ref="ICRU_Tissue_147615872" />
+   <solidref ref="ICRUSpherePhantom08_01_150.000mm_Solid_147655360" />
+  </volume>
+  <volume name="ICRUSpherePhantom09_01_150.000mm_Logical_147656384" >
+   <materialref ref="ICRU_Tissue_147615872" />
+   <solidref ref="ICRUSpherePhantom09_01_150.000mm_Solid_147656296" />
+  </volume>
+  <volume name="ICRUSpherePhantom10_01_150.000mm_Logical_147657320" >
+   <materialref ref="ICRU_Tissue_147615872" />
+   <solidref ref="ICRUSpherePhantom10_01_150.000mm_Solid_147657232" />
+  </volume>
+  <volume name="ICRUSpherePhantom11_01_150.000mm_Logical_147658256" >
+   <materialref ref="ICRU_Tissue_147615872" />
+   <solidref ref="ICRUSpherePhantom11_01_150.000mm_Solid_147658168" />
+  </volume>
+  <volume name="ICRUSpherePhantom12_01_150.000mm_Logical_147659192" >
+   <materialref ref="ICRU_Tissue_147615872" />
+   <solidref ref="ICRUSpherePhantom12_01_150.000mm_Solid_147659104" />
+  </volume>
+  <volume name="ICRUSpherePhantom13_01_150.000mm_Logical_147660128" >
+   <materialref ref="ICRU_Tissue_147615872" />
+   <solidref ref="ICRUSpherePhantom13_01_150.000mm_Solid_147660040" />
+  </volume>
+  <volume name="ICRUSpherePhantom14_01_150.000mm_Logical_147661064" >
+   <materialref ref="ICRU_Tissue_147615872" />
+   <solidref ref="ICRUSpherePhantom14_01_150.000mm_Solid_147660976" />
+  </volume>
+  <volume name="ICRUSpherePhantom15_01_150.000mm_Logical_147662000" >
+   <materialref ref="ICRU_Tissue_147615872" />
+   <solidref ref="ICRUSpherePhantom15_01_150.000mm_Solid_147661912" />
+  </volume>
+  <volume name="Columbus2_InrTrk_Logical_147614616" >
+   <materialref ref="Air_147572144" />
+   <solidref ref="Columbus2_InrTrk_Solid_147614544" />
+   <physvol>
+    <volumeref ref="ICRUSpherePhantom15_01_150.000mm_Logical_147662000" />
+    <positionref ref="ICRUSpherePhantom15_01_150.000mm_Physical_147662088inColumbus2_InrTrk_Logical_147614616p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="ICRUSpherePhantom14_01_150.000mm_Logical_147661064" />
+    <positionref ref="ICRUSpherePhantom14_01_150.000mm_Physical_147661152inColumbus2_InrTrk_Logical_147614616p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="ICRUSpherePhantom13_01_150.000mm_Logical_147660128" />
+    <positionref ref="ICRUSpherePhantom13_01_150.000mm_Physical_147660216inColumbus2_InrTrk_Logical_147614616p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="ICRUSpherePhantom12_01_150.000mm_Logical_147659192" />
+    <positionref ref="ICRUSpherePhantom12_01_150.000mm_Physical_147659280inColumbus2_InrTrk_Logical_147614616p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="ICRUSpherePhantom11_01_150.000mm_Logical_147658256" />
+    <positionref ref="ICRUSpherePhantom11_01_150.000mm_Physical_147658344inColumbus2_InrTrk_Logical_147614616p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="ICRUSpherePhantom10_01_150.000mm_Logical_147657320" />
+    <positionref ref="ICRUSpherePhantom10_01_150.000mm_Physical_147657408inColumbus2_InrTrk_Logical_147614616p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="ICRUSpherePhantom09_01_150.000mm_Logical_147656384" />
+    <positionref ref="ICRUSpherePhantom09_01_150.000mm_Physical_147656472inColumbus2_InrTrk_Logical_147614616p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="ICRUSpherePhantom08_01_150.000mm_Logical_147655448" />
+    <positionref ref="ICRUSpherePhantom08_01_150.000mm_Physical_147655536inColumbus2_InrTrk_Logical_147614616p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="ICRUSpherePhantom07_01_150.000mm_Logical_147654512" />
+    <positionref ref="ICRUSpherePhantom07_01_150.000mm_Physical_147654600inColumbus2_InrTrk_Logical_147614616p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="ICRUSpherePhantom06_01_150.000mm_Logical_147622152" />
+    <positionref ref="ICRUSpherePhantom06_01_150.000mm_Physical_147622240inColumbus2_InrTrk_Logical_147614616p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="ICRUSpherePhantom05_01_150.000mm_Logical_147621216" />
+    <positionref ref="ICRUSpherePhantom05_01_150.000mm_Physical_147621304inColumbus2_InrTrk_Logical_147614616p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="ICRUSpherePhantom04_01_150.000mm_Logical_147620280" />
+    <positionref ref="ICRUSpherePhantom04_01_150.000mm_Physical_147620368inColumbus2_InrTrk_Logical_147614616p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="ICRUSpherePhantom03_01_150.000mm_Logical_147619344" />
+    <positionref ref="ICRUSpherePhantom03_01_150.000mm_Physical_147619432inColumbus2_InrTrk_Logical_147614616p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="ICRUSpherePhantom02_01_150.000mm_Logical_147618432" />
+    <positionref ref="ICRUSpherePhantom02_01_150.000mm_Physical_147618520inColumbus2_InrTrk_Logical_147614616p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="ICRUSpherePhantom01_01_150.000mm_Logical_147615784" />
+    <positionref ref="ICRUSpherePhantom01_01_150.000mm_Physical_147617128inColumbus2_InrTrk_Logical_147614616p" />
+   </physvol>
+  </volume>
+  <volume name="Columbus2_CylCabin_Logical_147611688" >
+   <materialref ref="Air_147572144" />
+   <solidref ref="Columbus2_CylCabin_Solid_147610976" />
+   <physvol>
+    <volumeref ref="Columbus2_InrTrk_Logical_147614616" />
+    <positionref ref="Columbus2_InrTrk_Physical_147614704inColumbus2_CylCabin_Logical_147611688p" />
+   </physvol>
+  </volume>
+  <volume name="Columbus2_CylInterior_Logical_147610824" >
+   <materialref ref="Columbus2Interior_147577792" />
+   <solidref ref="Columbus2_CylInterior_Solid_147610752" />
+   <physvol>
+    <volumeref ref="Columbus2_CylCabin_Logical_147611688" />
+    <positionref ref="Columbus2_CylCabin_Physical_147611776inColumbus2_CylInterior_Logical_147610824p" />
+   </physvol>
+  </volume>
+  <volume name="Columbus2_CylHull_Logical_147610600" >
+   <materialref ref="Aluminum2219_147604344" />
+   <solidref ref="Columbus2_CylHull_Solid_147610528" />
+   <physvol>
+    <volumeref ref="Columbus2_CylInterior_Logical_147610824" />
+    <positionref ref="Columbus2_CylInterior_Physical_147610912inColumbus2_CylHull_Logical_147610600p" />
+   </physvol>
+  </volume>
+  <volume name="Columbus2_StbMDPS1_Logical_147611928" >
+   <materialref ref="Aluminum6061T6_147602624" />
+   <solidref ref="Columbus2_StbMDPS1_Solid_147611840" />
+  </volume>
+  <volume name="Columbus2_StbMDPS1E_Logical_147612152" >
+   <materialref ref="Aluminum6061T6_147602624" />
+   <solidref ref="Columbus2_StbMDPS1E_Solid_147612080" />
+  </volume>
+  <volume name="Columbus2_StbMDPS2_Logical_147612392" >
+   <materialref ref="Kevlar29_147607352" />
+   <solidref ref="Columbus2_StbMDPS2_Solid_147612304" />
+  </volume>
+  <volume name="Columbus2_StbMDPS2E_Logical_147612616" >
+   <materialref ref="Kevlar29_147607352" />
+   <solidref ref="Columbus2_StbMDPS2E_Solid_147612544" />
+  </volume>
+  <volume name="Columbus2_StbMDPS3_Logical_147612856" >
+   <materialref ref="NextTel650_147608048" />
+   <solidref ref="Columbus2_StbMDPS3_Solid_147612768" />
+  </volume>
+  <volume name="Columbus2_StbMDPS3E_Logical_147613080" >
+   <materialref ref="NextTel650_147608048" />
+   <solidref ref="Columbus2_StbMDPS3E_Solid_147613008" />
+  </volume>
+  <volume name="Columbus2_StbInterior_Logical_147613560" >
+   <materialref ref="Columbus2Interior_147577792" />
+   <solidref ref="Columbus2_StbInterior_Solid_147613472" />
+  </volume>
+  <volume name="Columbus2_StbHull_Logical_147613320" >
+   <materialref ref="Aluminum2219_147604344" />
+   <solidref ref="Columbus2_StbHull_Solid_147613232" />
+   <physvol>
+    <volumeref ref="Columbus2_StbInterior_Logical_147613560" />
+    <positionref ref="Columbus2_StbInterior_Physical_147613648inColumbus2_StbHull_Logical_147613320p" />
+   </physvol>
+  </volume>
+  <volume name="Columbus2_EpfZenith_Logical_147613768" >
+   <materialref ref="EPF_147597192" />
+   <solidref ref="Columbus2_EpfZenith_Solid_147613712" />
+  </volume>
+  <volume name="Columbus2_EpfStbZenith_Logical_147613976" >
+   <materialref ref="EPF_147597192" />
+   <solidref ref="Columbus2_EpfStbZenith_Solid_147613920" />
+  </volume>
+  <volume name="Columbus2_EpfStbNadir_Logical_147614184" >
+   <materialref ref="EPF_147597192" />
+   <solidref ref="Columbus2_EpfStbNadir_Solid_147614128" />
+  </volume>
+  <volume name="Columbus2_EpfNadir_Logical_147614392" >
+   <materialref ref="EPF_147597192" />
+   <solidref ref="Columbus2_EpfNadir_Solid_147614336" />
+  </volume>
+  <volume name="Columbus2_OtrTrk_Logical_147600024" >
+   <materialref ref="Vacuum_147571456" />
+   <solidref ref="Columbus2_OtrTrk_Solid_147598472" />
+   <physvol>
+    <volumeref ref="Columbus2_EpfNadir_Logical_147614392" />
+    <positionref ref="Columbus2_EpfNadir_Physical_147614480inColumbus2_OtrTrk_Logical_147600024p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus2_EpfStbNadir_Logical_147614184" />
+    <positionref ref="Columbus2_EpfStbNadir_Physical_147614272inColumbus2_OtrTrk_Logical_147600024p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus2_EpfStbZenith_Logical_147613976" />
+    <positionref ref="Columbus2_EpfStbZenith_Physical_147614064inColumbus2_OtrTrk_Logical_147600024p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus2_EpfZenith_Logical_147613768" />
+    <positionref ref="Columbus2_EpfZenith_Physical_147613856inColumbus2_OtrTrk_Logical_147600024p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus2_StbHull_Logical_147613320" />
+    <positionref ref="Columbus2_StbHull_Physical_147613408inColumbus2_OtrTrk_Logical_147600024p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus2_StbMDPS3E_Logical_147613080" />
+    <positionref ref="Columbus2_StbMDPS3E_Physical_147613168inColumbus2_OtrTrk_Logical_147600024p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus2_StbMDPS3_Logical_147612856" />
+    <positionref ref="Columbus2_StbMDPS3_Physical_147612944inColumbus2_OtrTrk_Logical_147600024p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus2_StbMDPS2E_Logical_147612616" />
+    <positionref ref="Columbus2_StbMDPS2E_Physical_147612704inColumbus2_OtrTrk_Logical_147600024p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus2_StbMDPS2_Logical_147612392" />
+    <positionref ref="Columbus2_StbMDPS2_Physical_147612480inColumbus2_OtrTrk_Logical_147600024p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus2_StbMDPS1E_Logical_147612152" />
+    <positionref ref="Columbus2_StbMDPS1E_Physical_147612240inColumbus2_OtrTrk_Logical_147600024p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus2_StbMDPS1_Logical_147611928" />
+    <positionref ref="Columbus2_StbMDPS1_Physical_147612016inColumbus2_OtrTrk_Logical_147600024p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus2_CylHull_Logical_147610600" />
+    <positionref ref="Columbus2_CylHull_Physical_147610688inColumbus2_OtrTrk_Logical_147600024p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus2_CylMDPS3Fwd_Logical_147607960" />
+    <positionref ref="Columbus2_CylMDPS3Fwd_Physical_147610464inColumbus2_OtrTrk_Logical_147600024p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus2_CylMDPS2Fwd_Logical_147607264" />
+    <positionref ref="Columbus2_CylMDPS2Fwd_Physical_147607824inColumbus2_OtrTrk_Logical_147600024p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus2_CylMDPS1Bwd_Logical_147607040" />
+    <positionref ref="Columbus2_CylMDPS1Bwd_Physical_147607128inColumbus2_OtrTrk_Logical_147600024p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus2_CylMDPS1Fwd_Logical_147606816" />
+    <positionref ref="Columbus2_CylMDPS1Fwd_Physical_147606904inColumbus2_OtrTrk_Logical_147600024p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus2_PrtHullClosing_Logical_147606112" />
+    <positionref ref="Columbus2_PrtHullClosing_Physical_147606200inColumbus2_OtrTrk_Logical_147600024p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus2_PrtMDPS1Closing_Logical_147605568" />
+    <positionref ref="Columbus2_PrtMDPS1Closing_Physical_147605976inColumbus2_OtrTrk_Logical_147600024p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus2_PrtHull_Logical_147604256" />
+    <positionref ref="Columbus2_PrtHull_Physical_147605432inColumbus2_OtrTrk_Logical_147600024p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus2_PrtMDPS1_Logical_147602536" />
+    <positionref ref="Columbus2_PrtMDPS1_Physical_147604104inColumbus2_OtrTrk_Logical_147600024p" />
+   </physvol>
+  </volume>
+  <volume name="WorldLogical_147576824" >
+   <materialref ref="Vacuum_147571456" />
+   <solidref ref="WorldSolid_147576360" />
+   <physvol>
+    <volumeref ref="Columbus2_OtrTrk_Logical_147600024" />
+    <positionref ref="Columbus2_OtrTrk_Physical_147600112inWorldLogical_147576824p" />
+    <rotationref ref="Columbus2_OtrTrk_Physical_147600112inWorldLogical_147576824r" />
+   </physvol>
+  </volume>
+ </structure>
+ <setup name="Default" version="1.0" >
+  <world ref="WorldLogical_147576824" />
+ </setup>
+</gdml>

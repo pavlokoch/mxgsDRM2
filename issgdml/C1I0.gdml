@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<gdml xmlns:gdml="http://cern.ch/2001/Schemas/GDML" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="/home/ersmark/sys/build/gdml-2.6.0/GDMLSchema/gdml.xsd" >
+ <define>
+  <position name="Columbus1_InrTrk_Physical_147577920inColumbus1_Inside_Logical_147569976p" unit="mm" x="0" y="0" z="-323.63" />
+  <position name="Columbus1_Inside_Physical_147570408inColumbus1_Hull_Logical_147568208p" unit="mm" x="0" y="0" z="0" />
+  <position name="Columbus1_MDPS1Stb_Physical_147577696inColumbus1_OtrTrk_Logical_147565712p" unit="mm" x="0" y="0" z="2357.844" />
+  <position name="Columbus1_MDPS2Stb_Physical_147577472inColumbus1_OtrTrk_Logical_147565712p" unit="mm" x="0" y="0" z="2353.759" />
+  <position name="Columbus1_MDPS3Stb_Physical_147577248inColumbus1_OtrTrk_Logical_147565712p" unit="mm" x="0" y="0" z="2348.309" />
+  <position name="Columbus1_MDPS1Prt_Physical_147576560inColumbus1_OtrTrk_Logical_147565712p" unit="mm" x="0" y="0" z="-4499.199" />
+  <position name="Columbus1_MDPS1Fwd_Physical_147576336inColumbus1_OtrTrk_Logical_147565712p" unit="mm" x="0" y="0" z="-1076.37" />
+  <position name="Columbus1_MDPS2Fwd_Physical_147576112inColumbus1_OtrTrk_Logical_147565712p" unit="mm" x="0" y="0" z="-1076.37" />
+  <position name="Columbus1_MDPS3Fwd_Physical_147574216inColumbus1_OtrTrk_Logical_147565712p" unit="mm" x="0" y="0" z="-1076.37" />
+  <position name="Columbus1_MDPS1Bwd_Physical_147572168inColumbus1_OtrTrk_Logical_147565712p" unit="mm" x="0" y="0" z="-1076.37" />
+  <position name="Columbus1_Hull_Physical_147569840inColumbus1_OtrTrk_Logical_147565712p" unit="mm" x="0" y="0" z="-1076.37" />
+  <position name="Columbus1_OtrTrk_Physical_147565800inWorldLogical_147564744p" unit="mm" x="0" y="0" z="0" />
+  <rotation name="Columbus1_OtrTrk_Physical_147565800inWorldLogical_147564744r" unit="degree" x="90" y="0" z="0" />
+ </define>
+ <materials>
+  <material Z="1" formula=" " name="Vacuum_147559376" >
+   <D value="1e-25" />
+   <atom value="1.01" />
+  </material>
+  <element Z="7" formula="N" name="Nitrogen_147560504" >
+   <atom value="14.0067" />
+  </element>
+  <element Z="8" formula="O" name="Oxygen_147561552" >
+   <atom value="15.9994" />
+  </element>
+  <material formula=" " name="Air_147560064" >
+   <D value="0.00125" />
+   <fraction n="0.79" ref="Nitrogen_147560504" />
+   <fraction n="0.21" ref="Oxygen_147561552" />
+  </material>
+  <material Z="13" formula=" " name="Aluminum_147562104" >
+   <D value="2.71" />
+   <atom value="26.9815" />
+  </material>
+  <element Z="13" formula="Al" name="Aluminum_147562240" >
+   <atom value="26.9815" />
+  </element>
+  <element Z="29" formula="Cu" name="Copper_147569240" >
+   <atom value="63.546" />
+  </element>
+  <material formula=" " name="Aluminum2219_147568296" >
+   <D value="2.851" />
+   <fraction n="0.947" ref="Aluminum_147562240" />
+   <fraction n="0.053" ref="Copper_147569240" />
+  </material>
+  <material Z="13" formula=" " name="Aluminum6061T6_147570632" >
+   <D value="2.7126" />
+   <atom value="26.9815" />
+  </material>
+  <element Z="39" formula="Y" name="Yttrium_147573264" >
+   <atom value="88.9059" />
+  </element>
+  <element Z="40" formula="Zr" name="Zirconium_147573592" >
+   <atom value="91.224" />
+  </element>
+  <material formula=" " name="NextTel650_147572320" >
+   <D value="4.1" />
+   <fraction n="0.44706" ref="Oxygen_147561552" />
+   <fraction n="0.471033" ref="Aluminum_147562240" />
+   <fraction n="0.0078743" ref="Yttrium_147573264" />
+   <fraction n="0.0740317" ref="Zirconium_147573592" />
+  </material>
+  <element Z="1" formula="H" name="Hydrogen_147574592" >
+   <atom value="1.00794" />
+  </element>
+  <element Z="6" formula="C" name="Carbon_147575544" >
+   <atom value="12.0107" />
+  </element>
+  <material formula=" " name="Kevlar29_147574440" >
+   <D value="1.44" />
+   <fraction n="0.0423075" ref="Hydrogen_147574592" />
+   <fraction n="0.705796" ref="Carbon_147575544" />
+   <fraction n="0.117584" ref="Nitrogen_147560504" />
+   <fraction n="0.134313" ref="Oxygen_147561552" />
+  </material>
+ </materials>
+ <solids>
+  <box aunit="radian" lunit="mm" name="WorldSolid_147564280" x="12000" y="12000" z="12000" />
+  <tube aunit="degree" deltaphi="360" lunit="mm" name="Columbus1_OtrTrk_Solid_147563920" rmax="3500" rmin="0" startphi="0" z="9000" />
+  <tube aunit="degree" deltaphi="360" lunit="mm" name="Columbus1_Hull_Solid_147568136" rmax="2225.029" rmin="0" startphi="0" z="6844.058" />
+  <tube aunit="degree" deltaphi="360" lunit="mm" name="Columbus1_Inside_Solid_147569904" rmax="2220.229" rmin="0" startphi="0" z="6836.458" />
+  <tube aunit="degree" deltaphi="180" lunit="mm" name="Columbus1_MDPS1Bwd_Solid_147570472" rmax="2226.629" rmin="2225.029" startphi="90" z="6844.058" />
+  <tube aunit="degree" deltaphi="180" lunit="mm" name="Columbus1_MDPS3Fwd_Solid_147571880" rmax="2230.329" rmin="2225.029" startphi="-90" z="6844.058" />
+  <tube aunit="degree" deltaphi="180" lunit="mm" name="Columbus1_MDPS2Fwd_Solid_147574280" rmax="2235.929" rmin="2230.329" startphi="-90" z="6844.058" />
+  <tube aunit="degree" deltaphi="180" lunit="mm" name="Columbus1_MDPS1Fwd_Solid_147576176" rmax="2238.499" rmin="2235.929" startphi="-90" z="6844.058" />
+  <tube aunit="degree" deltaphi="360" lunit="mm" name="Columbus1_MDPS1Prt_Solid_147576400" rmax="2225.029" rmin="0" startphi="0" z="1.6" />
+  <tube aunit="degree" deltaphi="360" lunit="mm" name="Columbus1_MDPS3Stb_Solid_147576624" rmax="2225.029" rmin="0" startphi="0" z="5.3" />
+  <tube aunit="degree" deltaphi="360" lunit="mm" name="Columbus1_MDPS2Stb_Solid_147577312" rmax="2225.029" rmin="0" startphi="0" z="5.6" />
+  <tube aunit="degree" deltaphi="360" lunit="mm" name="Columbus1_MDPS1Stb_Solid_147577536" rmax="2225.029" rmin="0" startphi="0" z="2.57" />
+  <tube aunit="degree" deltaphi="360" lunit="mm" name="Columbus1_InrTrk_Solid_147577760" rmax="1000" rmin="0" startphi="0" z="4300" />
+ </solids>
+ <structure>
+  <volume name="Columbus1_InrTrk_Logical_147577832" >
+   <materialref ref="Air_147560064" />
+   <solidref ref="Columbus1_InrTrk_Solid_147577760" />
+  </volume>
+  <volume name="Columbus1_Inside_Logical_147569976" >
+   <materialref ref="Air_147560064" />
+   <solidref ref="Columbus1_Inside_Solid_147569904" />
+   <physvol>
+    <volumeref ref="Columbus1_InrTrk_Logical_147577832" />
+    <positionref ref="Columbus1_InrTrk_Physical_147577920inColumbus1_Inside_Logical_147569976p" />
+   </physvol>
+  </volume>
+  <volume name="Columbus1_Hull_Logical_147568208" >
+   <materialref ref="Aluminum2219_147568296" />
+   <solidref ref="Columbus1_Hull_Solid_147568136" />
+   <physvol>
+    <volumeref ref="Columbus1_Inside_Logical_147569976" />
+    <positionref ref="Columbus1_Inside_Physical_147570408inColumbus1_Hull_Logical_147568208p" />
+   </physvol>
+  </volume>
+  <volume name="Columbus1_MDPS1Bwd_Logical_147570544" >
+   <materialref ref="Aluminum6061T6_147570632" />
+   <solidref ref="Columbus1_MDPS1Bwd_Solid_147570472" />
+  </volume>
+  <volume name="Columbus1_MDPS3Fwd_Logical_147572232" >
+   <materialref ref="NextTel650_147572320" />
+   <solidref ref="Columbus1_MDPS3Fwd_Solid_147571880" />
+  </volume>
+  <volume name="Columbus1_MDPS2Fwd_Logical_147574352" >
+   <materialref ref="Kevlar29_147574440" />
+   <solidref ref="Columbus1_MDPS2Fwd_Solid_147574280" />
+  </volume>
+  <volume name="Columbus1_MDPS1Fwd_Logical_147576248" >
+   <materialref ref="Aluminum6061T6_147570632" />
+   <solidref ref="Columbus1_MDPS1Fwd_Solid_147576176" />
+  </volume>
+  <volume name="Columbus1_MDPS1Prt_Logical_147576472" >
+   <materialref ref="Aluminum6061T6_147570632" />
+   <solidref ref="Columbus1_MDPS1Prt_Solid_147576400" />
+  </volume>
+  <volume name="Columbus1_MDPS3Stb_Logical_147577160" >
+   <materialref ref="NextTel650_147572320" />
+   <solidref ref="Columbus1_MDPS3Stb_Solid_147576624" />
+  </volume>
+  <volume name="Columbus1_MDPS2Stb_Logical_147577384" >
+   <materialref ref="Kevlar29_147574440" />
+   <solidref ref="Columbus1_MDPS2Stb_Solid_147577312" />
+  </volume>
+  <volume name="Columbus1_MDPS1Stb_Logical_147577608" >
+   <materialref ref="Aluminum6061T6_147570632" />
+   <solidref ref="Columbus1_MDPS1Stb_Solid_147577536" />
+  </volume>
+  <volume name="Columbus1_OtrTrk_Logical_147565712" >
+   <materialref ref="Vacuum_147559376" />
+   <solidref ref="Columbus1_OtrTrk_Solid_147563920" />
+   <physvol>
+    <volumeref ref="Columbus1_MDPS1Stb_Logical_147577608" />
+    <positionref ref="Columbus1_MDPS1Stb_Physical_147577696inColumbus1_OtrTrk_Logical_147565712p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus1_MDPS2Stb_Logical_147577384" />
+    <positionref ref="Columbus1_MDPS2Stb_Physical_147577472inColumbus1_OtrTrk_Logical_147565712p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus1_MDPS3Stb_Logical_147577160" />
+    <positionref ref="Columbus1_MDPS3Stb_Physical_147577248inColumbus1_OtrTrk_Logical_147565712p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus1_MDPS1Prt_Logical_147576472" />
+    <positionref ref="Columbus1_MDPS1Prt_Physical_147576560inColumbus1_OtrTrk_Logical_147565712p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus1_MDPS1Fwd_Logical_147576248" />
+    <positionref ref="Columbus1_MDPS1Fwd_Physical_147576336inColumbus1_OtrTrk_Logical_147565712p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus1_MDPS2Fwd_Logical_147574352" />
+    <positionref ref="Columbus1_MDPS2Fwd_Physical_147576112inColumbus1_OtrTrk_Logical_147565712p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus1_MDPS3Fwd_Logical_147572232" />
+    <positionref ref="Columbus1_MDPS3Fwd_Physical_147574216inColumbus1_OtrTrk_Logical_147565712p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus1_MDPS1Bwd_Logical_147570544" />
+    <positionref ref="Columbus1_MDPS1Bwd_Physical_147572168inColumbus1_OtrTrk_Logical_147565712p" />
+   </physvol>
+   <physvol>
+    <volumeref ref="Columbus1_Hull_Logical_147568208" />
+    <positionref ref="Columbus1_Hull_Physical_147569840inColumbus1_OtrTrk_Logical_147565712p" />
+   </physvol>
+  </volume>
+  <volume name="WorldLogical_147564744" >
+   <materialref ref="Vacuum_147559376" />
+   <solidref ref="WorldSolid_147564280" />
+   <physvol>
+    <volumeref ref="Columbus1_OtrTrk_Logical_147565712" />
+    <positionref ref="Columbus1_OtrTrk_Physical_147565800inWorldLogical_147564744p" />
+    <rotationref ref="Columbus1_OtrTrk_Physical_147565800inWorldLogical_147564744r" />
+   </physvol>
+  </volume>
+ </structure>
+ <setup name="Default" version="1.0" >
+  <world ref="WorldLogical_147564744" />
+ </setup>
+</gdml>
