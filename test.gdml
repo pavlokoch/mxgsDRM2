@@ -8,6 +8,7 @@
     <rotation name="z180" unit="deg" z="180"/>
     <rotation name="z90" unit="deg" z="90"/>
     <rotation name="z270" unit="deg" z="270"/>
+    <scale name="flipZ" x="1" y="1" z="-1"/>
 
     <!-- definitions for lower cover: lowCov_... -->
     <constant name="lowCov_b1_wx" value="420"/>
@@ -75,7 +76,7 @@
     <rotation name="dpuBox_ffp_rot" unit="deg" z="0" y="90"/>
 
     <!-- definitions for hopper: hop_... -->
-    <!-- box -->
+    <!-- box  (mv1) -->
     <constant name="hop_b_wx" value="420"/>
     <constant name="hop_b_wy" value="620"/>
     <constant name="hop_b_hwy" value="544"/>
@@ -92,39 +93,163 @@
     <position name="hop_bzp_pos" unit="mm" x="0" y="0" z="hop_mv1_dz"/>
     <position name="hop_b_hdz" x="0" y="0" z="hop_b_hwz/2 - hop_b_wz/2 - hop_b_t/2"/>
 
+    <!-- ears (mv2) -->
     <constant name="hop_ang" value="40.32"/>
+    <constant name="hop_angr" value="hop_ang*pi/180"/>
     <constant name="hop_angDepth" value="211"/>
-    <constant name="hop_ear_latDisp" value="hop_lh_w/2 + hop_angDepth*tan(hop_ang*pi/180)/2 + hop_b_t/cos(hop_ang*pi/180)/2"/>
+    <constant name="hop_ear_latDisp" value="hop_lh_w/2 + hop_angDepth*tan(hop_angr)/2 + hop_b_t/cos(hop_angr)/2"/>
 
     <position name="hop_ear1_pos" unit="mm" x="hop_ear_latDisp" y="0" z="0"/>
     <position name="hop_ear2_pos" unit="mm" x="-hop_ear_latDisp" y="0" z="0"/>
     <position name="hop_ear3_pos" unit="mm" x="0" y="hop_ear_latDisp" z="0"/>
     <position name="hop_ear4_pos" unit="mm" x="0" y="-hop_ear_latDisp" z="0"/>
+
+    <!-- top, framework for coded mask (mv3) -->
+    <constant name="hop_ct_z" value="76.95"/>
+    <constant name="hop_ctsbwid" value="hop_top_w - hop_b_t"/>
+    <constant name="hop_ctsbhgt" value="214-199.7"/>
+    <constant name="hop_ctsb_dz" value="-hop_ctsbhgt/2-hop_ct_z/2"/>
+    <constant name="hop_mv3_dz" value="hop_ctsbhgt/2"/> <!-- move all items in mv3 up by this much, move mv3 itself down by this much. -->
     
     <constant name="hop_ct_x1" value="hop_top_w/2"/>
     <constant name="hop_ct_x2" value="52.9"/>
-    <constant name="hop_ct_z" value="76.95"/>
     <constant name="hop_mv0_dz" value="hop_b_t/2 + hop_angDepth/2 + hop_ct_z/2 - hop_b_wz/2"/>
-    <position name="hop_mv1_pos" x="0" y="0" z="-hop_mv1_dz-hop_mv0_dz"/>
-    <position name="hop_mv2_pos" x="0" y="0" z="hop_angDepth/2+hop_b_t/2 - hop_mv0_dz"/>
     <constant name="hop_ct_th" value="atan((hop_ct_x1/2 - hop_ct_x2/2)/hop_ct_z)"/>
     <constant name="hop_ct_xcldisp" value="(hop_ct_x1/2 + (hop_ct_x1 - hop_ct_x2/2))/2"/>
     <constant name="hop_ct_xcsdisp" value="(hop_ct_x1/2 + (hop_ct_x1 - hop_ct_x2/2))/2 - hop_b_t/2"/>
     <constant name="hop_ct_latdisp" value="hop_top_w/2-hop_b_t/2"/>
+    <constant name="hop_lgsup_z" value="50"/>
+    <constant name="hop_smsup_z" value="30"/>
+    <constant name="hop_sup_x12" value="hop_angDepth/cos(hop_angr)"/>
+    <constant name="hop_lgsup_x34" value="hop_sup_x12 - hop_lgsup_z*(1/tan(hop_angr) + tan(hop_angr))"/>
+    <constant name="hop_smsup_x34" value="hop_sup_x12 - hop_smsup_z*(1/tan(hop_angr) + tan(hop_angr))"/>
+    <constant name="hop_lgsup_th" value="atan((hop_lgsup_x34/2+hop_lgsup_z/tan(hop_angr) - hop_sup_x12/2)/hop_lgsup_z)"/>
+    <constant name="hop_smsup_th" value="atan((hop_smsup_x34/2+hop_smsup_z/tan(hop_angr) - hop_sup_x12/2)/hop_smsup_z)"/>
+    <constant name="hop_smsup_latDisp" value="hop_ear_latDisp + hop_b_t/cos(hop_angr)/2 + hop_smsup_z*cos(hop_angr+hop_smsup_th)/2/cos(hop_smsup_th)"/>
+    <constant name="hop_lgsup_latDisp" value="hop_ear_latDisp + hop_b_t/cos(hop_angr)/2 + hop_lgsup_z*cos(hop_angr+hop_lgsup_th)/2/cos(hop_lgsup_th)"/>
+
+    <position name="hop_supxm_pos" unit="mm" x="-hop_smsup_latDisp" y="0" z="-hop_smsup_z/2*sin(hop_angr+hop_lgsup_th)"/>
+    <position name="hop_supxp_pos" unit="mm" x="hop_smsup_latDisp" y="0" z="-hop_smsup_z/2*sin(hop_angr+hop_lgsup_th)"/>
+    <position name="hop_supym_pos" unit="mm" x="0" y="-hop_lgsup_latDisp" z="-hop_lgsup_z/2*sin(hop_angr+hop_lgsup_th)"/>
+    <position name="hop_supyp_pos" unit="mm" x="0" y="hop_lgsup_latDisp" z="-hop_lgsup_z/2*sin(hop_angr+hop_lgsup_th)"/>
+    <rotation name="hop_supxm_rot" unit="deg" z="0" x="180" y="90-hop_ang"/>
+    <rotation name="hop_supxp_rot" unit="deg" z="180" x="180" y="-(90-hop_ang)"/>
+    <rotation name="hop_supym_rot" unit="deg" z="270" y="180" x="90-hop_ang"/>
+    <rotation name="hop_supyp_rot" unit="deg" z="90" y="180" x="-(90-hop_ang)"/>
+
+    <position name="hop_ctlmm_pos" unit="mm" x="-hop_ct_xcldisp" y="-hop_ct_latdisp" z="hop_mv3_dz"/>
+    <position name="hop_ctlmp_pos" unit="mm" x="-hop_ct_latdisp" y="hop_ct_xcldisp" z="hop_mv3_dz"/>
+    <position name="hop_ctlpm_pos" unit="mm" x="hop_ct_latdisp" y="-hop_ct_xcldisp" z="hop_mv3_dz"/>
+    <position name="hop_ctlpp_pos" unit="mm" x="hop_ct_xcldisp" y="hop_ct_latdisp" z="hop_mv3_dz"/>
+
+    <position name="hop_ctsmm_pos" unit="mm" x="-hop_ct_latdisp" y="-hop_ct_xcsdisp" z="hop_mv3_dz"/>
+    <position name="hop_ctsmp_pos" unit="mm" x="-hop_ct_xcsdisp" y="hop_ct_latdisp" z="hop_mv3_dz"/>
+    <position name="hop_ctspm_pos" unit="mm" x="hop_ct_xcsdisp" y="-hop_ct_latdisp" z="hop_mv3_dz"/>
+    <position name="hop_ctspp_pos" unit="mm" x="hop_ct_latdisp" y="hop_ct_xcsdisp" z="hop_mv3_dz"/>
+
+    <position name="hop_ctsbxm_pos" unit="mm" x="-hop_ct_latdisp" y="hop_b_t/2" z="hop_ctsb_dz+hop_mv3_dz"/>
+    <position name="hop_ctsbxp_pos" unit="mm" x="hop_ct_latdisp" y="-hop_b_t/2" z="hop_ctsb_dz+hop_mv3_dz"/>
+    <position name="hop_ctsbym_pos" unit="mm" x="-hop_b_t/2" y="-hop_ct_latdisp" z="hop_ctsb_dz+hop_mv3_dz"/>
+    <position name="hop_ctsbyp_pos" unit="mm" x="hop_b_t/2" y="hop_ct_latdisp" z="hop_ctsb_dz+hop_mv3_dz"/>
+
+    <constant name="hop_tfwd_z" value="346"/>
+    <constant name="hop_tfwd_ang" value="180/pi*atan(hop_ct_z/hop_tfwd_z)"/>
+    <constant name="hop_tfwd_hd" value="hop_tfwd_z/2+12"/>
+    <constant name="hop_tfwd_d" value="12+12/2+hop_tfwd_z"/>
+    <position name="hop_tfwd_xmm_pos" x="-hop_tfwd_d" y="-hop_tfwd_hd" z="-12/cos(hop_tfwd_ang*pi/180)/2+hop_mv3_dz"/>
+    <position name="hop_tfwd_xmp_pos" x="-hop_tfwd_d" y="hop_tfwd_hd" z="-12/cos(hop_tfwd_ang*pi/180)/2+hop_mv3_dz"/>
+    <position name="hop_tfwd_xpm_pos" x="hop_tfwd_d"  y="-hop_tfwd_hd" z="-12/cos(hop_tfwd_ang*pi/180)/2+hop_mv3_dz"/>
+    <position name="hop_tfwd_xpp_pos" x="hop_tfwd_d"  y="hop_tfwd_hd" z="-12/cos(hop_tfwd_ang*pi/180)/2+hop_mv3_dz"/>
+    <position name="hop_tfwd_ymm_pos" x="-hop_tfwd_hd" y="-hop_tfwd_d" z="-12/cos(hop_tfwd_ang*pi/180)/2+hop_mv3_dz"/>
+    <position name="hop_tfwd_ymp_pos" x="-hop_tfwd_hd" y="hop_tfwd_d" z="-12/cos(hop_tfwd_ang*pi/180)/2+hop_mv3_dz"/>
+    <position name="hop_tfwd_ypm_pos" x="hop_tfwd_hd"  y="-hop_tfwd_d" z="-12/cos(hop_tfwd_ang*pi/180)/2+hop_mv3_dz"/>
+    <position name="hop_tfwd_ypp_pos" x="hop_tfwd_hd"  y="hop_tfwd_d" z="-12/cos(hop_tfwd_ang*pi/180)/2+hop_mv3_dz"/>
+
+    <rotation name="hop_tfwd_xmm_rot" unit="deg" z="-90" x="90"/>
+    <rotation name="hop_tfwd_xmp_rot" unit="deg" z="90" x="90"/>
+    <rotation name="hop_tfwd_xpm_rot" unit="deg" z="-90" x="90"/>
+    <rotation name="hop_tfwd_xpp_rot" unit="deg" z="90" x="90"/>
+    <rotation name="hop_tfwd_ymm_rot" unit="deg" y="270"/>
+    <rotation name="hop_tfwd_ymp_rot" unit="deg" y="270"/>
+    <rotation name="hop_tfwd_ypm_rot" unit="deg" z="180" y="270"/>
+    <rotation name="hop_tfwd_ypp_rot" unit="deg" z="180" y="270"/>
+
+    <constant name="hop_tfwcc_latdisp" value="hop_tfwd_d"/>
+    <constant name="hop_tfwcc_z" value="91.3"/>
+    <position name="hop_tfwcc_xm_pos" x="-hop_tfwcc_latdisp" y="0" z="hop_ct_z/2-hop_tfwcc_z/2+hop_mv3_dz"/>
+    <position name="hop_tfwcc_xp_pos" x="hop_tfwcc_latdisp" y="0" z="hop_ct_z/2-hop_tfwcc_z/2+hop_mv3_dz"/>
+    <position name="hop_tfwcc_ym_pos" x="0" y="-hop_tfwcc_latdisp" z="hop_ct_z/2-hop_tfwcc_z/2+hop_mv3_dz"/>
+    <position name="hop_tfwcc_yp_pos" x="0" y="hop_tfwcc_latdisp" z="hop_ct_z/2-hop_tfwcc_z/2+hop_mv3_dz"/>
+
+    <position name="hop_tfwsc_xm_pos" x="-hop_tfwcc_latdisp" y="-hop_tfwcc_latdisp" z="hop_ct_z/2-hop_tfwcc_z/2+hop_mv3_dz"/>
+    <position name="hop_tfwsc_xp_pos" x="hop_tfwcc_latdisp" y="-hop_tfwcc_latdisp" z="hop_ct_z/2-hop_tfwcc_z/2+hop_mv3_dz"/>
+    <position name="hop_tfwsc_ym_pos" x="hop_tfwcc_latdisp" y="hop_tfwcc_latdisp" z="hop_ct_z/2-hop_tfwcc_z/2+hop_mv3_dz"/>
+    <position name="hop_tfwsc_yp_pos" x="-hop_tfwcc_latdisp" y="hop_tfwcc_latdisp" z="hop_ct_z/2-hop_tfwcc_z/2+hop_mv3_dz"/>
+
+
+    <constant name="cms_tran_z" value="12"/>
+    <constant name="cms_prop_z" value="78.4"/>
+    <constant name="cms_bridge_z" value="346"/>
+    <constant name="cms_bridge_x" value="12.6/cos(12.6*pi/180)"/>
+    <constant name="cms_keystone_z" value="16"/>
+    <constant name="cms_bridge_latdisp" value="12+cms_bridge_z/2"/>
+    <constant name="cms_prop_latdisp" value="302+18.6 - 107.3/2"/>
+    <position name="cms_prop_xp_pos" unit="mm" x="cms_prop_latdisp" y="0" z="cms_prop_z/2 - hop_ct_z/2+hop_mv3_dz"/>
+    <position name="cms_prop_xm_pos" unit="mm" x="-cms_prop_latdisp" y="0" z="cms_prop_z/2 - hop_ct_z/2+hop_mv3_dz"/>
+    <position name="cms_tran_pos" unit="mm" x="0" y="0" z="-hop_ct_z/2-cms_tran_z/2+hop_mv3_dz"/>
+    <position name="cms_bridge_yp_pos" unit="mm" x="0" y="cms_bridge_latdisp" z="-cms_bridge_x/2+hop_mv3_dz"/>
+    <position name="cms_bridge_ym_pos" unit="mm" x="0" y="-cms_bridge_latdisp" z="-cms_bridge_x/2+hop_mv3_dz"/>
+    <position name="cms_keystone_pos" unit="mm" x="0" y="0" z="hop_ct_z/2-cms_keystone_z/2+hop_mv3_dz"/>
+    <rotation name="cms_bridge_yp_rot" unit="deg" z="-90" x="-90"/>
+    <rotation name="cms_bridge_ym_rot" unit="deg" z="90" x="90"/>
+
+    <position name="hop_mv1_pos" x="0" y="0" z="-hop_mv1_dz-hop_mv0_dz"/>
+    <position name="hop_mv2_pos" x="0" y="0" z="hop_angDepth/2+hop_b_t/2 - hop_mv0_dz"/>
+    <position name="hop_mv3_pos" unit="mm" x="0" y="0" z="hop_angDepth+hop_ct_z/2+hop_b_t/2 - hop_mv0_dz - hop_mv3_dz"/>
     <position name="hop_pos" unit="mm" x="0" y="0" z="hop_b_wz - hop_b_t/2+lowHsg_bxmp_wz+lowHsg_blid_wz+lowCov_b1_wz/2 + hop_mv0_dz"/>
 
-    <position name="hop_mv3_pos" unit="mm" x="0" y="0" z="hop_angDepth+hop_ct_z/2+hop_b_t/2 - hop_mv0_dz"/>
+    <!-- coded mask base -->
+    <constant name="cm_mv_x" value="746.2"/>
+    <constant name="cmb_sbx" value="746.2-15.1"/>
+    <constant name="cmb_sby" value="15.1"/>
+    <constant name="cmb_bz" value="12"/>
+    <constant name="cmb_ncby" value="(cmb_sbx-cmb_sby-24)/2"/>
+    <constant name="cmb_diagx" value="cmb_ncby - 6"/> <!-- other side of quarter-panel -->
+    <constant name="cmb_diag" value="sqrt(cmb_ncby*cmb_ncby + cmb_diagx*cmb_diagx)"/>
 
-    <position name="hop_ctlmm_pos" unit="mm" x="-hop_ct_xcldisp" y="-hop_ct_latdisp" z="0"/>
-    <position name="hop_ctlmp_pos" unit="mm" x="-hop_ct_latdisp" y="hop_ct_xcldisp" z="0"/>
-    <position name="hop_ctlpm_pos" unit="mm" x="hop_ct_latdisp" y="-hop_ct_xcldisp" z="0"/>
-    <position name="hop_ctlpp_pos" unit="mm" x="hop_ct_xcldisp" y="hop_ct_latdisp" z="0"/>
+    <position name="cmb_sbxp_pos" unit="mm" x="cmb_sbx/2" y="-cmb_sby/2" z="-3"/>
+    <position name="cmb_sbyp_pos" unit="mm" x="cmb_sby/2" y="cmb_sbx/2" z="-3"/>
+    <position name="cmb_sbxm_pos" unit="mm" x="-cmb_sbx/2" y="cmb_sby/2" z="-3"/>
+    <position name="cmb_sbym_pos" unit="mm" x="-cmb_sby/2" y="-cmb_sbx/2" z="-3"/>
 
-    <position name="hop_ctsmm_pos" unit="mm" x="-hop_ct_latdisp" y="-hop_ct_xcsdisp" z="0"/>
-    <position name="hop_ctsmp_pos" unit="mm" x="-hop_ct_xcsdisp" y="hop_ct_latdisp" z="0"/>
-    <position name="hop_ctspm_pos" unit="mm" x="hop_ct_xcsdisp" y="-hop_ct_latdisp" z="0"/>
-    <position name="hop_ctspp_pos" unit="mm" x="hop_ct_latdisp" y="hop_ct_xcsdisp" z="0"/>
-
+    <position name="cmb_wcb_pos" unit="mm" x="0" y="0" z="-3"/>
+    <position name="cmb_ncbpp_pos" unit="mm" x="cmb_bz"  y="cmb_ncby/2+12" z="-3"/>
+    <position name="cmb_ncbpm_pos" unit="mm" x="cmb_bz"  y="-cmb_ncby/2-12" z="-3"/>
+    <position name="cmb_ncbmp_pos" unit="mm" x="-cmb_bz" y="-cmb_ncby/2-12" z="-3"/>
+    <position name="cmb_ncbmm_pos" unit="mm" x="-cmb_bz" y="cmb_ncby/2+12" z="-3"/>
+    
+    <constant name="cmb_dtcx" value="6+12+340/2"/>
+    <constant name="cmb_dtcy" value="12+cmb_ncby/2"/>
+    <constant name="cmb_dtdx" value="3/sqrt(2)"/>
+    <constant name="cmb_dtdy" value="3/sqrt(2)"/>
+    <position name="cmb_dtppp_pos" unit="mm" x="cmb_dtcx+cmb_dtdx" y="cmb_dtcy-cmb_dtdy" z="-3"/>
+    <position name="cmb_dtppm_pos" unit="mm" x="cmb_dtcx-cmb_dtdx" y="cmb_dtcy+cmb_dtdy" z="-3"/>
+    <rotation name="cmb_dtppp_rot" unit="deg" x="90"  y="45.5"/>
+    <rotation name="cmb_dtppm_rot" unit="deg" x="90" y="45.5"/>
+    <position name="cmb_dtpmp_pos" unit="mm" x="cmb_dtcx+cmb_dtdx" y="-cmb_dtcy+cmb_dtdy" z="-3"/>
+    <position name="cmb_dtpmm_pos" unit="mm" x="cmb_dtcx-cmb_dtdx" y="-cmb_dtcy-cmb_dtdy" z="-3"/>
+    <rotation name="cmb_dtpmp_rot" unit="deg" x="90"  y="-45.5"/>
+    <rotation name="cmb_dtpmm_rot" unit="deg" x="90" y="-45.5"/>
+    <position name="cmb_dtmpp_pos" unit="mm" x="-cmb_dtcx-cmb_dtdx" y="cmb_dtcy-cmb_dtdy" z="-3"/>
+    <position name="cmb_dtmpm_pos" unit="mm" x="-cmb_dtcx+cmb_dtdx" y="cmb_dtcy+cmb_dtdy" z="-3"/>
+    <rotation name="cmb_dtmpp_rot" unit="deg" x="90"  y="-45.5"/>
+    <rotation name="cmb_dtmpm_rot" unit="deg" x="90" y="-45.5"/>
+    <position name="cmb_dtmmp_pos" unit="mm" x="-cmb_dtcx-cmb_dtdx" y="-cmb_dtcy+cmb_dtdy" z="-3"/>
+    <position name="cmb_dtmmm_pos" unit="mm" x="-cmb_dtcx+cmb_dtdx" y="-cmb_dtcy-cmb_dtdy" z="-3"/>
+    <rotation name="cmb_dtmmp_rot" unit="deg" x="90"  y="45.5"/>
+    <rotation name="cmb_dtmmm_rot" unit="deg" x="90" y="45.5"/>
+    <position name="codedMask_imp_pos" unit="mm" x="0" y="0" z="3.5"/>
+    <position name="codedMask_pos" unit="mm" x="0" y="0" z="lowCov_b1_wz/2 + lowHsg_bymp_wz + lowHsg_blid_wz + hop_b_wz + hop_angDepth + hop_ct_z + 9"/>
 
     <!-- <constant name="" value=""/> -->
     <!-- <position name="" unit="mm" x="" y="" z=""> -->
@@ -216,7 +341,7 @@
     <box name="hop_mv0" lunit="mm" x="hop_top_w" y="hop_top_w" z="hop_b_wz+hop_angDepth+hop_ct_z"/>
     <box name="hop_mv1" lunit="mm" x="hop_b_wx" y="hop_b_wy" z="hop_b_wz"/>
     <box name="hop_mv2" lunit="mm" x="hop_top_w" y="hop_top_w" z="hop_angDepth"/>
-    <box name="hop_mv3" lunit="mm" x="hop_top_w" y="hop_top_w" z="hop_ct_z"/>
+    <box name="hop_mv3" lunit="mm" x="hop_top_w" y="hop_top_w" z="hop_ct_z+hop_ctsbhgt"/>
     <box name="hop_bym" lunit="mm" x="hop_b_wx-2*hop_b_t" y="hop_b_t" z="hop_b_wz - hop_b_t"/>
     <box name="hop_byp" lunit="mm" x="hop_b_wx-2*hop_b_t" y="hop_b_t" z="hop_b_wz - hop_b_t"/>
     <box name="hop_bzpsolid" lunit="mm" x="hop_b_wx" y="hop_b_wy" z="hop_b_t"/>
@@ -227,9 +352,29 @@
       <positionref ref="orig"/>
       <rotationref ref="id"/>
     </subtraction>
-    <trap name="hop_ear" lunit="mm" aunit="deg" z="hop_angDepth" theta="hop_ang" phi="90" x1="hop_lh_w" x2="hop_lh_w+2*hop_b_t/cos(hop_ang*pi/180)" y1="hop_b_t/cos(hop_ang*pi/180)" x3="hop_top_w-2*hop_b_t/cos(hop_ang*pi/180)" x4="hop_top_w" y2="hop_b_t/cos(hop_ang*pi/180)" alpha1="0" alpha2="0"/>
+    <trap name="hop_ear" lunit="mm" aunit="deg" z="hop_angDepth" theta="hop_ang" phi="90" x1="hop_lh_w" x2="hop_lh_w+2*hop_b_t/cos(hop_angr)" y1="hop_b_t/cos(hop_angr)" x3="hop_top_w-2*hop_b_t/cos(hop_angr)" x4="hop_top_w" y2="hop_b_t/cos(hop_angr)" alpha1="0" alpha2="0"/>
     <trap name="hop_ctl" lunit="mm" aunit="rad" z="hop_ct_z" theta="hop_ct_th" phi="0" x1="hop_ct_x1" x2="hop_ct_x1" y1="hop_b_t" x3="hop_ct_x2" x4="hop_ct_x2" y2="hop_b_t" alpha1="0" alpha2="0"/>
     <trap name="hop_cts" lunit="mm" aunit="rad" z="hop_ct_z" theta="hop_ct_th" phi="0" x1="hop_ct_x1 - hop_b_t" x2="hop_ct_x1 - hop_b_t" y1="hop_b_t" x3="hop_ct_x2 - hop_b_t" x4="hop_ct_x2 - hop_b_t" y2="hop_b_t" alpha1="0" alpha2="0"/>
+    <trap name="hop_lgsup" lunit="mm" aunit="rad" z="hop_lgsup_z" theta="hop_lgsup_th" phi="0" x1="hop_sup_x12" x2="hop_sup_x12" y1="3" x3="hop_lgsup_x34" x4="hop_lgsup_x34" y2="3" alpha1="0" alpha2="0"/>
+    <trap name="hop_smsup" lunit="mm" aunit="rad" z="hop_smsup_z" theta="hop_smsup_th" phi="0" x1="hop_sup_x12" x2="hop_sup_x12" y1="6" x3="hop_smsup_x34" x4="hop_smsup_x34" y2="6" alpha1="0" alpha2="0"/>
+    <para name="hop_tfwd" lunit="mm" aunit="deg" x="12" y="12" z="hop_tfwd_z" alpha="0" theta="hop_tfwd_ang" phi="0"/> <!-- tfwd = top framework diagonal -->
+    <box name="hop_tfwcc" lunit="mm" x="24" y="12" z="hop_tfwcc_z"/>
+    <box name="hop_tfwsc" lunit="mm" x="12" y="12" z="hop_tfwcc_z"/>
+    <box name="hop_ctsb" lunit="mm" x="hop_ctsbwid" y="hop_b_t" z="hop_ctsbhgt"/>
+
+    <!-- coded mask support parts in hopper MV3 -->
+    <para name="cms_prop" lunit="mm" aunit="deg" x="12.7/sin(43.5*pi/180)" y="24" z="cms_prop_z" alpha="0" theta="43.5" phi="0"/>
+    <box name="cms_tran" lunit="mm" x="716" y="24" z="cms_tran_z"/>
+    <para name="cms_bridge" lunit="mm" aunit="deg" x="cms_bridge_x" y="24" z="cms_bridge_z" alpha="0" theta="12.6" phi="0"/>
+    <box name="cms_keystone" lunit="mm" x="24" y="24" z="cms_keystone_z"/>
+
+    <!-- coded mask base -->
+
+    <box name="cm_mv" lunit="mm" x="cm_mv_x" y="cm_mv_x" z="18"/>
+    <box name="cmb_sb" lunit="mm" x="cmb_sbx" y="cmb_sby" z="cmb_bz"/>
+    <box name="cmb_wcb" lunit="mm" x="716" y="24" z="cmb_bz"/>
+    <box name="cmb_ncb" lunit="mm" x="12" y="cmb_ncby" z="cmb_bz"/>
+    <trd name="cmb_dt" lunit="mm" x1="cmb_diag" x2="cmb_diag - 12" y1="12" y2="12" z="6"/>
 
     <!-- <box name="" x="" y="" z=""/> -->
   </solids>
@@ -269,7 +414,22 @@
     <volume name="hop_ear4_v"> <materialref ref="AL6082T6"/> <solidref ref="hop_ear"/> </volume>
     <volume name="hop_ctl_v"> <materialref ref="AL6082T6"/> <solidref ref="hop_ctl"/> </volume>
     <volume name="hop_cts_v"> <materialref ref="AL6082T6"/> <solidref ref="hop_cts"/> </volume>
-    <volume name="hop_mv3_v"> <materialref ref="AL6082T6"/> <solidref ref="hop_mv3"/> </volume>
+    <volume name="hop_smsup_v"> <materialref ref="AL6082T6"/> <solidref ref="hop_smsup"/> </volume>
+    <volume name="hop_lgsup_v"> <materialref ref="AL6082T6"/> <solidref ref="hop_lgsup"/> </volume>
+    <volume name="hop_tfwd_v"> <materialref ref="AL6082T6"/> <solidref ref="hop_tfwd"/> </volume>
+    <volume name="hop_tfwcc_v"> <materialref ref="AL6082T6"/> <solidref ref="hop_tfwcc"/> </volume>
+    <volume name="hop_tfwsc_v"> <materialref ref="AL6082T6"/> <solidref ref="hop_tfwsc"/> </volume>
+    <volume name="hop_ctsb_v"> <materialref ref="AL6082T6"/> <solidref ref="hop_ctsb"/> </volume>
+
+    <volume name="cms_prop_v"> <materialref ref="AL6082T6"/> <solidref ref="cms_prop"/> </volume>
+    <volume name="cms_tran_v"> <materialref ref="AL6082T6"/> <solidref ref="cms_tran"/> </volume>
+    <volume name="cms_bridge_v"> <materialref ref="AL6082T6"/> <solidref ref="cms_bridge"/> </volume>
+    <volume name="cms_keystone_v"> <materialref ref="AL6082T6"/> <solidref ref="cms_keystone"/> </volume>
+
+    <volume name="cmb_sb_v"> <materialref ref="AL6082T6"/> <solidref ref="cmb_sb"/> </volume>
+    <volume name="cmb_wcb_v"> <materialref ref="AL6082T6"/> <solidref ref="cmb_wcb"/> </volume>
+    <volume name="cmb_ncb_v"> <materialref ref="AL6082T6"/> <solidref ref="cmb_ncb"/> </volume>
+    <volume name="cmb_dt_v"> <materialref ref="AL6082T6"/> <solidref ref="cmb_dt"/> </volume>
 
     <volume name="lowCov">
       <materialref ref="Vacuum"/>
@@ -327,6 +487,11 @@
       <physvol> <volumeref ref="hop_ear2_v"/> <positionref ref="hop_ear2_pos"/> <rotationref ref="z270"/> </physvol>
       <physvol> <volumeref ref="hop_ear3_v"/> <positionref ref="hop_ear3_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="hop_ear4_v"/> <positionref ref="hop_ear4_pos"/> <rotationref ref="z180"/> </physvol>
+
+      <physvol> <volumeref ref="hop_smsup_v"/> <positionref ref="hop_supxm_pos"/> <rotationref ref="hop_supxm_rot"/> </physvol>
+      <physvol> <volumeref ref="hop_smsup_v"/> <positionref ref="hop_supxp_pos"/> <rotationref ref="hop_supxp_rot"/> </physvol>
+      <physvol> <volumeref ref="hop_lgsup_v"/> <positionref ref="hop_supym_pos"/> <rotationref ref="hop_supym_rot"/> </physvol>
+      <physvol> <volumeref ref="hop_lgsup_v"/> <positionref ref="hop_supyp_pos"/> <rotationref ref="hop_supyp_rot"/> </physvol>
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
     </volume>
 
@@ -342,9 +507,67 @@
       <physvol> <volumeref ref="hop_cts_v"/> <positionref ref="hop_ctsmp_pos"/> <rotationref ref="z180"/> </physvol>
       <physvol> <volumeref ref="hop_cts_v"/> <positionref ref="hop_ctspm_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="hop_cts_v"/> <positionref ref="hop_ctspp_pos"/> <rotationref ref="z270"/> </physvol>
+      <physvol> <volumeref ref="hop_tfwd_v"/> <positionref ref="hop_tfwd_xmm_pos"/> <rotationref ref="hop_tfwd_xmm_rot"/> </physvol>
+      <physvol> <volumeref ref="hop_tfwd_v"/> <positionref ref="hop_tfwd_xmp_pos"/> <rotationref ref="hop_tfwd_xmp_rot"/> </physvol>
+      <physvol> <volumeref ref="hop_tfwd_v"/> <positionref ref="hop_tfwd_xpm_pos"/> <rotationref ref="hop_tfwd_xpm_rot"/> </physvol>
+      <physvol> <volumeref ref="hop_tfwd_v"/> <positionref ref="hop_tfwd_xpp_pos"/> <rotationref ref="hop_tfwd_xpp_rot"/> </physvol>
+      <physvol> <volumeref ref="hop_tfwd_v"/> <positionref ref="hop_tfwd_ymm_pos"/> <rotationref ref="hop_tfwd_ymm_rot"/> </physvol>
+      <physvol> <volumeref ref="hop_tfwd_v"/> <positionref ref="hop_tfwd_ymp_pos"/> <rotationref ref="hop_tfwd_ymp_rot"/> </physvol>
+      <physvol> <volumeref ref="hop_tfwd_v"/> <positionref ref="hop_tfwd_ypm_pos"/> <rotationref ref="hop_tfwd_ypm_rot"/> </physvol>
+      <physvol> <volumeref ref="hop_tfwd_v"/> <positionref ref="hop_tfwd_ypp_pos"/> <rotationref ref="hop_tfwd_ypp_rot"/> </physvol>
+
+      <physvol> <volumeref ref="hop_tfwcc_v"/> <positionref ref="hop_tfwcc_xm_pos"/> <rotationref ref="z90"/> </physvol>
+      <physvol> <volumeref ref="hop_tfwcc_v"/> <positionref ref="hop_tfwcc_xp_pos"/> <rotationref ref="z90"/> </physvol>
+      <physvol> <volumeref ref="hop_tfwcc_v"/> <positionref ref="hop_tfwcc_ym_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="hop_tfwcc_v"/> <positionref ref="hop_tfwcc_yp_pos"/> <rotationref ref="id"/> </physvol>
+
+      <physvol> <volumeref ref="hop_tfwsc_v"/> <positionref ref="hop_tfwsc_xm_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="hop_tfwsc_v"/> <positionref ref="hop_tfwsc_xp_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="hop_tfwsc_v"/> <positionref ref="hop_tfwsc_ym_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="hop_tfwsc_v"/> <positionref ref="hop_tfwsc_yp_pos"/> <rotationref ref="id"/> </physvol>
+
+      <physvol> <volumeref ref="hop_ctsb_v"/> <positionref ref="hop_ctsbxm_pos"/> <rotationref ref="z90"/> </physvol>
+      <physvol> <volumeref ref="hop_ctsb_v"/> <positionref ref="hop_ctsbxp_pos"/> <rotationref ref="z90"/> </physvol>
+      <physvol> <volumeref ref="hop_ctsb_v"/> <positionref ref="hop_ctsbym_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="hop_ctsb_v"/> <positionref ref="hop_ctsbyp_pos"/> <rotationref ref="id"/> </physvol>
+
+      <physvol> <volumeref ref="cms_prop_v"/> <positionref ref="cms_prop_xm_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="cms_prop_v"/> <positionref ref="cms_prop_xp_pos"/> <rotationref ref="z180"/> </physvol>
+      <physvol> <volumeref ref="cms_tran_v"/> <positionref ref="cms_tran_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="cms_bridge_v"/> <positionref ref="cms_bridge_ym_pos"/> <rotationref ref="cms_bridge_ym_rot"/> </physvol>
+      <physvol> <volumeref ref="cms_bridge_v"/> <positionref ref="cms_bridge_yp_pos"/> <rotationref ref="cms_bridge_yp_rot"/> </physvol>
+      <physvol> <volumeref ref="cms_keystone_v"/> <positionref ref="cms_keystone_pos"/> <rotationref ref="id"/> </physvol>
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
     </volume>
 
+    <volume name="codedMask_imp">
+      <materialref ref="Vacuum"/>
+      <solidref ref="cm_mv"/>
+      <physvol> <volumeref ref="cmb_sb_v"/> <positionref ref="cmb_sbxp_pos"/> <rotationref ref="z90"/> </physvol>
+      <physvol> <volumeref ref="cmb_sb_v"/> <positionref ref="cmb_sbyp_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="cmb_sb_v"/> <positionref ref="cmb_sbxm_pos"/> <rotationref ref="z90"/> </physvol>
+      <physvol> <volumeref ref="cmb_sb_v"/> <positionref ref="cmb_sbym_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="cmb_wcb_v"/> <positionref ref="cmb_wcb_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="cmb_ncb_v"/> <positionref ref="cmb_ncbpp_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="cmb_ncb_v"/> <positionref ref="cmb_ncbpm_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="cmb_ncb_v"/> <positionref ref="cmb_ncbmp_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="cmb_ncb_v"/> <positionref ref="cmb_ncbmm_pos"/> <rotationref ref="id"/> </physvol>
+
+      <physvol> <volumeref ref="cmb_dt_v"/> <positionref ref="cmb_dtppp_pos"/> <rotationref ref="cmb_dtppp_rot"/> <scaleref ref="flipZ"/> </physvol>
+      <physvol> <volumeref ref="cmb_dt_v"/> <positionref ref="cmb_dtppm_pos"/> <rotationref ref="cmb_dtppm_rot"/> </physvol>
+      <physvol> <volumeref ref="cmb_dt_v"/> <positionref ref="cmb_dtpmp_pos"/> <rotationref ref="cmb_dtpmp_rot"/> </physvol>
+      <physvol> <volumeref ref="cmb_dt_v"/> <positionref ref="cmb_dtpmm_pos"/> <rotationref ref="cmb_dtpmm_rot"/> <scaleref ref="flipZ"/> </physvol>
+
+      <physvol> <volumeref ref="cmb_dt_v"/> <positionref ref="cmb_dtmpp_pos"/> <rotationref ref="cmb_dtmpp_rot"/> <scaleref ref="flipZ"/> </physvol>
+      <physvol> <volumeref ref="cmb_dt_v"/> <positionref ref="cmb_dtmpm_pos"/> <rotationref ref="cmb_dtmpm_rot"/> </physvol>
+
+      <physvol> <volumeref ref="cmb_dt_v"/> <positionref ref="cmb_dtmmp_pos"/> <rotationref ref="cmb_dtmmp_rot"/> </physvol>
+      <physvol> <volumeref ref="cmb_dt_v"/> <positionref ref="cmb_dtmmm_pos"/> <rotationref ref="cmb_dtmmm_rot"/> <scaleref ref="flipZ"/> </physvol>
+
+      <physvol> <file name="codedMask.gdml"/> <positionref ref="codedMask_imp_pos"/> <rotationref ref="id"/> </physvol>
+
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
+    </volume>
 
     <volume name="hop">
       <materialref ref="Vacuum"/>
@@ -365,6 +588,7 @@
       <physvol> <volumeref ref="lowHsg"/> <positionref ref="lowHsg_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="dpuBox"/> <positionref ref="dpuBox_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="hop"/> <positionref ref="hop_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="codedMask_imp"/> <positionref ref="codedMask_pos"/> <rotationref ref="id"/> </physvol>
       <!--
       -->
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
@@ -383,7 +607,7 @@
 
   </structure>
   <setup name="Default" version="1.0">
-    <world ref="MXGS"/>
+    <world ref="World"/>
   </setup>
 </gdml> 
 
