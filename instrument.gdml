@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
+
+  <define>
+    <position name="orig" x="0" y="0" z="0"/>
+    <rotation name="id" x="0" y="0" z="0" />
+
+    <constant name="wx" value="414"/>
+    <constant name="wy" value="614"/>
+    <constant name="wz" value="128.8"/>
+    <constant name="hw" value="380"/> <!-- lid hole -->
+
+    <constant name="pbt" value="2"/>
+    <constant name="tat" value="0.3"/>
+    <constant name="tabt" value="0.25"/>  <!-- tantalum layer is thinner on the bottom? -->
+    <constant name="snt" value="0.5"/>
+    <constant name="sst" value="1.0"/>
+
+    <constant name="pbLDisp" value="pbt/2"/>
+    <constant name="taLDisp" value="pbt+tat/2"/>
+    <constant name="snLDisp" value="pbt+tat+snt/2"/>
+    <constant name="ssLDisp" value="pbt+tat+snt+sst/2"/>
+
+    <position name="zmpb_pos" unit="mm" x="0" y="0" z="-wz/2+pbLDisp"/>
+    <position name="zmta_pos" unit="mm" x="0" y="0" z="-wz/2+taLDisp"/>
+    <position name="zmsn_pos" unit="mm" x="0" y="0" z="-wz/2+snLDisp"/>
+    <position name="zmss_pos" unit="mm" x="0" y="0" z="-wz/2+ssLDisp"/>
+
+    <position name="zppb_pos" unit="mm" x="0" y="0" z="wz/2-pbLDisp"/>
+    <position name="zpta_pos" unit="mm" x="0" y="0" z="wz/2-taLDisp"/>
+    <position name="zpsn_pos" unit="mm" x="0" y="0" z="wz/2-snLDisp"/>
+    <position name="zpss_pos" unit="mm" x="0" y="0" z="wz/2-ssLDisp"/>
+
+    <position name="ympb_pos" unit="mm" y="-wy/2+pbLDisp" x="0" z="0"/>
+    <position name="ymta_pos" unit="mm" y="-wy/2+taLDisp" x="0" z="0"/>
+    <position name="ymsn_pos" unit="mm" y="-wy/2+snLDisp" x="0" z="0"/>
+    <position name="ymss_pos" unit="mm" y="-wy/2+ssLDisp" x="0" z="0"/>
+
+    <position name="yppb_pos" unit="mm" y="wy/2-pbLDisp" x="0" z="0"/>
+    <position name="ypta_pos" unit="mm" y="wy/2-taLDisp" x="0" z="0"/>
+    <position name="ypsn_pos" unit="mm" y="wy/2-snLDisp" x="0" z="0"/>
+    <position name="ypss_pos" unit="mm" y="wy/2-ssLDisp" x="0" z="0"/>
+
+    <position name="xmpb_pos" unit="mm" x="-wx/2+pbLDisp" y="0" z="0"/>
+    <position name="xmta_pos" unit="mm" x="-wx/2+taLDisp" y="0" z="0"/>
+    <position name="xmsn_pos" unit="mm" x="-wx/2+snLDisp" y="0" z="0"/>
+    <position name="xmss_pos" unit="mm" x="-wx/2+ssLDisp" y="0" z="0"/>
+
+    <position name="xppb_pos" unit="mm" x="wx/2-pbLDisp" y="0" z="0"/>
+    <position name="xpta_pos" unit="mm" x="wx/2-taLDisp" y="0" z="0"/>
+    <position name="xpsn_pos" unit="mm" x="wx/2-snLDisp" y="0" z="0"/>
+    <position name="xpss_pos" unit="mm" x="wx/2-ssLDisp" y="0" z="0"/>
+
+    <constant name="bgo_wz" value="62/2 + 44.5/2 + 3.75 + 21.45"/> <!-- wz/2+bgoBox_wz/2+bgoShld_z+bdspBox_z from bgo.gdml -->
+    <position name="bgoMods_pos" unit="mm" x="0" y="0" z="-wz/2+bgo_wz/2"/>
+
+    <!--  -->
+  </define>
+
+  <materials>
+    <element name="Aluminum" formula="Al"  Z="13.0">  <atom value="26.98"/>   </element>
+    <element name="Manganese" formula="Mn" Z="25.0"> <atom value="54.938"/> </element>
+    <element name="Magnesium" formula="Mg" Z="12.0"> <atom value="24.305"/> </element>
+    <element name="Silicon" formula="Si" Z="14.0"> <atom value="28.086"/> </element>
+    <element name="Iron" formula="Fe" Z="26.0"> <atom value="55.845"/> </element>
+    <element name="Chromium" formula="Cr" Z="24.0"> <atom value="51.996"/> </element>
+
+    <material name="AL6082T6">
+      <D value="2.70" unit="g/cm3"/> 
+      <fraction n="0.974" ref="Aluminum"/>
+      <fraction n="0.009" ref="Magnesium"/>
+      <fraction n="0.007" ref="Manganese"/>
+      <fraction n="0.01" ref="Silicon"/>
+    </material>
+
+    <material name="StainlessSteel">
+      <D value="7.70" unit="g/cm3"/>
+      <fraction n="0.17" ref="Chromium"/>
+      <fraction n="0.83" ref="Iron"/>
+    </material>
+
+    <material name="Vacuum" Z="1.0"> <D value="0.0" unit="g/cm3"/> <atom value="1.00794"/> </material>
+
+    <material name="Lead" Z="82."> <D value="11.35" unit="g/cm3"/> <atom value="207.2"/> </material>
+    <material name="Tin"  Z="50."> <D value="7.31" unit="g/cm3"/> <atom value="117.81"/> </material>
+    <material name="Tantalum" Z="73."> <D value="16.65" unit="g/cm3"/> <atom value="180.95"/> </material>
+
+  </materials>
+
+  <solids>
+    <box name="inst_mv" lunit="mm" x="wx" y="wy" z="wz"/>
+
+    <box name="zpb" lunit="mm" x="wx" y="wy" z="pbt"/>
+    <box name="zta" lunit="mm" x="wx-2*pbt" y="wy-2*pbt" z="tat"/>
+    <box name="zsn" lunit="mm" x="wx-2*pbt-2*tat" y="wy-2*pbt-2*tat" z="snt"/>
+    <box name="zss" lunit="mm" x="wx-2*pbt-2*tat-2*snt" y="wy-2*pbt-2*tat-2*snt" z="sst"/>
+
+    <box name="botHole" lunit="mm" x="368" y="280" z="500"/>
+    <subtraction name="zmpbh"> <first ref="zpb"/> <second ref="botHole"/> <positionref ref="orig"/> <rotationref ref="id"/> </subtraction>
+    <subtraction name="zmtah"> <first ref="zta"/> <second ref="botHole"/> <positionref ref="orig"/> <rotationref ref="id"/> </subtraction>
+    <subtraction name="zmsnh"> <first ref="zsn"/> <second ref="botHole"/> <positionref ref="orig"/> <rotationref ref="id"/> </subtraction>
+    <subtraction name="zmssh"> <first ref="zss"/> <second ref="botHole"/> <positionref ref="orig"/> <rotationref ref="id"/> </subtraction>
+
+    <box name="topHole" lunit="mm" x="393.5" y="393.5" z="500"/>
+    <subtraction name="zppbh"> <first ref="zpb"/> <second ref="topHole"/> <positionref ref="orig"/> <rotationref ref="id"/> </subtraction>
+    <subtraction name="zptah"> <first ref="zta"/> <second ref="topHole"/> <positionref ref="orig"/> <rotationref ref="id"/> </subtraction>
+    <subtraction name="zpsnh"> <first ref="zsn"/> <second ref="topHole"/> <positionref ref="orig"/> <rotationref ref="id"/> </subtraction>
+    <subtraction name="zpssh"> <first ref="zss"/> <second ref="topHole"/> <positionref ref="orig"/> <rotationref ref="id"/> </subtraction>
+
+    <box name="xpb" lunit="mm" x="pbt" y="wy" z="wz-2*pbt"/>
+    <box name="xta" lunit="mm" x="tat" y="wy-2*pbt" z="wz-2*pbt-2*tat"/>
+    <box name="xsn" lunit="mm" x="snt" y="wy-2*pbt-2*tat" z="wz-2*pbt-2*tat-2*snt"/>
+    <box name="xss" lunit="mm" x="sst" y="wy-2*pbt-2*tat-2*snt" z="wz-2*pbt-2*tat-2*snt-2*sst"/>
+    
+    <box name="ypb" lunit="mm" x="wx-2*pbt" y="pbt" z="wz-2*pbt"/>
+    <box name="yta" lunit="mm" x="wx-2*pbt-2*tat" y="tat" z="wz-2*pbt-2*tat"/>
+    <box name="ysn" lunit="mm" x="wx-2*pbt-2*tat-2*snt" y="snt" z="wz-2*pbt-2*tat-2*snt"/>
+    <box name="yss" lunit="mm" x="wx-2*pbt-2*tat-2*snt-2*sst" y="sst" z="wz-2*pbt-2*tat-2*snt-2*sst"/>
+  </solids>
+
+  <structure>  
+    <volume name="zmpbh_v"> <materialref ref="Lead"/> <solidref ref="zmpbh"/> </volume>
+    <volume name="zmtah_v"> <materialref ref="Tantalum"/> <solidref ref="zmtah"/> </volume>
+    <volume name="zmsnh_v"> <materialref ref="Tin"/> <solidref ref="zmsnh"/> </volume>
+    <volume name="zmssh_v"> <materialref ref="StainlessSteel"/> <solidref ref="zmssh"/> </volume>
+
+    <volume name="zppbh_v"> <materialref ref="Lead"/> <solidref ref="zppbh"/> </volume>
+    <volume name="zptah_v"> <materialref ref="Tantalum"/> <solidref ref="zptah"/> </volume>
+    <volume name="zpsnh_v"> <materialref ref="Tin"/> <solidref ref="zpsnh"/> </volume>
+    <volume name="zpssh_v"> <materialref ref="StainlessSteel"/> <solidref ref="zpssh"/> </volume>
+
+    <volume name="xpb_v"> <materialref ref="Lead"/> <solidref ref="xpb"/> </volume>
+    <volume name="xta_v"> <materialref ref="Tantalum"/> <solidref ref="xta"/> </volume>
+    <volume name="xsn_v"> <materialref ref="Tin"/> <solidref ref="xsn"/> </volume>
+    <volume name="xss_v"> <materialref ref="StainlessSteel"/> <solidref ref="xss"/> </volume>
+
+    <volume name="ypb_v"> <materialref ref="Lead"/> <solidref ref="ypb"/> </volume>
+    <volume name="yta_v"> <materialref ref="Tantalum"/> <solidref ref="yta"/> </volume>
+    <volume name="ysn_v"> <materialref ref="Tin"/> <solidref ref="ysn"/> </volume>
+    <volume name="yss_v"> <materialref ref="StainlessSteel"/> <solidref ref="yss"/> </volume>
+
+    <volume name="Instrument">
+      <materialref ref="Vacuum"/>
+      <solidref ref="inst_mv"/>
+
+      <physvol> <volumeref ref="zmpbh_v"/> <positionref ref="zmpb_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="zmtah_v"/> <positionref ref="zmta_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="zmsnh_v"/> <positionref ref="zmsn_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="zmssh_v"/> <positionref ref="zmss_pos"/> <rotationref ref="id"/> </physvol>
+
+      <!--
+      <physvol> <volumeref ref="zppbh_v"/> <positionref ref="zppb_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="zptah_v"/> <positionref ref="zpta_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="zpsnh_v"/> <positionref ref="zpsn_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="zpssh_v"/> <positionref ref="zpss_pos"/> <rotationref ref="id"/> </physvol>
+
+      <physvol> <volumeref ref="xpb_v"/> <positionref ref="xmpb_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="xta_v"/> <positionref ref="xmta_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="xsn_v"/> <positionref ref="xmsn_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="xss_v"/> <positionref ref="xmss_pos"/> <rotationref ref="id"/> </physvol>
+
+      <physvol> <volumeref ref="xpb_v"/> <positionref ref="xppb_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="xta_v"/> <positionref ref="xpta_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="xsn_v"/> <positionref ref="xpsn_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="xss_v"/> <positionref ref="xpss_pos"/> <rotationref ref="id"/> </physvol>
+
+      <physvol> <volumeref ref="ypb_v"/> <positionref ref="ympb_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="yta_v"/> <positionref ref="ymta_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="ysn_v"/> <positionref ref="ymsn_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="yss_v"/> <positionref ref="ymss_pos"/> <rotationref ref="id"/> </physvol>
+
+      <physvol> <volumeref ref="ypb_v"/> <positionref ref="yppb_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="yta_v"/> <positionref ref="ypta_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="ysn_v"/> <positionref ref="ypsn_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="yss_v"/> <positionref ref="ypss_pos"/> <rotationref ref="id"/> </physvol>
+      -->
+
+      <physvol> <file name="bgo.gdml"/> <positionref ref="bgoMods_pos"/> <rotationref ref="id"/> </physvol>
+
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
+    </volume>
+
+  </structure>
+  <setup name="Default" version="1.0">
+    <world ref="Instrument"/>
+  </setup>
+</gdml> 
+

@@ -83,7 +83,7 @@ int main(int argc, char** argv)
     //delete session;
     //// see sample ui commands below
 
-    //// use dump VRML of geometry.
+    //// dump VRML of geometry.
     G4UImanager* UI = G4UImanager::GetUIpointer();
     G4String command = "/vis/sceneHandler/create VRML2FILE";
     UI->ApplyCommand(command); 
@@ -96,6 +96,20 @@ int main(int argc, char** argv)
     command = "/vis/viewer/flush";
     UI->ApplyCommand(command); 
     ////////
+
+    ////// dump Raytraced .jpeg of geometry.
+    //G4UImanager* UI = G4UImanager::GetUIpointer();
+    //G4String command = "/vis/open RayTracer";
+    //UI->ApplyCommand(command); 
+    //command = "/vis/rayTracer/lightDirection 0.3 0.3 -1";
+    //UI->ApplyCommand(command); 
+    //command = "/vis/viewer/set/viewpointThetaPhi 70 30";
+    //UI->ApplyCommand(command); 
+    //command = "/vis/drawVolume";
+    //UI->ApplyCommand(command); 
+    //command = "/vis/viewer/flush";
+    //UI->ApplyCommand(command); 
+    //////////
 
     ////// check geometry
     //G4UImanager* UI = G4UImanager::GetUIpointer();

@@ -92,6 +92,7 @@
     <position name="hop_byp_pos" unit="mm" x="0" y="+hop_b_wy/2-hop_b_t/2" z="-hop_b_t/2-(hop_b_wz - hop_b_t)/2 + hop_mv1_dz"/>
     <position name="hop_bzp_pos" unit="mm" x="0" y="0" z="hop_mv1_dz"/>
     <position name="hop_b_hdz" x="0" y="0" z="hop_b_hwz/2 - hop_b_wz/2 - hop_b_t/2"/>
+    <position name="instrument_pos" unit="mm" x="0" y="0" z="0"/>
 
     <!-- ears (mv2) -->
     <constant name="hop_ang" value="40.32"/>
@@ -319,14 +320,15 @@
     <!-- NOTE: move ssifp to wake/ram support structure MV. -->
 
     <!-- starboard radiator -->
-    <constant name="sr_bot" value="430"/>
-    <constant name="sr_side" value="349"/>
+    <constant name="sr_bot" value="349"/>
+    <constant name="sr_side" value="430"/>
     <constant name="sr_y" value="701"/>
     <constant name="sr_t" value="3"/>
-    <constant name="sr_cornerxOffset" value="140"/>
-    <constant name="sr_cornerzOffset" value="30"/>
-    <position name="sr_botb_pos" unit="mm" x="sr_bot/2 - lowCov_b1_wx/2 - sr_cornerxOffset" y="0" z="-sr_cornerzOffset+sr_t/2"/>
-    <position name="sr_sideb_pos" unit="mm" x="sr_t/2 - lowCov_b1_wx/2 - sr_cornerxOffset" y="0" z="-sr_cornerzOffset + sr_side/2 + sr_t"/>
+    <constant name="sr_cornerxOffset" value="hop_top_w/2 - lowCov_b1_wx/2 + sr_t"/>
+    <constant name="sr_cornerzOffset" value="40.8-15.7 + sr_t + 15"/>
+    <constant name="sr_yOffset" value="sr_y/2 + hop_top_w/2 - 761.1"/>
+    <position name="sr_botb_pos" unit="mm" x="sr_bot/2 - lowCov_b1_wx/2 - sr_cornerxOffset" y="sr_yOffset" z="-sr_cornerzOffset+sr_t/2"/>
+    <position name="sr_sideb_pos" unit="mm" x="sr_t/2 - lowCov_b1_wx/2 - sr_cornerxOffset" y="sr_yOffset" z="-sr_cornerzOffset + sr_side/2 + sr_t"/>
 
     <!--  -->
   </define>
@@ -693,11 +695,16 @@
       <materialref ref="Vacuum"/> 
       <solidref ref="hop_mv1"/>
 
+      <!--
       <physvol> <volumeref ref="hop_bxm_v"/> <positionref ref="hop_bxm_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="hop_bxp_v"/> <positionref ref="hop_bxp_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="hop_bym_v"/> <positionref ref="hop_bym_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="hop_byp_v"/> <positionref ref="hop_byp_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="hop_bzp_v"/> <positionref ref="hop_bzp_pos"/> <rotationref ref="id"/> </physvol>
+      -->
+
+      <physvol> <file name="instrument.gdml"/> <positionref ref="instrument_pos"/> <rotationref ref="id"/> </physvol>
+
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
     </volume>
 
@@ -829,14 +836,13 @@
       <materialref ref="Vacuum"/>
       <solidref ref="WorldBox"/>
       <!--
-      -->
       <physvol> <volumeref ref="lowCov"/> <positionref ref="lowCov_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="lowHsg"/> <positionref ref="lowHsg_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="dpuBox"/> <positionref ref="dpuBox_pos"/> <rotationref ref="id"/> </physvol>
+      -->
       <physvol> <volumeref ref="hop"/> <positionref ref="hop_pos"/> <rotationref ref="id"/> </physvol>
       <!--
       <physvol> <volumeref ref="codedMask_imp"/> <positionref ref="codedMask_pos"/> <rotationref ref="id"/> </physvol>
-      -->
       <physvol> <volumeref ref="ssifp_v"/> <positionref ref="ssifp_ym_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="ssifp_v"/> <positionref ref="ssifp_yp_pos"/> <rotationref ref="id"/> </physvol>
 
@@ -845,6 +851,7 @@
 
       <physvol> <volumeref ref="wakeSupport"/> <positionref ref="ws_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="ramSupport"/> <positionref ref="rs_pos"/> <rotationref ref="id"/> </physvol>
+      -->
 
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
     </volume>
