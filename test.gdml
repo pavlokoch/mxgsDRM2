@@ -92,7 +92,7 @@
     <position name="hop_byp_pos" unit="mm" x="0" y="+hop_b_wy/2-hop_b_t/2" z="-hop_b_t/2-(hop_b_wz - hop_b_t)/2 + hop_mv1_dz"/>
     <position name="hop_bzp_pos" unit="mm" x="0" y="0" z="hop_mv1_dz"/>
     <position name="hop_b_hdz" x="0" y="0" z="hop_b_hwz/2 - hop_b_wz/2 - hop_b_t/2"/>
-    <position name="instrument_pos" unit="mm" x="0" y="0" z="0"/>
+    <position name="instrument_pos" unit="mm" x="0" y="0" z="-hop_b_t/2"/>
 
     <!-- ears (mv2) -->
     <constant name="hop_ang" value="40.32"/>
@@ -700,8 +700,8 @@
       <physvol> <volumeref ref="hop_bxp_v"/> <positionref ref="hop_bxp_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="hop_bym_v"/> <positionref ref="hop_bym_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="hop_byp_v"/> <positionref ref="hop_byp_pos"/> <rotationref ref="id"/> </physvol>
-      <physvol> <volumeref ref="hop_bzp_v"/> <positionref ref="hop_bzp_pos"/> <rotationref ref="id"/> </physvol>
       -->
+      <physvol> <volumeref ref="hop_bzp_v"/> <positionref ref="hop_bzp_pos"/> <rotationref ref="id"/> </physvol>
 
       <physvol> <file name="instrument.gdml"/> <positionref ref="instrument_pos"/> <rotationref ref="id"/> </physvol>
 
@@ -836,10 +836,10 @@
       <materialref ref="Vacuum"/>
       <solidref ref="WorldBox"/>
       <!--
+      -->
       <physvol> <volumeref ref="lowCov"/> <positionref ref="lowCov_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="lowHsg"/> <positionref ref="lowHsg_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="dpuBox"/> <positionref ref="dpuBox_pos"/> <rotationref ref="id"/> </physvol>
-      -->
       <physvol> <volumeref ref="hop"/> <positionref ref="hop_pos"/> <rotationref ref="id"/> </physvol>
       <!--
       <physvol> <volumeref ref="codedMask_imp"/> <positionref ref="codedMask_pos"/> <rotationref ref="id"/> </physvol>

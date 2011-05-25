@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
+
+  <define>
+    <position name="orig" unit="mm" x="0" y="0" z="0"/>
+    <rotation name="id" unit="deg"  x="0" y="0" z="0" />
+    <rotation name="xm90" unit="deg"  x="-90"/>
+    <rotation name="z180" unit="deg" z="180"/>
+    <rotation name="y180" unit="deg" y="180"/>
+    <rotation name="zpToxp" unit="deg" y="90"/>
+    <rotation name="zpToxm" unit="deg" z="180" y="-90"/>
+
+    <!--  -->
+  </define>
+
+  <materials>
+    <element name="Aluminum" formula="Al"  Z="13.0">  <atom value="26.98"/>   </element>
+    <element name="Manganese" formula="Mn" Z="23.0"> <atom value="54.938"/> </element>
+    <element name="Magnesium" formula="Mg" Z="12.0"> <atom value="24.305"/> </element>
+    <element name="Silicon" formula="Si" Z="14.0"> <atom value="28.086"/> </element>
+
+    <element name="Iron" formula="Fe" Z="26.0"> <atom value="55.845"/> </element>
+    <element name="Chromium" formula="Cr" Z="24.0"> <atom value="51.996"/> </element>
+
+    <element name="Bismuth" formula="Bi" Z="83.0"> <atom value="208.980"/> </element>
+    <element name="Germanium" formula="Ge" Z="32.0"> <atom value="72.64"/> </element>
+    <element name="Oxygen" formula="O" Z="8.0"> <atom value="15.9994"/> </element>
+
+    <element name="Carbon" formula="C" Z="6.0"> <atom value="12.0107"/> </element>
+    <element name="Hydrogen" formula="H" Z="1.0"> <atom value="1.008"/> </element>
+
+    <element name="Boron" formula="B" Z="5.0"> <atom value="10.811"/> </element>
+    <element name="Sodium" formula="Na" Z="11.0"> <atom value="22.990"/> </element>
+    <element name="Sulfur" formula="S" Z="16.0"> <atom value="32.065"/> </element>
+
+    <material name="AL6082T6">
+      <D value="2.70" unit="g/cm3"/> 
+      <fraction n="0.974" ref="Aluminum"/>
+      <fraction n="0.009" ref="Magnesium"/>
+      <fraction n="0.007" ref="Manganese"/>
+      <fraction n="0.01" ref="Silicon"/>
+    </material>
+
+    <material name="StainlessSteel">
+      <D value="7.70" unit="g/cm3"/>
+      <fraction n="0.17" ref="Chromium"/>
+      <fraction n="0.83" ref="Iron"/>
+    </material>
+
+    <material name="BGO" formula="Bi4Ge3O12">
+      <D value="7.13" unit="g/cm3"/>
+      <composite n="4" ref="Bismuth"/>
+      <composite n="3" ref="Germanium"/>
+      <composite n="12" ref="Oxygen"/>
+    </material>
+
+    <material name="PEEK" formula="C19H12O3">
+      <D value="1.32"/>
+      <composite n="19" ref="Carbon"/>
+      <composite n="12" ref="Hydrogen"/>
+      <composite n="3" ref="Oxygen"/>
+    </material>
+
+    <material name="Glass">
+      <D value="2.23" unit="g/cm3"/>
+      <fraction n="0.040064" ref="Boron"/>
+      <fraction n="0.539562" ref="Oxygen"/>
+      <fraction n="0.028191" ref="Sodium"/>
+      <fraction n="0.011644" ref="Aluminum"/>
+      <fraction n="0.377220" ref="Silicon"/>
+      <fraction n="0.003321" ref="Sulfur"/>
+    </material>
+
+    <material name="Vacuum" Z="1.0"> <D value="0.0" unit="g/cm3"/> <atom value="1.00794"/> </material>
+
+    <material name="Lead" Z="82."> <D value="11.35" unit="g/cm3"/> <atom value="207.2"/> </material>
+    <material name="Tin"  Z="50."> <D value="7.31" unit="g/cm3"/> <atom value="117.81"/> </material>
+    <material name="Tantalum" Z="73."> <D value="16.65" unit="g/cm3"/> <atom value="180.95"/> </material>
+
+  </materials>
+
+  <solids>
+    <box name="cztBase_wv" lunit="mm" x="" y="" z=""/>
+    <box name="cztMod_wv" lunit="mm" x="" y="" z=""/>
+    <box name="cztMods_wv" lunit="mm" x="" y="" z=""/>
+
+  </solids>
+
+  <structure>  
+
+    <volume name="cztBase">
+      <materialref ref="Vacuum"/>
+      <solidref ref="cztBase_wv"/>
+
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
+    </volume>
+
+    <volume name="cztMod">
+      <materialref ref="Vacuum"/>
+      <solidref ref="cztMod_wv"/>
+
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
+    </volume>
+    
+    <volume name="cztMods">
+      <materialref ref="Vacuum"/>
+      <solidref ref="cztMods_wv"/>
+
+      <physvol> <volumeref ref="cztBase"/> <positionref ref="cztBase_pos"/> <rotationref ref="id"/> </physvol>
+      <!--
+      <physvol> <volumeref ref="cztMod"/> <positionref ref="cztMod1_pos/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="cztMod"/> <positionref ref="cztMod1_pos/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="cztMod"/> <positionref ref="cztMod1_pos/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="cztMod"/> <positionref ref="cztMod1_pos/> <rotationref ref="id"/> </physvol>
+      -->
+
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
+    </volume>
+
+
+  </structure>
+  <setup name="Default" version="1.0">
+    <world ref="cztMods"/>
+  </setup>
+</gdml> 
+

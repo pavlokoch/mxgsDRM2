@@ -176,6 +176,7 @@
       -->
 
       <physvol> <file name="bgo.gdml"/> <positionref ref="bgoMods_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <file name="czt.gdml"/> <positionref ref="czt_pos"/> <rotationref ref="id"/> </physvol>
 
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
     </volume>
