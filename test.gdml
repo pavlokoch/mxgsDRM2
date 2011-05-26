@@ -427,6 +427,8 @@
     <box name="hop_bxm" lunit="mm" x="hop_b_t" y="hop_b_wy" z="hop_b_wz - hop_b_t"/>
 
     <box name="hop_bxp" lunit="mm" x="hop_b_t" y="hop_b_wy" z="hop_b_wz - hop_b_t"/>
+    <!--
+         I'm wrong, there's no hole in the hop_box to accomodate the dpuBox.
     <box name="hop_bxp_hole" lunit="mm" x="2*hop_b_t" y="hop_b_hwy" z="hop_b_hwz"/>
     <subtraction name="hop_bxp_sub">
       <first ref="hop_bxp"/>
@@ -434,6 +436,7 @@
       <positionref ref="hop_b_hdz"/>
       <rotationref ref="id"/>
     </subtraction>
+    -->
 
     <box name="hop_mv0" lunit="mm" x="hop_top_w" y="hop_top_w" z="hop_b_wz+hop_angDepth+hop_ct_z"/>
     <box name="hop_mv1" lunit="mm" x="hop_b_wx" y="hop_b_wy" z="hop_b_wz"/>
@@ -585,7 +588,7 @@
 
     <!-- volumes for hopper: hop_... -->
     <volume name="hop_bxm_v"> <materialref ref="AL6082T6"/> <solidref ref="hop_bxm"/> </volume>
-    <volume name="hop_bxp_v"> <materialref ref="AL6082T6"/> <solidref ref="hop_bxp_sub"/> </volume>
+    <volume name="hop_bxp_v"> <materialref ref="AL6082T6"/> <solidref ref="hop_bxp"/> </volume>
     <volume name="hop_bym_v"> <materialref ref="AL6082T6"/> <solidref ref="hop_bym"/> </volume>
     <volume name="hop_byp_v"> <materialref ref="AL6082T6"/> <solidref ref="hop_byp"/> </volume>
     <volume name="hop_bzp_v"> <materialref ref="AL6082T6"/> <solidref ref="hop_bzp"/> </volume>
@@ -695,11 +698,11 @@
       <materialref ref="Vacuum"/> 
       <solidref ref="hop_mv1"/>
 
-      <!--
       <physvol> <volumeref ref="hop_bxm_v"/> <positionref ref="hop_bxm_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="hop_bxp_v"/> <positionref ref="hop_bxp_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="hop_bym_v"/> <positionref ref="hop_bym_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="hop_byp_v"/> <positionref ref="hop_byp_pos"/> <rotationref ref="id"/> </physvol>
+      <!--
       -->
       <physvol> <volumeref ref="hop_bzp_v"/> <positionref ref="hop_bzp_pos"/> <rotationref ref="id"/> </physvol>
 
@@ -841,7 +844,6 @@
       <physvol> <volumeref ref="lowHsg"/> <positionref ref="lowHsg_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="dpuBox"/> <positionref ref="dpuBox_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="hop"/> <positionref ref="hop_pos"/> <rotationref ref="id"/> </physvol>
-      <!--
       <physvol> <volumeref ref="codedMask_imp"/> <positionref ref="codedMask_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="ssifp_v"/> <positionref ref="ssifp_ym_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="ssifp_v"/> <positionref ref="ssifp_yp_pos"/> <rotationref ref="id"/> </physvol>
@@ -851,6 +853,7 @@
 
       <physvol> <volumeref ref="wakeSupport"/> <positionref ref="ws_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="ramSupport"/> <positionref ref="rs_pos"/> <rotationref ref="id"/> </physvol>
+      <!--
       -->
 
       <auxiliary auxtype="visibility" auxvalue="invisible"/>

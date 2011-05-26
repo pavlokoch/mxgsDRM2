@@ -10,6 +10,72 @@
     <rotation name="zpToxp" unit="deg" y="90"/>
     <rotation name="zpToxm" unit="deg" z="180" y="-90"/>
 
+    <!-- detector assembly frame -->
+    <constant name="daf_y" value="600"/>
+    <constant name="daf_x" value="380"/>
+    <constant name="daf_z" value="22"/>
+    <constant name="daf_t" value="12"/>
+    <constant name="daf_z0" value="-daf_z/2+daf_t/2"/>
+    <constant name="daf_cbl" value="(daf_x-3*daf_t)/2"/>
+
+    <position name="daf_xp_pos" unit="mm" x="daf_x/2-daf_t/2" y="0" z="daf_z0"/>
+    <position name="daf_xm_pos" unit="mm" x="-daf_x/2+daf_t/2" y="0" z="daf_z0"/>
+    <position name="daf_x0_pos" unit="mm" x="0" y="0" z="daf_z0"/>
+    <position name="daf_ymxm_pos" unit="mm" x="-daf_x/2+daf_t+daf_cbl/2" y="-daf_y/2+16+daf_t/2" z="daf_z0"/>
+    <position name="daf_ymxp_pos" unit="mm" x="daf_x/2-daf_t-daf_cbl/2" y="-daf_y/2+16+daf_t/2" z="daf_z0"/>
+    <position name="daf_y0xm_pos" unit="mm" x="-daf_x/2+daf_t+daf_cbl/2" y="0" z="daf_z0"/>
+    <position name="daf_y0xp_pos" unit="mm" x="daf_x/2-daf_t-daf_cbl/2" y="0" z="daf_z0"/>
+    <position name="daf_ypxm_pos" unit="mm" x="-daf_x/2+daf_t+daf_cbl/2" y="daf_y/2-16-daf_t/2" z="daf_z0"/>
+    <position name="daf_ypxp_pos" unit="mm" x="daf_x/2-daf_t-daf_cbl/2" y="daf_y/2-16-daf_t/2" z="daf_z0"/>
+
+    <!-- czt unit -->
+    <constant name="cztu_x" value="46"/>
+    <constant name="cztu_y" value="46"/>
+    <constant name="cztu_z" value="10.5"/>
+    <constant name="cztu_bw" value="7"/>
+    <constant name="cztu_irt" value="9"/>
+    <constant name="cztu_ihw" value="28"/>
+    <constant name="cztu_ipt" value="1.3"/>
+
+    <position name="cztu_bx_pos" unit="mm" x="0" y="-cztu_y/2+cztu_bw/2" z="0"/>
+    <position name="cztu_by_pos" unit="mm" x="-cztu_x/2+cztu_bw/2" y="cztu_bw/2" z="0"/>
+    <position name="cztu_ir_pos" unit="mm" x="cztu_bw/2" y="cztu_bw/2" z="-cztu_z/2+cztu_irt/2"/>
+    <position name="cztu_ipp_pos" unit="mm" x="cztu_bw/2+cztu_ihw/4" y="cztu_bw/2" z="-cztu_z/2+cztu_ipt/2"/>
+    <position name="cztu_ipm_pos" unit="mm" x="cztu_bw/2-cztu_ihw/4" y="cztu_bw/2" z="-cztu_z/2+cztu_ipt/2"/>
+
+    <!-- czt DAU cooling frame / cztMods -->
+    <constant name="dauf_x" value="4*cztu_x+cztu_bw"/>
+    <constant name="dauf_y" value="300"/>
+    <constant name="dauf_z" value="17.5"/>
+
+    <position name="czt16_pos" unit="mm" x="-cztu_bw/2" y="-dauf_y/2+cztu_y*2" z="-dauf_z/2+cztu_z/2"/>
+    <position name="czt16_bxp_pos" unit="mm" x="dauf_x/2-cztu_bw/2" y="-dauf_y/2+cztu_y*2" z="-dauf_z/2+cztu_z/2"/>
+    <position name="czt16_byp_pos" unit="mm" x="0" y="-dauf_y/2+cztu_y*4+cztu_bw/2" z="-dauf_z/2+cztu_z/2"/>
+
+    <constant name="dauf_t" value="12"/>
+    <constant name="dauf_l" value="dauf_y-198.3"/>
+    <constant name="dauf_tz" value="dauf_y-dauf_l-4*cztu_x-cztu_bw"/>
+
+    <position name="dauf_yb_pos" unit="mm" x="0" y="dauf_y/2-dauf_t/2" z="dauf_z/2-dauf_t/2"/>
+    <position name="dauf_xpb_pos" unit="mm" x="dauf_x/2-dauf_t/2" y="dauf_y/2-dauf_l/2-dauf_t/2" z="dauf_z/2-dauf_t/2"/>
+    <position name="dauf_x0b_pos" unit="mm" x="0" y="dauf_y/2-dauf_l/2-dauf_t/2" z="dauf_z/2-dauf_t/2"/>
+    <position name="dauf_xmb_pos" unit="mm" x="-dauf_x/2+dauf_t/2" y="dauf_y/2-dauf_l/2-dauf_t/2" z="dauf_z/2-dauf_t/2"/>
+    <constant name="dauf_p_py" value="dauf_y/2-dauf_l-dauf_tz/2"/>
+    <position name="dauf_xpp_pos" unit="mm" x="dauf_x/2-dauf_t/2" y="dauf_p_py" z="0"/>
+    <position name="dauf_x0p_pos" unit="mm" x="0" y="dauf_p_py" z="0"/>
+    <position name="dauf_xmp_pos" unit="mm" x="-dauf_x/2+dauf_t/2" y="dauf_p_py" z="0"/>
+
+    <position name="cztModmm_pos" unit="mm" x="-dauf_x/2" y="-dauf_y/2" z="0"/>
+    <position name="cztModmp_pos" unit="mm" x="-dauf_x/2" y="dauf_y/2" z="0"/>
+    <position name="cztModpm_pos" unit="mm" x="dauf_x/2" y="-dauf_y/2" z="0"/>
+    <position name="cztModpp_pos" unit="mm" x="dauf_x/2" y="dauf_y/2" z="0"/>
+
+    <constant name="czt_z" value="dauf_z+daf_z"/>
+    <constant name="czt_x" value="dauf_x*2"/>
+    <constant name="czt_y" value="daf_y"/>
+    <position name="daf_pos" unit="mm" x="0" y="0" z="-czt_z/2+daf_z/2"/>
+    <position name="czt_pos" unit="mm" x="0" y="0" z="czt_z/2-dauf_z/2"/>
+
     <!--  -->
   </define>
 
@@ -80,39 +146,150 @@
   </materials>
 
   <solids>
-    <box name="cztBase_wv" lunit="mm" x="" y="" z=""/>
-    <box name="cztMod_wv" lunit="mm" x="" y="" z=""/>
-    <box name="cztMods_wv" lunit="mm" x="" y="" z=""/>
+    <box name="daf_mv" lunit="mm" x="daf_x" y="daf_y" z="daf_z"/>
+    <box name="cztu_mv" lunit="mm" x="cztu_x" y="cztu_y" z="cztu_z"/>
+    <box name="cztu4_mv" lunit="mm" x="cztu_x*4" y="cztu_y" z="cztu_z"/>
+    <box name="cztu16_mv" lunit="mm" x="cztu_x*4" y="cztu_y*4" z="cztu_z"/>
+    <box name="cztMod_mv" lunit="mm" x="dauf_x" y="dauf_y" z="dauf_z"/>
+    <box name="cztMods_mv" lunit="mm" x="2*dauf_x" y="2*dauf_y" z="dauf_z"/>
+    <box name="czt_mv" lunit="mm" x="czt_x" y="czt_y" z="czt_z"/>
+
+    <box name="daf_x_b" lunit="mm" x="daf_t" y="daf_y" z="daf_t"/>
+    <box name="daf_ycb_b" lunit="mm" x="daf_cbl" y="daf_t" z="daf_t"/>
+
+    <box name="cztu_bx" lunit="mm" x="cztu_x" y="cztu_bw" z="cztu_z"/>
+    <box name="cztu_by" lunit="mm" x="cztu_bw" y="cztu_y-cztu_bw" z="cztu_z"/>
+    <box name="cztu_ir_b" lunit="mm" x="cztu_x-cztu_bw" y="cztu_y-cztu_bw" z="cztu_irt"/>
+    <box name="cztu_ir_h" lunit="mm" x="cztu_ihw" y="cztu_ihw" z="200*cztu_irt"/>
+    <subtraction name="cztu_ir"> <first ref="cztu_ir_b"/> <second ref="cztu_ir_h"/> <positionref ref="orig"/> <rotationref ref="id"/> </subtraction>
+    <box name="cztu_ip_b" lunit="mm" x="cztu_ihw/2" y="cztu_ihw" z="cztu_ipt"/>
+    <box name="cztu_ip_hb" lunit="mm" x="7" y="15.3" z="1000"/>
+    <tube name="cztu_ip_ht" lunit="mm" aunit="deg" rmin="0" rmax="3.5" z="1000" startphi="0" deltaphi="360"/>
+    <subtraction name="cztu_ip_bh"> <first ref="cztu_ip_b"/> <second ref="cztu_ip_hb"/>
+      <position name="hpp" unit="mm" x="14/2-1-7/2" y="28/2-1-15.3/2"/> <rotationref ref="id"/> </subtraction>
+    <subtraction name="cztu_ip"> <first ref="cztu_ip_bh"/> <second ref="cztu_ip_ht"/>
+      <position name="hpm" unit="mm" x="14/2-1-7/2" y="-28/2+1+3.5"/> <rotationref ref="id"/> </subtraction>
+
+    <box name="czt16_bxp" lunit="mm" x="cztu_bw" y="cztu_y*4" z="cztu_z"/>
+    <box name="czt16_byp" lunit="mm" x="cztu_x*4+cztu_bw" y="cztu_bw" z="cztu_z"/>
+
+    <box name="dauf_yb" lunit="mm" x="dauf_x" y="dauf_t" z="dauf_t"/>
+    <box name="dauf_xb" lunit="mm" x="dauf_t" y="dauf_l-dauf_t" z="dauf_t"/>
+    <para name="dauf_p" lunit="mm" aunit="rad" x="dauf_t" y="dauf_t" z="dauf_tz" theta="atan((dauf_z-dauf_t)/dauf_tz)" phi="-pi/2" alpha="0"/>
+
 
   </solids>
 
   <structure>  
+    <volume name="daf_x_v"> <materialref ref="AL6082T6"/> <solidref ref="daf_x_b"/> </volume>
+    <volume name="daf_ycb_v"> <materialref ref="AL6082T6"/> <solidref ref="daf_ycb_b"/> </volume>
 
-    <volume name="cztBase">
+    <volume name="cztu_bx_v"> <materialref ref="AL6082T6"/> <solidref ref="cztu_bx"/> </volume>
+    <volume name="cztu_by_v"> <materialref ref="AL6082T6"/> <solidref ref="cztu_by"/> </volume>
+    <volume name="cztu_ir_v"> <materialref ref="AL6082T6"/> <solidref ref="cztu_ir"/> </volume>
+    <volume name="cztu_ip_v"> <materialref ref="AL6082T6"/> <solidref ref="cztu_ip"/> </volume>
+    <volume name="czt16_bxp_v"> <materialref ref="AL6082T6"/> <solidref ref="czt16_bxp"/> </volume>
+    <volume name="czt16_byp_v"> <materialref ref="AL6082T6"/> <solidref ref="czt16_byp"/> </volume>
+    <volume name="dauf_yb_v"> <materialref ref="AL6082T6"/> <solidref ref="dauf_yb"/> </volume>
+    <volume name="dauf_xb_v"> <materialref ref="AL6082T6"/> <solidref ref="dauf_xb"/> </volume>
+    <volume name="dauf_p_v"> <materialref ref="AL6082T6"/> <solidref ref="dauf_p"/> </volume>
+
+    <volume name="cztu">
       <materialref ref="Vacuum"/>
-      <solidref ref="cztBase_wv"/>
+      <solidref ref="cztu_mv"/>
+      <physvol> <volumeref ref="cztu_bx_v"/> <positionref ref="cztu_bx_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="cztu_by_v"/> <positionref ref="cztu_by_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="cztu_ir_v"/> <positionref ref="cztu_ir_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="cztu_ip_v"/> <positionref ref="cztu_ipp_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="cztu_ip_v"/> <positionref ref="cztu_ipm_pos"/> <rotationref ref="z180"/> </physvol>
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
+    </volume>
+
+
+    <volume name="daf">
+      <materialref ref="Vacuum"/>
+      <solidref ref="daf_mv"/>
+
+      <physvol> <volumeref ref="daf_x_v"/> <positionref ref="daf_xp_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="daf_x_v"/> <positionref ref="daf_xm_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="daf_x_v"/> <positionref ref="daf_x0_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="daf_ycb_v"/> <positionref ref="daf_ymxp_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="daf_ycb_v"/> <positionref ref="daf_ymxm_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="daf_ycb_v"/> <positionref ref="daf_y0xp_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="daf_ycb_v"/> <positionref ref="daf_y0xm_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="daf_ycb_v"/> <positionref ref="daf_ypxp_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="daf_ycb_v"/> <positionref ref="daf_ypxm_pos"/> <rotationref ref="id"/> </physvol>
+
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
+    </volume>
+
+    <volume name="cztu4">
+      <materialref ref="Vacuum"/>
+      <solidref ref="cztu4_mv"/>
+
+      <replicavol number="4">
+        <volumeref ref="cztu"/>
+        <replicate_along_axis>
+          <direction x="1"/>
+          <width value="cztu_x" unit="mm"/>
+          <offset value="-1.5*cztu_x" unit="mm"/>
+        </replicate_along_axis>
+      </replicavol>
+
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
+    </volume>
+    <volume name="cztu16">
+      <materialref ref="Vacuum"/>
+      <solidref ref="cztu16_mv"/>
+
+      <replicavol number="4">
+        <volumeref ref="cztu4"/>
+        <replicate_along_axis>
+          <direction y="1"/>
+          <width value="cztu_y" unit="mm"/>
+          <offset value="-1.5*cztu_y" unit="mm"/>
+        </replicate_along_axis>
+      </replicavol>
 
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
     </volume>
 
     <volume name="cztMod">
       <materialref ref="Vacuum"/>
-      <solidref ref="cztMod_wv"/>
+      <solidref ref="cztMod_mv"/>
+
+      <physvol> <volumeref ref="cztu16"/> <positionref ref="czt16_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="czt16_bxp_v"/> <positionref ref="czt16_bxp_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="czt16_byp_v"/> <positionref ref="czt16_byp_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="dauf_yb_v"/> <positionref ref="dauf_yb_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="dauf_xb_v"/> <positionref ref="dauf_xpb_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="dauf_xb_v"/> <positionref ref="dauf_x0b_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="dauf_xb_v"/> <positionref ref="dauf_xmb_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="dauf_p_v"/> <positionref ref="dauf_xmp_pos"/> <rotationref ref="xm90"/> </physvol>
+      <physvol> <volumeref ref="dauf_p_v"/> <positionref ref="dauf_x0p_pos"/> <rotationref ref="xm90"/> </physvol>
+      <physvol> <volumeref ref="dauf_p_v"/> <positionref ref="dauf_xpp_pos"/> <rotationref ref="xm90"/> </physvol>
 
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
     </volume>
-    
+
     <volume name="cztMods">
       <materialref ref="Vacuum"/>
-      <solidref ref="cztMods_wv"/>
+      <solidref ref="cztMods_mv"/>
 
-      <physvol> <volumeref ref="cztBase"/> <positionref ref="cztBase_pos"/> <rotationref ref="id"/> </physvol>
-      <!--
-      <physvol> <volumeref ref="cztMod"/> <positionref ref="cztMod1_pos/> <rotationref ref="id"/> </physvol>
-      <physvol> <volumeref ref="cztMod"/> <positionref ref="cztMod1_pos/> <rotationref ref="id"/> </physvol>
-      <physvol> <volumeref ref="cztMod"/> <positionref ref="cztMod1_pos/> <rotationref ref="id"/> </physvol>
-      <physvol> <volumeref ref="cztMod"/> <positionref ref="cztMod1_pos/> <rotationref ref="id"/> </physvol>
-      -->
+      <physvol> <volumeref ref="cztMod"/> <positionref ref="cztModmm_pos"/> <rotationref ref="z180"/> </physvol>
+      <physvol> <volumeref ref="cztMod"/> <positionref ref="cztModmp_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="cztMod"/> <positionref ref="cztModpm_pos"/> <rotationref ref="z180"/> </physvol>
+      <physvol> <volumeref ref="cztMod"/> <positionref ref="cztModpp_pos"/> <rotationref ref="id"/> </physvol>
+
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
+    </volume>
+
+    <volume name="czt">
+      <materialref ref="Vacuum"/>
+      <solidref ref="czt_mv"/>
+
+      <physvol> <volumeref ref="daf"/> <positionref ref="daf_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="cztMods"/> <positionref ref="czt_pos"/> <rotationref ref="id"/> </physvol>
 
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
     </volume>
@@ -120,7 +297,7 @@
 
   </structure>
   <setup name="Default" version="1.0">
-    <world ref="cztMods"/>
+    <world ref="czt"/>
   </setup>
 </gdml> 
 

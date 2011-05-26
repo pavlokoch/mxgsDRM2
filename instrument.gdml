@@ -52,7 +52,9 @@
     <position name="xpss_pos" unit="mm" x="wx/2-ssLDisp" y="0" z="0"/>
 
     <constant name="bgo_wz" value="62/2 + 44.5/2 + 3.75 + 21.45"/> <!-- wz/2+bgoBox_wz/2+bgoShld_z+bdspBox_z from bgo.gdml -->
-    <position name="bgoMods_pos" unit="mm" x="0" y="0" z="-wz/2+bgo_wz/2"/>
+    <position name="bgo_pos" unit="mm" x="0" y="0" z="-wz/2+bgo_wz/2"/>
+    <constant name="czt_wz" value="17.5+22"/> <!-- daf_z + dauf_z from czt.gdml -->
+    <position name="czt_pos" unit="mm" x="0" y="0" z="-wz/2+bgo_wz+czt_wz/2"/>
 
     <!--  -->
   </define>
@@ -154,11 +156,13 @@
       <physvol> <volumeref ref="zpsnh_v"/> <positionref ref="zpsn_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="zpssh_v"/> <positionref ref="zpss_pos"/> <rotationref ref="id"/> </physvol>
 
+      -->
       <physvol> <volumeref ref="xpb_v"/> <positionref ref="xmpb_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="xta_v"/> <positionref ref="xmta_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="xsn_v"/> <positionref ref="xmsn_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="xss_v"/> <positionref ref="xmss_pos"/> <rotationref ref="id"/> </physvol>
 
+      <!--
       <physvol> <volumeref ref="xpb_v"/> <positionref ref="xppb_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="xta_v"/> <positionref ref="xpta_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="xsn_v"/> <positionref ref="xpsn_pos"/> <rotationref ref="id"/> </physvol>
@@ -169,13 +173,13 @@
       <physvol> <volumeref ref="ysn_v"/> <positionref ref="ymsn_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="yss_v"/> <positionref ref="ymss_pos"/> <rotationref ref="id"/> </physvol>
 
+      -->
       <physvol> <volumeref ref="ypb_v"/> <positionref ref="yppb_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="yta_v"/> <positionref ref="ypta_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="ysn_v"/> <positionref ref="ypsn_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="yss_v"/> <positionref ref="ypss_pos"/> <rotationref ref="id"/> </physvol>
-      -->
 
-      <physvol> <file name="bgo.gdml"/> <positionref ref="bgoMods_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <file name="bgo.gdml"/> <positionref ref="bgo_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <file name="czt.gdml"/> <positionref ref="czt_pos"/> <rotationref ref="id"/> </physvol>
 
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
