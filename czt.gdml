@@ -5,6 +5,7 @@
     <position name="orig" unit="mm" x="0" y="0" z="0"/>
     <rotation name="id" unit="deg"  x="0" y="0" z="0" />
     <rotation name="xm90" unit="deg"  x="-90"/>
+    <rotation name="z90" unit="deg"  z="90"/>
     <rotation name="z180" unit="deg" z="180"/>
     <rotation name="y180" unit="deg" y="180"/>
     <rotation name="zpToxp" unit="deg" y="90"/>
@@ -29,19 +30,36 @@
     <position name="daf_ypxp_pos" unit="mm" x="daf_x/2-daf_t-daf_cbl/2" y="daf_y/2-16-daf_t/2" z="daf_z0"/>
 
     <!-- czt unit -->
+    <!-- NOTE: uncorrected error here: cztu_x, cztu_y aren't big enough to hold the chip_ components in their proper position, so there's a 0.5mm bit of CZT and some PCB that hangs off the edge.  This should be fixed.-->
     <constant name="cztu_x" value="46"/>
     <constant name="cztu_y" value="46"/>
-    <constant name="cztu_z" value="10.5"/>
+    <constant name="cztu_z" value="10.5 + 7.5"/>
+    <constant name="cztu_t" value="10.5"/>
     <constant name="cztu_bw" value="7"/>
     <constant name="cztu_irt" value="9"/>
     <constant name="cztu_ihw" value="28"/>
     <constant name="cztu_ipt" value="1.3"/>
 
-    <position name="cztu_bx_pos" unit="mm" x="0" y="-cztu_y/2+cztu_bw/2" z="0"/>
-    <position name="cztu_by_pos" unit="mm" x="-cztu_x/2+cztu_bw/2" y="cztu_bw/2" z="0"/>
+    <position name="cztu_bx_pos" unit="mm" x="0" y="-cztu_y/2+cztu_bw/2" z="-cztu_z/2+cztu_t/2"/>
+    <position name="cztu_by_pos" unit="mm" x="-cztu_x/2+cztu_bw/2" y="cztu_bw/2" z="-cztu_z/2+cztu_t/2"/>
     <position name="cztu_ir_pos" unit="mm" x="cztu_bw/2" y="cztu_bw/2" z="-cztu_z/2+cztu_irt/2"/>
     <position name="cztu_ipp_pos" unit="mm" x="cztu_bw/2+cztu_ihw/4" y="cztu_bw/2" z="-cztu_z/2+cztu_ipt/2"/>
     <position name="cztu_ipm_pos" unit="mm" x="cztu_bw/2-cztu_ihw/4" y="cztu_bw/2" z="-cztu_z/2+cztu_ipt/2"/>
+
+    <constant name="chip_cw" value="40"/>
+    <constant name="chip_ch" value="5"/>
+    <constant name="chip_tpcbz" value="0.5"/>
+    <constant name="chip_bpcbz" value="2.0"/>
+    <constant name="chip_bpcbw" value="42"/>
+    <constant name="chip_spacer_w" value="5.8"/>
+    <constant name="chip_spacer_h" value="5.0"/>
+    <constant name="chip_spacer_l" value="38.0"/>
+
+    <position name="chip_bpcb_pos" unit="mm" x="cztu_bw/2" y="cztu_bw/2" z="-cztu_z/2+cztu_t+chip_bpcbz/2"/>
+    <position name="chip_c_pos" unit="mm" x="cztu_bw/2" y="cztu_bw/2" z="-cztu_z/2+cztu_t+chip_bpcbz+chip_ch/2"/>
+    <position name="chip_tpcb_pos" unit="mm" x="cztu_bw/2" y="cztu_bw/2" z="-cztu_z/2+cztu_t+chip_bpcbz+chip_ch+chip_tpcbz/2"/>
+    <position name="chip_spacer1_pos" unit="mm" x="cztu_bw/2-chip_cw/2-chip_spacer_w/2" y="cztu_bw/2" z="-cztu_z/2+cztu_t+chip_bpcbz+chip_spacer_h/2"/>
+    <position name="chip_spacer2_pos" unit="mm" x="cztu_bw/2" y="cztu_bw/2-chip_cw/2-chip_spacer_w/2" z="-cztu_z/2+cztu_t+chip_bpcbz+chip_spacer_h/2"/>
 
     <!-- czt DAU cooling frame / cztMods -->
     <constant name="dauf_x" value="4*cztu_x+cztu_bw"/>
@@ -49,8 +67,17 @@
     <constant name="dauf_z" value="17.5"/>
 
     <position name="czt16_pos" unit="mm" x="-cztu_bw/2" y="-dauf_y/2+cztu_y*2" z="-dauf_z/2+cztu_z/2"/>
-    <position name="czt16_bxp_pos" unit="mm" x="dauf_x/2-cztu_bw/2" y="-dauf_y/2+cztu_y*2" z="-dauf_z/2+cztu_z/2"/>
-    <position name="czt16_byp_pos" unit="mm" x="0" y="-dauf_y/2+cztu_y*4+cztu_bw/2" z="-dauf_z/2+cztu_z/2"/>
+    <position name="czt16_bxp_pos" unit="mm" x="dauf_x/2-cztu_bw/2" y="-dauf_y/2+cztu_y*2" z="-dauf_z/2+cztu_t/2"/>
+    <position name="czt16_byp_pos" unit="mm" x="0" y="-dauf_y/2+cztu_y*4+cztu_bw/2" z="-dauf_z/2+cztu_t/2"/>
+
+    <position name="chip_spacer16_1_pos" unit="mm" x="-dauf_x/2+cztu_x*4+chip_spacer_w/2+0.5" y="-dauf_y/2+cztu_y/2+cztu_bw/2" z="-dauf_z/2+cztu_t+chip_bpcbz+chip_spacer_h/2"/>
+    <position name="chip_spacer16_2_pos" unit="mm" x="-dauf_x/2+cztu_x*4+chip_spacer_w/2+0.5" y="-dauf_y/2+3*cztu_y/2+cztu_bw/2" z="-dauf_z/2+cztu_t+chip_bpcbz+chip_spacer_h/2"/>
+    <position name="chip_spacer16_3_pos" unit="mm" x="-dauf_x/2+cztu_x*4+chip_spacer_w/2+0.5" y="-dauf_y/2+5*cztu_y/2+cztu_bw/2" z="-dauf_z/2+cztu_t+chip_bpcbz+chip_spacer_h/2"/>
+    <position name="chip_spacer16_4_pos" unit="mm" x="-dauf_x/2+cztu_x*4+chip_spacer_w/2+0.5" y="-dauf_y/2+7*cztu_y/2+cztu_bw/2" z="-dauf_z/2+cztu_t+chip_bpcbz+chip_spacer_h/2"/>
+    <position name="chip_spacer16_5_pos" unit="mm" x="-dauf_x/2+cztu_x/2+cztu_bw/2" y="-dauf_y/2+cztu_y*4+chip_spacer_w/2+0.5" z="-dauf_z/2+cztu_t+chip_bpcbz+chip_spacer_h/2"/>
+    <position name="chip_spacer16_6_pos" unit="mm" x="-dauf_x/2+3*cztu_x/2+cztu_bw/2" y="-dauf_y/2+cztu_y*4+chip_spacer_w/2+0.5" z="-dauf_z/2+cztu_t+chip_bpcbz+chip_spacer_h/2"/>
+    <position name="chip_spacer16_7_pos" unit="mm" x="-dauf_x/2+5*cztu_x/2+cztu_bw/2" y="-dauf_y/2+cztu_y*4+chip_spacer_w/2+0.5" z="-dauf_z/2+cztu_t+chip_bpcbz+chip_spacer_h/2"/>
+    <position name="chip_spacer16_8_pos" unit="mm" x="-dauf_x/2+7*cztu_x/2+cztu_bw/2" y="-dauf_y/2+cztu_y*4+chip_spacer_w/2+0.5" z="-dauf_z/2+cztu_t+chip_bpcbz+chip_spacer_h/2"/>
 
     <constant name="dauf_t" value="12"/>
     <constant name="dauf_l" value="dauf_y-198.3"/>
@@ -99,6 +126,13 @@
     <element name="Sodium" formula="Na" Z="11.0"> <atom value="22.990"/> </element>
     <element name="Sulfur" formula="S" Z="16.0"> <atom value="32.065"/> </element>
 
+    <element name="Cadmium" formula="Cd" Z="48.0"> <atom value="112.411"/> </element>
+    <element name="Zinc" formula="Zn" Z="30.0"> <atom value="65.38"/> </element>
+    <element name="Tellurium" formula="Te" Z="52.0"> <atom value="127.6"/> </element>
+
+    <element name="Fluorine" formula="F" Z="9.0"> <atom value="18.9984"/> </element>
+    <element name="Nitrogen" formula="N" Z="7.0"> <atom value="14.0067"/> </element>
+
     <material name="AL6082T6">
       <D value="2.70" unit="g/cm3"/> 
       <fraction n="0.974" ref="Aluminum"/>
@@ -137,6 +171,30 @@
       <fraction n="0.003321" ref="Sulfur"/>
     </material>
 
+    <!-- NOTE: these numbers came from http://rcwww.kek.jp/egsconf/proceedings/2iwoegs/miyajima.pdf -->
+    <!-- this is not the datasheet, or any other actually reputable source. -->
+    <material name="CZT">
+      <D value="5.86" unit="g/cm3"/>
+      <fraction n="0.45" ref="Cadmium"/>
+      <fraction n="0.05" ref="Zinc"/>
+      <fraction n="0.50" ref="Tellurium"/>
+    </material>
+
+    <!-- I'm assuming the PCB used for the CZT is teflon like Rogers Duroid since it's supposedly good. -->
+    <material name="Teflon">
+      <D value="2.2" unit="g/cm3"/>  <!-- Arlon 55nt density is technically 1.38 g/cm3, but they don't give the composition... -->
+      <composite n="2" ref="Fluorine"/>
+      <composite n="1" ref="Carbon"/>
+    </material>
+
+    <material name="Vespel" formula="C22H10O5N2">
+      <D value="1.43" unit="g/cm3"/>
+      <composite n="22" ref="Carbon"/>
+      <composite n="10" ref="Hydrogen"/>
+      <composite n="5" ref="Oxygen"/>
+      <composite n="2" ref="Nitrogen"/>
+    </material>
+
     <material name="Vacuum" Z="1.0"> <D value="0.0" unit="g/cm3"/> <atom value="1.00794"/> </material>
 
     <material name="Lead" Z="82."> <D value="11.35" unit="g/cm3"/> <atom value="207.2"/> </material>
@@ -157,8 +215,8 @@
     <box name="daf_x_b" lunit="mm" x="daf_t" y="daf_y" z="daf_t"/>
     <box name="daf_ycb_b" lunit="mm" x="daf_cbl" y="daf_t" z="daf_t"/>
 
-    <box name="cztu_bx" lunit="mm" x="cztu_x" y="cztu_bw" z="cztu_z"/>
-    <box name="cztu_by" lunit="mm" x="cztu_bw" y="cztu_y-cztu_bw" z="cztu_z"/>
+    <box name="cztu_bx" lunit="mm" x="cztu_x" y="cztu_bw" z="cztu_t"/>
+    <box name="cztu_by" lunit="mm" x="cztu_bw" y="cztu_y-cztu_bw" z="cztu_t"/>
     <box name="cztu_ir_b" lunit="mm" x="cztu_x-cztu_bw" y="cztu_y-cztu_bw" z="cztu_irt"/>
     <box name="cztu_ir_h" lunit="mm" x="cztu_ihw" y="cztu_ihw" z="200*cztu_irt"/>
     <subtraction name="cztu_ir"> <first ref="cztu_ir_b"/> <second ref="cztu_ir_h"/> <positionref ref="orig"/> <rotationref ref="id"/> </subtraction>
@@ -169,13 +227,18 @@
       <position name="hpp" unit="mm" x="14/2-1-7/2" y="28/2-1-15.3/2"/> <rotationref ref="id"/> </subtraction>
     <subtraction name="cztu_ip"> <first ref="cztu_ip_bh"/> <second ref="cztu_ip_ht"/>
       <position name="hpm" unit="mm" x="14/2-1-7/2" y="-28/2+1+3.5"/> <rotationref ref="id"/> </subtraction>
+    <box name="chip_bpcb" lunit="mm" x="chip_bpcbw" y="chip_bpcbw" z="chip_bpcbz"/>
+    <box name="chip_tpcb" lunit="mm" x="chip_cw" y="chip_cw" z="chip_tpcbz"/>
+    <box name="chip_c" lunit="mm" x="chip_cw" y="chip_cw" z="chip_ch"/>
+    <box name="chip_spacer" lunit="mm" x="chip_spacer_l" y="chip_spacer_w" z="chip_spacer_h"/>
 
-    <box name="czt16_bxp" lunit="mm" x="cztu_bw" y="cztu_y*4" z="cztu_z"/>
-    <box name="czt16_byp" lunit="mm" x="cztu_x*4+cztu_bw" y="cztu_bw" z="cztu_z"/>
+    <box name="czt16_bxp" lunit="mm" x="cztu_bw" y="cztu_y*4" z="cztu_t"/>
+    <box name="czt16_byp" lunit="mm" x="cztu_x*4+cztu_bw" y="cztu_bw" z="cztu_t"/>
 
     <box name="dauf_yb" lunit="mm" x="dauf_x" y="dauf_t" z="dauf_t"/>
     <box name="dauf_xb" lunit="mm" x="dauf_t" y="dauf_l-dauf_t" z="dauf_t"/>
     <para name="dauf_p" lunit="mm" aunit="rad" x="dauf_t" y="dauf_t" z="dauf_tz" theta="atan((dauf_z-dauf_t)/dauf_tz)" phi="-pi/2" alpha="0"/>
+
 
 
   </solids>
@@ -188,6 +251,10 @@
     <volume name="cztu_by_v"> <materialref ref="AL6082T6"/> <solidref ref="cztu_by"/> </volume>
     <volume name="cztu_ir_v"> <materialref ref="AL6082T6"/> <solidref ref="cztu_ir"/> </volume>
     <volume name="cztu_ip_v"> <materialref ref="AL6082T6"/> <solidref ref="cztu_ip"/> </volume>
+    <volume name="chip_bpcb_v"> <materialref ref="Teflon"/> <solidref ref="chip_bpcb"/> </volume>
+    <volume name="chip_tpcb_v"> <materialref ref="Teflon"/> <solidref ref="chip_tpcb"/> </volume>
+    <volume name="chip_c_v"> <materialref ref="CZT"/> <solidref ref="chip_c"/> </volume>
+    <volume name="chip_spacer_v"> <materialref ref="Vespel"/> <solidref ref="chip_spacer"/> </volume>
     <volume name="czt16_bxp_v"> <materialref ref="AL6082T6"/> <solidref ref="czt16_bxp"/> </volume>
     <volume name="czt16_byp_v"> <materialref ref="AL6082T6"/> <solidref ref="czt16_byp"/> </volume>
     <volume name="dauf_yb_v"> <materialref ref="AL6082T6"/> <solidref ref="dauf_yb"/> </volume>
@@ -202,6 +269,12 @@
       <physvol> <volumeref ref="cztu_ir_v"/> <positionref ref="cztu_ir_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="cztu_ip_v"/> <positionref ref="cztu_ipp_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="cztu_ip_v"/> <positionref ref="cztu_ipm_pos"/> <rotationref ref="z180"/> </physvol>
+
+      <physvol> <volumeref ref="chip_bpcb_v"/> <positionref ref="chip_bpcb_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="chip_tpcb_v"/> <positionref ref="chip_tpcb_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="chip_c_v"/> <positionref ref="chip_c_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="chip_spacer_v"/> <positionref ref="chip_spacer1_pos"/> <rotationref ref="z90"/> </physvol>
+      <physvol> <volumeref ref="chip_spacer_v"/> <positionref ref="chip_spacer2_pos"/> <rotationref ref="id"/> </physvol>
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
     </volume>
 
@@ -261,6 +334,16 @@
       <physvol> <volumeref ref="cztu16"/> <positionref ref="czt16_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="czt16_bxp_v"/> <positionref ref="czt16_bxp_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="czt16_byp_v"/> <positionref ref="czt16_byp_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="chip_spacer_v"/> <positionref ref="chip_spacer16_1_pos"/> <rotationref ref="z90"/> </physvol>
+      <physvol> <volumeref ref="chip_spacer_v"/> <positionref ref="chip_spacer16_2_pos"/> <rotationref ref="z90"/> </physvol>
+      <physvol> <volumeref ref="chip_spacer_v"/> <positionref ref="chip_spacer16_3_pos"/> <rotationref ref="z90"/> </physvol>
+      <physvol> <volumeref ref="chip_spacer_v"/> <positionref ref="chip_spacer16_4_pos"/> <rotationref ref="z90"/> </physvol>
+      <physvol> <volumeref ref="chip_spacer_v"/> <positionref ref="chip_spacer16_5_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="chip_spacer_v"/> <positionref ref="chip_spacer16_6_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="chip_spacer_v"/> <positionref ref="chip_spacer16_7_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="chip_spacer_v"/> <positionref ref="chip_spacer16_8_pos"/> <rotationref ref="id"/> </physvol>
+
+
       <physvol> <volumeref ref="dauf_yb_v"/> <positionref ref="dauf_yb_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="dauf_xb_v"/> <positionref ref="dauf_xpb_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="dauf_xb_v"/> <positionref ref="dauf_x0b_pos"/> <rotationref ref="id"/> </physvol>
