@@ -53,11 +53,13 @@
     <constant name="bdspBox_topt" value="3"/>
     <constant name="bdspBox_x" value="186"/>
     <constant name="bdspBox_y" value="147"/>
-    <constant name="bdspBox_z" value="21.45"/>
+    <constant name="bdspBox_z" value="21.45 - 3.75"/> <!-- note, removed edgedz below. -->
 
     <constant name="edgedx" value="2.1"/>
     <constant name="edgedy" value="7.0"/>
-    <constant name="edgedz" value="3.75"/>
+    <!-- <constant name="edgedz" value="3.75"/> -->
+    <constant name="edgedz" value="0"/>
+
     <position name="bdspBox_top_pos" unit="mm" x="0" y="0" z="bdspBox_z/2-bdspBox_topt/2"/>
     <position name="bdspBox_xp_pos" unit="mm" x="bdspBox_x/2-bdspBox_sidet/2" y="0" z="-bdspBox_topt/2+edgedz/2"/>
     <position name="bdspBox_xm_pos" unit="mm" x="-bdspBox_x/2+bdspBox_sidet/2" y="0" z="-bdspBox_topt/2+edgedz/2"/>
@@ -183,7 +185,10 @@
     <box name="bdspBox_xbb" lunit="mm" x="bdspBox_sidet-edgedx" y="bdspBox_y-edgedy" z="edgedz"/>
     <box name="bdspBox_ybb" lunit="mm" x="bdspBox_x-2*bdspBox_sidet" y="bdspBox_sidet-2*edgedy" z="edgedz"/>
 
-    <box name="bgoMod1_mv" lunit="mm" x="wx" y="wy" z="wz"/>
+    <box name="bgoMod1_mv_0" lunit="mm" x="wx" y="wy" z="wz"/>
+    <box name="bgoMod1_mv_ext" lunit="mm" x="wx*2" y="bdspBox_y" z="(wz+bgoShld_z+bdspBox_z-bgoMod_ztot)*2"/>
+    <subtraction name="bgoMod1_mv"> <first ref="bgoMod1_mv_0"/> <second ref="bgoMod1_mv_ext"/> <position name="crap" unit="mm" x="0" y="-wy/2+bdspBox_y/2" z="-wz/2"/> </subtraction>
+
     <box name="bgoMod3_mv" lunit="mm" x="wx*3" y="wy" z="bgoMod_ztot"/>
     <box name="bgoMod12_mv" lunit="mm" x="wx*6" y="wy*2" z="bgoMod_ztot"/>
 
@@ -287,12 +292,16 @@
       <physvol> <volumeref ref="bdspBox_xb_v"/> <positionref ref="bdspBox_xm_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="bdspBox_yb_v"/> <positionref ref="bdspBox_yp_pos"/> <rotationref ref="id"/> </physvol>
 
+      <!--
       <physvol> <volumeref ref="bdspBox_xbb_v"/> <positionref ref="bdspBox_xbp_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="bdspBox_xbb_v"/> <positionref ref="bdspBox_xbm_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="bdspBox_ybb_v"/> <positionref ref="bdspBox_ybp_pos"/> <rotationref ref="id"/> </physvol>
+      -->
       <!-- other parts here? there must be _something_ in this box... -->
 
+      <!--
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
+      -->
     </volume>
 
     <volume name="bgoMod1">
@@ -316,7 +325,9 @@
       <physvol> <volumeref ref="pmtSpng_v"/> <positionref ref="pmtSpng_pos"/> <rotationref ref="xm90"/> </physvol>
       <physvol> <volumeref ref="pmtHsg_end_v"/> <positionref ref="pmtHsg_end_pos"/> <rotationref ref="xm90"/> </physvol>
 
+      <!--
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
+      -->
     </volume>
 
     <volume name="bgoShld">
@@ -326,21 +337,23 @@
       <physvol> <volumeref ref="bgoShld_ta_v"/> <positionref ref="bgoShld_taPos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="bgoShld_sn_v"/> <positionref ref="bgoShld_snPos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="bgoShld_ss_v"/> <positionref ref="bgoShld_ssPos"/> <rotationref ref="id"/> </physvol>
+      <!--
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
+      -->
     </volume>
 
     <volume name="bgoMod3">
       <materialref ref="Vacuum"/>
       <solidref ref="bgoMod3_mv"/>
 
-      <!--
-      -->
       <physvol> <volumeref ref="bgoMod1"/> <position name="modxp" x="wx" z="bgoMod3_bgoOffset"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="bgoMod1"/> <position name="modx0p" z="bgoMod3_bgoOffset"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="bgoMod1"/> <position name="modxm" x="-wx" z="bgoMod3_bgoOffset"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="bgoShld"/> <position name="shldp" y="-wy/2+bdspBox_y/2" z="-bgoBox_wz/2 - bgoShld_z/2 + bgoMod3_bgoOffset"/> <rotationref ref="z180"/> </physvol>
       <physvol> <volumeref ref="bdspBox"/> <position name="dspbp" y="-wy/2+bdspBox_y/2" z="-bgoBox_wz/2 - bgoShld_z - bdspBox_z/2 + bgoMod3_bgoOffset"/> <rotationref ref="z180"/> </physvol>
+      <!--
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
+      -->
     </volume>
 
     <volume name="bgoMod12">
@@ -351,7 +364,9 @@
       <physvol> <volumeref ref="bgoMod3"/> <position name="m3p" x="wx*1.5" y="-wy/2" z="0"/> <rotationref ref="z180"/> </physvol>
       <physvol> <volumeref ref="bgoMod3"/> <position name="m4p" x="-wx*1.5" y="-wy/2" z="0"/> <rotationref ref="z180"/> </physvol>
 
+      <!--
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
+      -->
     </volume>
 
 

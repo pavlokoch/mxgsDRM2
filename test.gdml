@@ -18,7 +18,7 @@
     <constant name="lowCov_t1_x2" value="317"/>
     <constant name="lowCov_t1_y1" value="6"/>
     <constant name="lowCov_t1_y2" value="6"/>
-    <constant name="lowCov_t1_z" value="93.4"/>
+    <constant name="lowCov_t1_z" value="93.4+1.5"/> <!-- +1.5 to match dpubox -->
     <constant name="lowCov_b2_wx" value="75"/>
     <constant name="lowCov_b2_wy" value="317"/>
     <constant name="lowCov_b2_wz" value="6"/>
@@ -100,10 +100,16 @@
     <constant name="hop_angDepth" value="211"/>
     <constant name="hop_ear_latDisp" value="hop_lh_w/2 + hop_angDepth*tan(hop_angr)/2 + hop_b_t/cos(hop_angr)/2"/>
 
-    <position name="hop_ear1_pos" unit="mm" x="hop_ear_latDisp" y="0" z="0"/>
-    <position name="hop_ear2_pos" unit="mm" x="-hop_ear_latDisp" y="0" z="0"/>
-    <position name="hop_ear3_pos" unit="mm" x="0" y="hop_ear_latDisp" z="0"/>
-    <position name="hop_ear4_pos" unit="mm" x="0" y="-hop_ear_latDisp" z="0"/>
+    <!-- mv2 now gone, must displace parts of mv2 to put them in mv3 -->
+    <constant name="hop_ct_z" value="76.95"/>
+    <constant name="hop_ctsbhgt" value="214-199.7"/>
+    <constant name="mv2disp" value="-hop_ct_z/2"/>
+    <constant name="mv3disp" value="hop_angDepth/2-hop_ctsbhgt/2"/>
+
+    <position name="hop_ear1_pos" unit="mm" x="hop_ear_latDisp" y="0" z="mv2disp"/>
+    <position name="hop_ear2_pos" unit="mm" x="-hop_ear_latDisp" y="0" z="mv2disp"/>
+    <position name="hop_ear3_pos" unit="mm" x="0" y="hop_ear_latDisp" z="mv2disp"/>
+    <position name="hop_ear4_pos" unit="mm" x="0" y="-hop_ear_latDisp" z="mv2disp"/>
 
     <constant name="hop_foil_w" value="464.12"/>
     <constant name="hop_foilframe_t" value="1.4"/>
@@ -111,16 +117,14 @@
     <constant name="hop_foil_t" value="0.3"/>
     <constant name="hop_foil_z" value="-55.8"/>
     <constant name="hop_foilframe_latdisp" value="hop_foil_w/2-hop_foilframe_w/2"/>
-    <position name="hop_foil_pos" unit="mm" x="0" y="0" z="hop_foil_z"/>
-    <position name="hop_foilframe_xm_pos" unit="mm" x="-hop_foilframe_latdisp" y="hop_foilframe_w/2" z="hop_foil_z + hop_foil_t/2 + hop_foilframe_t/2"/>
-    <position name="hop_foilframe_xp_pos" unit="mm" x="hop_foilframe_latdisp" y="-hop_foilframe_w/2" z="hop_foil_z + hop_foil_t/2 + hop_foilframe_t/2"/>
-    <position name="hop_foilframe_ym_pos" unit="mm" x="-hop_foilframe_w/2" y="-hop_foilframe_latdisp" z="hop_foil_z + hop_foil_t/2 + hop_foilframe_t/2"/>
-    <position name="hop_foilframe_yp_pos" unit="mm" x="hop_foilframe_w/2" y="hop_foilframe_latdisp" z="hop_foil_z + hop_foil_t/2 + hop_foilframe_t/2"/>
+    <position name="hop_foil_pos" unit="mm" x="0" y="0" z="hop_foil_z+mv2disp"/>
+    <position name="hop_foilframe_xm_pos" unit="mm" x="-hop_foilframe_latdisp" y="hop_foilframe_w/2" z="hop_foil_z + hop_foil_t/2 + hop_foilframe_t/2+mv2disp"/>
+    <position name="hop_foilframe_xp_pos" unit="mm" x="hop_foilframe_latdisp" y="-hop_foilframe_w/2" z="hop_foil_z + hop_foil_t/2 + hop_foilframe_t/2+mv2disp"/>
+    <position name="hop_foilframe_ym_pos" unit="mm" x="-hop_foilframe_w/2" y="-hop_foilframe_latdisp" z="hop_foil_z + hop_foil_t/2 + hop_foilframe_t/2+mv2disp"/>
+    <position name="hop_foilframe_yp_pos" unit="mm" x="hop_foilframe_w/2" y="hop_foilframe_latdisp" z="hop_foil_z + hop_foil_t/2 + hop_foilframe_t/2+mv2disp"/>
 
     <!-- top, framework for coded mask (mv3) -->
-    <constant name="hop_ct_z" value="76.95"/>
     <constant name="hop_ctsbwid" value="hop_top_w - hop_b_t"/>
-    <constant name="hop_ctsbhgt" value="214-199.7"/>
     <constant name="hop_ctsb_dz" value="-hop_ctsbhgt/2-hop_ct_z/2"/>
     <constant name="hop_mv3_dz" value="hop_ctsbhgt/2"/> <!-- move all items in mv3 up by this much, move mv3 itself down by this much. -->
     
@@ -141,42 +145,42 @@
     <constant name="hop_smsup_latDisp" value="hop_ear_latDisp + hop_b_t/cos(hop_angr)/2 + hop_smsup_z*cos(hop_angr+hop_smsup_th)/2/cos(hop_smsup_th)"/>
     <constant name="hop_lgsup_latDisp" value="hop_ear_latDisp + hop_b_t/cos(hop_angr)/2 + hop_lgsup_z*cos(hop_angr+hop_lgsup_th)/2/cos(hop_lgsup_th)"/>
 
-    <position name="hop_supxm_pos" unit="mm" x="-hop_smsup_latDisp" y="0" z="-hop_smsup_z/2*sin(hop_angr+hop_lgsup_th)"/>
-    <position name="hop_supxp_pos" unit="mm" x="hop_smsup_latDisp" y="0" z="-hop_smsup_z/2*sin(hop_angr+hop_lgsup_th)"/>
-    <position name="hop_supym_pos" unit="mm" x="0" y="-hop_lgsup_latDisp" z="-hop_lgsup_z/2*sin(hop_angr+hop_lgsup_th)"/>
-    <position name="hop_supyp_pos" unit="mm" x="0" y="hop_lgsup_latDisp" z="-hop_lgsup_z/2*sin(hop_angr+hop_lgsup_th)"/>
+    <position name="hop_supxm_pos" unit="mm" x="-hop_smsup_latDisp" y="0" z="-hop_smsup_z/2*sin(hop_angr+hop_lgsup_th)+mv2disp"/>
+    <position name="hop_supxp_pos" unit="mm" x="hop_smsup_latDisp" y="0" z="-hop_smsup_z/2*sin(hop_angr+hop_lgsup_th)+mv2disp"/>
+    <position name="hop_supym_pos" unit="mm" x="0" y="-hop_lgsup_latDisp" z="-hop_lgsup_z/2*sin(hop_angr+hop_lgsup_th)+mv2disp"/>
+    <position name="hop_supyp_pos" unit="mm" x="0" y="hop_lgsup_latDisp" z="-hop_lgsup_z/2*sin(hop_angr+hop_lgsup_th)+mv2disp"/>
     <rotation name="hop_supxm_rot" unit="deg" z="0" x="180" y="90-hop_ang"/>
     <rotation name="hop_supxp_rot" unit="deg" z="180" x="180" y="-(90-hop_ang)"/>
     <rotation name="hop_supym_rot" unit="deg" z="270" y="180" x="90-hop_ang"/>
     <rotation name="hop_supyp_rot" unit="deg" z="90" y="180" x="-(90-hop_ang)"/>
 
-    <position name="hop_ctlmm_pos" unit="mm" x="-hop_ct_xcldisp" y="-hop_ct_latdisp" z="hop_mv3_dz"/>
-    <position name="hop_ctlmp_pos" unit="mm" x="-hop_ct_latdisp" y="hop_ct_xcldisp" z="hop_mv3_dz"/>
-    <position name="hop_ctlpm_pos" unit="mm" x="hop_ct_latdisp" y="-hop_ct_xcldisp" z="hop_mv3_dz"/>
-    <position name="hop_ctlpp_pos" unit="mm" x="hop_ct_xcldisp" y="hop_ct_latdisp" z="hop_mv3_dz"/>
+    <position name="hop_ctlmm_pos" unit="mm" x="-hop_ct_xcldisp" y="-hop_ct_latdisp" z="hop_mv3_dz+mv3disp"/>
+    <position name="hop_ctlmp_pos" unit="mm" x="-hop_ct_latdisp" y="hop_ct_xcldisp" z="hop_mv3_dz+mv3disp"/>
+    <position name="hop_ctlpm_pos" unit="mm" x="hop_ct_latdisp" y="-hop_ct_xcldisp" z="hop_mv3_dz+mv3disp"/>
+    <position name="hop_ctlpp_pos" unit="mm" x="hop_ct_xcldisp" y="hop_ct_latdisp" z="hop_mv3_dz+mv3disp"/>
 
-    <position name="hop_ctsmm_pos" unit="mm" x="-hop_ct_latdisp" y="-hop_ct_xcsdisp" z="hop_mv3_dz"/>
-    <position name="hop_ctsmp_pos" unit="mm" x="-hop_ct_xcsdisp" y="hop_ct_latdisp" z="hop_mv3_dz"/>
-    <position name="hop_ctspm_pos" unit="mm" x="hop_ct_xcsdisp" y="-hop_ct_latdisp" z="hop_mv3_dz"/>
-    <position name="hop_ctspp_pos" unit="mm" x="hop_ct_latdisp" y="hop_ct_xcsdisp" z="hop_mv3_dz"/>
+    <position name="hop_ctsmm_pos" unit="mm" x="-hop_ct_latdisp" y="-hop_ct_xcsdisp" z="hop_mv3_dz+mv3disp"/>
+    <position name="hop_ctsmp_pos" unit="mm" x="-hop_ct_xcsdisp" y="hop_ct_latdisp" z="hop_mv3_dz+mv3disp"/>
+    <position name="hop_ctspm_pos" unit="mm" x="hop_ct_xcsdisp" y="-hop_ct_latdisp" z="hop_mv3_dz+mv3disp"/>
+    <position name="hop_ctspp_pos" unit="mm" x="hop_ct_latdisp" y="hop_ct_xcsdisp" z="hop_mv3_dz+mv3disp"/>
 
-    <position name="hop_ctsbxm_pos" unit="mm" x="-hop_ct_latdisp" y="hop_b_t/2" z="hop_ctsb_dz+hop_mv3_dz"/>
-    <position name="hop_ctsbxp_pos" unit="mm" x="hop_ct_latdisp" y="-hop_b_t/2" z="hop_ctsb_dz+hop_mv3_dz"/>
-    <position name="hop_ctsbym_pos" unit="mm" x="-hop_b_t/2" y="-hop_ct_latdisp" z="hop_ctsb_dz+hop_mv3_dz"/>
-    <position name="hop_ctsbyp_pos" unit="mm" x="hop_b_t/2" y="hop_ct_latdisp" z="hop_ctsb_dz+hop_mv3_dz"/>
+    <position name="hop_ctsbxm_pos" unit="mm" x="-hop_ct_latdisp" y="hop_b_t/2" z="hop_ctsb_dz+hop_mv3_dz+mv3disp"/>
+    <position name="hop_ctsbxp_pos" unit="mm" x="hop_ct_latdisp" y="-hop_b_t/2" z="hop_ctsb_dz+hop_mv3_dz+mv3disp"/>
+    <position name="hop_ctsbym_pos" unit="mm" x="-hop_b_t/2" y="-hop_ct_latdisp" z="hop_ctsb_dz+hop_mv3_dz+mv3disp"/>
+    <position name="hop_ctsbyp_pos" unit="mm" x="hop_b_t/2" y="hop_ct_latdisp" z="hop_ctsb_dz+hop_mv3_dz+mv3disp"/>
 
     <constant name="hop_tfwd_z" value="346"/>
     <constant name="hop_tfwd_ang" value="180/pi*atan(hop_ct_z/hop_tfwd_z)"/>
     <constant name="hop_tfwd_hd" value="hop_tfwd_z/2+12"/>
     <constant name="hop_tfwd_d" value="12+12/2+hop_tfwd_z"/>
-    <position name="hop_tfwd_xmm_pos" x="-hop_tfwd_d" y="-hop_tfwd_hd" z="-12/cos(hop_tfwd_ang*pi/180)/2+hop_mv3_dz"/>
-    <position name="hop_tfwd_xmp_pos" x="-hop_tfwd_d" y="hop_tfwd_hd" z="-12/cos(hop_tfwd_ang*pi/180)/2+hop_mv3_dz"/>
-    <position name="hop_tfwd_xpm_pos" x="hop_tfwd_d"  y="-hop_tfwd_hd" z="-12/cos(hop_tfwd_ang*pi/180)/2+hop_mv3_dz"/>
-    <position name="hop_tfwd_xpp_pos" x="hop_tfwd_d"  y="hop_tfwd_hd" z="-12/cos(hop_tfwd_ang*pi/180)/2+hop_mv3_dz"/>
-    <position name="hop_tfwd_ymm_pos" x="-hop_tfwd_hd" y="-hop_tfwd_d" z="-12/cos(hop_tfwd_ang*pi/180)/2+hop_mv3_dz"/>
-    <position name="hop_tfwd_ymp_pos" x="-hop_tfwd_hd" y="hop_tfwd_d" z="-12/cos(hop_tfwd_ang*pi/180)/2+hop_mv3_dz"/>
-    <position name="hop_tfwd_ypm_pos" x="hop_tfwd_hd"  y="-hop_tfwd_d" z="-12/cos(hop_tfwd_ang*pi/180)/2+hop_mv3_dz"/>
-    <position name="hop_tfwd_ypp_pos" x="hop_tfwd_hd"  y="hop_tfwd_d" z="-12/cos(hop_tfwd_ang*pi/180)/2+hop_mv3_dz"/>
+    <position name="hop_tfwd_xmm_pos" x="-hop_tfwd_d" y="-hop_tfwd_hd" z="-12/cos(hop_tfwd_ang*pi/180)/2+hop_mv3_dz+mv3disp"/>
+    <position name="hop_tfwd_xmp_pos" x="-hop_tfwd_d" y="hop_tfwd_hd" z="-12/cos(hop_tfwd_ang*pi/180)/2+hop_mv3_dz+mv3disp"/>
+    <position name="hop_tfwd_xpm_pos" x="hop_tfwd_d"  y="-hop_tfwd_hd" z="-12/cos(hop_tfwd_ang*pi/180)/2+hop_mv3_dz+mv3disp"/>
+    <position name="hop_tfwd_xpp_pos" x="hop_tfwd_d"  y="hop_tfwd_hd" z="-12/cos(hop_tfwd_ang*pi/180)/2+hop_mv3_dz+mv3disp"/>
+    <position name="hop_tfwd_ymm_pos" x="-hop_tfwd_hd" y="-hop_tfwd_d" z="-12/cos(hop_tfwd_ang*pi/180)/2+hop_mv3_dz+mv3disp"/>
+    <position name="hop_tfwd_ymp_pos" x="-hop_tfwd_hd" y="hop_tfwd_d" z="-12/cos(hop_tfwd_ang*pi/180)/2+hop_mv3_dz+mv3disp"/>
+    <position name="hop_tfwd_ypm_pos" x="hop_tfwd_hd"  y="-hop_tfwd_d" z="-12/cos(hop_tfwd_ang*pi/180)/2+hop_mv3_dz+mv3disp"/>
+    <position name="hop_tfwd_ypp_pos" x="hop_tfwd_hd"  y="hop_tfwd_d" z="-12/cos(hop_tfwd_ang*pi/180)/2+hop_mv3_dz+mv3disp"/>
 
     <rotation name="hop_tfwd_xmm_rot" unit="deg" z="-90" x="90"/>
     <rotation name="hop_tfwd_xmp_rot" unit="deg" z="90" x="90"/>
@@ -189,36 +193,36 @@
 
     <constant name="hop_tfwcc_latdisp" value="hop_tfwd_d"/>
     <constant name="hop_tfwcc_z" value="91.3"/>
-    <position name="hop_tfwcc_xm_pos" x="-hop_tfwcc_latdisp" y="0" z="hop_ct_z/2-hop_tfwcc_z/2+hop_mv3_dz"/>
-    <position name="hop_tfwcc_xp_pos" x="hop_tfwcc_latdisp" y="0" z="hop_ct_z/2-hop_tfwcc_z/2+hop_mv3_dz"/>
-    <position name="hop_tfwcc_ym_pos" x="0" y="-hop_tfwcc_latdisp" z="hop_ct_z/2-hop_tfwcc_z/2+hop_mv3_dz"/>
-    <position name="hop_tfwcc_yp_pos" x="0" y="hop_tfwcc_latdisp" z="hop_ct_z/2-hop_tfwcc_z/2+hop_mv3_dz"/>
+    <position name="hop_tfwcc_xm_pos" x="-hop_tfwcc_latdisp" y="0" z="hop_ct_z/2-hop_tfwcc_z/2+hop_mv3_dz+mv3disp"/>
+    <position name="hop_tfwcc_xp_pos" x="hop_tfwcc_latdisp" y="0" z="hop_ct_z/2-hop_tfwcc_z/2+hop_mv3_dz+mv3disp"/>
+    <position name="hop_tfwcc_ym_pos" x="0" y="-hop_tfwcc_latdisp" z="hop_ct_z/2-hop_tfwcc_z/2+hop_mv3_dz+mv3disp"/>
+    <position name="hop_tfwcc_yp_pos" x="0" y="hop_tfwcc_latdisp" z="hop_ct_z/2-hop_tfwcc_z/2+hop_mv3_dz+mv3disp"/>
 
-    <position name="hop_tfwsc_xm_pos" x="-hop_tfwcc_latdisp" y="-hop_tfwcc_latdisp" z="hop_ct_z/2-hop_tfwcc_z/2+hop_mv3_dz"/>
-    <position name="hop_tfwsc_xp_pos" x="hop_tfwcc_latdisp" y="-hop_tfwcc_latdisp" z="hop_ct_z/2-hop_tfwcc_z/2+hop_mv3_dz"/>
-    <position name="hop_tfwsc_ym_pos" x="hop_tfwcc_latdisp" y="hop_tfwcc_latdisp" z="hop_ct_z/2-hop_tfwcc_z/2+hop_mv3_dz"/>
-    <position name="hop_tfwsc_yp_pos" x="-hop_tfwcc_latdisp" y="hop_tfwcc_latdisp" z="hop_ct_z/2-hop_tfwcc_z/2+hop_mv3_dz"/>
+    <position name="hop_tfwsc_xm_pos" x="-hop_tfwcc_latdisp" y="-hop_tfwcc_latdisp" z="hop_ct_z/2-hop_tfwcc_z/2+hop_mv3_dz+mv3disp"/>
+    <position name="hop_tfwsc_xp_pos" x="hop_tfwcc_latdisp" y="-hop_tfwcc_latdisp" z="hop_ct_z/2-hop_tfwcc_z/2+hop_mv3_dz+mv3disp"/>
+    <position name="hop_tfwsc_ym_pos" x="hop_tfwcc_latdisp" y="hop_tfwcc_latdisp" z="hop_ct_z/2-hop_tfwcc_z/2+hop_mv3_dz+mv3disp"/>
+    <position name="hop_tfwsc_yp_pos" x="-hop_tfwcc_latdisp" y="hop_tfwcc_latdisp" z="hop_ct_z/2-hop_tfwcc_z/2+hop_mv3_dz+mv3disp"/>
 
 
     <constant name="cms_tran_z" value="12"/>
-    <constant name="cms_prop_z" value="78.4"/>
+    <constant name="cms_prop_z" value="76"/>
     <constant name="cms_bridge_z" value="346"/>
     <constant name="cms_bridge_x" value="12.6/cos(12.6*pi/180)"/>
     <constant name="cms_keystone_z" value="16"/>
     <constant name="cms_bridge_latdisp" value="12+cms_bridge_z/2"/>
     <constant name="cms_prop_latdisp" value="302+18.6 - 107.3/2"/>
-    <position name="cms_prop_xp_pos" unit="mm" x="cms_prop_latdisp" y="0" z="cms_prop_z/2 - hop_ct_z/2+hop_mv3_dz"/>
-    <position name="cms_prop_xm_pos" unit="mm" x="-cms_prop_latdisp" y="0" z="cms_prop_z/2 - hop_ct_z/2+hop_mv3_dz"/>
-    <position name="cms_tran_pos" unit="mm" x="0" y="0" z="-hop_ct_z/2-cms_tran_z/2+hop_mv3_dz"/>
-    <position name="cms_bridge_yp_pos" unit="mm" x="0" y="cms_bridge_latdisp" z="-cms_bridge_x/2+hop_mv3_dz"/>
-    <position name="cms_bridge_ym_pos" unit="mm" x="0" y="-cms_bridge_latdisp" z="-cms_bridge_x/2+hop_mv3_dz"/>
-    <position name="cms_keystone_pos" unit="mm" x="0" y="0" z="hop_ct_z/2-cms_keystone_z/2+hop_mv3_dz"/>
+    <position name="cms_prop_xp_pos" unit="mm" x="cms_prop_latdisp" y="0" z="cms_prop_z/2 - hop_ct_z/2+hop_mv3_dz+mv3disp"/>
+    <position name="cms_prop_xm_pos" unit="mm" x="-cms_prop_latdisp" y="0" z="cms_prop_z/2 - hop_ct_z/2+hop_mv3_dz+mv3disp"/>
+    <position name="cms_tran_pos" unit="mm" x="0" y="0" z="-hop_ct_z/2-cms_tran_z/2+hop_mv3_dz+mv3disp"/>
+    <position name="cms_bridge_yp_pos" unit="mm" x="0" y="cms_bridge_latdisp" z="-cms_bridge_x/2+hop_mv3_dz+mv3disp"/>
+    <position name="cms_bridge_ym_pos" unit="mm" x="0" y="-cms_bridge_latdisp" z="-cms_bridge_x/2+hop_mv3_dz+mv3disp"/>
+    <position name="cms_keystone_pos" unit="mm" x="0" y="0" z="hop_ct_z/2-cms_keystone_z/2+hop_mv3_dz+mv3disp"/>
     <rotation name="cms_bridge_yp_rot" unit="deg" z="-90" x="-90"/>
     <rotation name="cms_bridge_ym_rot" unit="deg" z="90" x="90"/>
 
     <position name="hop_mv1_pos" x="0" y="0" z="-hop_mv1_dz-hop_mv0_dz"/>
     <position name="hop_mv2_pos" x="0" y="0" z="hop_angDepth/2+hop_b_t/2 - hop_mv0_dz"/>
-    <position name="hop_mv3_pos" unit="mm" x="0" y="0" z="hop_angDepth+hop_ct_z/2+hop_b_t/2 - hop_mv0_dz - hop_mv3_dz"/>
+    <position name="hop_mv3_pos" unit="mm" x="0" y="0" z="hop_angDepth+hop_ct_z/2+hop_b_t/2 - hop_mv0_dz - hop_mv3_dz - mv3disp"/>
     <position name="hop_pos" unit="mm" x="0" y="0" z="hop_b_wz - hop_b_t/2+lowHsg_bxmp_wz+lowHsg_blid_wz+lowCov_b1_wz/2 + hop_mv0_dz"/>
 
     <!-- coded mask base -->
@@ -311,8 +315,8 @@
     <position name="rs_scrBox_xmzp_pos" unit="mm" x="rs_xtot/2-474.9-rs_scrBox_x/2" y="rs_ytot/2-59.6+rs_scrBox_y/2" z="rs_fin2_zc-rs_fin_z/2-rs_scrBox_z/2"/>
     <position name="rs_scrBox_xpzp_pos" unit="mm" x="rs_xtot/2-210.9-rs_scrBox_x/2" y="rs_ytot/2-59.6+rs_scrBox_y/2" z="rs_fin2_zc-rs_fin_z/2-rs_scrBox_z/2"/>
 
-    <constant name="rs_flap_slotOffset" value="384.4-4.5"/> <!-- some trial and error here -->
-    <constant name="rs_flapa_x" value="rs_flap_slotOffset-5"/>
+    <constant name="rs_flap_slotOffset" value="384.4-2.5"/> <!-- some trial and error here -->
+    <constant name="rs_flapa_x" value="rs_flap_slotOffset-5-5"/>
     <constant name="rs_flapb_x" value="765-rs_flap_slotOffset-5"/>
     <position name="rs_flapa_pos" unit="mm" x="rs_xtot/2-rs_base_x-rs_flapa_x/2" y="rs_ytot/2 - rs_flap_z*sin(rs_flapAng*pi/180)/2 - rs_back_t/cos(rs_flapAng*pi/180)" z="rs_ztot/2-(rs_flap_z)/2"/>
     <position name="rs_flapb_pos" unit="mm" x="-rs_xtot/2+rs_flapb_x/2" y="rs_ytot/2 - rs_flap_z*sin(rs_flapAng*pi/180)/2 - rs_back_t/cos(rs_flapAng*pi/180)" z="rs_ztot/2-(rs_flap_z)/2"/>
@@ -380,7 +384,13 @@
     <box name="WorldBox" lunit="km" x="1.0" y="1.0" z="1.0"/>
 
     <!-- solids for lower cover: lowCov_... -->
-    <box name="lowCov_mv" lunit="mm" x="lowCov_b1_wx+lowCov_t1_z+lowCov_b2_wx" y="lowCov_b1_wy" z="lowCov_b1_wz"/>
+    <box name="lowCov_mv_0" lunit="mm" x="lowCov_b1_wx+lowCov_t1_z+lowCov_b2_wx" y="lowCov_b1_wy" z="lowCov_b1_wz"/>
+    <box name="lowCov_mv_ext" lunit="mm" x="1000" y="230" z="100"/>
+    <subtraction name="lowCov_mv_1"> <first ref="lowCov_mv_0"/> <second ref="lowCov_mv_ext"/> <position name="crap" x="300" y="310" z="0"/> <rotation name="crap" unit="deg" z="-42"/> </subtraction>
+    <subtraction name="lowCov_mv"> <first ref="lowCov_mv_1"/> <second ref="lowCov_mv_ext"/> <position name="crap" x="300" y="-310" z="0"/> <rotation name="crap" unit="deg" z="42"/> </subtraction>
+
+
+
     <box name="lowCov_b1" lunit="mm" x="lowCov_b1_wx" y="lowCov_b1_wy" z="lowCov_b1_wz"/>
     <trd name="lowCov_t1" lunit="mm" x1="lowCov_t1_x1" x2="lowCov_t1_x2" y1="lowCov_t1_y1" y2="lowCov_t1_y2" z="lowCov_t1_z"/>
     <box name="lowCov_b2" lunit="mm" x="lowCov_b2_wx" y="lowCov_b2_wy" z="lowCov_b2_wz"/>
@@ -394,7 +404,11 @@
     <box name="lowHsg_blid" lunit="mm" x="lowHsg_blid_wx" y="lowHsg_blid_wy" z="lowHsg_blid_wz"/>
 
     <!-- solids for dpu box: dpuBox_... -->
-    <box name="dpuBox_mv" lunit="mm" x="169.9" y="575" z="dpuBox_bbck_wz+dpuBox_bb_wz"/>
+    <box name="dpuBox_mv_0" lunit="mm" x="169.9" y="575" z="dpuBox_bbck_wz+dpuBox_bb_wz"/>
+    <box name="dpuBox_mv_ext" lunit="mm" x="500" y="120" z="1000"/>
+    <subtraction name="dpuBox_mv_1"> <first ref="dpuBox_mv_0"/> <second ref="dpuBox_mv_ext"/> <position name="crap" x="169.9/2" y="-575/2" z="0"/> <rotation name="crap" unit="deg" z="22"/> </subtraction>
+    <subtraction name="dpuBox_mv"> <first ref="dpuBox_mv_1"/> <second ref="dpuBox_mv_ext"/> <position name="crap" x="169.9/2" y="575/2" z="0"/> <rotation name="crap" unit="deg" z="-22"/> </subtraction>
+
     <box name="dpuBox_bb" lunit="mm" x="dpuBox_bb_wx" y="dpuBox_bb_wy" z="dpuBox_bb_wz"/>
     <trd name="dpuBox_bt" lunit="mm" x1="dpuBox_bt_x1" x2="dpuBox_bt_x2" y1="dpuBox_bt_y1" y2="dpuBox_bt_y2" z="dpuBox_bt_z"/>
     <xtru name="dpuBox_ff" lunit="mm">
@@ -440,8 +454,20 @@
 
     <box name="hop_mv0" lunit="mm" x="hop_top_w" y="hop_top_w" z="hop_b_wz+hop_angDepth+hop_ct_z"/>
     <box name="hop_mv1" lunit="mm" x="hop_b_wx" y="hop_b_wy" z="hop_b_wz"/>
-    <box name="hop_mv2" lunit="mm" x="hop_top_w" y="hop_top_w" z="hop_angDepth"/>
-    <box name="hop_mv3" lunit="mm" x="hop_top_w" y="hop_top_w" z="hop_ct_z+hop_ctsbhgt"/>
+    <!-- <box name="hop_mv2" lunit="mm" x="hop_top_w" y="hop_top_w" z="hop_angDepth"/> -->
+
+    <box name="hop_mv3_0" lunit="mm" x="hop_top_w" y="hop_top_w" z="hop_ct_z+hop_angDepth"/>
+    <box name="hop_mv3_ext1" lunit="mm" x="600*2" y="150" z="80"/>
+    <box name="hop_mv3_ext2" lunit="mm" x="400" y="250" z="80"/>
+    <box name="hop_mv3_ext3" lunit="mm" x="(hop_top_w-6)" y="235" z="1000"/>
+    <subtraction name="hop_mv3_1"> <first ref="hop_mv3_0"/> <second ref="hop_mv3_ext1"/> <position name="crap" x="-hop_top_w/2" y="-hop_top_w/2" z="-(hop_angDepth+hop_ct_z)/2"/> <rotationref ref="id"/> </subtraction>
+    <subtraction name="hop_mv3_2"> <first ref="hop_mv3_1"/> <second ref="hop_mv3_ext2"/> <position name="crap" x="hop_top_w/2" y="-hop_top_w/2" z="-(hop_angDepth+hop_ct_z)/2"/> <rotationref ref="id"/> </subtraction>
+    <subtraction name="hop_mv3_3"> <first ref="hop_mv3_2"/> <second ref="hop_mv3_ext3"/> <position name="crap" x="-hop_top_w/2" y="hop_top_w/2" z="-(hop_angDepth+hop_ct_z)/2"/> <rotation name="crap" unit="deg" x="-hop_ang"/> </subtraction>
+    <subtraction name="hop_mv3_4"> <first ref="hop_mv3_3"/> <second ref="hop_mv3_ext3"/> <position name="crap" x="hop_top_w/2" y="hop_top_w/2" z="-(hop_angDepth+hop_ct_z)/2"/> <rotation name="crap" unit="deg" x="-hop_ang"/> </subtraction>
+    <subtraction name="hop_mv3"> <first ref="hop_mv3_4"/> <second ref="hop_mv3_ext3"/> <position name="crap" x="0" y="hop_top_w/2+50" z="-(hop_angDepth+hop_ct_z)/2"/> <rotation name="crap" unit="deg" x="-hop_ang"/> </subtraction>
+
+
+
     <box name="hop_bym" lunit="mm" x="hop_b_wx-2*hop_b_t" y="hop_b_t" z="hop_b_wz - hop_b_t"/>
     <box name="hop_byp" lunit="mm" x="hop_b_wx-2*hop_b_t" y="hop_b_t" z="hop_b_wz - hop_b_t"/>
     <box name="hop_bzpsolid" lunit="mm" x="hop_b_wx" y="hop_b_wy" z="hop_b_t"/>
@@ -452,15 +478,31 @@
       <positionref ref="orig"/>
       <rotationref ref="id"/>
     </subtraction>
-    <trap name="hop_ear" lunit="mm" aunit="deg" z="hop_angDepth" theta="hop_ang" phi="90" x1="hop_lh_w" x2="hop_lh_w+2*hop_b_t/cos(hop_angr)" y1="hop_b_t/cos(hop_angr)" x3="hop_top_w-2*hop_b_t/cos(hop_angr)" x4="hop_top_w" y2="hop_b_t/cos(hop_angr)" alpha1="0" alpha2="0"/>
+
+    <trap name="hop_ear_0" lunit="mm" aunit="deg" z="hop_angDepth" theta="hop_ang" phi="90" x1="hop_lh_w" x2="hop_lh_w+2*hop_b_t/cos(hop_angr)" y1="hop_b_t/cos(hop_angr)" x3="hop_top_w-2*hop_b_t/cos(hop_angr)" x4="hop_top_w" y2="hop_b_t/cos(hop_angr)" alpha1="0" alpha2="0"/>
+    <box name="hop_ear_cc_ext" lunit="mm" x="24" y="10000" z="hop_tfwcc_z"/>
+    <box name="hop_ear_sc_ext" lunit="mm" x="12*2" y="10000" z="hop_tfwcc_z"/>
+    <subtraction name="hop_ear_1"> <first ref="hop_ear_0"/> <second ref="hop_ear_cc_ext"/> <position name="crap" z="hop_ct_z-hop_tfwcc_z/2+hop_mv3_dz+mv3disp"/> <rotationref ref="id"/> </subtraction>
+    <subtraction name="hop_ear_2"> <first ref="hop_ear_1"/> <second ref="hop_ear_sc_ext"/> <position name="crap" x="-hop_tfwcc_latdisp-6" z="hop_ct_z-hop_tfwcc_z/2+hop_mv3_dz+mv3disp"/> <rotationref ref="id"/> </subtraction>
+    <subtraction name="hop_ear_3"> <first ref="hop_ear_2"/> <second ref="hop_ear_sc_ext"/> <position name="crap" x="hop_tfwcc_latdisp+6" z="hop_ct_z-hop_tfwcc_z/2+hop_mv3_dz+mv3disp"/> <rotationref ref="id"/> </subtraction>
+    <box name="hop_ctsb_earext" lunit="mm" x="hop_ctsbwid+1000" y="hop_b_t*2" z="hop_ctsbhgt+100"/>
+    <subtraction name="hop_ear"> <first ref="hop_ear_3"/> <second ref="hop_ctsb_earext"/> <position name="crap" unit="mm" x="0" y="hop_top_w/2-hop_ear_latDisp" z="hop_ctsb_dz+hop_mv3_dz+mv3disp+hop_ct_z/2+0.1"/> <rotationref ref="id"/> </subtraction>
+
+
+    <box name="hop_ctsb" lunit="mm" x="hop_ctsbwid" y="hop_b_t" z="hop_ctsbhgt"/>
     <trap name="hop_ctl" lunit="mm" aunit="rad" z="hop_ct_z" theta="hop_ct_th" phi="0" x1="hop_ct_x1" x2="hop_ct_x1" y1="hop_b_t" x3="hop_ct_x2" x4="hop_ct_x2" y2="hop_b_t" alpha1="0" alpha2="0"/>
     <trap name="hop_cts" lunit="mm" aunit="rad" z="hop_ct_z" theta="hop_ct_th" phi="0" x1="hop_ct_x1 - hop_b_t" x2="hop_ct_x1 - hop_b_t" y1="hop_b_t" x3="hop_ct_x2 - hop_b_t" x4="hop_ct_x2 - hop_b_t" y2="hop_b_t" alpha1="0" alpha2="0"/>
-    <trap name="hop_lgsup" lunit="mm" aunit="rad" z="hop_lgsup_z" theta="hop_lgsup_th" phi="0" x1="hop_sup_x12" x2="hop_sup_x12" y1="3" x3="hop_lgsup_x34" x4="hop_lgsup_x34" y2="3" alpha1="0" alpha2="0"/>
-    <trap name="hop_smsup" lunit="mm" aunit="rad" z="hop_smsup_z" theta="hop_smsup_th" phi="0" x1="hop_sup_x12" x2="hop_sup_x12" y1="6" x3="hop_smsup_x34" x4="hop_smsup_x34" y2="6" alpha1="0" alpha2="0"/>
+
+    <box name="hop_sup_ext" lunit="mm" x="hop_ctsbhgt*2+1" y="hop_ctsbhgt*2+1" z="hop_ctsbhgt*2+1"/>
+    <trap name="hop_lgsup_0" lunit="mm" aunit="rad" z="hop_lgsup_z" theta="hop_lgsup_th" phi="0" x1="hop_sup_x12" x2="hop_sup_x12" y1="3" x3="hop_lgsup_x34" x4="hop_lgsup_x34" y2="3" alpha1="0" alpha2="0"/>
+    <subtraction name="hop_lgsup"> <first ref="hop_lgsup_0"/> <second ref="hop_sup_ext"/> <position x="-hop_sup_x12/2-hop_lgsup_z*sin(hop_lgsup_th)/2" y="0" z="-hop_lgsup_z/2"/> <rotation unit="deg" y="90-hop_ang"/> </subtraction>
+
+    <trap name="hop_smsup_0" lunit="mm" aunit="rad" z="hop_smsup_z" theta="hop_smsup_th" phi="0" x1="hop_sup_x12" x2="hop_sup_x12" y1="6" x3="hop_smsup_x34" x4="hop_smsup_x34" y2="6" alpha1="0" alpha2="0"/>
+    <subtraction name="hop_smsup"> <first ref="hop_smsup_0"/> <second ref="hop_sup_ext"/> <position x="-hop_sup_x12/2-hop_smsup_z*sin(hop_smsup_th)/2" y="0" z="-hop_smsup_z/2"/> <rotation unit="deg" y="90-hop_ang"/> </subtraction>
+
     <para name="hop_tfwd" lunit="mm" aunit="deg" x="12" y="12" z="hop_tfwd_z" alpha="0" theta="hop_tfwd_ang" phi="0"/> <!-- tfwd = top framework diagonal -->
     <box name="hop_tfwcc" lunit="mm" x="24" y="12" z="hop_tfwcc_z"/>
     <box name="hop_tfwsc" lunit="mm" x="12" y="12" z="hop_tfwcc_z"/>
-    <box name="hop_ctsb" lunit="mm" x="hop_ctsbwid" y="hop_b_t" z="hop_ctsbhgt"/>
 
     <box name="hop_foil" lunit="mm" x="hop_foil_w" y="hop_foil_w" z="hop_foil_t"/>
     <box name="hop_foilframe" lunit="mm" x="hop_foil_w - hop_foilframe_w" y="hop_foilframe_w" z="hop_foilframe_t"/>
@@ -468,7 +510,7 @@
     <!-- coded mask support parts in hopper MV3 -->
     <para name="cms_prop" lunit="mm" aunit="deg" x="12.7/sin(43.5*pi/180)" y="24" z="cms_prop_z" alpha="0" theta="43.5" phi="0"/>
     <box name="cms_tran" lunit="mm" x="716" y="24" z="cms_tran_z"/>
-    <para name="cms_bridge" lunit="mm" aunit="deg" x="cms_bridge_x" y="24" z="cms_bridge_z" alpha="0" theta="12.6" phi="0"/>
+    <para name="cms_bridge" lunit="mm" aunit="deg" x="cms_bridge_x" y="24" z="cms_bridge_z" alpha="0" theta="12.4" phi="0"/>
     <box name="cms_keystone" lunit="mm" x="24" y="24" z="cms_keystone_z"/>
 
     <!-- coded mask base -->
@@ -477,7 +519,7 @@
     <box name="cmb_sb" lunit="mm" x="cmb_sbx" y="cmb_sby" z="cmb_bz"/>
     <box name="cmb_wcb" lunit="mm" x="716" y="24" z="cmb_bz"/>
     <box name="cmb_ncb" lunit="mm" x="12" y="cmb_ncby" z="cmb_bz"/>
-    <trd name="cmb_dt" lunit="mm" x1="cmb_diag" x2="cmb_diag - 12" y1="12" y2="12" z="6"/>
+    <trd name="cmb_dt" lunit="mm" x1="cmb_diag-0.2" x2="cmb_diag - 12.0 - 0.2" y1="12" y2="12" z="6"/>  <!-- -0.2 fudge factors to avoid overlap. -->
 
     <!-- "sup. struct. i/f plate" -->
     <box name="ssifp" lunit="mm" x="lowCov_b1_wx" y="ssifp_t" z="ssifp_z"/>
@@ -501,7 +543,13 @@
       <section zOrder="1" zPosition="-ws_bot_z/2" xOffset="0" yOffset="0" scalingFactor="1"/>
       <section zOrder="2" zPosition="ws_bot_z/2" xOffset="0" yOffset="0" scalingFactor="1"/>
     </xtru>
-    <box name="ws_mv" lunit="mm" x="ws_xtot" y="ws_ytot" z="ws_ztot"/>
+
+
+    <box name="ws_mv_0" lunit="mm" x="ws_xtot" y="ws_ytot" z="ws_ztot"/>
+    <box name="ws_mv_ext1" lunit="mm" x="(ws_xtot - 155)*2" y="41*2" z="1000"/>
+    <box name="ws_mv_ext2" lunit="mm" x="200" y="60" z="1000"/>
+    <subtraction name="ws_mv_1"> <first ref="ws_mv_0"/> <second ref="ws_mv_ext1"/> <position name="crap" x="-ws_xtot/2" y="ws_ytot/2" z="0"/> <rotationref ref="id"/> </subtraction>
+    <subtraction name="ws_mv"> <first ref="ws_mv_1"/> <second ref="ws_mv_ext2"/> <position name="crap" x="ws_xtot/2-75" y="ws_ytot/2+30" z="0"/> <rotation unit="deg" name="crap" z="20"/> </subtraction>
 
     <box name="rs_base" lunit="mm" x="rs_base_x" y="rs_ytot" z="rs_ztot"/>
     <box name="rs_scrBox" lunit="mm" x="rs_scrBox_x" y="rs_scrBox_y" z="rs_scrBox_z"/>
@@ -556,7 +604,17 @@
     </xtru>
     <trap name="rs_flapa" lunit="mm" aunit="deg" theta="rs_flapAng" phi="90" x1="rs_flapa_x" x2="rs_flapa_x" y1="rs_back_t/cos(rs_flapAng*pi/180)" x3="rs_flapa_x" x4="rs_flapa_x"  y2="rs_back_t/cos(rs_flapAng*pi/180)" z="rs_flap_z" alpha1="0" alpha2="0"/>
     <trap name="rs_flapb" lunit="mm" aunit="deg" theta="rs_flapAng" phi="90" x1="rs_flapb_x" x2="rs_flapb_x" y1="rs_back_t/cos(rs_flapAng*pi/180)" x3="rs_flapb_x" x4="rs_flapb_x"  y2="rs_back_t/cos(rs_flapAng*pi/180)" z="rs_flap_z" alpha1="0" alpha2="0"/>
-    <box name="ramSup_mv" x="rs_xtot" y="rs_ytot" z="rs_ztot"/>
+
+    <box name="ramSup_mv_0" x="rs_xtot" y="rs_ytot" z="rs_ztot"/>
+    <box name="ramSup_mv_ext1" lunit="mm" x="(rs_xtot - 177.3)*2" y="(101.6-59.6)*2" z="1000"/>
+    <box name="ramSup_mv_ext2" lunit="mm" x="240" y="60" z="1000"/>
+    <box name="ramSup_mv_ext3" lunit="mm" x="8" y="1000" z="200"/>
+    <subtraction name="ramSup_mv_1"> <first ref="ramSup_mv_0"/> <second ref="ramSup_mv_ext1"/> <position name="crap" x="-rs_xtot/2" y="-rs_ytot/2" z="0"/> <rotationref ref="id"/> </subtraction>
+    <subtraction name="ramSup_mv_2"> <first ref="ramSup_mv_1"/> <second ref="ramSup_mv_ext2"/> <position name="crap" x="rs_xtot/2-75" y="-rs_ytot/2-30" z="0"/> <rotation unit="deg" name="crap" z="-20"/> </subtraction>
+    <subtraction name="ramSup_mv_3"> <first ref="ramSup_mv_2"/> <second ref="ramSup_mv_0"/> <position name="crap" x="-6" y="-rs_ytot/2+30" z="rs_ztot/2"/> <rotation unit="deg" name="crap" x="-rs_flapAng"/> </subtraction>
+    <subtraction name="ramSup_mv"> <first ref="ramSup_mv_3"/> <second ref="ramSup_mv_ext3"/> <position name="crap" x="rs_xtot/2-rs_flapa_x-rs_base_x-5" y="0" z="rs_ztot/2"/> <rotationref ref="id"/> </subtraction>
+    
+
 
     <box name="sr_botb" lunit="mm" x="sr_bot" y="sr_y" z="sr_t"/>
     <box name="sr_sideb" lunit="mm" x="sr_t" y="sr_y" z="sr_side"/>
@@ -655,6 +713,8 @@
       <physvol> <volumeref ref="rs_scrBox_v"/> <positionref ref="rs_scrBox_xpzp_pos"/> <rotationref ref="id"/> </physvol>
 
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
+      <!--
+      -->
     </volume>
 
 
@@ -666,6 +726,8 @@
       <physvol> <volumeref ref="lowCov_t1_v"/> <positionref ref="lowCov_t1_pos"/> <rotationref ref="lowCov_t1_rot"/> </physvol>
       <physvol> <volumeref ref="lowCov_b2_v"/> <positionref ref="lowCov_b2_pos"/> <rotationref ref="id"/> </physvol>
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
+      <!--
+      -->
     </volume>
 
     <volume name="lowHsg">
@@ -678,6 +740,8 @@
       <physvol> <volumeref ref="lowHsg_byp_v"/> <positionref ref="lowHsg_byp_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="lowHsg_blid_v"/> <positionref ref="lowHsg_blid_pos"/> <rotationref ref="id"/> </physvol>
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
+      <!--
+      -->
     </volume>
 
     <volume name="dpuBox">
@@ -692,6 +756,8 @@
       <physvol> <volumeref ref="dpuBox_ffpm_v"/> <positionref ref="dpuBox_ffpm_pos"/> <rotationref ref="dpuBox_ffp_rot"/> </physvol>
       <physvol> <volumeref ref="dpuBox_ffpp_v"/> <positionref ref="dpuBox_ffpp_pos"/> <rotationref ref="dpuBox_ffp_rot"/> </physvol>
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
+      <!--
+      -->
     </volume>
 
     <volume name="hop_box"> 
@@ -702,19 +768,33 @@
       <physvol> <volumeref ref="hop_bxp_v"/> <positionref ref="hop_bxp_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="hop_bym_v"/> <positionref ref="hop_bym_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="hop_byp_v"/> <positionref ref="hop_byp_pos"/> <rotationref ref="id"/> </physvol>
-      <!--
-      -->
       <physvol> <volumeref ref="hop_bzp_v"/> <positionref ref="hop_bzp_pos"/> <rotationref ref="id"/> </physvol>
 
       <physvol> <file name="instrument.gdml"/> <positionref ref="instrument_pos"/> <rotationref ref="id"/> </physvol>
+      <!--
+      -->
 
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
+      <!--
+      -->
     </volume>
 
+    
+      <!--
     <volume name="hop_ears"> 
       <materialref ref="Vacuum"/> 
       <solidref ref="hop_mv2"/>
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
 
+
+    </volume>
+      -->
+
+    <volume name="hop_top">
+      <materialref ref="Vacuum"/>
+      <solidref ref="hop_mv3"/>
+
+      <!-- hop ears -->
       <physvol> <volumeref ref="hop_ear1_v"/> <positionref ref="hop_ear1_pos"/> <rotationref ref="z90"/> </physvol>
       <physvol> <volumeref ref="hop_ear2_v"/> <positionref ref="hop_ear2_pos"/> <rotationref ref="z270"/> </physvol>
       <physvol> <volumeref ref="hop_ear3_v"/> <positionref ref="hop_ear3_pos"/> <rotationref ref="id"/> </physvol>
@@ -730,15 +810,7 @@
       <physvol> <volumeref ref="hop_foilframe_v"/> <positionref ref="hop_foilframe_xp_pos"/> <rotationref ref="z90"/> </physvol>
       <physvol> <volumeref ref="hop_foilframe_v"/> <positionref ref="hop_foilframe_ym_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="hop_foilframe_v"/> <positionref ref="hop_foilframe_yp_pos"/> <rotationref ref="id"/> </physvol>
-
-
-
-      <auxiliary auxtype="visibility" auxvalue="invisible"/>
-    </volume>
-
-    <volume name="hop_top">
-      <materialref ref="Vacuum"/>
-      <solidref ref="hop_mv3"/>
+      <!-- end hop ears -->
 
       <physvol> <volumeref ref="hop_ctl_v"/> <positionref ref="hop_ctlmm_pos"/> <rotationref ref="z180"/> </physvol>
       <physvol> <volumeref ref="hop_ctl_v"/> <positionref ref="hop_ctlmp_pos"/> <rotationref ref="z270"/> </physvol>
@@ -756,6 +828,7 @@
       <physvol> <volumeref ref="hop_tfwd_v"/> <positionref ref="hop_tfwd_ymp_pos"/> <rotationref ref="hop_tfwd_ymp_rot"/> </physvol>
       <physvol> <volumeref ref="hop_tfwd_v"/> <positionref ref="hop_tfwd_ypm_pos"/> <rotationref ref="hop_tfwd_ypm_rot"/> </physvol>
       <physvol> <volumeref ref="hop_tfwd_v"/> <positionref ref="hop_tfwd_ypp_pos"/> <rotationref ref="hop_tfwd_ypp_rot"/> </physvol>
+
 
       <physvol> <volumeref ref="hop_tfwcc_v"/> <positionref ref="hop_tfwcc_xm_pos"/> <rotationref ref="z90"/> </physvol>
       <physvol> <volumeref ref="hop_tfwcc_v"/> <positionref ref="hop_tfwcc_xp_pos"/> <rotationref ref="z90"/> </physvol>
@@ -779,6 +852,8 @@
       <physvol> <volumeref ref="cms_bridge_v"/> <positionref ref="cms_bridge_yp_pos"/> <rotationref ref="cms_bridge_yp_rot"/> </physvol>
       <physvol> <volumeref ref="cms_keystone_v"/> <positionref ref="cms_keystone_pos"/> <rotationref ref="id"/> </physvol>
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
+      <!--
+      -->
     </volume>
 
     <volume name="codedMask_imp">
@@ -801,13 +876,14 @@
 
       <physvol> <volumeref ref="cmb_dt_v"/> <positionref ref="cmb_dtmpp_pos"/> <rotationref ref="cmb_dtmpp_rot"/> <scaleref ref="flipZ"/> </physvol>
       <physvol> <volumeref ref="cmb_dt_v"/> <positionref ref="cmb_dtmpm_pos"/> <rotationref ref="cmb_dtmpm_rot"/> </physvol>
-
       <physvol> <volumeref ref="cmb_dt_v"/> <positionref ref="cmb_dtmmp_pos"/> <rotationref ref="cmb_dtmmp_rot"/> </physvol>
       <physvol> <volumeref ref="cmb_dt_v"/> <positionref ref="cmb_dtmmm_pos"/> <rotationref ref="cmb_dtmmm_rot"/> <scaleref ref="flipZ"/> </physvol>
 
       <physvol> <file name="codedMask.gdml"/> <positionref ref="codedMask_imp_pos"/> <rotationref ref="id"/> </physvol>
 
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
+      <!--
+      -->
     </volume>
 
     <volume name="wakeSupport">
@@ -819,17 +895,23 @@
       <physvol> <volumeref ref="ws_bot_v"/> <positionref ref="ws_top_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="ws_mid_v"/> <positionref ref="ws_mid_pos"/> <rotationref ref="id"/> </physvol>
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
+      <!--
+      -->
     </volume>
 
     <volume name="hop">
       <materialref ref="Vacuum"/>
       <solidref ref="hop_mv0"/>
 
+      <physvol> <volumeref ref="hop_box"/> <positionref ref="hop_mv1_pos"/> <rotationref ref="id"/> </physvol>
+
+      <!-- hop_ears no longer used, contents moved to hop_top.
+      <physvol> <volumeref ref="hop_ears"/> <positionref ref="hop_mv2_pos"/> <rotationref ref="id"/> </physvol>
+      -->
+
+      <physvol> <volumeref ref="hop_top"/> <positionref ref="hop_mv3_pos"/> <rotationref ref="id"/> </physvol>
       <!--
       -->
-      <physvol> <volumeref ref="hop_box"/> <positionref ref="hop_mv1_pos"/> <rotationref ref="id"/> </physvol>
-      <physvol> <volumeref ref="hop_ears"/> <positionref ref="hop_mv2_pos"/> <rotationref ref="id"/> </physvol>
-      <physvol> <volumeref ref="hop_top"/> <positionref ref="hop_mv3_pos"/> <rotationref ref="id"/> </physvol>
       <!--
       -->
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
@@ -842,9 +924,14 @@
       -->
       <physvol> <volumeref ref="lowCov"/> <positionref ref="lowCov_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="lowHsg"/> <positionref ref="lowHsg_pos"/> <rotationref ref="id"/> </physvol>
+      <!--
+      -->
       <physvol> <volumeref ref="dpuBox"/> <positionref ref="dpuBox_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="hop"/> <positionref ref="hop_pos"/> <rotationref ref="id"/> </physvol>
+
       <physvol> <volumeref ref="codedMask_imp"/> <positionref ref="codedMask_pos"/> <rotationref ref="id"/> </physvol>
+      <!--
+      -->
       <physvol> <volumeref ref="ssifp_v"/> <positionref ref="ssifp_ym_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="ssifp_v"/> <positionref ref="ssifp_yp_pos"/> <rotationref ref="id"/> </physvol>
 
@@ -853,8 +940,6 @@
 
       <physvol> <volumeref ref="wakeSupport"/> <positionref ref="ws_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="ramSupport"/> <positionref ref="rs_pos"/> <rotationref ref="id"/> </physvol>
-      <!--
-      -->
 
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
     </volume>

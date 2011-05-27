@@ -16,19 +16,22 @@
 int main(int argc, char** argv)
 {
     char infile[500],hitsfilename[500];
-    double planewidth,planerad;
+    double planewidth=0,planerad=0;
     int nlines=0;
-    if(argc != 6){
+    int action=0;
+    if(argc != 2){
         cout << "usage:\n" 
-            << argv[0] << " inputfilename hitsoutfilename nlines planewidth(m) planerad(m)\n";
+            << argv[0] << "0|1|2|3\n";
         return 1;
-    }else{
-        strcpy(infile,argv[1]);
-        strcpy(hitsfilename,argv[2]);
-        sscanf(argv[3],"%d",&nlines);
-        sscanf(argv[4],"%lf",&planewidth);
-        sscanf(argv[5],"%lf",&planerad);
     }
+    sscanf(argv[1],"%d",&action);
+    //else{
+    //    strcpy(infile,argv[1]);
+    //    strcpy(hitsfilename,argv[2]);
+    //    sscanf(argv[3],"%d",&nlines);
+    //    sscanf(argv[4],"%lf",&planewidth);
+    //    sscanf(argv[5],"%lf",&planerad);
+    //}
 
     cout << "called with parameters:\n"
       << "    inputfilename: " << infile << endl
@@ -66,56 +69,77 @@ int main(int argc, char** argv)
     runManager->Initialize();
 
 
-    ////// Use for automatic run.
-    //G4UImanager* UI = G4UImanager::GetUIpointer();
-    //G4String command = "/run/beamOn 100000";
-    //for(int i=0; i<nlines; ++i){
-    //  pgen->NextLine();
-    //  UI->ApplyCommand(command); 
-    //}
-    //////
+    if(action==0){
+      //// Use for automatic run.
+      G4UImanager* UI = G4UImanager::GetUIpointer();
+      G4String command = "/run/beamOn 100000";
+      for(int i=0; i<nlines; ++i){
+        pgen->NextLine();
+        UI->ApplyCommand(command); 
+      }
+    }
 
-    //// use for interactive session
-    ////bash$ export G4VIS_USE_OPENGLX=1
-    //pgen->NextLine();
-    //G4UIsession* session = new G4UIterminal(new G4UItcsh);
-    //session->SessionStart();
-    //delete session;
-    //// see sample ui commands below
+    if(action==1){
+      // use for interactive session
+      //bash$ export G4VIS_USE_OPENGLX=1
+      pgen->NextLine();
+      G4UIsession* session = new G4UIterminal(new G4UItcsh);
+      session->SessionStart();
+      delete session;
+      // see sample ui commands below
+    }
 
-    //// dump VRML of geometry.
-    G4UImanager* UI = G4UImanager::GetUIpointer();
-    G4String command = "/vis/sceneHandler/create VRML2FILE";
-    UI->ApplyCommand(command); 
-    command = "/vis/viewer/create";
-    UI->ApplyCommand(command); 
-    //command = "/vis/viewer/set/style surface";
-    //UI->ApplyCommand(command); 
-    command = "/vis/drawVolume";
-    UI->ApplyCommand(command); 
-    command = "/vis/viewer/flush";
-    UI->ApplyCommand(command); 
-    ////////
+    if(action==2){
+      //// dump DAWN file of geometry.
+      G4UImanager* UI = G4UImanager::GetUIpointer();
+      G4String command = "/vis/open DAWNFILE";
+      UI->ApplyCommand(command); 
+      command = "/vis/drawVolume";
+      UI->ApplyCommand(command); 
+      command = "/vis/viewer/flush";
+      UI->ApplyCommand(command); 
+      ////////
+    }
 
-    ////// dump Raytraced .jpeg of geometry.
-    //G4UImanager* UI = G4UImanager::GetUIpointer();
-    //G4String command = "/vis/open RayTracer";
-    //UI->ApplyCommand(command); 
-    //command = "/vis/rayTracer/lightDirection 0.3 0.3 -1";
-    //UI->ApplyCommand(command); 
-    //command = "/vis/viewer/set/viewpointThetaPhi 70 30";
-    //UI->ApplyCommand(command); 
-    //command = "/vis/drawVolume";
-    //UI->ApplyCommand(command); 
-    //command = "/vis/viewer/flush";
-    //UI->ApplyCommand(command); 
-    //////////
+    if(action==3){
+      //// dump VRML of geometry.
+      G4UImanager* UI = G4UImanager::GetUIpointer();
+      G4String command = "/vis/sceneHandler/create VRML2FILE";
+      UI->ApplyCommand(command); 
+      command = "/vis/viewer/create";
+      UI->ApplyCommand(command); 
+      //command = "/vis/viewer/set/style surface";
+      //UI->ApplyCommand(command); 
+      command = "/vis/drawVolume";
+      UI->ApplyCommand(command); 
+      command = "/vis/viewer/flush";
+      UI->ApplyCommand(command); 
+      ////////
+    }
 
-    ////// check geometry
-    //G4UImanager* UI = G4UImanager::GetUIpointer();
-    //G4String command = "/geometry/test/grid_test true";
-    //UI->ApplyCommand(command); 
-    //////////
+    if(action==4){
+      //// dump Raytraced .jpeg of geometry.
+      G4UImanager* UI = G4UImanager::GetUIpointer();
+      G4String command = "/vis/open RayTracer";
+      UI->ApplyCommand(command); 
+      command = "/vis/rayTracer/lightDirection 0.3 0.3 -1";
+      UI->ApplyCommand(command); 
+      command = "/vis/viewer/set/viewpointThetaPhi 70 30";
+      UI->ApplyCommand(command); 
+      command = "/vis/drawVolume";
+      UI->ApplyCommand(command); 
+      command = "/vis/viewer/flush";
+      UI->ApplyCommand(command); 
+      ////////
+    }
+
+    if(action==5){
+      //// check geometry
+      G4UImanager* UI = G4UImanager::GetUIpointer();
+      G4String command = "/geometry/test/grid_test true";
+      UI->ApplyCommand(command); 
+      ////////
+    }
     
     // job termination
     delete runManager;
