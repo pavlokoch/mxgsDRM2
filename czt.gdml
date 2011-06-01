@@ -269,6 +269,7 @@
 
     <box name="cztMod_mv" lunit="mm" x="dauf_x" y="dauf_y" z="dauf_z"/>
     <box name="cztMods_mv" lunit="mm" x="2*dauf_x" y="2*dauf_y" z="dauf_z"/>
+    <box name="cztMods2_mv" lunit="mm" x="2*dauf_x" y="dauf_y" z="dauf_z"/>
     <box name="czt_mv" lunit="mm" x="czt_x" y="czt_y" z="czt_z"/>
 
   </solids>
@@ -283,7 +284,7 @@
     <volume name="cztu_ip_v"> <materialref ref="AL6082T6"/> <solidref ref="cztu_ip"/> </volume>
     <volume name="chip_bpcb_v"> <materialref ref="Teflon"/> <solidref ref="chip_bpcb"/> </volume>
     <volume name="chip_tpcb_v"> <materialref ref="Teflon"/> <solidref ref="chip_tpcb"/> </volume>
-    <volume name="chip_c_v"> <materialref ref="CZT"/> <solidref ref="chip_c"/> </volume>
+    <volume name="chip_c_v"> <materialref ref="CZT"/> <solidref ref="chip_c"/> <auxiliary auxtype="sensitive" auxvalue="czt"/> </volume>
     <volume name="chip_spacer_v"> <materialref ref="Vespel"/> <solidref ref="chip_spacer"/> </volume>
     <volume name="czt16_bxp_v"> <materialref ref="AL6082T6"/> <solidref ref="czt16_bxp"/> </volume>
     <volume name="czt16_byp_v"> <materialref ref="AL6082T6"/> <solidref ref="czt16_byp"/> </volume>
@@ -307,8 +308,8 @@
       <physvol> <volumeref ref="chip_c_v"/> <positionref ref="chip_c_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="chip_spacer_v"/> <positionref ref="chip_spacer1_pos"/> <rotationref ref="z90"/> </physvol>
       <physvol> <volumeref ref="chip_spacer_v"/> <positionref ref="chip_spacer2_pos"/> <rotationref ref="id"/> </physvol>
-      <!--
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
+      <!--
       -->
     </volume>
 
@@ -327,7 +328,9 @@
       <physvol> <volumeref ref="daf_ycb_v"/> <positionref ref="daf_ypxp_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="daf_ycb_v"/> <positionref ref="daf_ypxm_pos"/> <rotationref ref="id"/> </physvol>
 
-      <!-- <auxiliary auxtype="visibility" auxvalue="invisible"/> -->
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
+      <!--
+      -->
     </volume>
 
     <volume name="cztu4">
@@ -343,8 +346,8 @@
         </replicate_along_axis>
       </replicavol>
 
-      <!--
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
+      <!--
       -->
     </volume>
     <volume name="cztu16">
@@ -360,8 +363,8 @@
         </replicate_along_axis>
       </replicavol>
 
-      <!--
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
+      <!--
       -->
     </volume>
 
@@ -390,19 +393,57 @@
       <physvol> <volumeref ref="dauf_p_v"/> <positionref ref="dauf_x0p_pos"/> <rotationref ref="xm90"/> </physvol>
       <physvol> <volumeref ref="dauf_p_v"/> <positionref ref="dauf_xpp_pos"/> <rotationref ref="xm90"/> </physvol>
 
-      <!-- <auxiliary auxtype="visibility" auxvalue="invisible"/> -->
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
+      <!-- 
+      -->
     </volume>
+
+    <volume name="cztMods2_1">
+      <materialref ref="Vacuum"/>
+      <solidref ref="cztMods2_mv"/>
+
+      <replicavol number="2"> <!-- copy_num_start="0" effectively here, but copy_num_start ignored by GEANT.  damnit. -->
+        <volumeref ref="cztMod"/>
+        <replicate_along_axis>
+          <direction x="1"/>
+          <width value="dauf_x" unit="mm"/>
+          <offset value="-dauf_x/2" unit="mm"/>
+        </replicate_along_axis>
+      </replicavol>
+    </volume>
+
+    <volume name="cztMods2_2">
+      <materialref ref="Vacuum"/>
+      <solidref ref="cztMods2_mv"/>
+
+      <replicavol number="2" copy_num_start="2"> <!-- copy_num_start ignored by GEANT.  damnit. -->
+        <volumeref ref="cztMod"/>
+        <replicate_along_axis>
+          <direction x="1"/>
+          <width value="dauf_x" unit="mm"/>
+          <offset value="-dauf_x/2" unit="mm"/>
+        </replicate_along_axis>
+      </replicavol>
+    </volume>
+
 
     <volume name="cztMods">
       <materialref ref="Vacuum"/>
       <solidref ref="cztMods_mv"/>
 
+      <physvol> <volumeref ref="cztMods2_1"/> <position name="crap" unit="mm" y="dauf_y/2"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="cztMods2_2"/> <position name="crap" unit="mm" y="-dauf_y/2"/> <rotationref ref="z180"/> </physvol>
+
+      <!-- these should be replaced by the replicavol pair above.  stupid copy number...
       <physvol> <volumeref ref="cztMod"/> <positionref ref="cztModmm_pos"/> <rotationref ref="z180"/> </physvol>
       <physvol> <volumeref ref="cztMod"/> <positionref ref="cztModmp_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="cztMod"/> <positionref ref="cztModpm_pos"/> <rotationref ref="z180"/> </physvol>
       <physvol> <volumeref ref="cztMod"/> <positionref ref="cztModpp_pos"/> <rotationref ref="id"/> </physvol>
+      -->
 
-      <!-- <auxiliary auxtype="visibility" auxvalue="invisible"/> -->
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
+      <!--
+      -->
     </volume>
 
     <volume name="czt">
@@ -412,13 +453,15 @@
       <physvol> <volumeref ref="daf"/> <positionref ref="daf_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="cztMods"/> <positionref ref="czt_pos"/> <rotationref ref="id"/> </physvol>
 
-      <!-- <auxiliary auxtype="visibility" auxvalue="invisible"/> -->
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
+      <!-- 
+      -->
     </volume>
 
 
   </structure>
   <setup name="Default" version="1.0">
-    <world ref="cztMods"/>
+    <world ref="czt"/>
   </setup>
 </gdml> 
 

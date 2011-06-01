@@ -16,13 +16,13 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 {
   public:
 
-    DetectorConstruction(HitRecorder *hrec);
+    DetectorConstruction(sqlite3 *dbin);
     ~DetectorConstruction();
 
     G4VPhysicalVolume* Construct();
 
   private:
-    HitRecorder *pHRec;
+    sqlite3 *db;
     
     // Logical volumes
     //
@@ -46,8 +46,6 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     
     // Magnetic field
     G4UniformMagField *bfield;
-
-    float targetdepth;
 
 };
 

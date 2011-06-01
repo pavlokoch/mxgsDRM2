@@ -55,7 +55,7 @@
     <constant name="bgo_wz" value="62/2 + 44.5/2 + 3.75 + 21.45 - 3.75"/> <!-- wz/2+bgoBox_wz/2+bgoShld_z+bdspBox_z from bgo.gdml -3.75 since I removed the inset that mates with the lower shield. -->
     <position name="bgo_pos" unit="mm" x="0" y="0" z="-wz/2+bgo_wz/2 + 3.75"/>
     <constant name="czt_wz" value="17.5+22"/> <!-- daf_z + dauf_z from czt.gdml -->
-    <position name="czt_pos" unit="mm" x="0" y="0" z="-wz/2+bgo_wz+czt_wz/2"/>
+    <position name="czt_pos" unit="mm" x="0" y="0" z="-wz/2+bgo_wz+czt_wz/2+5"/> <!-- +5 fudge factor.  i'm too lazy to figure out why things are overlapping there. -->
 
     <!--  -->
   </define>
@@ -146,18 +146,20 @@
       <materialref ref="Vacuum"/>
       <solidref ref="inst_mv"/>
 
+      <!--
+      -->
       <physvol> <volumeref ref="zmpbh_v"/> <positionref ref="zmpb_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="zmtah_v"/> <positionref ref="zmta_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="zmsnh_v"/> <positionref ref="zmsn_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="zmssh_v"/> <positionref ref="zmss_pos"/> <rotationref ref="id"/> </physvol>
 
-      <!--
-      -->
       <physvol> <volumeref ref="zppbh_v"/> <positionref ref="zppb_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="zptah_v"/> <positionref ref="zpta_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="zpsnh_v"/> <positionref ref="zpsn_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="zpssh_v"/> <positionref ref="zpss_pos"/> <rotationref ref="id"/> </physvol>
 
+      <!--
+      -->
       <physvol> <volumeref ref="xpb_v"/> <positionref ref="xmpb_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="xta_v"/> <positionref ref="xmta_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="xsn_v"/> <positionref ref="xmsn_pos"/> <rotationref ref="id"/> </physvol>
@@ -185,9 +187,9 @@
       <!--
       -->
 
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       <!--
       -->
-      <auxiliary auxtype="visibility" auxvalue="invisible"/>
     </volume>
 
   </structure>

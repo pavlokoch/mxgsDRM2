@@ -13,53 +13,55 @@
 #include <time.h>
 #include <iostream>
 
+#include <sqlite3.h>
+
+// ideas:
+//
 int main(int argc, char** argv)
 {
-    char infile[500],hitsfilename[500];
-    double planewidth=0,planerad=0;
-    int nlines=0;
+    int nEvt=0, targetN=0;
     int action=0;
-    if(argc != 2){
+    sqlite3 *db = 0;
+    
+    if(argc < 2){
         cout << "usage:\n" 
-            << argv[0] << "0|1|2|3\n";
+            << argv[0] << "action(0|1|2|3|4|5)\n";
         return 1;
     }
     sscanf(argv[1],"%d",&action);
-    //else{
-    //    strcpy(infile,argv[1]);
-    //    strcpy(hitsfilename,argv[2]);
-    //    sscanf(argv[3],"%d",&nlines);
-    //    sscanf(argv[4],"%lf",&planewidth);
-    //    sscanf(argv[5],"%lf",&planerad);
-    //}
 
-    cout << "called with parameters:\n"
-      << "    inputfilename: " << infile << endl
-      << "    hitsoutfilename: " << hitsfilename<< endl
-      << "    nlines: " << nlines << endl
-      << "    planewidth(m): " << planewidth << endl
-      << "    planerad(m): " << planerad << endl;
+    if((action==0 || action==1) && argc != 5){ // interactive session
+      printf("usage for action==0,1: %s (0|1) dbfn nEvents targetN\n",argv[0]);
+      return 1;
+    }else{
+        sqlite3_open(argv[2],&db);
+        sqlite3_exec(db,"pragma synchronous = 0;",0,0,0);
+        sscanf(argv[3],"%d",&nEvt);
+        sscanf(argv[4],"%d",&targetN);
+    }
 
     ///random number seeding code stolen from LISARunAction.cc
     long seeds[2];
-    time_t systime = time(NULL);
-    seeds[0] = (long) systime;
-    seeds[1] = (long) (systime*G4UniformRand());
-    // G4cout << "seed1: " << seeds[0] << "; seed2: " << seeds[1] << G4endl;
+    int rfp = open("/dev/random",O_RDONLY);
+    long seed1,seed2;
+    int x1 = read(rfp,&seed1,sizeof(seed1));
+    x1 = read(rfp,&seed2,sizeof(seed2));
+    close(rfp);
+    seeds[0] = seed1;
+    seeds[1] = seed2;
+    G4cout << "seed1: " << seeds[0] << "; seed2: " << seeds[1] << G4endl;
     CLHEP::HepRandom::setTheSeeds(seeds);
     CLHEP::HepRandom::showEngineStatus();
-
-    HitRecorder hrec(hitsfilename);
 
     // construct the default run manager
     G4RunManager* runManager = new G4RunManager;
 
     // set mandatory initialization classes
-    runManager->SetUserInitialization(new DetectorConstruction(&hrec));
+    runManager->SetUserInitialization(new DetectorConstruction(db));
     runManager->SetUserInitialization(new LHEP);
 
     // set mandatory user action class ; -0.5 is the approximate zoffset to the "center" of the detector.
-    PrimaryGeneratorAction *pgen = new PrimaryGeneratorAction(infile,&hrec,planewidth,planerad,-0.5);
+    PrimaryGeneratorAction *pgen = new PrimaryGeneratorAction(db,&hrec,planewidth,planerad,-0.5);
     runManager->SetUserAction(pgen);
 
     G4VisManager* visManager = new G4VisExecutive;
@@ -73,7 +75,7 @@ int main(int argc, char** argv)
       //// Use for automatic run.
       G4UImanager* UI = G4UImanager::GetUIpointer();
       G4String command = "/run/beamOn 100000";
-      for(int i=0; i<nlines; ++i){
+      for(int i=0; i<nEvt; ++i){
         pgen->NextLine();
         UI->ApplyCommand(command); 
       }
@@ -149,6 +151,13 @@ int main(int argc, char** argv)
 
 
 /*
+/vis/open OGL
+/vis/scene/create
+/vis/scene/add/volume
+/vis/sceneHandler/attach
+/vis/viewer/set/viewpointThetaPhi 90 0
+/vis/scene/add/trajectories
+
 /vis/open OGLIX
 /vis/scene/create
 /vis/scene/add/volume

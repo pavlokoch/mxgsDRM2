@@ -779,17 +779,6 @@
       -->
     </volume>
 
-    
-      <!--
-    <volume name="hop_ears"> 
-      <materialref ref="Vacuum"/> 
-      <solidref ref="hop_mv2"/>
-      <auxiliary auxtype="visibility" auxvalue="invisible"/>
-
-
-    </volume>
-      -->
-
     <volume name="hop_top">
       <materialref ref="Vacuum"/>
       <solidref ref="hop_mv3"/>
@@ -904,10 +893,6 @@
       <solidref ref="hop_mv0"/>
 
       <physvol> <volumeref ref="hop_box"/> <positionref ref="hop_mv1_pos"/> <rotationref ref="id"/> </physvol>
-
-      <!-- hop_ears no longer used, contents moved to hop_top.
-      <physvol> <volumeref ref="hop_ears"/> <positionref ref="hop_mv2_pos"/> <rotationref ref="id"/> </physvol>
-      -->
 
       <physvol> <volumeref ref="hop_top"/> <positionref ref="hop_mv3_pos"/> <rotationref ref="id"/> </physvol>
       <!--
