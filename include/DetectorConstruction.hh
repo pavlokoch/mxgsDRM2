@@ -11,6 +11,7 @@ class G4PVPlacement;
 #include "G4Material.hh"
 #include "G4RotationMatrix.hh"
 #include "globals.hh"
+#include <sqlite3.h>
 
 class DetectorConstruction : public G4VUserDetectorConstruction
 {

@@ -10,3 +10,4 @@ endif
 all: lib bin
 
 include $(G4INSTALL)/config/binmake.gmk
+CPPFLAGS += -O2 -lgsl -lgslcblas -lsqlite3

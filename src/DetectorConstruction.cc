@@ -43,7 +43,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 {
   G4GDMLParser parser;
   //parser.Read("iss_C3I2.gdml");
-  parser.Read("test.gdml");
+  parser.Read("mxgs.gdml");
   //parser.Read("instrument.gdml");
   G4VPhysicalVolume *W = parser.GetWorldVolume();
   //W->GetLogicalVolume()->SetVisAttributes(G4VisAttributes::Invisible);
@@ -66,16 +66,16 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
       if ((*vit).type=="sensitive" && (*vit).value=="czt") {
         G4cout << "making logical volume " << (*iter).first->GetName() << " CZT sensitive."<< G4endl;
         G4LogicalVolume* myvol = (*iter).first;
-        sprintf(sdname,"bgo_%d",bgoctr);
-        CZTSD *czt = new SD(sdname,0,bgoctr,0);
+        sprintf(sdname,"bgo_%d",bgoctr); ++bgoctr;
+        CZTSD *czt = new CZTSD(sdname,db);
         myvol->SetSensitiveDetector(czt);
         G4SDManager::GetSDMpointer()->AddNewDetector(czt);
       }
       if ((*vit).type=="sensitive" && (*vit).value=="bgo") {
         G4cout << "making logical volume " << (*iter).first->GetName() << " BGO sensitive."<< G4endl;
         G4LogicalVolume* myvol = (*iter).first;
-        sprintf(sdname,"czt_%d",cztctr);
-        SD *bgo = new SD(sdname,0,cztctr,0);
+        sprintf(sdname,"czt_%d",cztctr); ++cztctr;
+        BGOSD *bgo = new BGOSD(sdname,db);
         myvol->SetSensitiveDetector(bgo);
         G4SDManager::GetSDMpointer()->AddNewDetector(bgo);
       }

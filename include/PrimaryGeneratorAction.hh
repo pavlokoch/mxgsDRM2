@@ -5,6 +5,7 @@
 #include "HitRecorder.hh"
 #include "G4ParticleTable.hh"
 #include <fstream>
+#include <sqlite3.h>
 
 using namespace std;
 
@@ -14,23 +15,26 @@ class G4Event;
 class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 {
   public:
-    PrimaryGeneratorAction(char *infilename, HitRecorder *hrec,
-        double width, double rad,double zoff);
+    PrimaryGeneratorAction(sqlite3 *dbin);
     ~PrimaryGeneratorAction();
 
   public:
     void GeneratePrimaries(G4Event* anEvent);
-    void NextLine();
+    void NextGen(){genIn=genOut; ++genOut;}
 
   private:
-    HitRecorder *pHRec;
+    void readFromDB();
     G4ParticleGun* particleGun;
     G4ParticleTable *pTable;
-    ifstream infile;
     int pdgencoding,ctr;
-    double kinetic_energy_MeV,theta,vx,vy,vz,x,y,z;
+    double enMeV,theta,vx,vy,vz,x,y,z;
 
-    double planewidth,planerad,zoffset;
+    int genIn,genOut;
+    sqlite3 *db;
+    sqlite3_stmt* stmt;
+    double currentWeight;
+    double ptime;
+    int currentSrcLineNumber;
 
     void SetRandomInitialConditions();
 };
