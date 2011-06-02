@@ -8,6 +8,7 @@
 #include "Randomize.hh"
 #include "globals.hh"
 #include <sqlite3.h>
+#include "EventInfo.hh"
 
 using namespace std;
 
@@ -45,7 +46,11 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   G4ThreeVector v(vx,vy,vz);
   particleGun->SetParticleMomentumDirection(v);
   particleGun->SetParticleEnergy(enMeV*MeV);
-  particleGun->SetParticleTime(ptime*s);
+  particleGun->SetParticleTime(ptime*ns);
+
+  // set user information here.
+  EventInfo *evi = new EventInfo(currentSrcLineNumber);
+  anEvent->SetUserInformation(evi);
 
   particleGun->GeneratePrimaryVertex(anEvent);
 }
@@ -54,7 +59,7 @@ void PrimaryGeneratorAction::readFromDB(){
   while(!stmt || sqlite3_step(stmt)!=SQLITE_ROW){
     cout << "initializing sqlite for source particle reads\n";
     sqlite3_finalize(stmt);
-    sqlite3_prepare_v2(db,"SELECT olIDX,pdgID,ee,x,y,z,px,py,pz,t,wt FROM pcles WHERE gen=?",-1,&stmt,0);
+    sqlite3_prepare_v2(db,"SELECT idx,pdgID,ee,x,y,z,px,py,pz,t,wt FROM pcles WHERE gen=?",-1,&stmt,0);
     sqlite3_bind_int(stmt,1,genIn);
   }
 

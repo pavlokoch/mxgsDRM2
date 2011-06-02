@@ -149,9 +149,7 @@ int main(int argc, char** argv)
     }
     
     // job termination
-    printf("closing out db...\n"); fflush(stdout);
     sqlite3_close(db);
-    printf("done with db.\n"); fflush(stdout);
     delete runManager;
     delete visManager;
     return 0;

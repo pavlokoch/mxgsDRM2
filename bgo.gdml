@@ -145,7 +145,7 @@
       <fraction n="0.003321" ref="Sulfur"/>
     </material>
 
-    <material name="Vacuum" Z="1.0"> <D value="0.0" unit="g/cm3"/> <atom value="1.00794"/> </material>
+    <material name="Vacuum" Z="1.0"> <D value="1.0e-25" unit="g/cm3"/> <atom value="1.00794"/> </material>
 
     <material name="Lead" Z="82."> <D value="11.35" unit="g/cm3"/> <atom value="207.2"/> </material>
     <material name="Tin"  Z="50."> <D value="7.31" unit="g/cm3"/> <atom value="117.81"/> </material>
@@ -182,19 +182,19 @@
     <box name="bdspBox_top" lunit="mm" x="bdspBox_x" y="bdspBox_y" z="bdspBox_topt"/>
     <box name="bdspBox_xb" lunit="mm" x="bdspBox_sidet" y="bdspBox_y" z="bdspBox_z - bdspBox_topt - edgedz"/>
     <box name="bdspBox_yb" lunit="mm" x="bdspBox_x-2*bdspBox_sidet" y="bdspBox_sidet" z="bdspBox_z - bdspBox_topt - edgedz"/>
-    <box name="bdspBox_xbb" lunit="mm" x="bdspBox_sidet-edgedx" y="bdspBox_y-edgedy" z="edgedz"/>
-    <box name="bdspBox_ybb" lunit="mm" x="bdspBox_x-2*bdspBox_sidet" y="bdspBox_sidet-2*edgedy" z="edgedz"/>
+    <box name="bdspBox_xbb" lunit="mm" x="bdspBox_sidet - edgedx" y="bdspBox_y - edgedy" z="edgedz"/>
+    <box name="bdspBox_ybb" lunit="mm" x="bdspBox_x - 2*bdspBox_sidet" y="bdspBox_sidet - 2*edgedy" z="edgedz"/>
 
     <box name="bgoMod1_mv_0" lunit="mm" x="wx" y="wy" z="wz"/>
     <box name="bgoMod1_mv_ext" lunit="mm" x="wx*10" y="bdspBox_y" z="(wz+bgoShld_z+bdspBox_z-bgoMod_ztot)*2"/>
-    <subtraction name="bgoMod1_mv"> <first ref="bgoMod1_mv_0"/> <second ref="bgoMod1_mv_ext"/> <position name="crap" unit="mm" x="0" y="-wy/2+bdspBox_y/2" z="-wz/2"/> </subtraction>
+    <subtraction name="bgoMod1_mv"> <first ref="bgoMod1_mv_0"/> <second ref="bgoMod1_mv_ext"/> <position name="crap1" unit="mm" x="0" y="-wy/2+bdspBox_y/2" z="-wz/2"/> </subtraction>
 
     <box name="bgoMod3_rep_mv_0" lunit="mm" x="3*wx" y="wy" z="wz"/>
-    <subtraction name="bgoMod3_rep_mv"> <first ref="bgoMod3_rep_mv_0"/> <second ref="bgoMod1_mv_ext"/> <position name="crap" unit="mm" x="0" y="-wy/2+bdspBox_y/2" z="-wz/2"/> </subtraction>
+    <subtraction name="bgoMod3_rep_mv"> <first ref="bgoMod3_rep_mv_0"/> <second ref="bgoMod1_mv_ext"/> <position name="crap2" unit="mm" x="0" y="-wy/2+bdspBox_y/2" z="-wz/2"/> </subtraction>
 
     <box name="bgoMod3_mv" lunit="mm" x="wx*3" y="wy" z="bgoMod_ztot"/>
     <box name="bgoMod6_mv" lunit="mm" x="wx*6" y="wy" z="bgoMod_ztot"/>
-    <box name="bgoMod12_mv" lunit="mm" x="wx*6" y="wy*2" z="bgoMod_ztot"/>
+    <box name="bgoMod12_mv" lunit="mm" x="wx*6" y="wy*2+0.004" z="bgoMod_ztot"/>
 
     <box name="pmtHsg_base_b" lunit="mm" x="pmtHsg_base_wid" y="pmtHsg_base_t" z="pmtHsg_base_wid"/>
     <tube name="pmtHsg_base_h" lunit="mm" aunit="deg" rmin="0" rmax="23" z="500" startphi="0" deltaphi="360"/>
@@ -239,11 +239,6 @@
     <union name="bgoBox_side_hpp"> <first ref="bgoBox_side_hp"/> <second ref="bgoBox_side_hp"/> <position name="shpp" unit="mm" x="0" y="31.5+3"/> <rotationref ref="id"/> </union>
     <union name="bgoBox_side_hppp"> <first ref="bgoBox_side_hpp"/> <second ref="bgoBox_side_hpp"/> <position name="shppp"  unit="mm" y="-2*(31.5+3)"/> <rotationref ref="id"/> </union>
     <subtraction name="bgoBox_side"> <first ref="bgoBox_side_b"/> <second ref="bgoBox_side_hppp"/> <position name="shdisp" unit="mm" x="2.5" y="31.5/2+3/2"/> <rotationref ref="id"/> </subtraction>
-
-    <!-- test box to make the raytracer output more useful.
-    <box name="bgoBox_slicer" lunit="mm" x="80" y="80" z="80"/>
-    <subtraction name="bgoBox_side_sliced"> <first ref="bgoBox_side"/> <second ref="bgoBox_slicer"/> <position name="crack" unit="mm" x="0" y="0"/> <rotationref ref="id"/> </subtraction>
-    -->
 
     <box name="bgoBox_bot_b" lunit="mm" x="bgoBox_wx" y="bgoBox_side_l" z="5"/>
     <tube name="bgoBox_bot_h" lunit="mm" aunit="deg" rmin="0" rmax="4" z="10" startphi="0" deltaphi="360"/> <!-- unsure of rmax -->
@@ -296,11 +291,12 @@
       <physvol> <volumeref ref="bdspBox_xb_v"/> <positionref ref="bdspBox_xm_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="bdspBox_yb_v"/> <positionref ref="bdspBox_yp_pos"/> <rotationref ref="id"/> </physvol>
 
-      <!--
+      <!-- extra slot(?)
       <physvol> <volumeref ref="bdspBox_xbb_v"/> <positionref ref="bdspBox_xbp_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="bdspBox_xbb_v"/> <positionref ref="bdspBox_xbm_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="bdspBox_ybb_v"/> <positionref ref="bdspBox_ybp_pos"/> <rotationref ref="id"/> </physvol>
       -->
+
       <!-- other parts here? there must be _something_ in this box... -->
 
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
@@ -416,8 +412,8 @@
     <volume name="bgoMod12">
       <materialref ref="Vacuum"/>
       <solidref ref="bgoMod12_mv"/>
-      <physvol> <volumeref ref="bgoMod6_1"/> <position name="m1p" x="0" y="-wy/2" z="0"/> <rotationref ref="id"/> </physvol>
-      <physvol> <volumeref ref="bgoMod6_2"/> <position name="m2p" x="0" y="wy/2" z="0"/> <rotationref ref="z180"/> </physvol>
+      <physvol> <volumeref ref="bgoMod6_1"/> <position name="m1p" x="0" y="-wy/2-0.001" z="0"/> <rotationref ref="z180"/> </physvol>
+      <physvol> <volumeref ref="bgoMod6_2"/> <position name="m2p" x="0" y="wy/2+0.001" z="0"/> <rotationref ref="id"/> </physvol>
 
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
       <!--

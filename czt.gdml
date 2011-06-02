@@ -80,14 +80,14 @@
     <position name="chip_spacer16_8_pos" unit="mm" x="-dauf_x/2+7*cztu_x/2+cztu_bw/2" y="-dauf_y/2+cztu_y*4+chip_spacer_w/2+0.5" z="-dauf_z/2+cztu_t+chip_bpcbz+chip_spacer_h/2"/>
 
     <constant name="dauf_t" value="12"/>
-    <constant name="dauf_l" value="dauf_y-198.3"/>
-    <constant name="dauf_tz" value="dauf_y-dauf_l-4*cztu_x-cztu_bw"/>
+    <constant name="dauf_l" value="dauf_y - 198.3"/>
+    <constant name="dauf_tz" value="dauf_y - dauf_l - 4*cztu_x - cztu_bw"/>
 
     <position name="dauf_yb_pos" unit="mm" x="0" y="dauf_y/2-dauf_t/2" z="dauf_z/2-dauf_t/2"/>
     <position name="dauf_xpb_pos" unit="mm" x="dauf_x/2-dauf_t/2" y="dauf_y/2-dauf_l/2-dauf_t/2" z="dauf_z/2-dauf_t/2"/>
     <position name="dauf_x0b_pos" unit="mm" x="0" y="dauf_y/2-dauf_l/2-dauf_t/2" z="dauf_z/2-dauf_t/2"/>
     <position name="dauf_xmb_pos" unit="mm" x="-dauf_x/2+dauf_t/2" y="dauf_y/2-dauf_l/2-dauf_t/2" z="dauf_z/2-dauf_t/2"/>
-    <constant name="dauf_p_py" value="dauf_y/2-dauf_l-dauf_tz/2"/>
+    <constant name="dauf_p_py" value="dauf_y/2-dauf_l - dauf_tz/2"/>
     <position name="dauf_xpp_pos" unit="mm" x="dauf_x/2-dauf_t/2" y="dauf_p_py" z="0"/>
     <position name="dauf_x0p_pos" unit="mm" x="0" y="dauf_p_py" z="0"/>
     <position name="dauf_xmp_pos" unit="mm" x="-dauf_x/2+dauf_t/2" y="dauf_p_py" z="0"/>
@@ -203,7 +203,7 @@
       <composite n="2" ref="Nitrogen"/>
     </material>
 
-    <material name="Vacuum" Z="1.0"> <D value="0.0" unit="g/cm3"/> <atom value="1.00794"/> </material>
+    <material name="Vacuum" Z="1.0"> <D value="1.0e-25" unit="g/cm3"/> <atom value="1.00794"/> </material>
 
     <material name="Lead" Z="82."> <D value="11.35" unit="g/cm3"/> <atom value="207.2"/> </material>
     <material name="Tin"  Z="50."> <D value="7.31" unit="g/cm3"/> <atom value="117.81"/> </material>
@@ -217,8 +217,8 @@
     <box name="daf_ycb_b" lunit="mm" x="daf_cbl" y="daf_t" z="daf_t"/>
 
     <box name="cztu_bx" lunit="mm" x="cztu_x" y="cztu_bw" z="cztu_t"/>
-    <box name="cztu_by" lunit="mm" x="cztu_bw" y="cztu_y-cztu_bw" z="cztu_t"/>
-    <box name="cztu_ir_b" lunit="mm" x="cztu_x-cztu_bw" y="cztu_y-cztu_bw" z="cztu_irt"/>
+    <box name="cztu_by" lunit="mm" x="cztu_bw" y="cztu_y - cztu_bw" z="cztu_t"/>
+    <box name="cztu_ir_b" lunit="mm" x="cztu_x - cztu_bw" y="cztu_y - cztu_bw" z="cztu_irt"/>
     <box name="cztu_ir_h" lunit="mm" x="cztu_ihw" y="cztu_ihw" z="200*cztu_irt"/>
     <subtraction name="cztu_ir"> <first ref="cztu_ir_b"/> <second ref="cztu_ir_h"/> <positionref ref="orig"/> <rotationref ref="id"/> </subtraction>
     <box name="cztu_ip_b" lunit="mm" x="cztu_ihw/2" y="cztu_ihw" z="cztu_ipt"/>
@@ -237,7 +237,7 @@
     <box name="czt16_byp" lunit="mm" x="cztu_x*4+cztu_bw" y="cztu_bw" z="cztu_t"/>
 
     <box name="dauf_yb" lunit="mm" x="dauf_x" y="dauf_t" z="dauf_t"/>
-    <box name="dauf_xb" lunit="mm" x="dauf_t" y="dauf_l-dauf_t" z="dauf_t"/>
+    <box name="dauf_xb" lunit="mm" x="dauf_t" y="dauf_l - dauf_t" z="dauf_t"/>
     <para name="dauf_p" lunit="mm" aunit="rad" x="dauf_t" y="dauf_t" z="dauf_tz" theta="atan((dauf_z-dauf_t)/dauf_tz)" phi="-pi/2" alpha="0"/>
 
 
@@ -246,8 +246,8 @@
     <union name="cztu_mv_ext"> <first ref="cztu_mv_main"/> <second ref="chip_bpcb"/> <positionref ref="chip_bpcb_pos"/> <rotationref ref="id"/> </union>
     <union name="cztu_mv_ext2"> <first ref="cztu_mv_ext"/> <second ref="chip_c"/> <positionref ref="chip_c_pos"/> <rotationref ref="id"/> </union>
     <union name="cztu_mv_ext3"> <first ref="cztu_mv_ext2"/> <second ref="chip_tpcb"/> <positionref ref="chip_tpcb_pos"/> <rotationref ref="id"/> </union>
-    <subtraction name="cztu_mv_es1"> <first ref="cztu_mv_ext3"/> <second ref="cztu_mv_ext3"/> <position x="-cztu_x"/> <rotationref ref="id"/> </subtraction>
-    <subtraction name="cztu_mv"> <first ref="cztu_mv_es1"/> <second ref="cztu_mv_ext3"/> <position y="-cztu_x"/> <rotationref ref="id"/> </subtraction>
+    <subtraction name="cztu_mv_es1"> <first ref="cztu_mv_ext3"/> <second ref="cztu_mv_ext3"/> <position name="crap3" x="-cztu_x"/> <rotationref ref="id"/> </subtraction>
+    <subtraction name="cztu_mv"> <first ref="cztu_mv_es1"/> <second ref="cztu_mv_ext3"/> <position name="crap4" y="-cztu_x"/> <rotationref ref="id"/> </subtraction>
 
     <box name="cztu4_mv_0" lunit="mm" x="cztu_x*4" y="cztu_y" z="cztu_z"/>
     <box name="cztu4_mv_ext1" lunit="mm" x="cztu_x*4" y="cztu_y" z="chip_ch+chip_tpcbz"/>
@@ -268,9 +268,9 @@
     <union name="cztu16_mv"> <first ref="cztu16_mv_1"/> <second ref="cztu16_mv_ext2"/> <positionref ref="cztu16_mv_ext2_pos"/> <rotationref ref="id"/> </union>
 
     <box name="cztMod_mv" lunit="mm" x="dauf_x" y="dauf_y" z="dauf_z"/>
-    <box name="cztMods_mv" lunit="mm" x="2*dauf_x" y="2*dauf_y" z="dauf_z"/>
+    <box name="cztMods_mv" lunit="mm" x="2*dauf_x" y="2*dauf_y+0.004" z="dauf_z"/>
     <box name="cztMods2_mv" lunit="mm" x="2*dauf_x" y="dauf_y" z="dauf_z"/>
-    <box name="czt_mv" lunit="mm" x="czt_x" y="czt_y" z="czt_z"/>
+    <box name="czt_mv" lunit="mm" x="czt_x" y="czt_y+0.005" z="czt_z"/>
 
   </solids>
 
@@ -431,15 +431,8 @@
       <materialref ref="Vacuum"/>
       <solidref ref="cztMods_mv"/>
 
-      <physvol> <volumeref ref="cztMods2_1"/> <position name="crap" unit="mm" y="dauf_y/2"/> <rotationref ref="id"/> </physvol>
-      <physvol> <volumeref ref="cztMods2_2"/> <position name="crap" unit="mm" y="-dauf_y/2"/> <rotationref ref="z180"/> </physvol>
-
-      <!-- these should be replaced by the replicavol pair above.  stupid copy number...
-      <physvol> <volumeref ref="cztMod"/> <positionref ref="cztModmm_pos"/> <rotationref ref="z180"/> </physvol>
-      <physvol> <volumeref ref="cztMod"/> <positionref ref="cztModmp_pos"/> <rotationref ref="id"/> </physvol>
-      <physvol> <volumeref ref="cztMod"/> <positionref ref="cztModpm_pos"/> <rotationref ref="z180"/> </physvol>
-      <physvol> <volumeref ref="cztMod"/> <positionref ref="cztModpp_pos"/> <rotationref ref="id"/> </physvol>
-      -->
+      <physvol> <volumeref ref="cztMods2_1"/> <position name="crap1" unit="mm" y="dauf_y/2+0.001"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="cztMods2_2"/> <position name="crap2" unit="mm" y="-dauf_y/2-0.001"/> <rotationref ref="z180"/> </physvol>
 
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
       <!--

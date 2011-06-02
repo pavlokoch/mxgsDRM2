@@ -143,7 +143,7 @@ def printGDML(pattern):
   print "</define>"
   print "<materials>"
   print "<material name=\"W\" Z=\"74\"> <D value=\"19.25\" unit=\"g/cm3\"/> <atom value=\"183.84\"/> </material>"
-  print "<material name=\"Vacuum\" Z=\"1.0\"> <D value=\"0.0\"/> <atom value=\"1.00794\"/> </material>"
+  print "<material name=\"Vacuum\" Z=\"1.0\"> <D value=\"1.0e-25\"/> <atom value=\"1.00794\"/> </material>"
   print "</materials>"
   print "<solids>"
   print "<box name=\"codedMask_rep_mv\" lunit=\"mm\" x=\"%f\" y=\"%f\" z=\"%f\"/>"%(len(pattern[0])*dx,len(pattern)*dy,1)

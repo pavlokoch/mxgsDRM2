@@ -297,7 +297,7 @@
 </define>
 <materials>
 <material name="W" Z="74"> <D value="19.25" unit="g/cm3"/> <atom value="183.84"/> </material>
-<material name="Vacuum" Z="1.0"> <D value="0.0"/> <atom value="1.00794"/> </material>
+<material name="Vacuum" Z="1.0"> <D value="1.0e-25"/> <atom value="1.00794"/> </material>
 </materials>
 <solids>
 <box name="codedMask_rep_mv" lunit="mm" x="165.000000" y="345.000000" z="1.000000"/>
