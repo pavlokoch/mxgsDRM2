@@ -19,12 +19,13 @@ def runGEANT(dbf,nPri):
 
 def runSet(prefix):
   dbf = "%s.db"%prefix
-  mri.makeGEANTInputDB(dbf,10000,1,2,22,0,0,(0,0,0),10)
-  runGEANT(dbf,10000)
+  nPri = 1000000
+  mri.makeGEANTInputDB(dbf,nPri,1,2,22,0,0,(0,0,0),3)
+  runGEANT(dbf,nPri)
 
 prefix = "test"
-nPriFile = 10000
-nPri = 10000
+#nPriFile = 10000
+#nPri = 10000
 
 def rPS_h((theta,phi,eMeV)):
   name = "%s_%.2f_%.2f_%.2g"%(prefix,theta,phi,eMeV)

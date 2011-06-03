@@ -258,10 +258,11 @@
   </solids>
 
   <structure>  
-    <!-- NOTE: remove _b's from this when finished with vrml visualization. -->
+    <!-- NOTE: add/remove _b's from the solidrefs in the next three lines for vrml/simulation respectively. -->
     <volume name="bgoBox_bot_v"> <materialref ref="AL6082T6"/> <solidref ref="bgoBox_bot_b"/> </volume>
     <volume name="bgoBox_side_v"> <materialref ref="AL6082T6"/> <solidref ref="bgoBox_side_b"/> </volume>
     <volume name="bgoBox_top_v"> <materialref ref="AL6082T6"/> <solidref ref="bgoBox_top_b"/> </volume>
+
     <volume name="bgoBox_end_v"> <materialref ref="AL6082T6"/> <solidref ref="bgoBox_end_b"/> </volume>
     <volume name="bgo_v"> <materialref ref="BGO"/> <solidref ref="bgo_b"/> <auxiliary auxtype="sensitive" auxvalue="bgo"/> </volume>
     <volume name="pmtHsg_base_v"> <materialref ref="AL6082T6"/> <solidref ref="pmtHsg_base"/> </volume>

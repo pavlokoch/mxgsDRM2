@@ -32,3 +32,8 @@ getDataConnection <- function(fn){
   f;
 }
 
+makeDRM <- function(){
+  db <- getDataConnection("test.db");
+  a <- db("select * from evtsBGO, pcles where evtsBGO.priIdx = pcles.idx");
+}
+
