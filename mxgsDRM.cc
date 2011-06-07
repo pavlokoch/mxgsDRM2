@@ -161,7 +161,7 @@ int main(int argc, char** argv)
 /vis/scene/create
 /vis/scene/add/volume
 /vis/sceneHandler/attach
-/vis/viewer/set/viewpointThetaPhi 90 0
+/vis/viewer/set/viewpointThetaPhi 45 45
 /vis/scene/add/trajectories
 
 /vis/open OGLIX

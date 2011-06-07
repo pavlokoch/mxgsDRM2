@@ -2,6 +2,14 @@
 <gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
 
   <define>
+    <constant name="mxgs_x" value="770"/>
+    <constant name="mxgs_y" value="770"/>
+    <constant name="mxgs_z" value="545"/>
+
+    <constant name="mxgs_dx" value="-2"/>
+    <constant name="mxgs_dy" value="5"/>
+    <constant name="mxgs_dz" value="-223"/>
+
     <!-- generic definitions. -->
     <position name="orig" x="0" y="0" z="0"/>
     <rotation name="id" x="0" y="0" z="0" />
@@ -27,7 +35,7 @@
     <position name="lowCov_b2_pos" unit="mm" x="lowCov_t1_z + lowCov_b2_wx/2 + lowCov_b1_wx/2 - lowCov_mv_dx" y="0" z="(lowCov_b1_wz-lowCov_b2_wz)/2"/>
     <position name="lowCov_t1_pos" unit="mm" x="lowCov_b1_wx/2 + lowCov_t1_z/2 - lowCov_mv_dx" y="0" z="(lowCov_b1_wz-lowCov_t1_y1)/2"/>
     <rotation name="lowCov_t1_rot" unit="deg" z="90" y="-90"/>
-    <position name="lowCov_pos" unit="mm" x="lowCov_mv_dx" y="0" z="0"/>
+    <position name="lowCov_pos" unit="mm" x="lowCov_mv_dx + mxgs_dx" y="0 + mxgs_dy" z="0 + mxgs_dz"/>
 
 
     <!-- definitions for lower housing: lowHsg_... -->
@@ -46,7 +54,7 @@
     <position name="lowHsg_bym_pos" unit="mm" x="0" y="-lowHsg_bxmp_wy/2+lowHsg_bymp_wy/2" z="-lowHsg_bxmp_wz/2-lowHsg_blid_wz/2+lowHsg_mv_dz"/>
     <position name="lowHsg_byp_pos" unit="mm" x="0" y="lowHsg_bxmp_wy/2-lowHsg_bymp_wy/2" z="-lowHsg_bxmp_wz/2-lowHsg_blid_wz/2+lowHsg_mv_dz"/>
     <position name="lowHsg_blid_pos" unit="mm" x="0" y="0" z="lowHsg_mv_dz"/>
-    <position name="lowHsg_pos" unit="mm" x="0" y="0" z="lowHsg_bxmp_wz+lowCov_b1_wz/2+lowHsg_blid_wz/2-lowHsg_mv_dz"/>
+    <position name="lowHsg_pos" unit="mm" x="0 + mxgs_dx" y="0 + mxgs_dy" z="lowHsg_bxmp_wz+lowCov_b1_wz/2+lowHsg_blid_wz/2-lowHsg_mv_dz + mxgs_dz"/>
 
     <!-- definitions for DPU box; dpuBox_... -->
     <constant name="dpuBox_bb_wx" value="77.49"/>
@@ -63,7 +71,7 @@
     <constant name="dpuBox_mv_dx" value="dpuBox_bt_z/2"/>
     <constant name="dpuBox_mv_dz" value="dpuBox_bbck_wz/2"/>
     <position name="dpuBox_bb_pos" unit="mm" x="dpuBox_mv_dx" y="0" z="dpuBox_mv_dz"/>
-    <position name="dpuBox_pos" unit="mm" x="lowCov_t1_z/2 + lowCov_b2_wx/2 + lowCov_b1_wx/2" y="0" z="lowCov_b1_wz/2+dpuBox_bbck_wz/2+dpuBox_bb_wz/2"/>
+    <position name="dpuBox_pos" unit="mm" x="lowCov_t1_z/2 + lowCov_b2_wx/2 + lowCov_b1_wx/2 + mxgs_dx" y="0 + mxgs_dy" z="lowCov_b1_wz/2+dpuBox_bbck_wz/2+dpuBox_bb_wz/2 + mxgs_dz"/>
     <position name="dpuBox_bt_pos" unit="mm" x="-dpuBox_bb_wx/2-dpuBox_bt_z/2+dpuBox_mv_dx" y="0" z="dpuBox_mv_dz"/>
     <position name="dpuBox_sides_pos" unit="mm" x="dpuBox_mv_dx" y="0" z="dpuBox_mv_dz"/>
     <rotation name="dpuBox_bt_rot" unit="deg" y="90"/>
@@ -223,7 +231,7 @@
     <position name="hop_mv1_pos" x="0" y="0" z="-hop_mv1_dz-hop_mv0_dz"/>
     <position name="hop_mv2_pos" x="0" y="0" z="hop_angDepth/2+hop_b_t/2 - hop_mv0_dz"/>
     <position name="hop_mv3_pos" unit="mm" x="0" y="0" z="hop_angDepth+hop_ct_z/2+hop_b_t/2 - hop_mv0_dz - hop_mv3_dz - mv3disp"/>
-    <position name="hop_pos" unit="mm" x="0" y="0" z="hop_b_wz - hop_b_t/2+lowHsg_bxmp_wz+lowHsg_blid_wz+lowCov_b1_wz/2 + hop_mv0_dz"/>
+    <position name="hop_pos" unit="mm" x="0 + mxgs_dx" y="0 + mxgs_dy" z="hop_b_wz - hop_b_t/2+lowHsg_bxmp_wz+lowHsg_blid_wz+lowCov_b1_wz/2 + hop_mv0_dz + mxgs_dz"/>
 
     <!-- coded mask base -->
     <constant name="cm_mv_x" value="746.2"/>
@@ -267,13 +275,13 @@
     <rotation name="cmb_dtmmp_rot" unit="deg" x="90"  y="45.5"/>
     <rotation name="cmb_dtmmm_rot" unit="deg" x="90" y="45.5"/>
     <position name="codedMask_imp_pos" unit="mm" x="0" y="0" z="3.5"/>
-    <position name="codedMask_pos" unit="mm" x="0" y="0" z="lowCov_b1_wz/2 + lowHsg_bymp_wz + lowHsg_blid_wz + hop_b_wz + hop_angDepth + hop_ct_z + 9"/>
+    <position name="codedMask_pos" unit="mm" x="0 + mxgs_dx" y="0 + mxgs_dy" z="lowCov_b1_wz/2 + lowHsg_bymp_wz + lowHsg_blid_wz + hop_b_wz + hop_angDepth + hop_ct_z + 9 + mxgs_dz"/>
 
     <!-- "sup. struct. i/f plate" -->
     <constant name="ssifp_t" value="3"/>
     <constant name="ssifp_z" value="lowCov_b1_wz + lowHsg_bxmp_wz + lowHsg_blid_wz + hop_b_wz"/>
-    <position name="ssifp_ym_pos" unit="mm" x="0" y="-lowCov_b1_wy/2-ssifp_t/2" z="ssifp_z/2-lowCov_b1_wz/2"/>
-    <position name="ssifp_yp_pos" unit="mm" x="0" y="lowCov_b1_wy/2+ssifp_t/2" z="ssifp_z/2-lowCov_b1_wz/2"/>
+    <position name="ssifp_ym_pos" unit="mm" x="0 + mxgs_dx" y="-lowCov_b1_wy/2-ssifp_t/2 + mxgs_dy" z="ssifp_z/2-lowCov_b1_wz/2 + mxgs_dz"/>
+    <position name="ssifp_yp_pos" unit="mm" x="0 + mxgs_dx" y="lowCov_b1_wy/2+ssifp_t/2 + mxgs_dy" z="ssifp_z/2-lowCov_b1_wz/2 + mxgs_dz"/>
 
     <!-- wake support structure -->
     <constant name="ws_ztot" value="237"/>
@@ -287,7 +295,7 @@
     <position name="ws_bot_pos" unit="mm" x="0" y="0" z="-ws_ztot/2+ws_bot_z/2"/>
     <position name="ws_mid_pos" unit="mm" x="0" y="0" z="0"/>
     <position name="ws_top_pos" unit="mm" x="0" y="0" z="ws_ztot/2 - ws_bot_z/2"/>
-    <position name="ws_pos" unit="mm" x="-lowCov_b1_wx/2+ws_xtot/2" y="-lowCov_b1_wy/2-ssifp_t-ws_back_y/2" z="ws_ztot/2-lowCov_b1_wz/2-11.2-7.5"/>
+    <position name="ws_pos" unit="mm" x="-lowCov_b1_wx/2+ws_xtot/2 + mxgs_dx" y="-lowCov_b1_wy/2-ssifp_t-ws_back_y/2 + mxgs_dy" z="ws_ztot/2-lowCov_b1_wz/2-11.2-7.5 + mxgs_dz"/>
 
     <!-- ram support structure -->
     <constant name="rs_xtot" value="765"/>
@@ -307,7 +315,7 @@
     <position name="rs_backb_pos" unit="mm" x="0" y="0" z="-rs_ztot/2 + rs_fin_z + rs_backa_z + rs_fin_z + rs_backb_z/2"/>
     <constant name="rs_flapAng" value="22.5"/>
     <position name="rs_base_pos" unit="mm" x="rs_xtot/2-rs_base_x/2" y="0" z="0"/>
-    <position name="rs_pos" unit="mm" x="" y="-rs_ytot/2+59.6 + lowCov_b1_wy/2 + ssifp_t" z="rs_ztot/2-lowCov_b1_wz/2-11.2-7.5"/>
+    <position name="rs_pos" unit="mm" x=" + mxgs_dx" y="-rs_ytot/2+59.6 + lowCov_b1_wy/2 + ssifp_t + mxgs_dy" z="rs_ztot/2-lowCov_b1_wz/2-11.2-7.5 + mxgs_dz"/>
     <constant name="rs_scrBox_x" value="88"/>
     <constant name="rs_scrBox_y" value="22"/>
     <constant name="rs_scrBox_z" value="17"/>
@@ -332,8 +340,8 @@
     <constant name="sr_cornerxOffset" value="hop_top_w/2 - lowCov_b1_wx/2 + sr_t"/>
     <constant name="sr_cornerzOffset" value="40.8-15.7 + sr_t + 15"/>
     <constant name="sr_yOffset" value="sr_y/2 + hop_top_w/2 - 761.1"/>
-    <position name="sr_botb_pos" unit="mm" x="sr_bot/2 - lowCov_b1_wx/2 - sr_cornerxOffset" y="sr_yOffset" z="-sr_cornerzOffset+sr_t/2"/>
-    <position name="sr_sideb_pos" unit="mm" x="sr_t/2 - lowCov_b1_wx/2 - sr_cornerxOffset" y="sr_yOffset" z="-sr_cornerzOffset + sr_side/2 + sr_t"/>
+    <position name="sr_botb_pos" unit="mm" x="sr_bot/2 - lowCov_b1_wx/2 - sr_cornerxOffset + mxgs_dx" y="sr_yOffset + mxgs_dy" z="-sr_cornerzOffset+sr_t/2 + mxgs_dz"/>
+    <position name="sr_sideb_pos" unit="mm" x="sr_t/2 - lowCov_b1_wx/2 - sr_cornerxOffset + mxgs_dx" y="sr_yOffset + mxgs_dy" z="-sr_cornerzOffset + sr_side/2 + sr_t + mxgs_dz"/>
 
     <!--  -->
   </define>
@@ -382,6 +390,7 @@
   </materials>
 
   <solids>
+    <box name="mxgs_mv" lunit="mm" x="mxgs_x" y="mxgs_y" z="mxgs_z"/>
     <box name="WorldBox" lunit="km" x="1.0" y="1.0" z="1.0"/>
 
     <!-- solids for lower cover: lowCov_... -->
@@ -779,8 +788,8 @@
       <physvol> <volumeref ref="hop_byp_v"/> <positionref ref="hop_byp_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="hop_bzp_v"/> <positionref ref="hop_bzp_pos"/> <rotationref ref="id"/> </physvol>
 
-      <physvol> <file name="instrument.gdml"/> <positionref ref="instrument_pos"/> <rotationref ref="id"/> </physvol>
       <!--
+      <physvol> <file name="instrument.gdml"/> <positionref ref="instrument_pos"/> <rotationref ref="id"/> </physvol>
       -->
 
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
@@ -879,9 +888,9 @@
       <physvol> <volumeref ref="cmb_dt_v"/> <positionref ref="cmb_dtmmp_pos"/> <rotationref ref="cmb_dtmmp_rot"/> </physvol>
       <physvol> <volumeref ref="cmb_dt_v"/> <positionref ref="cmb_dtmmm_pos"/> <rotationref ref="cmb_dtmmm_rot"/> <scaleref ref="flipZ"/> </physvol>
 
+      <physvol> <file name="codedMask.gdml"/> <positionref ref="codedMask_imp_pos"/> <rotationref ref="id"/> </physvol>
       <!--
       -->
-      <physvol> <file name="codedMask.gdml"/> <positionref ref="codedMask_imp_pos"/> <rotationref ref="id"/> </physvol>
 
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
       <!--
@@ -916,7 +925,7 @@
 
     <volume name="MXGS">
       <materialref ref="Vacuum"/>
-      <solidref ref="WorldBox"/>
+      <solidref ref="mxgs_mv"/>
       <!--
       -->
       <physvol> <volumeref ref="lowCov"/> <positionref ref="lowCov_pos"/> <rotationref ref="id"/> </physvol>
@@ -927,8 +936,6 @@
       <physvol> <volumeref ref="hop"/> <positionref ref="hop_pos"/> <rotationref ref="id"/> </physvol>
 
       <physvol> <volumeref ref="codedMask_imp"/> <positionref ref="codedMask_pos"/> <rotationref ref="id"/> </physvol>
-      <!--
-      -->
       <physvol> <volumeref ref="ssifp_v"/> <positionref ref="ssifp_ym_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="ssifp_v"/> <positionref ref="ssifp_yp_pos"/> <rotationref ref="id"/> </physvol>
 
@@ -939,6 +946,8 @@
       <physvol> <volumeref ref="ramSupport"/> <positionref ref="rs_pos"/> <rotationref ref="id"/> </physvol>
 
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
+      <!--
+      -->
     </volume>
 
     <volume name="World">
@@ -950,7 +959,7 @@
 
   </structure>
   <setup name="Default" version="1.0">
-    <world ref="World"/>
+    <world ref="MXGS"/>
   </setup>
 </gdml> 
 

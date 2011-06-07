@@ -124,8 +124,8 @@
       <physvol> <volumeref ref="mmia_i_w_v"/> <positionref ref="mmia_wm_pos"/> <rotationref ref="y90"/> </physvol>
       <physvol> <volumeref ref="mmia_i_w_v"/> <positionref ref="mmia_wp_pos"/> <rotationref ref="y90"/> </physvol>
 
-      <!-- 
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
+      <!-- 
       -->
     </volume>
 
@@ -134,15 +134,16 @@
       <solidref ref="world_b"/>
 
       <physvol> <volumeref ref="mmia"/> <positionref ref="orig"/> <rotationref ref="id"/> </physvol>
-      <!-- 
+
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
+      <!-- 
       -->
     </volume>
 
 
   </structure>
   <setup name="Default" version="1.0">
-    <world ref="world"/>
+    <world ref="mmia"/>
   </setup>
 </gdml> 
 

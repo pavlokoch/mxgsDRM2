@@ -36,11 +36,11 @@ def rPS_h(eMeV):
 #runs = [0.001,0.003,0.01,0.03,0.1,0.3,1,3,10,30]
 runs = [3]
 
-print runs
-if __name__ == '__main__':
-  p = Pool(2)
-  result = p.map(rPS_h,runs)
-  print result
-#rPS_h((4.555,-82,0))
+#print runs
+#if __name__ == '__main__':
+#  p = Pool(2)
+#  result = p.map(rPS_h,runs)
+#  print result
+##rPS_h((4.555,-82,0))
 
-#runSet("test")
+rPS_h(0.1)

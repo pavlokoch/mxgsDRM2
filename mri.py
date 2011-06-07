@@ -20,8 +20,8 @@ def transformation_ZAxisToThetaPhiDir((theta,phi),x0,y0,z0):
 def randomParticle_plane(planeWid,planeDist,pdgCode,origin,eMeV):
   (x0,y0,z0) = origin
   def randomPcle():
-    theta = 0.0 #pi/2.0*random.random()
-    phi = 2*pi*random.random()
+    theta = 20.0*pi/180.0 #pi/2.0*random.random()
+    phi = 30.0*pi/180.0 #2*pi*random.random()
     x = random.random()*planeWid-planeWid/2.0
     y = random.random()*planeWid-planeWid/2.0
     z = planeDist;

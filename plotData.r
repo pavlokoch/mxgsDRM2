@@ -32,16 +32,21 @@ getDataConnection <- function(fn){
   f;
 }
 
-plotDRM <- function(dbfn,mult){
-  db <- getDataConnection(dbfn);
-  a <- db("select * from evtsBGO, pcles where evtsBGO.priIdx = pcles.idx");
-  p <- db("select * from pcles");
-  thp <- atan2(sqrt(p$px**2+p$py**2),-p$pz)*180/pi;
-  th <- atan2(sqrt(a$px**2+a$py**2),-a$pz)*180/pi;
-  hp <- hist(thp,breaks=seq(0,90,length.out=40));
-  ha <- hist(th,breaks=seq(0,90,length.out=40));
-  plot(ha$mids,ha$counts/hp$counts*100*100/mult,type='l',ylim=c(0,800),xlim=c(0,90),xlab=expression(theta*"  "*(degree)),ylab=expression(A[eff]*"  "*(cm^2)),main="BGO effective area, 3 MeV photons [PRELIMINARY]");
-  list(a=a,p=p,th=th,thp=thp,ha=ha,hp=hp);
+plotDRM <- function(r=c(),dbfn="",mult=0){
+  if(length(r)==0){
+    r <- list();
+    db <- getDataConnection(dbfn);
+    #r$a <- db("select * from evtsBGO, pcles where evtsBGO.priIdx = pcles.idx");
+    r$a <- db("select * from evtsCZT, pcles where evtsCZT.priIdx = pcles.idx");
+    r$p <- db("select * from pcles");
+  }
+  print(names(r));
+  r$thp <- atan2(sqrt(r$p$px**2+r$p$py**2),-r$p$pz)*180/pi;
+  r$th <- atan2(sqrt(r$a$px**2+r$a$py**2),-r$a$pz)*180/pi;
+  nbins <- 20;
+  r$hp <- hist(r$thp,breaks=seq(0,90,length.out=nbins));
+  r$ha <- hist(r$th,breaks=seq(0,90,length.out=nbins));
+  print(r$ha);
+  plot(r$ha$mids,r$ha$counts/r$hp$counts*100*100/mult,type='l',xlab=expression(theta*"  "*(degree)),ylab=expression(A[eff]*"  "*(cm^2)),main="effective area, 3 MeV photons [PRELIMINARY]");
+  list(a=r$a,p=r$p,th=r$th,thp=r$thp,ha=r$ha,hp=r$hp);
 }
-
-

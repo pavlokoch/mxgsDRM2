@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
+
+  <define>
+    <position name="orig" unit="mm" x="0" y="0" z="0"/>
+    <rotation name="id" unit="deg"  x="0" y="0" z="0" />
+    <rotation name="xm90" unit="deg"  x="-90"/>
+    <rotation name="z90" unit="deg"  z="90"/>
+    <rotation name="z180" unit="deg" z="180"/>
+    <rotation name="y180" unit="deg" y="180"/>
+    <rotation name="zpToxp" unit="deg" y="90"/>
+    <rotation name="zpToxm" unit="deg" z="180" y="-90"/>
+
+    <constant name="asim_x" value="863"/>
+    <constant name="asim_y" value="1168"/>
+    <constant name="asim_z" value="550"/>
+
+    <constant name="mxgs_x" value="770"/>
+    <constant name="mxgs_y" value="770"/>
+    <constant name="mxgs_z" value="545"/>
+
+    <constant name="mmia_x" value="770"/>
+    <constant name="mmia_y" value="375"/>
+    <constant name="mmia_z" value="390"/>
+    
+    <position name="mxgs_pos" unit="mm" x="asim_x/2-mxgs_x/2" y="asim_y/2-mxgs_y/2" z="asim_z/2-mxgs_z/2"/>
+
+    <position name="mmia_pos" unit="mm" x="asim_x/2-mmia_x/2" y="-asim_y/2+mmia_y/2" z="asim_z/2-mmia_z/2"/>
+
+  </define>
+
+  <materials>
+    <material name="Vacuum" Z="1.0"> <D value="1.0e-25" unit="g/cm3"/> <atom value="1.00794"/> </material>
+  </materials>
+
+  <solids>
+    <box name="asim_mv" lunit="mm" x="10000" y="10000" z="10000"/>
+
+  </solids>
+
+  <structure>  
+    <volume name="asim">
+      <materialref ref="Vacuum"/>
+      <solidref ref="asim_mv"/>
+
+      <physvol> <file name="mxgs.gdml"/> <positionref ref="mxgs_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <file name="mmia.gdml"/> <positionref ref="mmia_pos"/> <rotationref ref="id"/> </physvol>
+
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
+      <!-- 
+      -->
+    </volume>
+
+
+  </structure>
+  <setup name="Default" version="1.0">
+    <world ref="asim"/>
+  </setup>
+</gdml> 
+

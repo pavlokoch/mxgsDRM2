@@ -16,6 +16,7 @@ CZTSD::CZTSD(G4String name, sqlite3 *dbin)
   db=dbin;
   stmt=0;
   evtctr=0;
+  npix=16; // number of pixels per side of a czt chip.
 }
 
 CZTSD::~CZTSD(){;}
@@ -37,12 +38,18 @@ G4bool CZTSD::ProcessHits(G4Step*aStep,G4TouchableHistory* /*ROhist*/)
     double z=preStepPoint->GetPosition().z();
     double t=preStepPoint->GetGlobalTime();
 
-    int i4 = tch->GetCopyNumber(1);
-    int i16 = tch->GetCopyNumber(2);
-    int i32 = tch->GetCopyNumber(4);
-    int i64 = y>0 ? 1 : 0;
+    //for(int i=0; i<9; ++i){
+    //  cout << "i: " << i << ", cn: " << tch->GetCopyNumber(i) << endl;
+    //}
 
-    int idx = i4+4*i16+16*i32+32*i64;
+    int ipx = tch->GetCopyNumber(0); // 0..npix-1
+    int ipy = tch->GetCopyNumber(1); // 0..npix-1
+    int i4 = tch->GetCopyNumber(3); // 0..3
+    int i16 = tch->GetCopyNumber(4); // 0..3
+    int i32 = tch->GetCopyNumber(6); // 0..1
+    int i64 = y>0 ? 1 : 0; // 0..1
+
+    int idx = ((((i64*2+i32)*4+i16)*4+i4)*npix+ipy)*npix+ipx;
 
     sqlite3_prepare_v2(db,"INSERT INTO hitsCZT VALUES (?,?,?,?,?,?,?)",-1,&stmt,0);
     sqlite3_bind_int(stmt,1,evtctr);

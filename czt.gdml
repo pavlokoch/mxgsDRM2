@@ -56,7 +56,7 @@
     <constant name="chip_spacer_h" value="5.0"/>
     <constant name="chip_spacer_l" value="38.0"/>
 
-    <!-- TODO: fixme! -->
+    <constant name="chip_npix" value="16"/>
     <constant name="chip_spacer_latdisp" value="chip_cw/2+chip_spacer_w/4.0"/>
     <position name="chip_bpcb_pos" unit="mm" x="0" y="0" z="-chip_z/2+chip_bpcbz/2"/>
     <position name="chip_c_pos" unit="mm" x="0" y="0" z="-chip_z/2+chip_bpcbz+chip_ch/2"/>
@@ -249,6 +249,8 @@
     <box name="chip_bpcb" lunit="mm" x="chip_bpcbw" y="chip_bpcbw" z="chip_bpcbz"/>
     <box name="chip_tpcb" lunit="mm" x="chip_cw" y="chip_cw" z="chip_tpcbz"/>
     <box name="chip_c" lunit="mm" x="chip_cw" y="chip_cw" z="chip_ch"/>
+    <box name="chip_pixel" lunit="mm" x="chip_cw/chip_npix" y="chip_cw/chip_npix" z="chip_ch"/>
+    <box name="chip_pixrow" lunit="mm" x="chip_cw" y="chip_cw/chip_npix" z="chip_ch"/>
     <box name="chip_halfspacer" lunit="mm" x="chip_spacer_l" y="chip_spacer_w/2" z="chip_spacer_h"/>
 
     <box name="czt16_bxp" lunit="mm" x="cztu_bw" y="cztu_y*4" z="cztu_z"/>
@@ -285,13 +287,40 @@
     <volume name="cztu_ip_v"> <materialref ref="AL6082T6"/> <solidref ref="cztu_ip"/> </volume>
     <volume name="chip_bpcb_v"> <materialref ref="Teflon"/> <solidref ref="chip_bpcb"/> </volume>
     <volume name="chip_tpcb_v"> <materialref ref="Teflon"/> <solidref ref="chip_tpcb"/> </volume>
-    <volume name="chip_c_v"> <materialref ref="CZT"/> <solidref ref="chip_c"/> <auxiliary auxtype="sensitive" auxvalue="czt"/> </volume>
     <volume name="chip_halfspacer_v"> <materialref ref="Vespel"/> <solidref ref="chip_halfspacer"/> </volume>
     <volume name="czt16_bxp_v"> <materialref ref="AL6082T6"/> <solidref ref="czt16_bxp"/> </volume>
     <volume name="czt16_byp_v"> <materialref ref="AL6082T6"/> <solidref ref="czt16_byp"/> </volume>
     <volume name="dauf_yb_v"> <materialref ref="AL6082T6"/> <solidref ref="dauf_yb"/> </volume>
     <volume name="dauf_xb_v"> <materialref ref="AL6082T6"/> <solidref ref="dauf_xb"/> </volume>
     <volume name="dauf_p_v"> <materialref ref="AL6082T6"/> <solidref ref="dauf_p"/> </volume>
+
+    <volume name="chip_pixel_v"> <materialref ref="CZT"/> <solidref ref="chip_pixel"/> <auxiliary auxtype="sensitive" auxvalue="czt"/> </volume>
+
+    <volume name="chip_pixrow_v">
+      <materialref ref="Vacuum"/>
+      <solidref ref="chip_pixrow"/> 
+      <replicavol number="chip_npix">
+        <volumeref ref="chip_pixel_v"/>
+        <replicate_along_axis>
+          <direction x="1"/>
+          <width value="chip_cw/chip_npix" unit="mm"/>
+          <offset value="-chip_cw/2.0 + chip_cw/chip_npix/2.0" unit="mm"/>
+        </replicate_along_axis>
+      </replicavol>
+
+    </volume>
+    <volume name="chip_c_v">
+      <materialref ref="Vacuum"/>
+      <solidref ref="chip_c"/> 
+      <replicavol number="chip_npix">
+        <volumeref ref="chip_pixrow_v"/>
+        <replicate_along_axis>
+          <direction y="1"/>
+          <width value="chip_cw/chip_npix" unit="mm"/>
+          <offset value="-chip_cw/2.0 + chip_cw/chip_npix/2.0" unit="mm"/>
+        </replicate_along_axis>
+      </replicavol>
+    </volume>
 
     <volume name="cztu">
       <materialref ref="Vacuum"/>

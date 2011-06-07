@@ -43,7 +43,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 {
   G4GDMLParser parser;
   //parser.Read("iss_C3I2.gdml");
-  parser.Read("mmia.gdml");
+  parser.Read("asim.gdml");
   //parser.Read("instrument.gdml");
   G4VPhysicalVolume *W = parser.GetWorldVolume();
   //W->GetLogicalVolume()->SetVisAttributes(G4VisAttributes::Invisible);

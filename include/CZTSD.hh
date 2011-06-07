@@ -28,6 +28,7 @@ class CZTSD : public G4VSensitiveDetector
       double edep;
       sqlite3_stmt *stmt;
       int evtctr;
+      int npix;
 };
 
 
