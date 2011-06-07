@@ -32,8 +32,16 @@ getDataConnection <- function(fn){
   f;
 }
 
-makeDRM <- function(){
-  db <- getDataConnection("test.db");
+plotDRM <- function(dbfn,mult){
+  db <- getDataConnection(dbfn);
   a <- db("select * from evtsBGO, pcles where evtsBGO.priIdx = pcles.idx");
+  p <- db("select * from pcles");
+  thp <- atan2(sqrt(p$px**2+p$py**2),-p$pz)*180/pi;
+  th <- atan2(sqrt(a$px**2+a$py**2),-a$pz)*180/pi;
+  hp <- hist(thp,breaks=seq(0,90,length.out=40));
+  ha <- hist(th,breaks=seq(0,90,length.out=40));
+  plot(ha$mids,ha$counts/hp$counts*100*100/mult,type='l',ylim=c(0,800),xlim=c(0,90),xlab=expression(theta*"  "*(degree)),ylab=expression(A[eff]*"  "*(cm^2)),main="BGO effective area, 3 MeV photons [PRELIMINARY]");
+  list(a=a,p=p,th=th,thp=thp,ha=ha,hp=hp);
 }
+
 

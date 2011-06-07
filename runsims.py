@@ -10,35 +10,37 @@ import sqlite3
 
 random.seed()
 
-def runGEANT(dbf,nPri):
+def runGEANT(dbf,nSim):
   #cmd = "/home/brant/geant4/bin/Linux-g++/mxgsDRM 0 %s %d %d 2>&1 | ./logring %s %s 500"%(dbf,nPri,nPri,"deleteme.log.crap","deleteme.log.crap2")
-  cmd = "/home/brant/geant4/bin/Linux-g++/mxgsDRM 0 %s %d %d"%(dbf,nPri,nPri)
+  cmd = "/home/brant/geant4/bin/Linux-g++/mxgsDRM 0 %s %d %d | ./logring %s %s 500"%(dbf,nSim,nSim,dbf+"_log.txt",dbf+"_log2.txt")
   print cmd
   os.system(cmd)
   return 0
 
-def runSet(prefix):
+def runSet(prefix,eMeV):
   dbf = "%s.db"%prefix
   nPri = 1000000
-  mri.makeGEANTInputDB(dbf,nPri,1,2,22,0,0,(0,0,0),3)
-  runGEANT(dbf,nPri)
+  nSim = 2000000
+  mri.makeGEANTInputDB(dbf,nPri,1,2,22,0,0,(0,0,0),eMeV)
+  runGEANT(dbf,nSim)
 
 prefix = "test"
 #nPriFile = 10000
 #nPri = 10000
 
-def rPS_h((theta,phi,eMeV)):
-  name = "%s_%.2f_%.2f_%.2g"%(prefix,theta,phi,eMeV)
-  runSet(nPriFile,nPri,theta,phi,eMeV,name,maxAlt,satAlt,igrfYear)
+def rPS_h(eMeV):
+  name = "test_%.2g"%(eMeV)
+  runSet(name,eMeV)
   return 0
 
-runs = [(lat,31.930,ang*math.pi/180.0,run) for (lat) in [-13.070] for run in [0,1,2] for ang in [5,10,15,20,25,30,40,50]]
+#runs = [0.001,0.003,0.01,0.03,0.1,0.3,1,3,10,30]
+runs = [3]
 
-#print runs
-#if __name__ == '__main__':
-#  p = Pool(6)
-#  result = p.map(rPS_h,runs)
-#  print result
-##rPS_h((4.555,-82,0))
+print runs
+if __name__ == '__main__':
+  p = Pool(2)
+  result = p.map(rPS_h,runs)
+  print result
+#rPS_h((4.555,-82,0))
 
-runSet("test")
+#runSet("test")

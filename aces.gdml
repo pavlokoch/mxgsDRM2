@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
+
+  <define>
+    <position name="orig" unit="mm" x="0" y="0" z="0"/>
+    <rotation name="id" unit="deg"  x="0" y="0" z="0" />
+    <rotation name="xm90" unit="deg"  x="-90"/>
+    <rotation name="y90" unit="deg"  y="90"/>
+    <rotation name="z180" unit="deg" z="180"/>
+    <rotation name="y180" unit="deg" y="180"/>
+    <rotation name="zpToxp" unit="deg" y="90"/>
+    <rotation name="zpToxm" unit="deg" z="180" y="-90"/>
+
+    <constant name="mmia_x" value="770"/>
+    <constant name="mmia_y" value="375"/>
+    <constant name="mmia_z" value="390"/>
+
+    <constant name="mmia_t" value="5"/> <!-- sheet metal thickness -->
+
+    <!-- instrument -->
+    <constant name="mmia_i_x" value="770-516"/>
+    <constant name="mmia_i_y" value="363.5"/>
+    <constant name="mmia_i_z" value="274"/>
+
+    <constant name="mmia_s_x" value="mmia_x - mmia_i_x"/>
+
+    <constant name="mmia_i_zdisp" value="mmia_z/2-mmia_i_z/2"/>
+    <position name="mmia_b_pos" unit="mm" x="mmia_x/2 - mmia_s_x-mmia_i_x/2" y="0" z="(mmia_z - mmia_i_z)/2"/>
+    <position name="mmia_wm_pos" unit="mm" x="mmia_x/2 - mmia_s_x-mmia_i_x/2" y="mmia_i_y/2 - mmia_t/2" z="(mmia_z - mmia_i_z)/2"/>
+    <position name="mmia_wp_pos" unit="mm" x="mmia_x/2 - mmia_s_x-mmia_i_x/2" y="-mmia_i_y/2 + mmia_t/2" z="(mmia_z - mmia_i_z)/2"/>
+
+    <!-- support -->
+    <position name="mmia_s_pos" unit="mm" x="mmia_x/2 - mmia_s_x/2" y="0" z="(mmia_z - mmia_i_z)/4"/>
+    <constant name="mmia_s_fudge" value="0.001"/>
+
+    <!--  -->
+  </define>
+
+  <materials>
+    <element name="Aluminum" formula="Al"  Z="13.0">  <atom value="26.98"/>   </element>
+    <element name="Manganese" formula="Mn" Z="23.0"> <atom value="54.938"/> </element>
+    <element name="Magnesium" formula="Mg" Z="12.0"> <atom value="24.305"/> </element>
+    <element name="Silicon" formula="Si" Z="14.0"> <atom value="28.086"/> </element>
+
+    <element name="Iron" formula="Fe" Z="26.0"> <atom value="55.845"/> </element>
+    <element name="Chromium" formula="Cr" Z="24.0"> <atom value="51.996"/> </element>
+
+    <element name="Bismuth" formula="Bi" Z="83.0"> <atom value="208.980"/> </element>
+    <element name="Germanium" formula="Ge" Z="32.0"> <atom value="72.64"/> </element>
+    <element name="Oxygen" formula="O" Z="8.0"> <atom value="15.9994"/> </element>
+
+    <element name="Carbon" formula="C" Z="6.0"> <atom value="12.0107"/> </element>
+    <element name="Hydrogen" formula="H" Z="1.0"> <atom value="1.008"/> </element>
+
+    <element name="Boron" formula="B" Z="5.0"> <atom value="10.811"/> </element>
+    <element name="Sodium" formula="Na" Z="11.0"> <atom value="22.990"/> </element>
+    <element name="Sulfur" formula="S" Z="16.0"> <atom value="32.065"/> </element>
+
+    <element name="Copper" formula="Cu" Z="29.0"> <atom value="63.546"/> </element>
+    <element name="Zinc" formula="Zn" Z="30.0"> <atom value="65.38"/> </element>
+    <element name="Titanium" formula="Ti" Z="22.0"> <atom value="47.867"/> </element>
+
+    <element name="Fluorine" formula="F" Z="9.0"> <atom value="18.9984"/> </element>
+    <element name="Nitrogen" formula="N" Z="7.0"> <atom value="14.0067"/> </element>
+
+    <material name="AL6082T6">
+      <D value="2.70" unit="g/cm3"/> 
+      <fraction n="0.974" ref="Aluminum"/>
+      <fraction n="0.009" ref="Magnesium"/>
+      <fraction n="0.007" ref="Manganese"/>
+      <fraction n="0.01" ref="Silicon"/>
+    </material>
+
+    <material name="AA7075T73">
+      <D value="2.81" unit="g/cm3"/> 
+      <fraction n="0.90" ref="Aluminum"/>
+      <fraction n="0.0025" ref="Chromium"/>
+      <fraction n="0.0165" ref="Copper"/>
+      <fraction n="0.025" ref="Magnesium"/>
+      <fraction n="0.056" ref="Zinc"/>
+    </material>
+
+    <material name="AL6082T6_supp">
+      <D value="0.102755" unit="g/cm3"/>  <!-- 6.5 kg / volume of support -->
+      <fraction n="0.974" ref="Aluminum"/>
+      <fraction n="0.009" ref="Magnesium"/>
+      <fraction n="0.007" ref="Manganese"/>
+      <fraction n="0.01" ref="Silicon"/>
+    </material>
+
+    <material name="StainlessSteel">
+      <D value="7.70" unit="g/cm3"/>
+      <fraction n="0.17" ref="Chromium"/>
+      <fraction n="0.83" ref="Iron"/>
+    </material>
+    <material name="Glass">
+      <D value="2.23" unit="g/cm3"/>
+      <fraction n="0.040064" ref="Boron"/>
+      <fraction n="0.539562" ref="Oxygen"/>
+      <fraction n="0.028191" ref="Sodium"/>
+      <fraction n="0.011644" ref="Aluminum"/>
+      <fraction n="0.377220" ref="Silicon"/>
+      <fraction n="0.003321" ref="Sulfur"/>
+    </material>
+
+    <material name="Vacuum" Z="1.0"> <D value="1.0e-25" unit="g/cm3"/> <atom value="1.00794"/> </material>
+  </materials>
+
+  <solids>
+    <box name="mmia_mv" lunit="mm" x="mmia_x" y="mmia_y" z="mmia_z"/>
+
+
+    <trap name="mmia_s" lunit="mm" x1="mmia_z - mmia_s_fudge" x2="mmia_z - mmia_s_fudge" y1="mmia_y - mmia_s_fudge" x3="mmia_i_z - mmia_s_fudge" x4="mmia_i_z - mmia_s_fudge" y2="mmia_i_y - mmia_s_fudge" alpha1="0" alpha2="0" phi="pi" theta="atan((mmia_i_z - mmia_z)/2/mmia_s_x)" z ="mmia_s_x"/>
+
+    <trd name="mmia_i_w" lunit="mm" x1="mmia_i_z" x2="50" y1="mmia_t" y2="mmia_t" z ="mmia_i_x"/>
+    <box name="mmia_i_b" lunit="mm" x="mmia_i_x" y="mmia_i_y - 2*mmia_t" z="mmia_t"/>
+
+    <box name="world_b" x="1000" y="1000" z="1000"/>
+
+  </solids>
+
+  <structure>  
+    <volume name="mmia_s_v"> <materialref ref="AL6082T6_supp"/> <solidref ref="mmia_s"/> </volume>
+    <volume name="mmia_i_b_v"> <materialref ref="AL6082T6"/> <solidref ref="mmia_i_b"/> </volume>
+    <volume name="mmia_i_w_v"> <materialref ref="AL6082T6"/> <solidref ref="mmia_i_w"/> </volume>
+
+    <volume name="mmia">
+      <materialref ref="Vacuum"/>
+      <solidref ref="mmia_mv"/>
+
+      <physvol> <volumeref ref="mmia_s_v"/> <positionref ref="mmia_s_pos"/> <rotationref ref="y90"/> </physvol>
+      <physvol> <volumeref ref="mmia_i_b_v"/> <positionref ref="mmia_b_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="mmia_i_w_v"/> <positionref ref="mmia_wm_pos"/> <rotationref ref="y90"/> </physvol>
+      <physvol> <volumeref ref="mmia_i_w_v"/> <positionref ref="mmia_wp_pos"/> <rotationref ref="y90"/> </physvol>
+
+      <!-- 
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
+      -->
+    </volume>
+
+    <volume name="world">
+      <materialref ref="Vacuum"/>
+      <solidref ref="world_b"/>
+
+      <physvol> <volumeref ref="mmia"/> <positionref ref="orig"/> <rotationref ref="id"/> </physvol>
+      <!-- 
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
+      -->
+    </volume>
+
+
+  </structure>
+  <setup name="Default" version="1.0">
+    <world ref="world"/>
+  </setup>
+</gdml> 
+
