@@ -1721,9 +1721,13 @@
   </materials>
   <solids>
     <box aunit="radian" lunit="mm" name="WorldSolid_147563880" x="12000" y="12000" z="12000" />
+
+    <!-- irrelevant?
     <tube aunit="degree" deltaphi="360" lunit="mm" name="Columbus3PrtOtrTrkRing_Solid_147588384" rmax="3499.999" rmin="0" startphi="-270" z="0.001" />
     <tube aunit="degree" deltaphi="360" lunit="mm" name="Columbus3CylOtrTrkRing_Solid_147588688" rmax="3500" rmin="3499.999" startphi="-270" z="9000" />
     <tube aunit="degree" deltaphi="360" lunit="mm" name="Columbus3StbOtrTrkRing_Solid_147588992" rmax="3499.999" rmin="0" startphi="-270" z="0.001" />
+    -->
+
     <tube aunit="degree" deltaphi="360" lunit="mm" name="Columbus3PrtMdpsClosingRing_Solid_147593648" rmax="1114.08592253304" rmin="0" startphi="-270" z="1.6" />
     <polycone aunit="degree" deltaphi="360" lunit="mm" name="Columbus3Prt_Hull_Solid_147596744" startphi="0" >
       <zplane rmax="984.03425" rmin="0" z="-304.889098039216" />
@@ -2532,6 +2536,7 @@
     <tube aunit="degree" deltaphi="360" lunit="mm" name="Columbus3_InrTrk_Solid_147988312" rmax="1000" rmin="0" startphi="0" z="4300" />
   </solids>
   <structure>
+    <!-- irrelevant?
     <volume name="Columbus3PrtOtrTrkRing_Logical_147588456" >
       <materialref ref="Vacuum_147558976" />
       <solidref ref="Columbus3PrtOtrTrkRing_Solid_147588384" />
@@ -2544,6 +2549,7 @@
       <materialref ref="Vacuum_147558976" />
       <solidref ref="Columbus3StbOtrTrkRing_Solid_147588992" />
     </volume>
+    -->
     <volume name="Columbus3PrtMdpsClosingRing_Logical_147593720" >
       <materialref ref="Aluminum6061T6_147593808" />
       <solidref ref="Columbus3PrtMdpsClosingRing_Solid_147593648" />
@@ -6110,14 +6116,20 @@
       <materialref ref="Columbus3EPF_1_147888840" />
       <solidref ref="Columbus3EPF_6_Solid_147891736" />
     </volume>
+
+    <!-- CEPA ? -->
     <volume name="Columbus3EPF_7_Logical_147892080" >
       <materialref ref="Columbus3EPF_1_147888840" />
       <solidref ref="Columbus3EPF_7_Solid_147892024" />
     </volume>
+
+    <!-- CEPA end block ? -->
     <volume name="Columbus3EPF_8_Logical_147892368" >
       <materialref ref="Columbus3EPF_1_147888840" />
       <solidref ref="Columbus3EPF_8_Solid_147892312" />
     </volume>
+
+
     <volume name="Columbus3EPF_9_Logical_147892672" >
       <materialref ref="Columbus3EPF_1_147888840" />
       <solidref ref="Columbus3EPF_9_Solid_147892600" />
@@ -6226,10 +6238,15 @@
       <materialref ref="Columbus3EPFTopPL_147935872" />
       <solidref ref="Columbus3EPFTopPL_Solid_147937440" />
     </volume>
+
+    <!-- payload replaced by ASIM
     <volume name="Columbus3EPF-TopStbPL_Logical_147937784" >
       <materialref ref="Columbus3EPFTopPL_147935872" />
       <solidref ref="Columbus3EPFTopStbPL_Solid_147937728" />
     </volume>
+    -->
+
+
     <volume name="Columbus3EPF-NadirStbPL_Logical_147938072" >
       <materialref ref="Columbus3EPFTopPL_147935872" />
       <solidref ref="Columbus3EPFNadirStbPL_Solid_147938016" />
@@ -6250,11 +6267,15 @@
         <positionref ref="Columbus3EPFNadirStbPL_Physical_147938160inWorldLogical_147564344p" />
         <rotationref ref="Columbus3EPFNadirStbPL_Physical_147938160inWorldLogical_147564344r" />
       </physvol>
+
+      <!-- payload replaced by ASIM
       <physvol>
         <volumeref ref="Columbus3EPF-TopStbPL_Logical_147937784" />
         <positionref ref="Columbus3EPFTopStbPL_Physical_147937872inWorldLogical_147564344p" />
         <rotationref ref="Columbus3EPFTopStbPL_Physical_147937872inWorldLogical_147564344r" />
       </physvol>
+      -->
+
       <physvol>
         <volumeref ref="Columbus3EPF-TopPL_Logical_147937496" />
         <positionref ref="Columbus3EPFTopPL_Physical_147937584inWorldLogical_147564344p" />
@@ -6386,16 +6407,24 @@
         <positionref ref="Columbus3EPF_9_Physical_147892760inWorldLogical_147564344p" />
         <rotationref ref="Columbus3EPF_9_Physical_147892760inWorldLogical_147564344r" />
       </physvol>
+
+
+      <!-- CEPA end block ?
       <physvol>
         <volumeref ref="Columbus3EPF_8_Logical_147892368" />
         <positionref ref="Columbus3EPF_8_Physical_147892456inWorldLogical_147564344p" />
         <rotationref ref="Columbus3EPF_8_Physical_147892456inWorldLogical_147564344r" />
       </physvol>
+ -->
+
+      <!-- CEPA ? -->
       <physvol>
         <volumeref ref="Columbus3EPF_7_Logical_147892080" />
         <positionref ref="Columbus3EPF_7_Physical_147892168inWorldLogical_147564344p" />
         <rotationref ref="Columbus3EPF_7_Physical_147892168inWorldLogical_147564344r" />
       </physvol>
+
+
       <physvol>
         <volumeref ref="Columbus3EPF_6_Logical_147891792" />
         <positionref ref="Columbus3EPF_6_Physical_147891880inWorldLogical_147564344p" />
@@ -9260,6 +9289,7 @@
         <positionref ref="Columbus3PrtMdpsClosingRing_Physical_147595392inWorldLogical_147564344p" />
         <rotationref ref="Columbus3PrtMdpsClosingRing_Physical_147595392inWorldLogical_147564344r" />
       </physvol>
+      <!-- irrelevant?
       <physvol>
         <volumeref ref="Columbus3StbOtrTrkRing_Logical_147589064" />
         <positionref ref="Columbus3StbOtrTrkRing_Physical_147589488inWorldLogical_147564344p" />
@@ -9275,6 +9305,17 @@
         <positionref ref="Columbus3PrtOtrTrkRing_Physical_147588544inWorldLogical_147564344p" />
         <rotationref ref="Columbus3PrtOtrTrkRing_Physical_147588544inWorldLogical_147564344r" />
       </physvol>
+      -->
+
+      <!-- adding ASIM -->
+      <physvol> <file name="asim.gdml"/> <position name="asim_pos" unit="mm" x="0" y="2829.7 + 145.8/2 + 863/2" z="-1399.6 + 1130/2 - 863 + 550/2"/> <rotation name="asim_rot" unit="deg" y="180" z="90"/> </physvol>
+      <!-- position, dimensions of CEPA box?
+        <position name="Columbus3EPF_7_Physical_147892168inWorldLogical_147564344p" unit="mm" x="0" y="2829.60281294964" z="-1399.68129496403" />
+        <box aunit="radian" lunit="mm" name="Columbus3EPF_7_Solid_147892024" x="1200" y="1133.53956834532" z="145.752517985612" />
+      -->
+      <!-- done adding ASIM -->
+
+
     </volume>
   </structure>
   <setup name="Default" version="1.0" >

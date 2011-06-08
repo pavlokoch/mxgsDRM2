@@ -788,8 +788,8 @@
       <physvol> <volumeref ref="hop_byp_v"/> <positionref ref="hop_byp_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="hop_bzp_v"/> <positionref ref="hop_bzp_pos"/> <rotationref ref="id"/> </physvol>
 
-      <!--
       <physvol> <file name="instrument.gdml"/> <positionref ref="instrument_pos"/> <rotationref ref="id"/> </physvol>
+      <!--
       -->
 
       <auxiliary auxtype="visibility" auxvalue="invisible"/>

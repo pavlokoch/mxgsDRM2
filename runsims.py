@@ -17,12 +17,16 @@ def runGEANT(dbf,nSim):
   os.system(cmd)
   return 0
 
+#x="0" y="2829.7 + 145.8/2 + 863/2" z="-1399.6 + 1130/2 - 863 + 550/2":w
+asim_orig = (0, 2.8297 + 0.1458/2.0 + 0.8630/2.0, -1.3996 + 1.1300/2.0 - 0.8630 + 0.5500/2.0)
+
 def runSet(prefix,eMeV):
   dbf = "%s.db"%prefix
   nPri = 1000000
-  nSim = 2000000
-  mri.makeGEANTInputDB(dbf,nPri,1,2,22,0,0,(0,0,0),eMeV)
+  nSim = 10000000
+  mri.makeGEANTInputDB(dbf,nPri,1,2,22,0,0,asim_orig,eMeV)
   runGEANT(dbf,nSim)
+
 
 prefix = "test"
 #nPriFile = 10000
