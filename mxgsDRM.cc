@@ -14,6 +14,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <fcntl.h>
+#include "SamplingGeometry.hh"
 
 #include <sqlite3.h>
 
@@ -64,10 +65,12 @@ int main(int argc, char** argv)
     G4RunManager* runManager = new G4RunManager;
 
     // set mandatory initialization classes
-    runManager->SetUserInitialization(new DetectorConstruction(db));
+    DetectorConstruction *world = new DetectorConstruction(db);
+    //world->RegisterParallelWorld(new SamplingGeometry(0,0,0));
+    runManager->SetUserInitialization(world);
     runManager->SetUserInitialization(new LHEP);
 
-    // set mandatory user action class ; -0.5 is the approximate zoffset to the "center" of the detector.
+    // set mandatory user action class
     PrimaryGeneratorAction *pgen = new PrimaryGeneratorAction(db);
     runManager->SetUserAction(pgen);
 
@@ -163,6 +166,10 @@ int main(int argc, char** argv)
 /vis/sceneHandler/attach
 /vis/viewer/set/viewpointThetaPhi 45 45
 /vis/scene/add/trajectories
+/vis/scene/add/hits
+
+/vis/viewer/set/viewpointThetaPhi 90 0
+/vis/viewer/panTo 1.4226 3.7341
 
 /vis/open OGLIX
 /vis/scene/create

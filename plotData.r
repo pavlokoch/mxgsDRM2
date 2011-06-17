@@ -32,7 +32,7 @@ getDataConnection <- function(fn){
   f;
 }
 
-plotDRM <- function(r=c(),dbfn="",mult=0){
+plotDRM <- function(r=c(),dbfn="",mult=0,nbins=20){
   if(length(r)==0){
     r <- list();
     db <- getDataConnection(dbfn);
@@ -43,10 +43,8 @@ plotDRM <- function(r=c(),dbfn="",mult=0){
   print(names(r));
   r$thp <- atan2(sqrt(r$p$px**2+r$p$py**2),-r$p$pz)*180/pi;
   r$th <- atan2(sqrt(r$a$px**2+r$a$py**2),-r$a$pz)*180/pi;
-  nbins <- 20;
-  r$hp <- hist(r$thp,breaks=seq(0,90,length.out=nbins));
-  r$ha <- hist(r$th,breaks=seq(0,90,length.out=nbins));
-  print(r$ha);
+  r$hp <- hist(r$thp,breaks=seq(0,180,length.out=nbins));
+  r$ha <- hist(r$th,breaks=seq(0,180,length.out=nbins));
   plot(r$ha$mids,r$ha$counts/r$hp$counts*100*100/mult,type='l',xlab=expression(theta*"  "*(degree)),ylab=expression(A[eff]*"  "*(cm^2)),main="effective area, 3 MeV photons [PRELIMINARY]");
   list(a=r$a,p=r$p,th=r$th,thp=r$thp,ha=r$ha,hp=r$hp);
 }

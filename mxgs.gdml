@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="/home/brant/software/geant/geant4.9.4.p01/source/persistency/gdml/schema/gdml.xsd">
 
   <define>
     <constant name="mxgs_x" value="770"/>
@@ -54,6 +54,7 @@
     <position name="lowHsg_bym_pos" unit="mm" x="0" y="-lowHsg_bxmp_wy/2+lowHsg_bymp_wy/2" z="-lowHsg_bxmp_wz/2-lowHsg_blid_wz/2+lowHsg_mv_dz"/>
     <position name="lowHsg_byp_pos" unit="mm" x="0" y="lowHsg_bxmp_wy/2-lowHsg_bymp_wy/2" z="-lowHsg_bxmp_wz/2-lowHsg_blid_wz/2+lowHsg_mv_dz"/>
     <position name="lowHsg_blid_pos" unit="mm" x="0" y="0" z="lowHsg_mv_dz"/>
+    <position name="lowHsg_psu_pos" unit="mm" x="0" y="0" z="0"/>
     <position name="lowHsg_pos" unit="mm" x="0 + mxgs_dx" y="0 + mxgs_dy" z="lowHsg_bxmp_wz+lowCov_b1_wz/2+lowHsg_blid_wz/2-lowHsg_mv_dz + mxgs_dz"/>
 
     <!-- definitions for DPU box; dpuBox_... -->
@@ -412,6 +413,7 @@
     <box name="lowHsg_bym" lunit="mm" x="lowHsg_bymp_wx" y="lowHsg_bymp_wy" z="lowHsg_bymp_wz"/>
     <box name="lowHsg_byp" lunit="mm" x="lowHsg_bymp_wx" y="lowHsg_bymp_wy" z="lowHsg_bymp_wz"/>
     <box name="lowHsg_blid" lunit="mm" x="lowHsg_blid_wx" y="lowHsg_blid_wy" z="lowHsg_blid_wz"/>
+    <box name="lowHsg_psu" lunit="mm" x="340" y="535" z="13.23"/> <!-- thickness calculated to give 6.5 kg of AL6082T6. -->
 
     <!-- solids for dpu box: dpuBox_... -->
     <box name="dpuBox_mv_0" lunit="mm" x="169.9" y="575" z="dpuBox_bbck_wz+dpuBox_bb_wz"/>
@@ -651,6 +653,7 @@
     <volume name="lowHsg_bym_v"> <materialref ref="AL6082T6"/> <solidref ref="lowHsg_bym"/> </volume>
     <volume name="lowHsg_byp_v"> <materialref ref="AL6082T6"/> <solidref ref="lowHsg_byp"/> </volume>
     <volume name="lowHsg_blid_v"> <materialref ref="AL6082T6"/> <solidref ref="lowHsg_blid"/> </volume>
+    <volume name="lowHsg_psu_v"> <materialref ref="AL6082T6"/> <solidref ref="lowHsg_psu"/> </volume>
 
     <!-- volumes for lower housing: lowHsg_... -->
     <volume name="dpuBox_bb_v"> <materialref ref="AL6082T6"/> <solidref ref="dpuBox_bb"/> </volume>
@@ -757,6 +760,9 @@
       <physvol> <volumeref ref="lowHsg_bym_v"/> <positionref ref="lowHsg_bym_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="lowHsg_byp_v"/> <positionref ref="lowHsg_byp_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="lowHsg_blid_v"/> <positionref ref="lowHsg_blid_pos"/> <rotationref ref="id"/> </physvol>
+
+      <physvol> <volumeref ref="lowHsg_psu_v"/> <positionref ref="lowHsg_psu_pos"/> <rotationref ref="id"/> </physvol>
+
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
       <!--
       -->

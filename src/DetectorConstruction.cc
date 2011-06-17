@@ -31,10 +31,9 @@
 
 using namespace std;
 
-DetectorConstruction::DetectorConstruction(sqlite3 *dbin)
- :  experimentalHall_log(0), 
-    experimentalHall_phys(0)
-{db = dbin;}
+DetectorConstruction::DetectorConstruction(sqlite3 *dbin){
+  db = dbin;
+}
 
 DetectorConstruction::~DetectorConstruction()
 {;}

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<gdml xmlns:gdml="http://cern.ch/2001/Schemas/GDML" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="/home/ersmark/sys/build/gdml-2.6.0/GDMLSchema/gdml.xsd" >
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="/home/brant/software/geant/geant4.9.4.p01/source/persistency/gdml/schema/gdml.xsd">
   <define>
     <position name="Columbus3PrtInteriorCone_Physical_147941272inColumbus3Prt_Inside_Logical_147602504p" unit="mm" x="0" y="0" z="69.9551666666666" />
     <position name="Columbus3PrtHatchClosingRing_Physical_147618384inColumbus3Prt_Inside_Logical_147602504p" unit="mm" x="0" y="0" z="-206.371397055882" />
@@ -6092,6 +6092,8 @@
       <materialref ref="Aluminum_x0.5_147572424" />
       <solidref ref="Columbus3_PFA_Solid_147886128" />
     </volume>
+
+
     <volume name="Columbus3EPF_1_Logical_147890408" >
       <materialref ref="Columbus3EPF_1_147888840" />
       <solidref ref="Columbus3EPF_1_Solid_147890120" />
@@ -6162,6 +6164,8 @@
       <materialref ref="Columbus3EPF_1_147888840" />
       <solidref ref="Columbus3EPF_16_Solid_147894328" />
     </volume>
+
+
     <volume name="Columbus3EPF_MntTop1_Logical_147894688" >
       <materialref ref="Aluminum2219_x0.5_147569456" />
       <solidref ref="Columbus3EPF_MntTop1_Solid_147894616" />
@@ -6234,19 +6238,21 @@
       <materialref ref="Aluminum2219_x0.5_147569456" />
       <solidref ref="Columbus3EPF_MntNadir9_Solid_147935568" />
     </volume>
+
+
+    <!-- begin payloads -->
+    <!-- payload replaced by ACES
     <volume name="Columbus3EPF-TopPL_Logical_147937496" >
       <materialref ref="Columbus3EPFTopPL_147935872" />
       <solidref ref="Columbus3EPFTopPL_Solid_147937440" />
     </volume>
-
+    -->
     <!-- payload replaced by ASIM
     <volume name="Columbus3EPF-TopStbPL_Logical_147937784" >
       <materialref ref="Columbus3EPFTopPL_147935872" />
       <solidref ref="Columbus3EPFTopStbPL_Solid_147937728" />
     </volume>
     -->
-
-
     <volume name="Columbus3EPF-NadirStbPL_Logical_147938072" >
       <materialref ref="Columbus3EPFTopPL_147935872" />
       <solidref ref="Columbus3EPFNadirStbPL_Solid_147938016" />
@@ -6255,6 +6261,9 @@
       <materialref ref="Columbus3EPFTopPL_147935872" />
       <solidref ref="Columbus3EPFNadirPL_Solid_147938304" />
     </volume>
+    <!-- end payloads -->
+
+
     <volume name="WorldLogical_147564344" >
       <materialref ref="Vacuum_147558976" />
       <solidref ref="WorldSolid_147563880" />
@@ -6276,11 +6285,13 @@
       </physvol>
       -->
 
+      <!-- payload replaced by ACES
       <physvol>
         <volumeref ref="Columbus3EPF-TopPL_Logical_147937496" />
         <positionref ref="Columbus3EPFTopPL_Physical_147937584inWorldLogical_147564344p" />
         <rotationref ref="Columbus3EPFTopPL_Physical_147937584inWorldLogical_147564344r" />
       </physvol>
+      -->
       <physvol>
         <volumeref ref="Columbus3EPF_MntNadir9_Logical_147935640" />
         <positionref ref="Columbus3EPF_MntNadir9_Physical_147935728inWorldLogical_147564344p" />
@@ -9309,9 +9320,20 @@
 
       <!-- adding ASIM -->
       <physvol> <file name="asim.gdml"/> <position name="asim_pos" unit="mm" x="0" y="2829.7 + 145.8/2 + 863/2" z="-1399.6 + 1130/2 - 863 + 550/2"/> <rotation name="asim_rot" unit="deg" y="180" z="90"/> </physvol>
-      <!-- position, dimensions of CEPA box?
+
+      <!-- adding ACES -->
+      <physvol> <file name="aces.gdml"/> <position name="aces_pos" unit="mm" x="0" y="2007.10355585945" z="-2790.29260538676"/> <rotation name="aces_rot" unit="deg" x="-180"/> </physvol>
+      <!--
+      -->
+
+      <!-- notes copypasted from above:
+        position, dimensions of CEPA box?
         <position name="Columbus3EPF_7_Physical_147892168inWorldLogical_147564344p" unit="mm" x="0" y="2829.60281294964" z="-1399.68129496403" />
         <box aunit="radian" lunit="mm" name="Columbus3EPF_7_Solid_147892024" x="1200" y="1133.53956834532" z="145.752517985612" />
+
+        position of ACES
+        <position name="Columbus3EPFTopPL_Physical_147937584inWorldLogical_147564344p" unit="mm" x="0" y="2007.10355585945" z="-2790.29260538676" />
+        <rotation name="Columbus3EPFTopPL_Physical_147937584inWorldLogical_147564344r" unit="degree" x="-180" y="0" z="0" />
       -->
       <!-- done adding ASIM -->
 
