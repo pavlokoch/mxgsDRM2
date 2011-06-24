@@ -1720,7 +1720,7 @@
     </material>
   </materials>
   <solids>
-    <box aunit="radian" lunit="mm" name="WorldSolid_147563880" x="12000" y="12000" z="12000" />
+    <box aunit="radian" lunit="mm" name="WorldSolid_147563880" x="1000000" y="1000000" z="1000000" />
 
     <!-- irrelevant?
     <tube aunit="degree" deltaphi="360" lunit="mm" name="Columbus3PrtOtrTrkRing_Solid_147588384" rmax="3499.999" rmin="0" startphi="-270" z="0.001" />
@@ -9320,6 +9320,8 @@
 
       <!-- adding ASIM -->
       <physvol> <file name="asim.gdml"/> <position name="asim_pos" unit="mm" x="0" y="2829.7 + 145.8/2 + 863/2" z="-1399.6 + 1130/2 - 863 + 550/2"/> <rotation name="asim_rot" unit="deg" y="180" z="90"/> </physvol>
+      <!-- 
+      -->
 
       <!-- adding ACES -->
       <physvol> <file name="aces.gdml"/> <position name="aces_pos" unit="mm" x="0" y="2007.10355585945" z="-2790.29260538676"/> <rotation name="aces_rot" unit="deg" x="-180"/> </physvol>

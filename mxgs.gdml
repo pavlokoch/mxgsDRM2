@@ -951,12 +951,12 @@
       <physvol> <volumeref ref="wakeSupport"/> <positionref ref="ws_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="ramSupport"/> <positionref ref="rs_pos"/> <rotationref ref="id"/> </physvol>
 
-      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       <!--
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       -->
     </volume>
 
-    <volume name="World">
+    <volume name="mxgs_world">
       <materialref ref="Vacuum"/>
       <solidref ref="WorldBox"/>
       <physvol> <volumeref ref="MXGS"/> <positionref ref="orig"/> <rotationref ref="id"/> </physvol>

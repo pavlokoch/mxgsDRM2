@@ -416,8 +416,8 @@
       <physvol> <volumeref ref="bgoMod6_1"/> <position name="m1p" x="0" y="-wy/2-0.001" z="0"/> <rotationref ref="z180"/> </physvol>
       <physvol> <volumeref ref="bgoMod6_2"/> <position name="m2p" x="0" y="wy/2+0.001" z="0"/> <rotationref ref="id"/> </physvol>
 
-      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       <!--
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       -->
     </volume>
 

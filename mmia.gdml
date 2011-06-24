@@ -106,7 +106,7 @@
     <trd name="mmia_i_w" lunit="mm" x1="mmia_i_z" x2="50" y1="mmia_t" y2="mmia_t" z ="mmia_i_x"/>
     <box name="mmia_i_b" lunit="mm" x="mmia_i_x" y="mmia_i_y - 2*mmia_t" z="mmia_t"/>
 
-    <box name="world_b" x="1000" y="1000" z="1000"/>
+    <box name="world_b" x="100000" y="100000" z="100000"/>
 
   </solids>
 
@@ -124,22 +124,10 @@
       <physvol> <volumeref ref="mmia_i_w_v"/> <positionref ref="mmia_wm_pos"/> <rotationref ref="y90"/> </physvol>
       <physvol> <volumeref ref="mmia_i_w_v"/> <positionref ref="mmia_wp_pos"/> <rotationref ref="y90"/> </physvol>
 
-      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       <!-- 
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       -->
     </volume>
-
-    <volume name="world">
-      <materialref ref="Vacuum"/>
-      <solidref ref="world_b"/>
-
-      <physvol> <volumeref ref="mmia"/> <positionref ref="orig"/> <rotationref ref="id"/> </physvol>
-
-      <auxiliary auxtype="visibility" auxvalue="invisible"/>
-      <!-- 
-      -->
-    </volume>
-
 
   </structure>
   <setup name="Default" version="1.0">

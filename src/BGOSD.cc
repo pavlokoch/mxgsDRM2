@@ -54,6 +54,7 @@ G4bool BGOSD::ProcessHits(G4Step*aStep,G4TouchableHistory* /*ROhist*/)
     while(sqlite3_step(stmt) != SQLITE_DONE){
       cout << "sqlite3_step failed? retrying...\n";
     };
+    sqlite3_finalize(stmt);
 
     edep += thisEdep;
   }

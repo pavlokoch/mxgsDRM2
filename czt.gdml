@@ -533,8 +533,8 @@
       <physvol> <volumeref ref="daf"/> <positionref ref="daf_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="cztMods"/> <positionref ref="czt_pos"/> <rotationref ref="id"/> </physvol>
 
-      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       <!-- 
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       -->
     </volume>
 

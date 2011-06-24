@@ -21,25 +21,24 @@ def runGEANT(dbf,nSim):
 mxgs_orig_in_columbus = (0, 2.8297 + 0.1458/2.0 + 0.8630/2.0, -1.3996 + 1.1300/2.0 - 0.8630 + 0.5500/2.0)
 mxgs_orig_in_asim = (0, 0.200, -0.125)
 
-def runSet(prefix,eMeV):
+def runSet(prefix,eMeV,pdgID):
   dbf = "%s.db"%prefix
   nPri = 1000000
-  nSim = 10000000
-  mri.makeGEANTInputDB(dbf,nPri,1,20,22,0,0,mxgs_orig_in_columbus,eMeV)
+  nSim = 5000000
+  mri.makeGEANTInputDB(dbf,nPri,1,60,pdgID,0,0,mxgs_orig_in_columbus,eMeV)
   runGEANT(dbf,nSim)
 
 
-prefix = "test"
+#prefix = "test"
 #nPriFile = 10000
 #nPri = 10000
 
-def rPS_h(eMeV):
-  name = "/mnt/sdb1/mxgsDRM/test_%.2g"%(eMeV)
-  runSet(name,eMeV)
+def rPS_h((eMeV,pdgID)):
+  name = "test_%d_%.2g"%(pdgID,eMeV)
+  runSet(name,eMeV,pdgID)
   return 0
 
-runs = [0.001,0.003,0.01,0.03,0.1,0.3,1,3]
-#runs = [1]
+runs = [(100.0,22),(100,11)]
 
 print runs
 if __name__ == '__main__':
