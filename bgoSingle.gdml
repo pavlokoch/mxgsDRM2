@@ -1,0 +1,339 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="/home/brant/software/geant/geant4.9.4.p01/source/persistency/gdml/schema/gdml.xsd">
+
+  <define>
+    <position name="orig" unit="mm" x="0" y="0" z="0"/>
+    <rotation name="id" unit="deg"  x="0" y="0" z="0" />
+    <rotation name="xm90" unit="deg"  x="-90"/>
+    <rotation name="z180" unit="deg" z="180"/>
+    <rotation name="y180" unit="deg" y="180"/>
+    <rotation name="zpToxp" unit="deg" y="90"/>
+    <rotation name="zpToxm" unit="deg" z="180" y="-90"/>
+
+    <constant name="bgoBox_end_t" value="2"/>
+    <constant name="bgoBox_side_l" value="152"/>
+    <constant name="bgoBox_wx" value="62"/>
+    <constant name="bgoBox_wz" value="44.5"/>
+
+    <constant name="pmtHsg_l" value="115"/>
+    <constant name="pmtHsg_end_t" value="5"/> <!-- approximate, since I'm going to ignore the connectors. -->
+    <constant name="pmtHsg_rad" value="30.5"/>
+    <constant name="pmtHsg_t" value="2"/>
+    <constant name="pmtHsg_base_t" value="6"/>
+    <constant name="pmtHsg_base_wid" value="62"/>
+
+    <constant name="wx" value="bgoBox_wx"/>
+    <constant name="wy" value="bgoBox_end_t + bgoBox_side_l + pmtHsg_l"/>
+    <constant name="wz" value="pmtHsg_base_wid"/>
+
+    <position name="bgoBox_top_pos" unit="mm" x="0" y="-wy/2+bgoBox_end_t+bgoBox_side_l/2" z="(39.5-5)/2 + 2.5"/>
+    <position name="bgoBox_sidexp_pos" unit="mm" x="bgoBox_wx/2-2.5" y="-wy/2+bgoBox_end_t+bgoBox_side_l/2" z="0"/>
+    <position name="bgoBox_sidexm_pos" unit="mm" x="-bgoBox_wx/2+2.5" y="-wy/2+bgoBox_end_t+bgoBox_side_l/2" z="0"/>
+    <position name="bgoBox_bot_pos" unit="mm" x="0" y="-wy/2+bgoBox_end_t+bgoBox_side_l/2" z="-(39.5-5)/2 - 2.5"/>
+    <position name="bgoBox_end_pos" unit="mm" x="0" y="-wy/2+bgoBox_end_t/2" z="0"/>
+
+    <constant name="holePairYdisp" value="11"/>
+    <constant name="holePPairXdisp" value="13"/>
+
+    <position name="bgo_pos" unit="mm" x="0" y="-wy/2+bgoBox_end_t+bgoBox_side_l/2" z="0"/>
+
+    <constant name="pmt_l" value="pmtHsg_l - pmtHsg_end_t - pmtHsg_base_t"/>
+    <position name="pmtHsg_base_pos" unit="mm" x="0" y="-wy/2+bgoBox_end_t+bgoBox_side_l+pmtHsg_base_t/2" z="0"/>
+    <position name="pmtHsg_tube_pos" unit="mm" x="0" y="-wy/2+bgoBox_end_t+bgoBox_side_l+pmtHsg_l/2+pmtHsg_base_t/2" z="0"/>
+    <position name="pmt_pos" unit="mm" x="0" y="-wy/2+bgoBox_end_t+bgoBox_side_l + pmt_l/2" z="0"/>
+    <position name="pmtSpng_pos" unit="mm" x="0" y="-wy/2+bgoBox_end_t+bgoBox_side_l+pmtHsg_l - 10 - pmtHsg_end_t" z="0"/>
+    <position name="pmtHsg_end_pos" unit="mm" x="0" y="-wy/2+bgoBox_end_t+bgoBox_side_l+pmtHsg_l - pmtHsg_end_t/2" z="0"/>
+
+    <constant name="bgoBox_sp_y" value="7"/>
+    <constant name="bgoBox_sp_z" value="8.75"/>
+    <position name="bgoBox_spzp_pos" unit="mm" x="0" y="-wy/2+bgoBox_end_t+bgoBox_side_l-bgoBox_sp_y/2" z="wz/2-bgoBox_sp_z/2"/>
+    <position name="bgoBox_spzm_pos" unit="mm" x="0" y="-wy/2+bgoBox_end_t+bgoBox_side_l-bgoBox_sp_y/2" z="-wz/2+bgoBox_sp_z/2"/>
+
+    <constant name="bdspBox_sidet" value="7"/> <!-- NOTE: guessed -->
+    <constant name="bdspBox_topt" value="3"/>
+    <constant name="bdspBox_x" value="186"/>
+    <constant name="bdspBox_y" value="147"/>
+    <constant name="bdspBox_z" value="21.45 - 3.75"/> <!-- note, removed edgedz below. -->
+
+    <constant name="edgedx" value="2.1"/>
+    <constant name="edgedy" value="7.0"/>
+    <!-- <constant name="edgedz" value="3.75"/> -->
+    <constant name="edgedz" value="0"/>
+
+    <position name="bdspBox_top_pos" unit="mm" x="0" y="0" z="bdspBox_z/2-bdspBox_topt/2"/>
+    <position name="bdspBox_xp_pos" unit="mm" x="bdspBox_x/2-bdspBox_sidet/2" y="0" z="-bdspBox_topt/2+edgedz/2"/>
+    <position name="bdspBox_xm_pos" unit="mm" x="-bdspBox_x/2+bdspBox_sidet/2" y="0" z="-bdspBox_topt/2+edgedz/2"/>
+    <position name="bdspBox_yp_pos" unit="mm" x="0" y="bdspBox_y/2-bdspBox_sidet/2" z="-bdspBox_topt/2+edgedz/2"/>
+
+    <position name="bdspBox_xbp_pos" unit="mm" x="bdspBox_x/2-bdspBox_sidet/2-edgedx/2" y="edgedy/2" z="-bdspBox_z/2+edgedz/2"/>
+    <position name="bdspBox_xbm_pos" unit="mm" x="-bdspBox_x/2+bdspBox_sidet/2+edgedx/2" y="edgedy/2" z="-bdspBox_z/2+edgedz/2"/>
+    <position name="bdspBox_ybp_pos" unit="mm" x="0" y="bdspBox_y/2-bdspBox_sidet/2" z="-bdspBox_z/2+edgedz/2"/>
+
+    <constant name="bgoShld_z" value="3.75"/>
+    <constant name="bgoShld_pbt" value="2.0"/>
+    <constant name="bgoShld_tat" value="0.25"/>
+    <constant name="bgoShld_snt" value="0.50"/>
+    <constant name="bgoShld_sst" value="1.0"/>
+    <constant name="bgoShld_slotlen" value="150"/> <!-- irrelevant, just has to be more than 136. -->
+    <position name="bgoShld_pbPos" unit="mm" x="0" y="0" z="-bgoShld_z/2+bgoShld_pbt/2"/>
+    <position name="bgoShld_taPos" unit="mm" x="0" y="0" z="-bgoShld_z/2+bgoShld_pbt+bgoShld_tat/2"/>
+    <position name="bgoShld_snPos" unit="mm" x="0" y="0" z="-bgoShld_z/2+bgoShld_pbt+bgoShld_tat+bgoShld_snt/2"/>
+    <position name="bgoShld_ssPos" unit="mm" x="0" y="0" z="-bgoShld_z/2+bgoShld_pbt+bgoShld_tat+bgoShld_snt+bgoShld_sst/2"/>
+    <position name="bgoShld_x0slotPos" unit="mm" x="0" y="bdspBox_y/2 - 11 - bgoShld_slotlen/2"/>
+
+    <constant name="bgoMod_ztot" value="wz/2+bgoBox_wz/2+bgoShld_z+bdspBox_z"/>
+    <constant name="bgoMod3_bgoOffset" value="(bgoMod_ztot - wz)/2"/>
+
+    <!--  -->
+  </define>
+
+  <materials>
+    <element name="Aluminum" formula="Al"  Z="13.0">  <atom value="26.98"/>   </element>
+    <element name="Manganese" formula="Mn" Z="25.0"> <atom value="54.938"/> </element>
+    <element name="Magnesium" formula="Mg" Z="12.0"> <atom value="24.305"/> </element>
+    <element name="Silicon" formula="Si" Z="14.0"> <atom value="28.086"/> </element>
+
+    <element name="Iron" formula="Fe" Z="26.0"> <atom value="55.845"/> </element>
+    <element name="Chromium" formula="Cr" Z="24.0"> <atom value="51.996"/> </element>
+
+    <element name="Bismuth" formula="Bi" Z="83.0"> <atom value="208.980"/> </element>
+    <element name="Germanium" formula="Ge" Z="32.0"> <atom value="72.64"/> </element>
+    <element name="Oxygen" formula="O" Z="8.0"> <atom value="15.9994"/> </element>
+
+    <element name="Carbon" formula="C" Z="6.0"> <atom value="12.0107"/> </element>
+    <element name="Hydrogen" formula="H" Z="1.0"> <atom value="1.008"/> </element>
+
+    <element name="Boron" formula="B" Z="5.0"> <atom value="10.811"/> </element>
+    <element name="Sodium" formula="Na" Z="11.0"> <atom value="22.990"/> </element>
+    <element name="Sulfur" formula="S" Z="16.0"> <atom value="32.065"/> </element>
+
+    <material name="AL6082T6">
+      <D value="2.70" unit="g/cm3"/> 
+      <fraction n="0.974" ref="Aluminum"/>
+      <fraction n="0.009" ref="Magnesium"/>
+      <fraction n="0.007" ref="Manganese"/>
+      <fraction n="0.01" ref="Silicon"/>
+    </material>
+
+    <material name="StainlessSteel">
+      <D value="7.70" unit="g/cm3"/>
+      <fraction n="0.17" ref="Chromium"/>
+      <fraction n="0.83" ref="Iron"/>
+    </material>
+
+    <material name="BGO" formula="Bi4Ge3O12">
+      <D value="7.13" unit="g/cm3"/>
+      <composite n="4" ref="Bismuth"/>
+      <composite n="3" ref="Germanium"/>
+      <composite n="12" ref="Oxygen"/>
+    </material>
+
+    <material name="PEEK" formula="C19H12O3">
+      <D value="1.32"/>
+      <composite n="19" ref="Carbon"/>
+      <composite n="12" ref="Hydrogen"/>
+      <composite n="3" ref="Oxygen"/>
+    </material>
+
+    <material name="Glass">
+      <D value="2.23" unit="g/cm3"/>
+      <fraction n="0.040064" ref="Boron"/>
+      <fraction n="0.539562" ref="Oxygen"/>
+      <fraction n="0.028191" ref="Sodium"/>
+      <fraction n="0.011644" ref="Aluminum"/>
+      <fraction n="0.377220" ref="Silicon"/>
+      <fraction n="0.003321" ref="Sulfur"/>
+    </material>
+
+    <material name="Vacuum" Z="1.0"> <D value="1.0e-25" unit="g/cm3"/> <atom value="1.00794"/> </material>
+
+    <material name="Lead" Z="82."> <D value="11.35" unit="g/cm3"/> <atom value="207.2"/> </material>
+    <material name="Tin"  Z="50."> <D value="7.31" unit="g/cm3"/> <atom value="117.81"/> </material>
+    <material name="Tantalum" Z="73."> <D value="16.65" unit="g/cm3"/> <atom value="180.95"/> </material>
+
+  </materials>
+
+  <solids>
+
+    <box name="bgoShld_mv" lunit="mm" x="bdspBox_x" y="bdspBox_y" z="bgoShld_z"/>
+    <box name="bgoShld_slot" lunit="mm" x="36" y="bgoShld_slotlen" z="1000"/>
+    <union name="slot2">
+      <first ref="bgoShld_slot"/>
+      <second ref="bgoShld_slot"/>
+      <position name="bgoShld_xmslotPos" unit="mm" x="-88/2-36/2" y="0" z="0"/>
+      <rotationref ref="id"/>
+    </union>
+    <union name="slot3">
+      <first ref="slot2"/>
+      <second ref="bgoShld_slot"/>
+      <position name="bgoShld_xpslotPos" unit="mm" x="88/2+36/2" y="0" z="0"/>
+      <rotationref ref="id"/>
+    </union>
+    <box name="bgoShld_pbb" lunit="mm" x="bdspBox_x" y="bdspBox_y" z="bgoShld_pbt"/>
+    <subtraction name="bgoShld_pb"> <first ref="bgoShld_pbb"/> <second ref="slot3"/> <positionref ref="bgoShld_x0slotPos"/> <rotationref ref="id"/> </subtraction>
+    <box name="bgoShld_tab" lunit="mm" x="bdspBox_x" y="bdspBox_y" z="bgoShld_tat"/>
+    <subtraction name="bgoShld_ta"> <first ref="bgoShld_tab"/> <second ref="slot3"/> <positionref ref="bgoShld_x0slotPos"/> <rotationref ref="id"/> </subtraction>
+    <box name="bgoShld_snb" lunit="mm" x="bdspBox_x" y="bdspBox_y" z="bgoShld_snt"/>
+    <subtraction name="bgoShld_sn"> <first ref="bgoShld_snb"/> <second ref="slot3"/> <positionref ref="bgoShld_x0slotPos"/> <rotationref ref="id"/> </subtraction>
+    <box name="bgoShld_ssb" lunit="mm" x="bdspBox_x" y="bdspBox_y" z="bgoShld_sst"/>
+    <subtraction name="bgoShld_ss"> <first ref="bgoShld_ssb"/> <second ref="slot3"/> <positionref ref="bgoShld_x0slotPos"/> <rotationref ref="id"/> </subtraction>
+
+    <box name="bdspBox_mv" lunit="mm" x="bdspBox_x" y="bdspBox_y" z="bdspBox_z"/>
+    <box name="bdspBox_top" lunit="mm" x="bdspBox_x" y="bdspBox_y" z="bdspBox_topt"/>
+    <box name="bdspBox_xb" lunit="mm" x="bdspBox_sidet" y="bdspBox_y" z="bdspBox_z - bdspBox_topt - edgedz"/>
+    <box name="bdspBox_yb" lunit="mm" x="bdspBox_x-2*bdspBox_sidet" y="bdspBox_sidet" z="bdspBox_z - bdspBox_topt - edgedz"/>
+    <box name="bdspBox_xbb" lunit="mm" x="bdspBox_sidet - edgedx" y="bdspBox_y - edgedy" z="edgedz"/>
+    <box name="bdspBox_ybb" lunit="mm" x="bdspBox_x - 2*bdspBox_sidet" y="bdspBox_sidet - 2*edgedy" z="edgedz"/>
+
+    <box name="bgoMod1_mv_0" lunit="mm" x="wx" y="wy" z="wz"/>
+    <box name="bgoMod1_mv_ext" lunit="mm" x="wx*10" y="bdspBox_y" z="(wz+bgoShld_z+bdspBox_z-bgoMod_ztot)*2"/>
+    <subtraction name="bgoMod1_mv"> <first ref="bgoMod1_mv_0"/> <second ref="bgoMod1_mv_ext"/> <position name="crap1" unit="mm" x="0" y="-wy/2+bdspBox_y/2" z="-wz/2"/> </subtraction>
+
+    <box name="bgoMod3_rep_mv_0" lunit="mm" x="3*wx" y="wy" z="wz"/>
+    <subtraction name="bgoMod3_rep_mv"> <first ref="bgoMod3_rep_mv_0"/> <second ref="bgoMod1_mv_ext"/> <position name="crap2" unit="mm" x="0" y="-wy/2+bdspBox_y/2" z="-wz/2"/> </subtraction>
+
+    <box name="bgoMod3_mv" lunit="mm" x="wx*3" y="wy" z="bgoMod_ztot"/>
+    <box name="bgoMod6_mv" lunit="mm" x="wx*6" y="wy" z="bgoMod_ztot"/>
+    <box name="bgoMod12_mv" lunit="mm" x="wx*6" y="wy*2+0.004" z="bgoMod_ztot"/>
+
+    <box name="pmtHsg_base_b" lunit="mm" x="pmtHsg_base_wid" y="pmtHsg_base_t" z="pmtHsg_base_wid"/>
+    <tube name="pmtHsg_base_h" lunit="mm" aunit="deg" rmin="0" rmax="23" z="500" startphi="0" deltaphi="360"/>
+    <subtraction name="pmtHsg_base">
+      <first ref="pmtHsg_base_b"/>
+      <second ref="pmtHsg_base_h"/>
+      <positionref ref="orig"/>
+      <rotationref ref="xm90"/>
+    </subtraction>
+    <tube name="pmtHsg_tube" lunit="mm" aunit="deg" rmin="pmtHsg_rad - pmtHsg_t" rmax="pmtHsg_rad" z="pmtHsg_l - pmtHsg_base_t" startphi="0" deltaphi="360"/>
+    <tube name="pmtHsg_end" lunit="mm" aunit="deg" rmin="0" rmax="pmtHsg_rad - pmtHsg_t" z="pmtHsg_end_t" startphi="0" deltaphi="360"/>
+    <tube name="pmtSpng" lunit="mm" aunit="deg" rmin="25" rmax="57/2" z="20" startphi="0" deltaphi="360"/>
+    <tube name="pmt" lunit="mm" aunit="deg" rmin="0" rmax="10" z="pmt_l" startphi="0" deltaphi="360"/>
+
+    <box name="bgoBox_top_b" lunit="mm" x="bgoBox_wx" y="bgoBox_side_l" z="5"/>
+    <xtru name="bgoBox_top_h" lunit="mm">
+      <twoDimVertex x="-50.0/2" y="-31.5/2"/>
+      <twoDimVertex x="50.0/2 - 3 - 3/sqrt(2)" y="-31.5/2"/>
+      <twoDimVertex x="50.0/2 - 3 - 3/sqrt(2)" y="-31.5/2+3"/>
+      <twoDimVertex x="-50.0/2 + 3" y="31.5/2-3-3/sqrt(2)"/>
+      <twoDimVertex x="-50.0/2" y="31.5/2-3-3/sqrt(2)"/>
+      <section zOrder="1" zPosition="-0.5" xOffset="0" yOffset="0" scalingFactor="1"/>
+      <section zOrder="2" zPosition="100" xOffset="0" yOffset="0" scalingFactor="1"/>
+    </xtru>
+    <union name="bgoBox_top_hp"> <first ref="bgoBox_top_h"/> <second ref="bgoBox_top_h"/> <positionref ref="orig"/> <rotationref ref="z180"/> </union>
+    <union name="bgoBox_top_hpp"> <first ref="bgoBox_top_hp"/> <second ref="bgoBox_top_hp"/> <position name="thpp" unit="mm" x="0" y="31.5+3"/> <rotationref ref="id"/> </union>
+    <union name="bgoBox_top_hppp"> <first ref="bgoBox_top_hpp"/> <second ref="bgoBox_top_hpp"/> <position name="thppp" unit="mm" y="-2*(31.5+3)"/> <rotationref ref="id"/> </union>
+    <subtraction name="bgoBox_top"> <first ref="bgoBox_top_b"/> <second ref="bgoBox_top_hppp"/> <position name="thdisp" unit="mm" y="31.5/2+3/2"/> <rotationref ref="id"/> </subtraction>
+    <box name="bgoBox_sp" lunit="mm" x="wx" y="bgoBox_sp_y" z="bgoBox_sp_z"/>
+
+    <box name="bgoBox_side_b" lunit="mm" x="bgoBox_wz - 5 - 5" y="bgoBox_side_l" z="5"/>
+    <xtru name="bgoBox_side_h" lunit="mm">
+      <twoDimVertex x="-27.5/2" y="-31.5/2"/>
+      <twoDimVertex x="27.5/2 - 3 - 3/sqrt(2)" y="-31.5/2"/>
+      <twoDimVertex x="27.5/2 - 3 - 3/sqrt(2)" y="-31.5/2+3"/>
+      <twoDimVertex x="-27.5/2 + 3" y="31.5/2-3-3/sqrt(2)"/>
+      <twoDimVertex x="-27.5/2" y="31.5/2-3-3/sqrt(2)"/>
+      <section zOrder="1" zPosition="-0.5" xOffset="0" yOffset="0" scalingFactor="1"/>
+      <section zOrder="2" zPosition="100" xOffset="0" yOffset="0" scalingFactor="1"/>
+    </xtru>
+    <union name="bgoBox_side_hp"> <first ref="bgoBox_side_h"/> <second ref="bgoBox_side_h"/> <positionref ref="orig"/> <rotationref ref="z180"/> </union>
+    <union name="bgoBox_side_hpp"> <first ref="bgoBox_side_hp"/> <second ref="bgoBox_side_hp"/> <position name="shpp" unit="mm" x="0" y="31.5+3"/> <rotationref ref="id"/> </union>
+    <union name="bgoBox_side_hppp"> <first ref="bgoBox_side_hpp"/> <second ref="bgoBox_side_hpp"/> <position name="shppp"  unit="mm" y="-2*(31.5+3)"/> <rotationref ref="id"/> </union>
+    <subtraction name="bgoBox_side"> <first ref="bgoBox_side_b"/> <second ref="bgoBox_side_hppp"/> <position name="shdisp" unit="mm" x="2.5" y="31.5/2+3/2"/> <rotationref ref="id"/> </subtraction>
+
+    <box name="bgoBox_bot_b" lunit="mm" x="bgoBox_wx" y="bgoBox_side_l" z="5"/>
+    <tube name="bgoBox_bot_h" lunit="mm" aunit="deg" rmin="0" rmax="4" z="10" startphi="0" deltaphi="360"/> <!-- unsure of rmax -->
+    <union name="bgoBox_bot_hp"> <first ref="bgoBox_bot_h"/> <second ref="bgoBox_bot_h"/> <position name="bhp" unit="mm" y="holePairYdisp"/> <rotationref ref="id"/> </union>
+    <union name="bgoBox_bot_hpp"> <first ref="bgoBox_bot_hp"/> <second ref="bgoBox_bot_hp"/> <position name="bhpp" unit="mm" x="holePPairXdisp"/> <rotationref ref="id"/> </union>
+    <union name="bgoBox_bot_hppp"> <first ref="bgoBox_bot_hpp"/> <second ref="bgoBox_bot_hpp"/> <position name="bhppp" unit="mm" x="-2*holePPairXdisp"/> <rotationref ref="id"/> </union>
+    <union name="bgoBox_bot_h9"> <first ref="bgoBox_bot_h"/> <second ref="bgoBox_bot_hppp"/> <position name="bhph9" unit="mm" x="holePPairXdisp/2" y="10"/> <rotationref ref="id"/> </union>
+    <union name="bgoBox_bot_h18"> <first ref="bgoBox_bot_h9"/> <second ref="bgoBox_bot_h9"/> <position name="bhph18" unit="mm" y="31"/> <rotationref ref="id"/> </union>
+    <subtraction name="bgoBox_bot_m1"> <first ref="bgoBox_bot_b"/> <second ref="bgoBox_bot_h18"/> <position name="bhhdisp1" unit="mm" x="0" y="0" z="5-0.5"/> <rotationref ref="id"/> </subtraction>
+    <subtraction name="bgoBox_bot_m2"> <first ref="bgoBox_bot_m1"/> <second ref="bgoBox_bot_h18"/> <position name="bhhdisp2" unit="mm" x="0" y="-62" z="5-0.5"/> <rotationref ref="id"/> </subtraction>
+    <subtraction name="bgoBox_bot"> <first ref="bgoBox_bot_m2"/> <second ref="bgoBox_bot_h"/> <position name="bhhdisp3" unit="mm" x="0" y="62" z="5-0.5"/> <rotationref ref="id"/> </subtraction>
+
+    <box name="bgoBox_end_b" lunit="mm" x="bgoBox_wx" y="bgoBox_end_t" z="bgoBox_wz"/>
+
+    <box name="bgo_b" lunit="mm" x="bgoBox_wx - 10" y="bgoBox_side_l" z="bgoBox_wz - 10"/>
+
+  </solids>
+
+  <structure>  
+    <!-- NOTE: add/remove _b's from the solidrefs in the next three lines for vrml/simulation respectively. -->
+    <volume name="bgoBox_bot_v"> <materialref ref="AL6082T6"/> <solidref ref="bgoBox_bot_b"/> </volume>
+    <volume name="bgoBox_side_v"> <materialref ref="AL6082T6"/> <solidref ref="bgoBox_side_b"/> </volume>
+    <volume name="bgoBox_top_v"> <materialref ref="AL6082T6"/> <solidref ref="bgoBox_top_b"/> </volume>
+
+    <volume name="bgoBox_end_v"> <materialref ref="AL6082T6"/> <solidref ref="bgoBox_end_b"/> </volume>
+    <volume name="bgo_v"> <materialref ref="BGO"/> <solidref ref="bgo_b"/> <auxiliary auxtype="sensitive" auxvalue="bgo"/> </volume>
+    <volume name="pmtHsg_base_v"> <materialref ref="AL6082T6"/> <solidref ref="pmtHsg_base"/> </volume>
+    <volume name="pmtHsg_tube_v"> <materialref ref="AL6082T6"/> <solidref ref="pmtHsg_tube"/> </volume>
+    <volume name="pmt_v"> <materialref ref="Glass"/> <solidref ref="pmt"/> </volume>
+    <volume name="pmtSpng_v"> <materialref ref="PEEK"/> <solidref ref="pmtSpng"/> </volume>
+    <volume name="pmtHsg_end_v"> <materialref ref="AL6082T6"/> <solidref ref="pmtHsg_end"/> </volume>
+    <volume name="bgoBox_sp_v"> <materialref ref="AL6082T6"/> <solidref ref="bgoBox_sp"/> </volume>
+
+    <volume name="bdspBox_top_v"> <materialref ref="AL6082T6"/> <solidref ref="bdspBox_top"/> </volume>
+    <volume name="bdspBox_xb_v"> <materialref ref="AL6082T6"/> <solidref ref="bdspBox_xb"/> </volume>
+    <volume name="bdspBox_yb_v"> <materialref ref="AL6082T6"/> <solidref ref="bdspBox_yb"/> </volume>
+    <volume name="bdspBox_xbb_v"> <materialref ref="AL6082T6"/> <solidref ref="bdspBox_xbb"/> </volume>
+    <volume name="bdspBox_ybb_v"> <materialref ref="AL6082T6"/> <solidref ref="bdspBox_ybb"/> </volume>
+
+    <volume name="bgoShld_pb_v"> <materialref ref="Lead"/> <solidref ref="bgoShld_pb"/> </volume>
+    <volume name="bgoShld_ta_v"> <materialref ref="Tantalum"/> <solidref ref="bgoShld_ta"/> </volume>
+    <volume name="bgoShld_sn_v"> <materialref ref="Tin"/> <solidref ref="bgoShld_sn"/> </volume>
+    <volume name="bgoShld_ss_v"> <materialref ref="StainlessSteel"/> <solidref ref="bgoShld_ss"/> </volume>
+
+    <volume name="bdspBox">
+      <materialref ref="Vacuum"/>
+      <solidref ref="bdspBox_mv"/>
+
+      <physvol> <volumeref ref="bdspBox_top_v"/> <positionref ref="bdspBox_top_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="bdspBox_xb_v"/> <positionref ref="bdspBox_xp_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="bdspBox_xb_v"/> <positionref ref="bdspBox_xm_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="bdspBox_yb_v"/> <positionref ref="bdspBox_yp_pos"/> <rotationref ref="id"/> </physvol>
+
+      <!-- extra slot(?)
+      <physvol> <volumeref ref="bdspBox_xbb_v"/> <positionref ref="bdspBox_xbp_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="bdspBox_xbb_v"/> <positionref ref="bdspBox_xbm_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="bdspBox_ybb_v"/> <positionref ref="bdspBox_ybp_pos"/> <rotationref ref="id"/> </physvol>
+      -->
+
+      <!-- other parts here? there must be _something_ in this box... -->
+
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
+      <!--
+      -->
+    </volume>
+
+    <volume name="bgoMod1">
+      <materialref ref="Vacuum"/>
+      <solidref ref="bgoMod1_mv"/>
+
+      <!--
+      -->
+      <physvol> <volumeref ref="bgoBox_bot_v"/> <positionref ref="bgoBox_bot_pos"/> <rotationref ref="y180"/> </physvol>
+      <physvol> <volumeref ref="bgoBox_side_v"/> <positionref ref="bgoBox_sidexm_pos"/> <rotationref ref="zpToxp"/> </physvol>
+      <physvol> <volumeref ref="bgoBox_side_v"/> <positionref ref="bgoBox_sidexp_pos"/> <rotationref ref="zpToxm"/> </physvol>
+      <physvol> <volumeref ref="bgoBox_top_v"/> <positionref ref="bgoBox_top_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="bgoBox_end_v"/> <positionref ref="bgoBox_end_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="bgoBox_sp_v"/> <positionref ref="bgoBox_spzp_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="bgoBox_sp_v"/> <positionref ref="bgoBox_spzm_pos"/> <rotationref ref="id"/> </physvol>
+
+      <physvol> <volumeref ref="bgo_v"/> <positionref ref="bgo_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="pmtHsg_base_v"/> <positionref ref="pmtHsg_base_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="pmtHsg_tube_v"/> <positionref ref="pmtHsg_tube_pos"/> <rotationref ref="xm90"/> </physvol>
+      <physvol> <volumeref ref="pmt_v"/> <positionref ref="pmt_pos"/> <rotationref ref="xm90"/> </physvol>
+      <physvol> <volumeref ref="pmtSpng_v"/> <positionref ref="pmtSpng_pos"/> <rotationref ref="xm90"/> </physvol>
+      <physvol> <volumeref ref="pmtHsg_end_v"/> <positionref ref="pmtHsg_end_pos"/> <rotationref ref="xm90"/> </physvol>
+
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
+      <!--
+      -->
+    </volume>
+
+  </structure>
+  <setup name="Default" version="1.0">
+    <world ref="bgoMod1"/>
+  </setup>
+</gdml> 
+
