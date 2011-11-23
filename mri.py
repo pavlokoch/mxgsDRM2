@@ -73,3 +73,33 @@ def makeGEANTInputDB(dbfn,nPri,planeWid,planeDist,pdgCode,theta,phi,origin,eMeV)
   conn.commit()
   c.close()
   conn.close()
+
+def randomParticle_atSquare(pdgCode,eMeV,x0,y0,z0,xs1,ys1,zs1,xs2,ys2,zs2):
+  # zs1 assumed to == zs2.
+  (mx,my,mz) = ((xs1+xs2)/2.0,(ys1+ys2)/2.0,(zs1+zs2)/2.0)
+  if((mx-x0)**2+(my-y0)**2 == 0):
+    if(z0>mz):
+      theta0 = pi
+    else:
+      theta0 = 0.0
+  else:
+    theta0 = atan2(sqrt((mx-x0)**2+(my-y0)**2),(mz-z0))
+  phi0 = atan2(my-y0,mx-x0)
+  thetaMax1 = acos(((xs1-x0)*(mx-x0)+(ys1-y0)*(my-y0)+(zs1-z0)*(mz-z0))/(sqrt((mx-x0)**2+(my-y0)**2+(mz-z0)**2)*sqrt((xs1-x0)**2+(ys1-y0)**2+(zs1-z0)**2)))
+  thetaMax2 = acos(((xs2-x0)*(mx-x0)+(ys1-y0)*(my-y0)+(zs1-z0)*(mz-z0))/(sqrt((mx-x0)**2+(my-y0)**2+(mz-z0)**2)*sqrt((xs2-x0)**2+(ys1-y0)**2+(zs1-z0)**2)))
+  thetaMax3 = acos(((xs1-x0)*(mx-x0)+(ys2-y0)*(my-y0)+(zs1-z0)*(mz-z0))/(sqrt((mx-x0)**2+(my-y0)**2+(mz-z0)**2)*sqrt((xs1-x0)**2+(ys2-y0)**2+(zs1-z0)**2)))
+  thetaMax4 = acos(((xs2-x0)*(mx-x0)+(ys2-y0)*(my-y0)+(zs1-z0)*(mz-z0))/(sqrt((mx-x0)**2+(my-y0)**2+(mz-z0)**2)*sqrt((xs2-x0)**2+(ys2-y0)**2+(zs1-z0)**2)))
+  thetaMax = max(thetaMax1,thetaMax2,thetaMax3,thetaMax4)
+  def randomPcle():
+    xp=yp=zp=1.0e100
+    while(xp<xs1 or xp>xs2 or yp<ys1 or yp>ys2):
+      phi = 2*pi*random.random()
+      theta = acos(cos(thetaMax) + (1-cos(thetaMax))*random.random())
+      (x,y,z) = (sin(theta)*cos(phi),sin(theta)*sin(phi),cos(theta))
+      (xt,yt,zt) = transformation_ZAxisToThetaPhiDir((theta0,phi0),x,y,z)
+      dr = abs((z0-mz)/zt)
+      xp = x0+xt*dr
+      yp = y0+yt*dr
+    return (pdgCode,eMeV,x0,y0,z0,xt,yt,zt,0.0)
+  return randomPcle
+  
