@@ -12,27 +12,28 @@
 
 using namespace std;
 
-PrimaryGeneratorAction::PrimaryGeneratorAction(sqlite3* dbin)
+PrimaryGeneratorAction::PrimaryGeneratorAction(int pdgID, double startDiskRad, 
+    double theta_deg, double phi_deg, 
+    double targetX, double targetY, double targetZ, double targetDisp)
 {
   ctr=0;
   particleGun = new G4ParticleGun(1);
   pTable = G4ParticleTable::GetParticleTable();
-  genIn=0; genOut=1;
-  stmt=0;
-  currentWeight=1;
-  ptime=0;
-  db=dbin;
+  pdgencoding = pdgID;
+  th = theta_deg*pi/180.0; ph = phi_deg*pi/180.0;
+  x0 = targetX; y0 = targetY; z0 = targetZ;
+  rDisk = startDiskRad;
+  disp = targetDisp;
 }
 
 PrimaryGeneratorAction::~PrimaryGeneratorAction()
 {
-  sqlite3_finalize(stmt);
   delete particleGun;
 }
 
 void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 {
-  readFromDB();
+  drawPrimary();
   if(ctr%1000==0){
     cout << ctr << ": " << enMeV << ' ' 
       << vx << ' ' << vy << ' ' << vz << ' ' 
@@ -46,39 +47,54 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   G4ThreeVector v(vx,vy,vz);
   particleGun->SetParticleMomentumDirection(v);
   particleGun->SetParticleEnergy(enMeV*MeV);
-  particleGun->SetParticleTime(ptime*ns);
-
-  // set user information here.
-  EventInfo *evi = new EventInfo(currentSrcLineNumber);
-  anEvent->SetUserInformation(evi);
 
   particleGun->GeneratePrimaryVertex(anEvent);
 }
 
-void PrimaryGeneratorAction::readFromDB(){
-  while(!stmt || sqlite3_step(stmt)!=SQLITE_ROW){
-    cout << "initializing sqlite for source particle reads\n";
-    sqlite3_finalize(stmt);
-    sqlite3_prepare_v2(db,"SELECT idx,pdgID,ee,x,y,z,px,py,pz,t,wt FROM pcles WHERE gen=?",-1,&stmt,0);
-    sqlite3_bind_int(stmt,1,genIn);
-  }
+void PrimaryGeneratorAction::drawPrimary(){
+  double zhx = 0;
+  double zhy = 0;
+  double zhz = 1;
 
-  currentSrcLineNumber = sqlite3_column_int(stmt,0);
-  pdgencoding = sqlite3_column_int(stmt,1);
-  enMeV = sqlite3_column_double(stmt,2);
-  x = sqlite3_column_double(stmt,3);
-  y = sqlite3_column_double(stmt,4);
-  z = sqlite3_column_double(stmt,5);
-  vx = sqlite3_column_double(stmt,6);
-  vy = sqlite3_column_double(stmt,7);
-  vz = sqlite3_column_double(stmt,8);
-  ptime = sqlite3_column_double(stmt,9);
-  currentWeight = sqlite3_column_double(stmt,10);
+  // rotate zh about y axis by theta
+  double tx = zhx*cos(th) + zhz*sin(th);
+  double ty = zhy;
+  double tz = zhz*cos(th) - zhx*sin(th);
+
+  // rotate zh about z axis by phi
+  zhx = tx*cos(ph) - ty*sin(ph);
+  zhy = ty*cos(ph) + tx*sin(ph);
+  zhz = tz;
+
+  // do likewise for an initial point
+  double r = rDisk*sqrt(CLHEP::RandFlat::shoot());
+  double diskth = CLHEP::RandFlat::shoot(2*pi);
+  x = r*cos(diskth);
+  y = r*sin(diskth);
+  z = 0;
+
+  tx = x*cos(th) + z*sin(th);
+  ty = y;
+  tz = z*cos(th) - x*sin(th);
+
+  x = tx*cos(ph) - ty*sin(ph);
+  y = ty*cos(ph) + tx*sin(ph);
+  z = tz;
+
+  // displace initial point to target and away to source zone.
+  x += x0 - zhx*disp;
+  y += y0 - zhy*disp;
+  z += z0 - zhz*disp;
+
+  // set initial velocity back towards target.
+  vx = zhx;
+  vy = zhy;
+  vz = zhz;
 
   return;
 }
 
-// need to add member variables:
-// currentWeight, ptime
-// kinetic_energy_MeV -> enMeV
-// source line number somehow.
+void PrimaryGeneratorAction::setPriEn(double en){
+  enMeV = en;
+}
+

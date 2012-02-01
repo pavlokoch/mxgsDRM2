@@ -28,11 +28,12 @@
 #include "G4VisAttributes.hh"
 
 #include "G4GDMLParser.hh"
+#include "gsl/gsl_histogram.h"
 
 using namespace std;
 
-DetectorConstruction::DetectorConstruction(sqlite3 *dbin){
-  db = dbin;
+DetectorConstruction::DetectorConstruction(gsl_histogram *hb, gsl_histogram *hc){
+  hBGO = hb; hCZT = hc;
 }
 
 DetectorConstruction::~DetectorConstruction()
@@ -64,7 +65,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
         G4cout << "making logical volume " << (*iter).first->GetName() << " CZT sensitive."<< G4endl;
         G4LogicalVolume* myvol = (*iter).first;
         sprintf(sdname,"bgo_%d",bgoctr); ++bgoctr;
-        CZTSD *czt = new CZTSD(sdname,db);
+        CZTSD *czt = new CZTSD(sdname,hCZT);
         myvol->SetSensitiveDetector(czt);
         G4SDManager::GetSDMpointer()->AddNewDetector(czt);
       }
@@ -72,7 +73,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
         G4cout << "making logical volume " << (*iter).first->GetName() << " BGO sensitive."<< G4endl;
         G4LogicalVolume* myvol = (*iter).first;
         sprintf(sdname,"czt_%d",cztctr); ++cztctr;
-        BGOSD *bgo = new BGOSD(sdname,db);
+        BGOSD *bgo = new BGOSD(sdname,hBGO);
         myvol->SetSensitiveDetector(bgo);
         G4SDManager::GetSDMpointer()->AddNewDetector(bgo);
       }

@@ -3,7 +3,7 @@
 
 #include "G4VSensitiveDetector.hh"
 #include <fstream>
-#include <sqlite3.h>
+#include "gsl/gsl_histogram.h"
 
 using namespace std;
 
@@ -15,7 +15,7 @@ class BGOSD : public G4VSensitiveDetector
 {
 
   public:
-      BGOSD(G4String name, sqlite3 *dbin);
+      BGOSD(G4String name, gsl_histogram *hb);
       virtual ~BGOSD();
 
       virtual void Initialize(G4HCofThisEvent*HCE);
@@ -23,11 +23,9 @@ class BGOSD : public G4VSensitiveDetector
       virtual void EndOfEvent(G4HCofThisEvent*HCE);
 
   private:
-      sqlite3 *db;
+      gsl_histogram *h;
       double edep;
-      sqlite3_stmt *stmt;
       int evtctr;
-      int priIdx;
 };
 
 

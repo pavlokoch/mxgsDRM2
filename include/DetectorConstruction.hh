@@ -11,19 +11,19 @@ class G4PVPlacement;
 #include "G4Material.hh"
 #include "G4RotationMatrix.hh"
 #include "globals.hh"
-#include <sqlite3.h>
+#include "gsl/gsl_histogram.h"
 
 class DetectorConstruction : public G4VUserDetectorConstruction
 {
   public:
 
-    DetectorConstruction(sqlite3 *dbin);
+    DetectorConstruction(gsl_histogram *hb, gsl_histogram *hc);
     ~DetectorConstruction();
 
     G4VPhysicalVolume* Construct();
 
   private:
-    sqlite3 *db;
+    gsl_histogram *hBGO, *hCZT;
 };
 
 #endif

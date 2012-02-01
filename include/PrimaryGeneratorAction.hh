@@ -15,28 +15,21 @@ class G4Event;
 class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 {
   public:
-    PrimaryGeneratorAction(sqlite3 *dbin);
+    PrimaryGeneratorAction(int pdgID, double startDiskRad, double theta_deg, double phi_deg, 
+        double targetX, double targetY, double targetZ, double targetDisp);
     ~PrimaryGeneratorAction();
+    void setPriEn(double en);
 
   public:
     void GeneratePrimaries(G4Event* anEvent);
-    void NextGen(){genIn=genOut; ++genOut;}
 
   private:
-    void readFromDB();
+    void drawPrimary();
     G4ParticleGun* particleGun;
     G4ParticleTable *pTable;
     int pdgencoding,ctr;
-    double enMeV,theta,vx,vy,vz,x,y,z;
-
-    int genIn,genOut;
-    sqlite3 *db;
-    sqlite3_stmt* stmt;
-    double currentWeight;
-    double ptime;
-    int currentSrcLineNumber;
-
-    void SetRandomInitialConditions();
+    double enMeV,th,ph,vx,vy,vz,x,y,z,x0,y0,z0;
+    double rDisk, disp;
 };
 
 #endif

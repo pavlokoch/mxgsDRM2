@@ -14,172 +14,134 @@
 #include <iostream>
 #include <stdio.h>
 #include <fcntl.h>
-// #include "SamplingGeometry.hh"
+#include "gsl/gsl_histogram.h"
 
-#include <sqlite3.h>
+int main(int argc, char** argv){
+  int i,j,k;
+  int nargs = 13;
+  if(argc < nargs){
+    cout << "usage:\n" 
+      << argv[0] 
+      << " priPDGID(22,11,-11,...) nPriPerE priStartDiskRad(m) theta(deg) phi(deg) Emin(MeV) Emax(MeV) numEnergies  outputfileName  ...rest of arguments written as comment to output file...\n";
+    return 1;
+  }
 
-// ideas:
-//
-int main(int argc, char** argv)
-{
-    int nEvt=0, targetN=0;
-    int action=0;
-    sqlite3 *db = 0;
-    int errcode=0;
-    
-    if(argc < 2){
-        cout << "usage:\n" 
-            << argv[0] << "action(0|1|2|3|4|5)\n";
-        return 1;
-    }
-    sscanf(argv[1],"%d",&action);
+  int priPDGID; sscanf(argv[1],"%d",&priPDGID);
+  int nPriPerE; sscanf(argv[2],"%d",&nPriPerE);
+  double priStartDiskRad; sscanf(argv[3],"%lf",&priStartDiskRad);
+  double priTheta; sscanf(argv[4],"%lf",&priTheta);
+  double priPhi; sscanf(argv[5],"%lf",&priPhi);
+  double priEMin; sscanf(argv[6],"%lf",&priEMin);
+  double priEMax; sscanf(argv[7],"%lf",&priEMax);
+  int priNumE; sscanf(argv[8],"%d",&priNumE);
+  double outEMin; sscanf(argv[9],"%lf",&outEMin);
+  double outEMax; sscanf(argv[10],"%lf",&outEMax);
+  int outNumE; sscanf(argv[11],"%d",&outNumE);
 
-    if((action==0 || action==1) && argc != 5){ // interactive session
-      printf("usage for action==0,1: %s (0|1) dbfn nEvents targetN\n",argv[0]);
-      return 1;
-    }else{
-      errcode = sqlite3_open(argv[2],&db);
-      if(errcode != SQLITE_OK){
-        printf("wtf! %s\n",sqlite3_errmsg(db));
-        return 0;
-      }
-      sqlite3_exec(db,"pragma synchronous = 0;",0,0,0);
-      sscanf(argv[3],"%d",&nEvt);
-      sscanf(argv[4],"%d",&targetN);
-    }
+  double *Epri = new double[priNumE];
+  for(i=0; i<priNumE; ++i){
+    Epri[i] = pow(10,log10(priEMin) + ((double)i)/(priNumE-1)*(log10(priEMax)-log10(priEMin)));
+  }
+  double *outBins = new double[outNumE+1];
+  for(i=0; i<outNumE+1; ++i){
+    outBins[i] = pow(10,log10(outEMin) + ((double)i)/outNumE*(log10(outEMax)-log10(outEMin)));
+  }
+  gsl_histogram *hBGO = gsl_histogram_alloc(outNumE);
+  gsl_histogram_set_ranges(hBGO,outBins,outNumE+1);
+  gsl_histogram *hCZT = gsl_histogram_alloc(outNumE);
+  gsl_histogram_set_ranges(hCZT,outBins,outNumE+1);
 
-    ///random number seeding code stolen from LISARunAction.cc
-    long seeds[2];
-    int rfp = open("/dev/random",O_RDONLY);
-    long seed1,seed2;
-    int x1 = read(rfp,&seed1,sizeof(seed1));
-    x1 = read(rfp,&seed2,sizeof(seed2));
-    close(rfp);
-    seeds[0] = seed1;
-    seeds[1] = seed2;
-    G4cout << "seed1: " << seeds[0] << "; seed2: " << seeds[1] << G4endl;
-    CLHEP::HepRandom::setTheSeeds(seeds);
-    CLHEP::HepRandom::showEngineStatus();
-
-    // construct the default run manager
-    G4RunManager* runManager = new G4RunManager;
-
-    // set mandatory initialization classes
-    DetectorConstruction *world = new DetectorConstruction(db);
-    //world->RegisterParallelWorld(new SamplingGeometry(0,0,0));
-    runManager->SetUserInitialization(world);
-    runManager->SetUserInitialization(new LHEP());
-
-    // set mandatory user action class
-    PrimaryGeneratorAction *pgen = new PrimaryGeneratorAction(db);
-    runManager->SetUserAction(pgen);
-
-    G4VisManager* visManager = new G4VisExecutive;
-    visManager->Initialize();
-
-    // initialize G4 kernel
-    runManager->Initialize();
+  // start output process
+  std::ofstream out(argv[12]);
+  out << "#";
+  for(i=nargs; i<argc; ++i){ out << ' ' << argv[i]; }
+  out << endl;
+  out << "#";
+  for(i=0; i<nargs; ++i){ out << ' ' << argv[i]; }
+  out << endl;
+  out << "# primary energies:";
+  for(i=0; i<priNumE; ++i){ out << ' ' << Epri[i]; }
+  out << endl;
+  out << "# output histogram bin boundaries:";
+  for(i=0; i<outNumE+1; ++i){ out << ' ' << outBins[i]; }
+  out << endl;
+  out << "# One row per primary energy, one column per output histogram bin.\n";
 
 
-    if(action==0){
-      //// Use for automatic run.
-      G4UImanager* UI = G4UImanager::GetUIpointer();
-      G4String command = "/run/beamOn 1";
-      for(int i=0; i<nEvt; ++i){
-        UI->ApplyCommand(command); 
-      }
-    }
+  ///random number seeding code stolen from LISARunAction.cc
+  long seeds[2];
+  int rfp = open("/dev/random",O_RDONLY);
+  long seed1,seed2;
+  int x1 = read(rfp,&seed1,sizeof(seed1));
+  x1 = read(rfp,&seed2,sizeof(seed2));
+  close(rfp);
+  seeds[0] = seed1;
+  seeds[1] = seed2;
+  G4cout << "seed1: " << seeds[0] << "; seed2: " << seeds[1] << G4endl;
+  CLHEP::HepRandom::setTheSeeds(seeds);
+  CLHEP::HepRandom::showEngineStatus();
 
-    if(action==1){
-      // use for interactive session
-      //bash$ export G4VIS_USE_OPENGLX=1
-      G4UIsession* session = new G4UIterminal(new G4UItcsh);
-      session->SessionStart();
-      delete session;
-      // see sample ui commands below
-    }
 
-    if(action==2){
-      //// dump DAWN file of geometry.
-      G4UImanager* UI = G4UImanager::GetUIpointer();
-      G4String command = "/vis/open DAWNFILE";
+  // construct the default run manager
+  G4RunManager* runManager = new G4RunManager;
+
+  // set mandatory initialization classes
+  DetectorConstruction *world = new DetectorConstruction(hBGO,hCZT);
+  runManager->SetUserInitialization(world);
+  runManager->SetUserInitialization(new LHEP());
+
+  // set mandatory user action class
+  // targetY/Y/Z are the coordinates (m) of the center of MXGS in the colombus.gdml reference frame.
+  double targetX = 0;
+  double targetY = 2.8297 + 0.1458/2.0 + 0.8630/2.0;
+  double targetZ = -1.3996 + 1.1300/2.0 - 0.8630 + 0.5500/2.0;
+  double targetDisp = 100;
+  PrimaryGeneratorAction *pgen = new PrimaryGeneratorAction(priPDGID,priStartDiskRad,priTheta,priPhi,
+      targetX,targetY,targetZ,targetDisp);
+  runManager->SetUserAction(pgen);
+
+  G4VisManager* visManager = new G4VisExecutive;
+  visManager->Initialize();
+
+  // initialize G4 kernel
+  runManager->Initialize();
+
+  G4UImanager* UI = G4UImanager::GetUIpointer();
+  G4String command = "/run/beamOn 1";
+  for(j=0; j<priNumE; ++j){ // loop over primary energies.
+    // reset the histograms.
+    gsl_histogram_reset(hBGO);
+    gsl_histogram_reset(hCZT);
+
+    // set primary energy
+    pgen->setPriEn(Epri[j]);
+
+    // main event loop for this primary energy
+    for(k=0; k<nPriPerE; ++k){
       UI->ApplyCommand(command); 
-      command = "/vis/drawVolume";
-      UI->ApplyCommand(command); 
-      command = "/vis/viewer/flush";
-      UI->ApplyCommand(command); 
-      ////////
-    }
-
-    if(action==3){
-      //// dump VRML of geometry.
-      G4UImanager* UI = G4UImanager::GetUIpointer();
-      G4String command = "/vis/sceneHandler/create VRML2FILE";
-      UI->ApplyCommand(command); 
-      command = "/vis/viewer/create";
-      UI->ApplyCommand(command); 
-      //command = "/vis/viewer/set/style surface";
-      //UI->ApplyCommand(command); 
-      command = "/vis/drawVolume";
-      UI->ApplyCommand(command); 
-      command = "/vis/viewer/flush";
-      UI->ApplyCommand(command); 
-      ////////
     }
 
-    if(action==4){
-      //// dump Raytraced .jpeg of geometry.
-      G4UImanager* UI = G4UImanager::GetUIpointer();
-      G4String command = "/vis/open RayTracer";
-      UI->ApplyCommand(command); 
-      command = "/vis/rayTracer/lightDirection 0.3 0.3 -1";
-      UI->ApplyCommand(command); 
-      command = "/vis/viewer/set/viewpointThetaPhi 70 30";
-      UI->ApplyCommand(command); 
-      command = "/vis/drawVolume";
-      UI->ApplyCommand(command); 
-      command = "/vis/viewer/flush";
-      UI->ApplyCommand(command); 
-      ////////
-    }
+    // write histogram line(s) to matrices.
+    out << "BGO";
+    for(k=0; k<outNumE; ++k){
+      out << ' ' << gsl_histogram_get(hBGO,k);
+    } out << endl;
+    out << "CZT";
+    for(k=0; k<outNumE; ++k){
+      out << ' ' << gsl_histogram_get(hCZT,k);
+    } out << endl;
+  }
 
-    if(action==5){
-      //// check geometry
-      G4UImanager* UI = G4UImanager::GetUIpointer();
-      G4String command = "/geometry/test/grid_test true";
-      UI->ApplyCommand(command); 
-      ////////
-    }
-    
-    // job termination
-    sqlite3_close(db);
-    delete runManager;
-    delete visManager;
-    return 0;
+
+  // close matrix file.
+  out.close();
+
+  // job termination
+  delete[] Epri;
+  delete[] outBins;
+  gsl_histogram_free(hBGO);
+  gsl_histogram_free(hCZT);
+  delete runManager;
+  delete visManager;
+  return 0;
 }
-
-
-/*
-/vis/open OGL
-/vis/scene/create
-/vis/scene/add/volume
-/vis/sceneHandler/attach
-/vis/viewer/set/viewpointThetaPhi 90 0
-/vis/scene/add/trajectories
-/vis/scene/add/hits
-/run/beamOn 1
-
-/vis/viewer/set/viewpointThetaPhi 90 0
-/vis/viewer/panTo 1.4226 3.7341
-
-/vis/open OGLIX
-/vis/scene/create
-/vis/scene/add/volume
-/vis/sceneHandler/attach
-/vis/viewer/flush
-/vis/viewer/set/viewpointThetaPhi 90 0
-/vis/viewer/zoom 30
-/vis/scene/add/trajectories
-/vis/scene/add/hits
-/run/beamOn 1
-*/

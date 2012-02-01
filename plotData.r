@@ -1,5 +1,4 @@
 #this is a comment in the first 50 lines for Vim's filetype detection.
-library(rgl);
 library(gplots);
 library(RSQLite);
 library(akima);
@@ -8,8 +7,9 @@ library(fields);
 library(ks);
 library(boot);
 library(Hmisc);
-library(splancs)
-source("~/utils/colormaps.r");
+library(splancs);
+library(ggplot2);
+source("~/R/colormaps.r");
 
 
 readData2sqlite <- function(fn,tabName){
@@ -214,4 +214,18 @@ plotEfficienciesVsEnergy <- function(eds,eff,title){
     ctr <- ctr+1;
   }
 
+}
+
+# read a BGO/CZT DRM pair
+readDRMs <- function(fn){
+  f <- file(fn,"rt");
+  l <- readLines(f,5);
+  close(f);
+  priLine <- as.real(strsplit(l[3]," ")[[1]][-1:-3])
+  outLine <- as.real(strsplit(l[4]," ")[[1]][-1:-5])
+
+  a <- read.table(fn);
+  bdf <- data.matrix(subset(a,a$V1=="BGO")[,-1]);
+  cdf <- data.matrix(subset(a,a$V1=="CZT")[,-1]);
+  list(b=bdf,c=cdf,i=priLine,om=(outLine[-1] + outLine[-length(outLine)])/2,obks=outLine);
 }
