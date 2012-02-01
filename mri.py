@@ -74,6 +74,24 @@ def makeGEANTInputDB(dbfn,nPri,planeWid,planeDist,pdgCode,theta,phi,origin,eMeV)
   c.close()
   conn.close()
 
+def makeGEANTInputDB2(dbfn,nPri,pdgCode,alt_m,eMeV):
+  conn = sqlite3.connect(dbfn)
+  c = conn.cursor()
+  resetDB(c)
+  ctr = 0
+  (x0,y0,z0) = (0.0,-0.0560,0.0160) # center of top of BGO bar.  add 5 to get to top of housing.  from gdml, but in meters.
+  dy = 0.1520/2.0; dx = 0.0520/2.0; # width and length of bgo bar from gdml, but in meters.
+  rpfn = randomParticle_atSquare(pdgCode,eMeV,x0,y0,z0+0.005+alt_m, x0-dx,y0-dy,z0,x0+dx,y0+dy,z0)
+  while(ctr<nPri):
+    (pdgCode,eMeV,x,y,z,px,py,pz,t) = rpfn()
+    c.execute("INSERT INTO pcles VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?);",(ctr,ctr,-1,0,pdgCode,eMeV,x,y,z,px,py,pz,t,1.0));
+    ctr = ctr+1
+  conn.commit()
+  c.close()
+  conn.close()
+
+# generates a particle launched from x0,y0,z0 going toward the square defined by
+# xs1,ys1,zs1 and xs2,ys2,zs2, assuming zs1==zs2 for now.
 def randomParticle_atSquare(pdgCode,eMeV,x0,y0,z0,xs1,ys1,zs1,xs2,ys2,zs2):
   # zs1 assumed to == zs2.
   (mx,my,mz) = ((xs1+xs2)/2.0,(ys1+ys2)/2.0,(zs1+zs2)/2.0)
@@ -85,13 +103,20 @@ def randomParticle_atSquare(pdgCode,eMeV,x0,y0,z0,xs1,ys1,zs1,xs2,ys2,zs2):
   else:
     theta0 = atan2(sqrt((mx-x0)**2+(my-y0)**2),(mz-z0))
   phi0 = atan2(my-y0,mx-x0)
-  thetaMax1 = acos(((xs1-x0)*(mx-x0)+(ys1-y0)*(my-y0)+(zs1-z0)*(mz-z0))/(sqrt((mx-x0)**2+(my-y0)**2+(mz-z0)**2)*sqrt((xs1-x0)**2+(ys1-y0)**2+(zs1-z0)**2)))
-  thetaMax2 = acos(((xs2-x0)*(mx-x0)+(ys1-y0)*(my-y0)+(zs1-z0)*(mz-z0))/(sqrt((mx-x0)**2+(my-y0)**2+(mz-z0)**2)*sqrt((xs2-x0)**2+(ys1-y0)**2+(zs1-z0)**2)))
-  thetaMax3 = acos(((xs1-x0)*(mx-x0)+(ys2-y0)*(my-y0)+(zs1-z0)*(mz-z0))/(sqrt((mx-x0)**2+(my-y0)**2+(mz-z0)**2)*sqrt((xs1-x0)**2+(ys2-y0)**2+(zs1-z0)**2)))
-  thetaMax4 = acos(((xs2-x0)*(mx-x0)+(ys2-y0)*(my-y0)+(zs1-z0)*(mz-z0))/(sqrt((mx-x0)**2+(my-y0)**2+(mz-z0)**2)*sqrt((xs2-x0)**2+(ys2-y0)**2+(zs1-z0)**2)))
-  thetaMax = max(thetaMax1,thetaMax2,thetaMax3,thetaMax4)
+  def findMaxAlongSeg(x1,y1,z1,x2,y2,z2):
+    t = 0
+    thmx = 0
+    while(t<=1):
+      xx = x1+(x2-x1)*t
+      yy = y1+(y2-y1)*t
+      zz = z1+(z2-z1)*t
+      thmx = max(thmx,acos(((xx-x0)*(mx-x0)+(yy-y0)*(my-y0)+(zz-z0)*(mz-z0))/(sqrt((mx-x0)**2+(my-y0)**2+(mz-z0)**2)*sqrt((xx-x0)**2+(yy-y0)**2+(zz-z0)**2))))
+      t += 0.05
+    return thmx
+  thetaMax = max(findMaxAlongSeg(xs1,ys1,zs1,xs2,ys1,zs1),findMaxAlongSeg(xs1,ys1,zs1,xs1,ys2,zs1),
+      findMaxAlongSeg(xs1,ys2,zs2,xs2,ys2,zs2),findMaxAlongSeg(xs2,ys1,zs2,xs2,ys2,zs2))
   def randomPcle():
-    xp=yp=zp=1.0e100
+    xp=yp=1.0e100
     while(xp<xs1 or xp>xs2 or yp<ys1 or yp>ys2):
       phi = 2*pi*random.random()
       theta = acos(cos(thetaMax) + (1-cos(thetaMax))*random.random())
@@ -102,4 +127,3 @@ def randomParticle_atSquare(pdgCode,eMeV,x0,y0,z0,xs1,ys1,zs1,xs2,ys2,zs2):
       yp = y0+yt*dr
     return (pdgCode,eMeV,x0,y0,z0,xt,yt,zt,0.0)
   return randomPcle
-  
