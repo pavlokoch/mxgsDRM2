@@ -41,8 +41,7 @@ DetectorConstruction::~DetectorConstruction()
 G4VPhysicalVolume* DetectorConstruction::Construct()
 {
   G4GDMLParser parser;
-  //parser.Read("columbus.gdml");
-  parser.Read("bgoSingle.gdml");
+  parser.Read("columbus.gdml");
   G4VPhysicalVolume *W = parser.GetWorldVolume();
   //W->GetLogicalVolume()->SetVisAttributes(G4VisAttributes::Invisible);
 
