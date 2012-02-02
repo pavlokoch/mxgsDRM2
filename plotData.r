@@ -223,9 +223,97 @@ readDRMs <- function(fn){
   close(f);
   priLine <- as.real(strsplit(l[3]," ")[[1]][-1:-3])
   outLine <- as.real(strsplit(l[4]," ")[[1]][-1:-5])
+  print(l[1]);
+  print(l[2]);
 
   a <- read.table(fn);
   bdf <- data.matrix(subset(a,a$V1=="BGO")[,-1]);
   cdf <- data.matrix(subset(a,a$V1=="CZT")[,-1]);
-  list(b=bdf,c=cdf,i=priLine,om=(outLine[-1] + outLine[-length(outLine)])/2,obks=outLine);
+
+  om <- (outLine[-1] + outLine[-length(outLine)])/2;
+
+  list(b=bdf,c=cdf,i=priLine,om=om,obks=outLine);
 }
+
+readDRMs_df <- function(fn){
+  f <- file(fn,"rt");
+  l <- readLines(f,5);
+  close(f);
+  priLine <- as.real(strsplit(l[3]," ")[[1]][-1:-3])
+  outLine <- as.real(strsplit(l[4]," ")[[1]][-1:-5])
+  print(l[1]);
+  print(l[2]);
+
+  a <- read.table(fn);
+  bdf <- data.matrix(subset(a,a$V1=="BGO")[,-1]);
+  cdf <- data.matrix(subset(a,a$V1=="CZT")[,-1]);
+
+  om <- (outLine[-1] + outLine[-length(outLine)])/2;
+
+  #list(b=bdf,c=cdf,i=priLine,om=om,obks=outLine);
+
+  bdf <- data.frame(melt(t(matrix(bdf,ncol=length(outLine)-1,dimnames=list(priLine,om)))));
+  cdf <- data.frame(melt(t(matrix(cdf,ncol=length(outLine)-1,dimnames=list(om,priLine)))));
+
+  data.frame(outE=bdf$X1,inE=bdf$X2,ctsB=bdf$value,ctsC=cdf$value);
+}
+
+lalf <- function(x){x[x==0]<-1; log10(x)};
+imageDRM <- function(a,drm){
+  p <- ggplot(data=a) + geom_tile(aes(x=inE,y=outE,
+                                      #alpha=ctsB));
+                                      alpha=lalf(ctsB)));
+                                      #fill=lalf(ctsB)));
+  #p <- p + scale_fill_gradientn(colours=jet.colors(7));
+  p <- p + scale_alpha_continuous(name=expression(log[10](cts)));
+  p <- p + scale_x_log10()+scale_y_log10();
+  p <- p + theme_bw();
+  print(p);
+}
+
+lineDRM <- function(a,e){
+  ine <- as.real(levels(factor(a$inE)));
+  e <- ine[findInterval(e,ine)];
+  a <- subset(a,a$inE == e);
+
+  p <- ggplot(data=a) + geom_line(aes(x=outE,y=ctsB));
+  p <- p + xlim(0,e*1.2);
+  #p <- p + scale_x_log10();
+
+  print(p);
+}
+
+lineDRM_multi <- function(a,e){
+  ine <- as.real(levels(factor(a$inE)));
+
+  e <- ine[findInterval(e,ine)];
+
+  a <- subset(a,a$inE %in% e);
+
+  p <- ggplot(data=a) + geom_line(aes(x=outE,y=ctsB,group=inE,color=sprintf("%.2f MeV",inE)));
+  #p <- p + scale_color_brewer();
+  p <- p + scale_color_discrete(name=expression(E[pri]));
+  p <- p + theme_bw();
+  p <- p + scale_x_log10();
+
+  print(p);
+}
+  
+
+#lineDRM_multi <- function(ain,elist){
+#  p <- ggplot(data=ain);
+#  ine <- as.real(levels(factor(ain$inE)));
+#  for(e in elist){
+#    e <- ine[findInterval(e,ine)];
+#    a <- subset(ain,ain$inE == e);
+#    print(e);
+#
+#    p <- p + geom_line(data=a,aes(x=outE,y=ctsB));
+#    p <- p + xlim(0,e*1.2);
+#    #p <- p + scale_x_log10();
+#  }
+#
+#  print(p);
+#}
+  
+  

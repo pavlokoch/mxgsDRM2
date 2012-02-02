@@ -92,10 +92,17 @@ int main(int argc, char** argv){
 
   // set mandatory user action class
   // targetY/Y/Z are the coordinates (m) of the center of MXGS in the colombus.gdml reference frame.
-  double targetX = 0;
+  ////// target for columbus.gdml.
+  double targetX = 0.0;
   double targetY = 2.8297 + 0.1458/2.0 + 0.8630/2.0;
   double targetZ = -1.3996 + 1.1300/2.0 - 0.8630 + 0.5500/2.0;
+  ////// target for asim.gdml.
+  //double targetX = 0.0;
+  //double targetY = 0.2;
+  //double targetZ = -0.125;
+
   double targetDisp = 100;
+
   PrimaryGeneratorAction *pgen = new PrimaryGeneratorAction(priPDGID,priStartDiskRad,priTheta,priPhi,
       targetX,targetY,targetZ,targetDisp);
   runManager->SetUserAction(pgen);
