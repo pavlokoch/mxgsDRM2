@@ -235,7 +235,8 @@ readDRMs <- function(fn){
   list(b=bdf,c=cdf,i=priLine,om=om,obks=outLine);
 }
 
-readDRMs_df <- function(fn){
+# effective areas measured in cm^2/keV
+readDRMs_df <- function(fn,nPriPerE=1.0,rDisk=1.0){
   f <- file(fn,"rt");
   l <- readLines(f,5);
   close(f);
@@ -249,24 +250,39 @@ readDRMs_df <- function(fn){
   cdf <- data.matrix(subset(a,a$V1=="CZT")[,-1]);
 
   om <- (outLine[-1] + outLine[-length(outLine)])/2;
+  deo <- (outLine[-1] - outLine[-length(outLine)]);
 
   #list(b=bdf,c=cdf,i=priLine,om=om,obks=outLine);
 
-  bdf <- data.frame(melt(t(matrix(bdf,ncol=length(outLine)-1,dimnames=list(priLine,om)))));
-  cdf <- data.frame(melt(t(matrix(cdf,ncol=length(outLine)-1,dimnames=list(om,priLine)))));
+  bdf <- data.frame(melt(t(matrix(bdf,ncol=length(om),dimnames=list(priLine,om)))));
+  cdf <- data.frame(melt(t(matrix(cdf,ncol=length(om),dimnames=list(priLine,om)))));
 
-  data.frame(outE=bdf$X1,inE=bdf$X2,ctsB=bdf$value,ctsC=cdf$value);
+  e1 <- outLine[findInterval(bdf$X1,outLine)];
+  e2 <- outLine[findInterval(bdf$X1,outLine)+1];
+
+  # convert to cm^2/keV
+  norm <- pi*rDisk**2*100^2/((e2-e1)*1000.0)/nPriPerE;
+
+  data.frame(outE=bdf$X1
+             ,inE=bdf$X2
+             ,ctsB=bdf$value
+             ,areaB=bdf$value*norm
+             ,ctsC=cdf$value
+             ,areaC=cdf$value*norm
+             ,outEBinLow=e1
+             ,outEBinHigh=e2);
 }
 
-lalf <- function(x){x[x==0]<-1; log10(x)};
+lalf <- function(x){y <- x; y[y==0]<-1; y <- log10(y); y[x==0] <- min(y); y};
 imageDRM <- function(a,drm){
   p <- ggplot(data=a) + geom_tile(aes(x=inE,y=outE,
-                                      #alpha=ctsB));
-                                      alpha=lalf(ctsB)));
-                                      #fill=lalf(ctsB)));
+                                      #alpha=areaB));
+                                      alpha=lalf(areaB)));
+                                      #fill=lalf(areaB)));
   #p <- p + scale_fill_gradientn(colours=jet.colors(7));
-  p <- p + scale_alpha_continuous(name=expression(log[10](cts)));
+  p <- p + scale_alpha_continuous(name=expression(log[10](cm^2/keV)));
   p <- p + scale_x_log10()+scale_y_log10();
+  p <- p + ylab("energy deposited (MeV)") + xlab("input energy (MeV)");
   p <- p + theme_bw();
   print(p);
 }
@@ -298,22 +314,40 @@ lineDRM_multi <- function(a,e){
 
   print(p);
 }
-  
 
-#lineDRM_multi <- function(ain,elist){
-#  p <- ggplot(data=ain);
-#  ine <- as.real(levels(factor(ain$inE)));
-#  for(e in elist){
-#    e <- ine[findInterval(e,ine)];
-#    a <- subset(ain,ain$inE == e);
-#    print(e);
-#
-#    p <- p + geom_line(data=a,aes(x=outE,y=ctsB));
-#    p <- p + xlim(0,e*1.2);
-#    #p <- p + scale_x_log10();
-#  }
-#
-#  print(p);
-#}
-  
-  
+integrateDRM <- function(a,eIn,eOutMin,eOutMax){
+  a <- subset(a,a$inE==eIn);
+
+  #f <- approxfun(a$outEBinLow,a$areaB,method="constant",f=0,yleft=0,yright=0);
+  #integrate(f,eOutMin,eOutMax,rel.tol=0.001,abs.tol=0.001,subdivisions=1000);
+
+  e1 <- a$outEBinLow;
+  e2 <- a$outEBinHigh;
+
+  de <- (e2-e1)*1000; # keV
+  integral <- sum(de[a$outEBinLow > eOutMin]*a$areaB[a$outEBinLow > eOutMin]);
+  bdySel <- a$outEBinLow < eOutMin & a$outEBinHigh > eOutMin;
+  bdyFrac <- (a$outEBinHigh-eOutMin)/de;
+  integral <- integral + sum(bdySel*de*a$areaB*bdyFrac);
+  integral;
+}
+
+integrateCrosSecs <- function(a){
+  e1 <- a$outEBinLow;
+  e2 <- a$outEBinHigh;
+  de <- (e2-e1)*1000; # keV
+
+  eIn <- as.real(levels(factor(a$inE)));
+  anyDepSig <- mapply(function(e){integrateDRM(a,e,0,100)},eIn);
+  fullEDepSig <- mapply(function(e){integrateDRM(a,e,e*0.9,100)},eIn);
+
+  sig <- data.frame(eIn=eIn,sig=c(anyDepSig,fullEDepSig)
+                    ,type=c(rep("total",length(anyDepSig)),rep("full-energy",length(fullEDepSig))));
+
+  p <- ggplot(data=sig) + geom_line(aes(x=eIn,y=sig,group=type,color=type));
+  p <- p + scale_x_log10()+scale_y_log10();
+  p <- p + ylab(expression("integrated cross section ("*cm^2*")")) + xlab("input energy (MeV)");
+  p <- p + theme_bw();
+  print(p);
+}
+

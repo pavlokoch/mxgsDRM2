@@ -40,7 +40,11 @@ int main(int argc, char** argv){
 
   double *Epri = new double[priNumE];
   for(i=0; i<priNumE; ++i){
-    Epri[i] = pow(10,log10(priEMin) + ((double)i)/(priNumE-1)*(log10(priEMax)-log10(priEMin)));
+    if(i==0){
+      Epri[i] = priEMin;
+    }else{
+      Epri[i] = pow(10,log10(priEMin) + ((double)i)/(priNumE-1)*(log10(priEMax)-log10(priEMin)));
+    }
   }
   double *outBins = new double[outNumE+1];
   for(i=0; i<outNumE+1; ++i){
