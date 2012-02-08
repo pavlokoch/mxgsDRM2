@@ -351,3 +351,19 @@ integrateCrosSecs <- function(a){
   print(p);
 }
 
+combineDRMOutBins <- function(a,ncomb){
+  e1 <- a$outEBinLow[seq(1,length(outEBinLow),by=ncomb)];
+  e2 <- a$outEBinHigh[seq(ncomb,length(outEBinHigh),by=ncomb)];
+  aBm <- matrix(a$areaB,n ...);
+
+  
+
+  #data.frame(outE=bdf$X1
+  #           ,inE=bdf$X2
+  #           ,ctsB=bdf$value
+  #           ,areaB=bdf$value*norm
+  #           ,ctsC=cdf$value
+  #           ,areaC=cdf$value*norm
+  #           ,outEBinLow=e1
+  #           ,outEBinHigh=e2);
+}
