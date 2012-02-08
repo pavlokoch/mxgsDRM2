@@ -18,6 +18,29 @@ find_package(GSL REQUIRED)
 include_directories(${GSL_INCLUDE_DIRS})
 set(LIBS ${LIBS} ${GSL_LIBRARIES})
 
+set(GDML_FILES
+  aces.gdml
+  asim.gdml
+  bgo.gdml
+  bgoSingle.gdml
+  codedMask.gdml
+  columbus.gdml
+  columbus_bk.gdml
+  czt.gdml
+  instrument.gdml
+  iss_C2I1.gdml
+  iss_C3I2.gdml
+  mmia.gdml
+  mxgs.gdml
+  )
+
+foreach(_gdml ${GDML_FILES})
+  configure_file(
+    ${PROJECT_SOURCE_DIR}/${_gdml}
+    ${PROJECT_BINARY_DIR}/${_gdml}
+    COPYONLY
+    )
+endforeach()
 
 #----------------------------------------------------------------------------
 # Setup Geant4 include directories and compile definitions
