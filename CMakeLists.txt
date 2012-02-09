@@ -32,8 +32,6 @@ set(GDML_FILES
   columbus.gdml
   czt.gdml
   instrument.gdml
-  iss_C2I1.gdml
-  iss_C3I2.gdml
   mmia.gdml
   mxgs.gdml
   )
