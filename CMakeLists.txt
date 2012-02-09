@@ -20,7 +20,7 @@ endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 find_package(GSL REQUIRED)
-include_directories(${GSL_INCLUDE_DIRS})
+include_directories(${GSL_INCLUDE_DIR})
 set(LIBS ${LIBS} ${GSL_LIBRARIES})
 
 set(GDML_FILES
