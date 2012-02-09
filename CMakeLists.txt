@@ -1,6 +1,11 @@
 cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
 project(mxgsDRM)
 
+#SET(CMAKE_FIND_LIBRARY_SUFFIXES .a ${CMAKE_FIND_LIBRARY_SUFFIXES})
+#SET(LINK_SEARCH_END_STATIC ON)
+#SET(LINK_SEARCH_START_STATIC ON)
+#SET(CMAKE_EXE_LINKER_FLAGS -static)
+
 #----------------------------------------------------------------------------
 # Find Geant4 package, activating all available UI and Vis drivers by default
 # You can set WITH_GEANT4_UIVIS to OFF via the command line or ccmake/cmake-gui
@@ -25,7 +30,6 @@ set(GDML_FILES
   bgoSingle.gdml
   codedMask.gdml
   columbus.gdml
-  columbus_bk.gdml
   czt.gdml
   instrument.gdml
   iss_C2I1.gdml
