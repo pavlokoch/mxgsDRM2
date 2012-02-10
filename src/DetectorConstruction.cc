@@ -41,12 +41,14 @@ DetectorConstruction::~DetectorConstruction()
 
 G4VPhysicalVolume* DetectorConstruction::Construct()
 {
-  G4GDMLParser parser;
-  parser.Read("columbus.gdml");
-  //parser.Read("asim.gdml");
+  char fn[1000];
+  sprintf(fn,"%s/columbus.gdml",getenv("MY_GDML_PATH"));
   //// NOTE: using asim.gdml, need to use asim_world volume instead of asim volume for world ref in asim.gdml.
   //// i.e. <world ref="asim_world"> vs <world ref="asim"> at end of asim.gdml.
   //// also have to adjust the target position.
+  //
+  G4GDMLParser parser;
+  parser.Read(fn);
   G4VPhysicalVolume *W = parser.GetWorldVolume();
   //W->GetLogicalVolume()->SetVisAttributes(G4VisAttributes::Invisible);
 
