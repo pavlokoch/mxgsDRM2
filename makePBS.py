@@ -28,7 +28,12 @@ def mpirunCmd(pdgID,nPriPerE,rad,(th0,th1,nth),(ph0,ph1,nph),(e0,e1,ne)):
     for th in linRange(th0,th1,nth) for ph in linRange(ph0,ph1,nph)])
 
 def commands(name,pdgID,nPriPerE,rad,theta,phi,energy):
-  return ["cd ~/sim-build","mkdir -p %s/%s"%(resultsDir,name),mpirunCmd(pdgID,nPriPerE,rad,theta,phi,energy)]
+  return ["module unload pgi","module load gcc"
+      ,"cd ~/geant/geant4.9.5-install/bin/"
+      ,"source geant4.sh"
+      ,"cd ~/sim-build"
+      ,"mkdir -p %s/%s"%(resultsDir,name)
+      ,mpirunCmd(pdgID,nPriPerE,rad,theta,phi,energy)]
 
 def printPBS(name,n,cmds,walltime):
   numNodes = int(n/2) + n%2
