@@ -48,7 +48,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //// also have to adjust the target position.
   //
   G4GDMLParser parser;
-  parser.Read(fn);
+  parser.Read(fn,false);
   G4VPhysicalVolume *W = parser.GetWorldVolume();
   //W->GetLogicalVolume()->SetVisAttributes(G4VisAttributes::Invisible);
 
