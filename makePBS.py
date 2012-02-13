@@ -41,12 +41,12 @@ def printPBS(name,n,cmds,walltime):
   print("#PBS -S /bin/sh")
   print("#PBS -N \"%s\""%name)
   print("#PBS -A fysisk")
-  print("#PBS -l nodes=%d,ppn=2,walltime=%s"%(numNodes,walltime))
+  print("#PBS -l walltime=%s,nodes=%d:ppn=2,walltime=%s"%(wallitme,numNodes))
   print("#PBS -l pmem=500mb")
-  print("#PBS -o %s.stdout.txt"%name)
-  print("#PBS -e %s.stderr.txt"%name)
   print("#PBS -m abe");
   print("#PBS -M brant.carlson@ift.uib.no");
+  print("#PBS -o %s.stdout.txt"%name)
+  print("#PBS -e %s.stderr.txt"%name)
   print("")
   for cmd in cmds:
     print(cmd)
