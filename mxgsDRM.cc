@@ -22,7 +22,7 @@ int main(int argc, char** argv){
   if(argc < nargs){
     cout << "usage:\n" 
       << argv[0] 
-      << " priPDGID(22,11,-11,...) nPriPerE priStartDiskRad(m) theta(deg) phi(deg) Emin(MeV) Emax(MeV) numEnergies  outputfileName  ...rest of arguments written as comment to output file...\n";
+      << " priPDGID(22,11,-11,...) nPriPerE priStartDiskRad(m) theta(deg) phi(deg) Emin(MeV) Emax(MeV) numEnergies outEMin outEMax outNumE outputfileName  ...rest of arguments written as comment to output file...\n";
     return 1;
   }
 
