@@ -9,6 +9,7 @@ library(boot);
 library(Hmisc);
 library(splancs);
 library(ggplot2);
+library(plyr);
 source("~/R/colormaps.r");
 
 
@@ -263,14 +264,17 @@ readDRMs_df <- function(fn,nPriPerE=1.0,rDisk=1.0){
   # convert to cm^2/keV
   norm <- pi*rDisk**2*100^2/((e2-e1)*1000.0)/nPriPerE;
 
-  data.frame(outE=bdf$X1
-             ,inE=bdf$X2
-             ,ctsB=bdf$value
-             ,areaB=bdf$value*norm
-             ,ctsC=cdf$value
-             ,areaC=cdf$value*norm
-             ,outEBinLow=e1
-             ,outEBinHigh=e2);
+  x <- data.frame(outE=bdf$X1
+                  ,inE=bdf$X2
+                  ,ctsB=bdf$value
+                  ,areaB=bdf$value*norm
+                  ,ctsC=cdf$value
+                  ,areaC=cdf$value*norm
+                  ,outEBinLow=e1
+                  ,outEBinHigh=e2);
+  attr(x,"nPriPerE") <- nPriPerE;
+  attr(x,"rDisk") <- rDisk;
+  x;
 }
 
 lalf <- function(x){y <- x; y[y==0]<-1; y <- log10(y); y[x==0] <- min(y); y};
@@ -287,16 +291,28 @@ imageDRM <- function(a,drm){
   print(p);
 }
 
-lineDRM <- function(a,e){
+lineDRM <- function(a,e,justGeom=FALSE,...){
   ine <- as.real(levels(factor(a$inE)));
   e <- ine[findInterval(e,ine)];
   a <- subset(a,a$inE == e);
 
-  p <- ggplot(data=a) + geom_line(aes(x=outE,y=ctsB));
-  p <- p + xlim(0,e*1.2);
-  #p <- p + scale_x_log10();
+  if(justGeom){
+    geom_line(data=a,aes(x=outE,y=areaB));
+  }else{
+    p <- ggplot(data=a) + geom_line(aes(x=outE,y=areaB));
 
-  print(p);
+    p <- p + xlim(1,e*1.2);
+    p <- p + scale_x_log10();
+
+    rest <- list(...);
+    if(length(rest)>0){
+      for(xx in rest){
+        print(xx);
+        p <- p + xx;
+      }
+    }
+    p;
+  }
 }
 
 lineDRM_multi <- function(a,e){
@@ -352,18 +368,34 @@ integrateCrosSecs <- function(a){
 }
 
 combineDRMOutBins <- function(a,ncomb){
-  e1 <- a$outEBinLow[seq(1,length(outEBinLow),by=ncomb)];
-  e2 <- a$outEBinHigh[seq(ncomb,length(outEBinHigh),by=ncomb)];
-  aBm <- matrix(a$areaB,n ...);
-
-  
-
-  #data.frame(outE=bdf$X1
-  #           ,inE=bdf$X2
-  #           ,ctsB=bdf$value
-  #           ,areaB=bdf$value*norm
-  #           ,ctsC=cdf$value
-  #           ,areaC=cdf$value*norm
-  #           ,outEBinLow=e1
-  #           ,outEBinHigh=e2);
+  e1 <- a$outEBinLow[seq(1,length(a$outEBinLow),by=ncomb)];
+  e2 <- a$outEBinHigh[seq(ncomb,length(a$outEBinHigh),by=ncomb)];
+  a$merger <- floor(ncomb:(length(a$outEBinHigh)+ncomb-1)/ncomb);
+  a <- ddply(a,~merger,
+#             function(df){
+#               e1 <- df$outEBinLow[1];
+#               e2 <- df$outEBinHigh[length(df$outEBinHigh)];
+#               ctsB <- sum(df$ctsB);
+#               ctsC <- sum(df$ctsC);
+#               norm <- pi*attr(df,"rDisk")**2*100^2/(1000*(e2-e1))/attr(df,"nPriPerE");
+#               data.frame(outE <- df$outE[1]
+#                          ,inE <- (e1+e2)/2
+#                          ,ctsB <- ctsB
+#                          ,ctsC <- ctsC
+#                          ,areaB <- ctsB*norm
+#                          ,areaC <- ctsC*norm
+#                          ,outEBinLow <- e1
+#                          ,outEBinHigh <- e2)},
+             function(df){
+               #print(df);
+               x <- df[1,];
+               x$outEBinHigh <- df$outEBinHigh[length(df$outEBinHigh)];
+               x$outE <- (x$outEBinLow+x$outEBinHigh)/2;
+               x$ctsB <- sum(df$ctsB);
+               x$ctsC <- sum(df$ctsC);
+               norm <- pi*attr(df,"rDisk")**2*100^2/(x$outEBinHigh-x$outEBinLow)/attr(df,"nPriPerE");
+               x$areaC <- x$ctsC*norm;
+               x$areaB <- x$ctsB*norm;
+               x},
+             .progress="text");
 }
