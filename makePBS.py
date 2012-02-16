@@ -24,8 +24,15 @@ def mxgsDRMCmd(name,pdgID,nPriPerE,rad,theta,phi,emin,emax,numE):
   return "./mxgsDRM %d %d %f %f %f %g %g %d %g %g %d %s %s"%(pdgID,nPriPerE,rad,theta,phi,emin,emax,numE,outMinE,outMaxE,outNumE,outfn,comment)
 
 def mpirunCmd(name,pdgID,nPriPerE,rad,(th0,th1,nth),(ph0,ph1,nph),(e0,e1,ne)):
-  return "mpirun " + " : ".join(["-np 1 "+mxgsDRMCmd(name,pdgID,nPriPerE,rad,th,ph,e0,e1,ne) 
-    for th in linRange(th0,th1,nth) for ph in linRange(ph0,ph1,nph)])
+  #return "mpirun " + " : ".join(["-np 1 "+mxgsDRMCmd(name,pdgID,nPriPerE,rad,th,ph,e0,e1,ne) 
+  #  for th in linRange(th0,th1,nth) for ph in linRange(ph0,ph1,nph)])
+  cmds = []
+  ctr=1
+  for (ph,th) in [(ph,th) for th in linRange(th0,th1,nth) for ph in linRange(ph0,ph1,nph)]:
+    cmds.append(("-H `head -%d $PBS_NODEFILE | tail -1` -np 1 "%ctr)+mxgsDRMCmd(name,pdgID,nPriPerE,rad,th,ph,e0,e1,ne))
+    ctr = ctr+1
+    
+  return "mpirun " + " : ".join(cmds)
 
 def commands(name,pdgID,nPriPerE,rad,theta,phi,energy):
   return ["module unload pgi","module load gcc"
