@@ -51,8 +51,18 @@ def printPBS(name,n,cmds,walltime):
   for cmd in cmds:
     print(cmd)
 
+
+def walltimeStr(nPriPerE,nPriE,rate=250):
+  sTot = nPriPerE*nPriE/rate
+  h = int(sTot/3600)
+  m = int((sTot-h*3600)/60)
+  s = int((sTot-h*3600-m*60))
+  return "%02d:%02d:%02d"%(h,m,s)
+
 name = "testJob"
-ntheta = 1
-nphi = 1
-printPBS(name,ntheta*nphi,commands(name,22,1000,0.5,(0,45,ntheta),(0,270,nphi),(0.1,100,100)),"00:10:00");
+ntheta = 2
+nphi = 4
+ne = 100
+nPriPerE = 50000
+printPBS(name,ntheta*nphi,commands(name,22,nPriPerE,0.6,(0,45,ntheta),(0,270,nphi),(0.1,100,ne)),walltimeStr(nPriPerE,ne,250));
 
