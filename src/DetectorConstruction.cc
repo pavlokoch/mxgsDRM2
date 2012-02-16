@@ -51,7 +51,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4GDMLParser parser;
   parser.Read(fn,false);
   G4VPhysicalVolume *W = parser.GetWorldVolume();
-  //W->GetLogicalVolume()->SetVisAttributes(G4VisAttributes::Invisible);
+  W->GetLogicalVolume()->SetVisAttributes(G4VisAttributes::Invisible);
 
   const G4GDMLAuxMapType* auxmap = parser.GetAuxMap();
   std::cout << "Found " << auxmap->size()

@@ -951,8 +951,8 @@
       <physvol> <volumeref ref="wakeSupport"/> <positionref ref="ws_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="ramSupport"/> <positionref ref="rs_pos"/> <rotationref ref="id"/> </physvol>
 
-      <!--
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
+      <!--
       -->
     </volume>
 

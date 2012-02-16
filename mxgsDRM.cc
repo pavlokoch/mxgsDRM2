@@ -119,6 +119,8 @@ int main(int argc, char** argv){
 
   G4UImanager* UI = G4UImanager::GetUIpointer();
   G4String command = "/run/beamOn 1";
+
+
   for(j=0; j<priNumE; ++j){ // loop over primary energies.
     // reset the histograms.
     gsl_histogram_reset(hBGO);
@@ -126,6 +128,11 @@ int main(int argc, char** argv){
 
     // set primary energy
     pgen->setPriEn(Epri[j]);
+
+    //// use for interactive session to doublecheck things via command line.
+    //G4UIsession* session = new G4UIterminal(new G4UItcsh);
+    //session->SessionStart();
+    //delete session;
 
     // main event loop for this primary energy
     for(k=0; k<nPriPerE; ++k){
@@ -156,3 +163,30 @@ int main(int argc, char** argv){
   delete visManager;
   return 0;
 }
+
+/*
+/vis/open OGL
+/vis/scene/create
+/vis/scene/add/volume
+/vis/sceneHandler/attach
+/vis/viewer/set/projection perspective 20 deg
+/vis/viewer/set/viewpointThetaPhi 90 0
+/vis/viewer/panTo 1.4226 3.7341
+/vis/scene/add/trajectories
+/vis/scene/add/hits
+/run/beamOn 1
+
+/vis/viewer/set/viewpointThetaPhi 90 0
+/vis/viewer/panTo 1.4226 3.7341
+
+/vis/open OGLIX
+/vis/scene/create
+/vis/scene/add/volume
+/vis/sceneHandler/attach
+/vis/viewer/flush
+/vis/viewer/set/viewpointThetaPhi 90 0
+/vis/viewer/zoom 30
+/vis/scene/add/trajectories
+/vis/scene/add/hits
+/run/beamOn 1
+*/

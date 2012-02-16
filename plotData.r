@@ -10,6 +10,7 @@ library(Hmisc);
 library(splancs);
 library(ggplot2);
 library(plyr);
+library(parallel);
 source("~/R/colormaps.r");
 
 
@@ -236,6 +237,21 @@ readDRMs <- function(fn){
   list(b=bdf,c=cdf,i=priLine,om=om,obks=outLine);
 }
 
+#vectorize over x.
+binomCI <- function(x,n,conf.lev=0.6826895){
+  alpha <- 1-conf.lev;
+  p.L <- function(x, alpha){
+    y <- x; y[x==0] <- 1;
+    ifelse(x == 0, 0, qbeta(alpha, y, n - y + 1));
+  }
+  p.U <- function(x, alpha){
+    y <- x; y[x==n] <- 1;
+    ifelse(x == n, 1, qbeta(1 - alpha, y + 1, n - y));
+  }
+
+  matrix(c(p.L(x, alpha), p.U(x, alpha)),ncol=2);
+}
+
 # effective areas measured in cm^2/keV
 readDRMs_df <- function(fn,nPriPerE=1.0,rDisk=1.0){
   f <- file(fn,"rt");
@@ -243,9 +259,10 @@ readDRMs_df <- function(fn,nPriPerE=1.0,rDisk=1.0){
   close(f);
   priLine <- as.real(strsplit(l[3]," ")[[1]][-1:-3])
   outLine <- as.real(strsplit(l[4]," ")[[1]][-1:-5])
-  print(l[1]);
-  print(l[2]);
+  #print(l[1]);
+  #print(l[2]);
 
+  print("reading file, loading matrices...");
   a <- read.table(fn);
   bdf <- data.matrix(subset(a,a$V1=="BGO")[,-1]);
   cdf <- data.matrix(subset(a,a$V1=="CZT")[,-1]);
@@ -261,15 +278,36 @@ readDRMs_df <- function(fn,nPriPerE=1.0,rDisk=1.0){
   e1 <- outLine[findInterval(bdf$X1,outLine)];
   e2 <- outLine[findInterval(bdf$X1,outLine)+1];
 
+  #print("calculating error bars...");
+  #pb <- create_progress_bar("text"); pb$init(length(bdf$value)+length(cdf$value));
+  #bcis <- mapply(function(suc,try){pb$step(); binom.test(suc,try,conf.level=0.6826895)$conf.int},bdf$value,nPriPerE);
+  #ccis <- mapply(function(suc,try){pb$step(); binom.test(suc,try,conf.level=0.6826895)$conf.int},cdf$value,nPriPerE);
+  #pb$term();
+
+  ## multi-core apply, doesn't work, for now... results are the wrong shape, or something.
+  #bcis <- mclapply(bdf$value,function(suc,try){pb$step(); binom.test(suc,try,conf.level=0.6826895)$conf.int},nPriPerE,mc.cores=4);
+  #ccis <- mclapply(cdf$value,function(suc,try){pb$step(); binom.test(suc,try,conf.level=0.6826895)$conf.int},nPriPerE,mc.cores=4);
+
+  bcis <- binomCI(bdf$value,nPriPerE);
+  ccis <- binomCI(cdf$value,nPriPerE);
+
   # convert to cm^2/keV
   norm <- pi*rDisk**2*100^2/((e2-e1)*1000.0)/nPriPerE;
 
   x <- data.frame(outE=bdf$X1
                   ,inE=bdf$X2
                   ,ctsB=bdf$value
+                  ,cBmin=bcis[,1]*nPriPerE
+                  ,cBmax=bcis[,2]*nPriPerE
                   ,areaB=bdf$value*norm
+                  ,aBmin=bcis[,1]*nPriPerE*norm
+                  ,aBmax=bcis[,2]*nPriPerE*norm
                   ,ctsC=cdf$value
+                  ,cCmin=ccis[,1]*nPriPerE
+                  ,cCmax=ccis[,2]*nPriPerE
                   ,areaC=cdf$value*norm
+                  ,aCmin=ccis[,1]*nPriPerE*norm
+                  ,aCmax=ccis[,2]*nPriPerE*norm
                   ,outEBinLow=e1
                   ,outEBinHigh=e2);
   attr(x,"nPriPerE") <- nPriPerE;
@@ -291,18 +329,33 @@ imageDRM <- function(a,drm){
   print(p);
 }
 
-lineDRM <- function(a,e,justGeom=FALSE,...){
+lineDRM <- function(a,e,justGeom=FALSE,col="black",...){
   ine <- as.real(levels(factor(a$inE)));
   e <- ine[findInterval(e,ine)];
   a <- subset(a,a$inE == e);
 
   if(justGeom){
-    geom_line(data=a,aes(x=outE,y=areaB));
+    list(geom_line(data=a,aes(x=outE,y=areaB),colour=col)
+         ,geom_ribbon(data=a,aes(x=outE,ymin=aBmin,ymax=aBmax),alpha=0.3,fill=col));
   }else{
-    p <- ggplot(data=a) + geom_line(aes(x=outE,y=areaB));
+    #p <- ggplot(data=a) + geom_line(aes(x=outE,y=areaB));
+    p <- ggplot(data=a);
 
-    p <- p + xlim(1,e*1.2);
-    p <- p + scale_x_log10();
+    #print(a);
+
+    #p <- p + geom_ribbon(aes(x=outE,ymin=cBmin,ymax=cBmax),alpha=0.3,fill=col);
+    #p <- p + geom_line(aes(x=outE,y=ctsB));
+    p <- p + geom_ribbon(aes(x=outE,ymin=aBmin,ymax=aBmax),alpha=0.3,fill=col);
+    p <- p + geom_line(aes(x=outE,y=areaB),colour=col);
+    p <- p + geom_point(data=subset(a,a$areaB>0),aes(x=outE,y=areaB),colour=col);
+
+    #p <- p + xlim(1,e*1.2);
+    p <- p + scale_x_log10(limits=c(0.01,e*1.2));
+    #p <- p + scale_y_log10(limits=range(c(a$aBmin[a$aBmin>0],a$aBmax)));
+    p <- p + ylim(0,200);
+    
+    p <- p + ylab(expression("effective area (cm"^2/"keV)"));
+    p <- p + xlab("energy deposited (MeV)");
 
     rest <- list(...);
     if(length(rest)>0){
@@ -371,31 +424,81 @@ combineDRMOutBins <- function(a,ncomb){
   e1 <- a$outEBinLow[seq(1,length(a$outEBinLow),by=ncomb)];
   e2 <- a$outEBinHigh[seq(ncomb,length(a$outEBinHigh),by=ncomb)];
   a$merger <- floor(ncomb:(length(a$outEBinHigh)+ncomb-1)/ncomb);
-  a <- ddply(a,~merger,
-#             function(df){
-#               e1 <- df$outEBinLow[1];
-#               e2 <- df$outEBinHigh[length(df$outEBinHigh)];
-#               ctsB <- sum(df$ctsB);
-#               ctsC <- sum(df$ctsC);
-#               norm <- pi*attr(df,"rDisk")**2*100^2/(1000*(e2-e1))/attr(df,"nPriPerE");
-#               data.frame(outE <- df$outE[1]
-#                          ,inE <- (e1+e2)/2
-#                          ,ctsB <- ctsB
-#                          ,ctsC <- ctsC
-#                          ,areaB <- ctsB*norm
-#                          ,areaC <- ctsC*norm
-#                          ,outEBinLow <- e1
-#                          ,outEBinHigh <- e2)},
+  b <- ddply(a,.(merger),
              function(df){
-               #print(df);
                x <- df[1,];
+               nPriPerE <- attr(df,"nPriPerE");
+               bci <- binomCI(sum(df$ctsB),nPriPerE);
+               cci <- binomCI(sum(df$ctsC),nPriPerE);
                x$outEBinHigh <- df$outEBinHigh[length(df$outEBinHigh)];
                x$outE <- (x$outEBinLow+x$outEBinHigh)/2;
                x$ctsB <- sum(df$ctsB);
+               x$cBmin <- bci[1]*nPriPerE;
+               x$cBmax <- bci[2]*nPriPerE;
                x$ctsC <- sum(df$ctsC);
-               norm <- pi*attr(df,"rDisk")**2*100^2/(x$outEBinHigh-x$outEBinLow)/attr(df,"nPriPerE");
+               x$cCmin <- cci[1]*nPriPerE;
+               x$cCmax <- cci[2]*nPriPerE;
+               norm <- pi*attr(df,"rDisk")**2*100^2/(x$outEBinHigh-x$outEBinLow)/nPriPerE;
                x$areaC <- x$ctsC*norm;
                x$areaB <- x$ctsB*norm;
+               x$aBmin=bci[1]*nPriPerE*norm;
+               x$aBmax=bci[2]*nPriPerE*norm;
+               x$aCmin=cci[1]*nPriPerE*norm;
+               x$aCmax=cci[2]*nPriPerE*norm;
                x},
              .progress="text");
+  attr(b,"nPriPerE") <- attr(a,"nPriPerE");
+  attr(b,"rDisk") <- attr(a,"rDisk");
+  b;
+}
+
+averageDRMs <- function(drms){
+  d <- do.call(rbind,drms);
+  totnPriPerE = sum(sapply(drms,function(x){attr(x,"nPriPerE")}));
+  avgdf <- function(df){
+               x <- df[1,];
+               bci <- binomCI(sum(df$ctsB),totnPriPerE);
+               cci <- binomCI(sum(df$ctsC),totnPriPerE);
+               x$ctsB <- sum(df$ctsB);
+               x$cBmin <- bci[1]*totnPriPerE;
+               x$cBmax <- bci[2]*totnPriPerE;
+               x$ctsC <- sum(df$ctsC);
+               x$cCmin <- cci[1]*totnPriPerE;
+               x$cCmax <- cci[2]*totnPriPerE;
+               norm <- pi*attr(df,"rDisk")**2*100^2/(x$outEBinHigh-x$outEBinLow)/totnPriPerE;
+               x$areaC <- x$ctsC*norm;
+               x$areaB <- x$ctsB*norm;
+               x$aBmin=bci[1]*totnPriPerE*norm;
+               x$aBmax=bci[2]*totnPriPerE*norm;
+               x$aCmin=cci[1]*totnPriPerE*norm;
+               x$aCmax=cci[2]*totnPriPerE*norm;
+               x}
+  d <- ddply(d,.(inE,outE),avgdf);
+#  attr(d,"nPriPerE") <- totnPriPerE;
+#  attr(d,"rDisk") <- attr(drms[[1]],"rDisk");
+#  d;
+}
+
+
+interpolateDRM <- function(a,epri){
+  ine <- as.real(levels(factor(a$inE)));
+  i <- findInterval(e,ine)
+  e1 <- ine[i];
+  e2 <- ine[i+1];
+
+  d1 <- subset(a,a$inE == e1);
+  d2 <- subset(a,a$inE == e2);
+
+}
+
+drmCDF <- function(drm){
+  norm <- pi*attr(drm,"rDisk")**2*100.0^2/attr(drm,"nPriPerE");
+  data.frame(outE = drm$outE, inE=drm$inE, aB=cumsum(drm$ctsB)*norm, aC=cumsum(drm$ctsC)*norm);
+}
+
+bgoMat <- function(drm){
+  drm <- drm[order(drm$inE,drm$outE),];
+  outE <- as.real(levels(factor(drm$outE)));
+  inE <- as.real(levels(factor(drm$inE)));
+  matrix(drm$ctsB,nrow=length(outE));
 }

@@ -52,4 +52,7 @@ def printPBS(name,n,cmds,walltime):
     print(cmd)
 
 name = "testJob"
-printPBS(name,2,commands(name,22,1000,0.5,(0,1,2),(1,2,1),(0.1,100,10)),"00:10:00");
+ntheta = 1
+nphi = 1
+printPBS(name,ntheta*nphi,commands(name,22,1000,0.5,(0,45,ntheta),(0,270,nphi),(0.1,100,100)),"00:10:00");
+

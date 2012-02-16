@@ -91,6 +91,8 @@ void PrimaryGeneratorAction::drawPrimary(){
   vy = zhy;
   vz = zhz;
 
+  //cerr << "INPUTTEST: " << enMeV << ' ' << x << ' ' << y << ' ' << z << ' ' << vx << ' ' << vy << ' ' << vz << endl;
+
   return;
 }
 
