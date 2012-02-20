@@ -132,10 +132,10 @@ int main(int argc, char** argv){
     // set primary energy
     pgen->setPriEn(Epri[j]);
 
-    // use for interactive session to doublecheck things via command line.
-    G4UIsession* session = new G4UIterminal(new G4UItcsh);
-    session->SessionStart();
-    delete session;
+    //// use for interactive session to doublecheck things via command line.
+    //G4UIsession* session = new G4UIterminal(new G4UItcsh);
+    //session->SessionStart();
+    //delete session;
 
     // main event loop for this primary energy
     for(k=0; k<nPriPerE; ++k){
