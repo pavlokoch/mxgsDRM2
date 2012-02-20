@@ -27,12 +27,20 @@ def mxgsDRMCmd(name,pdgID,nPriPerE,rad,rad0,theta,phi,emin,emax,numE):
 def mpirunCmd(name,pdgID,nPriPerE,rad,rad0,(th0,th1,nth),(ph0,ph1,nph),(e0,e1,ne)):
   #  for th in linRange(th0,th1,nth) for ph in linRange(ph0,ph1,nph)])
   cmds = []
-  ctr=1
+
+  ### block to use mpirun
+  #ctr=1
+  #for (ph,th) in [(ph,th) for th in linRange(th0,th1,nth) for ph in linRange(ph0,ph1,nph)]:
+  #  cmds.append(("-H `head -%d $PBS_NODEFILE | tail -1` -np 1 "%ctr)+mxgsDRMCmd(name,pdgID,nPriPerE,rad,rad0,th,ph,e0,e1,ne))
+  #  #cmds.append(" -np 1 "+mxgsDRMCmd(name,pdgID,nPriPerE,rad,rad0,th,ph,e0,e1,ne))
+  #  ctr = ctr+1
+  #return "mpirun " + " : ".join(cmds)
+
+  ### block for sequential jobs
   for (ph,th) in [(ph,th) for th in linRange(th0,th1,nth) for ph in linRange(ph0,ph1,nph)]:
-    cmds.append(("-H `head -%d $PBS_NODEFILE | tail -1` -np 1 "%ctr)+mxgsDRMCmd(name,pdgID,nPriPerE,rad,rad0,th,ph,e0,e1,ne))
-    ctr = ctr+1
-    
-  return "mpirun " + " : ".join(cmds)
+    cmds.append(mxgsDRMCmd(name,pdgID,nPriPerE,rad,rad0,th,ph,e0,e1,ne))
+  return "\n".join(cmds)
+
 
 def commands(name,pdgID,nPriPerE,rad,rad0,theta,phi,energy):
   return ["module unload pgi","module load gcc"
