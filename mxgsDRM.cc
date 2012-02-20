@@ -132,10 +132,10 @@ int main(int argc, char** argv){
     // set primary energy
     pgen->setPriEn(Epri[j]);
 
-    //// use for interactive session to doublecheck things via command line.
-    //G4UIsession* session = new G4UIterminal(new G4UItcsh);
-    //session->SessionStart();
-    //delete session;
+    // use for interactive session to doublecheck things via command line.
+    G4UIsession* session = new G4UIterminal(new G4UItcsh);
+    session->SessionStart();
+    delete session;
 
     // main event loop for this primary energy
     for(k=0; k<nPriPerE; ++k){
@@ -178,6 +178,8 @@ int main(int argc, char** argv){
 /vis/scene/add/trajectories
 /vis/scene/add/hits
 /run/beamOn 1
+
+/vis/viewer/set/background white
 
 /vis/viewer/set/viewpointThetaPhi 90 0
 /vis/viewer/panTo 1.4226 3.7341
