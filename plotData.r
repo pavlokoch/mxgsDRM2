@@ -239,6 +239,7 @@ readDRMs <- function(fn){
 
 #vectorize over x.
 binomCI <- function(x,n,conf.lev=0.6826895){
+  #print(c(x,n,conf.lev));
   alpha <- 1-conf.lev;
   p.L <- function(x, alpha){
     y <- x; y[x==0] <- 1;
@@ -351,8 +352,8 @@ lineDRM <- function(a,e,justGeom=FALSE,col="black",...){
 
     #p <- p + xlim(1,e*1.2);
     p <- p + scale_x_log10(limits=c(0.01,e*1.2));
-    #p <- p + scale_y_log10(limits=range(c(a$aBmin[a$aBmin>0],a$aBmax)));
-    p <- p + ylim(0,200);
+    p <- p + scale_y_log10(limits=range(c(a$areaB[a$areaB>0],a$aBmax)));
+    #p <- p + ylim(0,200);
     
     p <- p + ylab(expression("effective area (cm"^2/"keV)"));
     p <- p + xlab("energy deposited (MeV)");
@@ -420,33 +421,46 @@ integrateCrosSecs <- function(a){
   print(p);
 }
 
+subsetEADF <- function(df,sel){
+  x <- subset(df,sel);
+  attr(x,"nPriPerE") = attr(df,"nPriPerE");
+  attr(x,"rDisk") = attr(df,"rDisk");
+  x;
+}
+
+totalEffArea <- function(df){
+  nPriPerE <- attr(df,"nPriPerE");
+  #print(nPriPerE);
+  sumB <- sum(df$ctsB);
+  sumC <- sum(df$ctsC);
+  bci <- binomCI(sumB,nPriPerE);
+  cci <- binomCI(sumC,nPriPerE);
+
+  x <- df[1,];
+  x$outEBinHigh <- df$outEBinHigh[length(df$outEBinHigh)];
+  x$outE <- (x$outEBinLow+x$outEBinHigh)/2;
+  x$ctsB <- sumB;
+  x$cBmin <- bci[1]*nPriPerE;
+  x$cBmax <- bci[2]*nPriPerE;
+  x$ctsC <- sumC;
+  x$cCmin <- cci[1]*nPriPerE;
+  x$cCmax <- cci[2]*nPriPerE;
+  norm <- pi*attr(df,"rDisk")**2*100^2/nPriPerE;
+  de <- 1000*(x$outEBinHigh-x$outEBinLow);
+  x$areaC <- x$ctsC*norm/de
+  x$areaB <- x$ctsB*norm/de
+  x$areaCcmsq <- x$ctsC*norm;
+  x$areaBcmsq <- x$ctsB*norm;
+  x$aBmin=bci[1]*nPriPerE*norm/de;
+  x$aBmax=bci[2]*nPriPerE*norm/de;
+  x$aCmin=cci[1]*nPriPerE*norm/de;
+  x$aCmax=cci[2]*nPriPerE*norm/de;
+  x;
+}
+
 combineDRMOutBins <- function(a,ncomb){
-  e1 <- a$outEBinLow[seq(1,length(a$outEBinLow),by=ncomb)];
-  e2 <- a$outEBinHigh[seq(ncomb,length(a$outEBinHigh),by=ncomb)];
   a$merger <- floor(ncomb:(length(a$outEBinHigh)+ncomb-1)/ncomb);
-  b <- ddply(a,.(merger),
-             function(df){
-               x <- df[1,];
-               nPriPerE <- attr(df,"nPriPerE");
-               bci <- binomCI(sum(df$ctsB),nPriPerE);
-               cci <- binomCI(sum(df$ctsC),nPriPerE);
-               x$outEBinHigh <- df$outEBinHigh[length(df$outEBinHigh)];
-               x$outE <- (x$outEBinLow+x$outEBinHigh)/2;
-               x$ctsB <- sum(df$ctsB);
-               x$cBmin <- bci[1]*nPriPerE;
-               x$cBmax <- bci[2]*nPriPerE;
-               x$ctsC <- sum(df$ctsC);
-               x$cCmin <- cci[1]*nPriPerE;
-               x$cCmax <- cci[2]*nPriPerE;
-               norm <- pi*attr(df,"rDisk")**2*100^2/(x$outEBinHigh-x$outEBinLow)/nPriPerE;
-               x$areaC <- x$ctsC*norm;
-               x$areaB <- x$ctsB*norm;
-               x$aBmin=bci[1]*nPriPerE*norm;
-               x$aBmax=bci[2]*nPriPerE*norm;
-               x$aCmin=cci[1]*nPriPerE*norm;
-               x$aCmax=cci[2]*nPriPerE*norm;
-               x},
-             .progress="text");
+  b <- ddply(a,.(merger),totalEffArea,.progress="text");
   attr(b,"nPriPerE") <- attr(a,"nPriPerE");
   attr(b,"rDisk") <- attr(a,"rDisk");
   b;
@@ -473,10 +487,10 @@ averageDRMs <- function(drms){
                x$aCmin=cci[1]*totnPriPerE*norm;
                x$aCmax=cci[2]*totnPriPerE*norm;
                x}
-  d <- ddply(d,.(inE,outE),avgdf);
-#  attr(d,"nPriPerE") <- totnPriPerE;
-#  attr(d,"rDisk") <- attr(drms[[1]],"rDisk");
-#  d;
+  d <- ddply(d,.(inE,outE),avgdf,.progress="text");
+  attr(d,"nPriPerE") <- totnPriPerE;
+  attr(d,"rDisk") <- attr(drms[[1]],"rDisk");
+  d;
 }
 
 

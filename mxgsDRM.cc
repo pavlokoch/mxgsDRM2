@@ -18,25 +18,26 @@
 
 int main(int argc, char** argv){
   int i,j,k;
-  int nargs = 13;
+  int nargs = 14;
   if(argc < nargs){
     cout << "usage:\n" 
       << argv[0] 
-      << " priPDGID(22,11,-11,...) nPriPerE priStartDiskRad(m) theta(deg) phi(deg) Emin(MeV) Emax(MeV) numEnergies outEMin outEMax outNumE outputfileName  ...rest of arguments written as comment to output file...\n";
+      << " priPDGID(22,11,-11,...) nPriPerE priStartDiskRad(m) priStartDiskRad0(m) theta(deg) phi(deg) Emin(MeV) Emax(MeV) numEnergies outEMin outEMax outNumE outputfileName  ...rest of arguments written as comment to output file...\n";
     return 1;
   }
 
   int priPDGID; sscanf(argv[1],"%d",&priPDGID);
   int nPriPerE; sscanf(argv[2],"%d",&nPriPerE);
   double priStartDiskRad; sscanf(argv[3],"%lf",&priStartDiskRad);
-  double priTheta; sscanf(argv[4],"%lf",&priTheta);
-  double priPhi; sscanf(argv[5],"%lf",&priPhi);
-  double priEMin; sscanf(argv[6],"%lf",&priEMin);
-  double priEMax; sscanf(argv[7],"%lf",&priEMax);
-  int priNumE; sscanf(argv[8],"%d",&priNumE);
-  double outEMin; sscanf(argv[9],"%lf",&outEMin);
-  double outEMax; sscanf(argv[10],"%lf",&outEMax);
-  int outNumE; sscanf(argv[11],"%d",&outNumE);
+  double priStartDiskRad0; sscanf(argv[4],"%lf",&priStartDiskRad0);
+  double priTheta; sscanf(argv[5],"%lf",&priTheta);
+  double priPhi; sscanf(argv[6],"%lf",&priPhi);
+  double priEMin; sscanf(argv[7],"%lf",&priEMin);
+  double priEMax; sscanf(argv[8],"%lf",&priEMax);
+  int priNumE; sscanf(argv[9],"%d",&priNumE);
+  double outEMin; sscanf(argv[10],"%lf",&outEMin);
+  double outEMax; sscanf(argv[11],"%lf",&outEMax);
+  int outNumE; sscanf(argv[12],"%d",&outNumE);
 
   double *Epri = new double[priNumE];
   for(i=0; i<priNumE; ++i){
@@ -56,7 +57,7 @@ int main(int argc, char** argv){
   gsl_histogram_set_ranges(hCZT,outBins,outNumE+1);
 
   // start output process
-  std::ofstream out(argv[12]);
+  std::ofstream out(argv[13]);
   out << "#";
   for(i=nargs; i<argc; ++i){ out << ' ' << argv[i]; }
   out << endl;
@@ -107,7 +108,9 @@ int main(int argc, char** argv){
 
   double targetDisp = 100;
 
-  PrimaryGeneratorAction *pgen = new PrimaryGeneratorAction(priPDGID,priStartDiskRad,priTheta,priPhi,
+  PrimaryGeneratorAction *pgen = new PrimaryGeneratorAction(priPDGID,
+      priStartDiskRad,priStartDiskRad0,
+      priTheta,priPhi,
       targetX,targetY,targetZ,targetDisp);
   runManager->SetUserAction(pgen);
 

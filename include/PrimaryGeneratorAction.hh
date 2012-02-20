@@ -15,7 +15,8 @@ class G4Event;
 class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 {
   public:
-    PrimaryGeneratorAction(int pdgID, double startDiskRad, double theta_deg, double phi_deg, 
+    PrimaryGeneratorAction(int pdgID, double startDiskRad, double startDiskRad0,
+        double theta_deg, double phi_deg, 
         double targetX, double targetY, double targetZ, double targetDisp);
     ~PrimaryGeneratorAction();
     void setPriEn(double en);
@@ -29,7 +30,7 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
     G4ParticleTable *pTable;
     int pdgencoding,ctr;
     double enMeV,th,ph,vx,vy,vz,x,y,z,x0,y0,z0;
-    double rDisk, disp;
+    double rDisk, rDisk0, disp;
 };
 
 #endif

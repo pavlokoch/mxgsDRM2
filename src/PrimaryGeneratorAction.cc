@@ -13,7 +13,7 @@
 using namespace std;
 
 PrimaryGeneratorAction::PrimaryGeneratorAction(int pdgID, double startDiskRad, 
-    double theta_deg, double phi_deg, 
+    double startDiskRad0, double theta_deg, double phi_deg, 
     double targetX, double targetY, double targetZ, double targetDisp)
 {
   ctr=0;
@@ -23,6 +23,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction(int pdgID, double startDiskRad,
   th = theta_deg*pi/180.0; ph = phi_deg*pi/180.0;
   x0 = targetX; y0 = targetY; z0 = targetZ;
   rDisk = startDiskRad;
+  rDisk0 = startDiskRad0;
   disp = targetDisp;
 }
 
@@ -67,7 +68,10 @@ void PrimaryGeneratorAction::drawPrimary(){
   zhz = tz;
 
   // do likewise for an initial point
-  double r = rDisk*sqrt(CLHEP::RandFlat::shoot());
+  //double r = rDisk*sqrt(CLHEP::RandFlat::shoot());
+  double r = sqrt((rDisk*rDisk - rDisk0*rDisk0)*CLHEP::RandFlat::shoot() + rDisk0*rDisk0);
+  //double r = rDisk*sqrt(0.75*CLHEP::RandFlat::shoot() + 0.25);
+
   double diskth = CLHEP::RandFlat::shoot(2*pi);
   x = r*cos(diskth);
   y = r*sin(diskth);
