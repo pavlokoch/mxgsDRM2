@@ -36,10 +36,17 @@ def mpirunCmd(name,pdgID,nPriPerE,rad,rad0,(th0,th1,nth),(ph0,ph1,nph),(e0,e1,ne
   #  ctr = ctr+1
   #return "mpirun " + " : ".join(cmds)
 
-  ### block for sequential jobs
+  #### block for sequential jobs
+  #for (ph,th) in [(ph,th) for th in linRange(th0,th1,nth) for ph in linRange(ph0,ph1,nph)]:
+  #  cmds.append(mxgsDRMCmd(name,pdgID,nPriPerE,rad,rad0,th,ph,e0,e1,ne))
+  #return "\n".join(cmds)
+
+  ### block for separate mpirun commands:
+  ctr=1
   for (ph,th) in [(ph,th) for th in linRange(th0,th1,nth) for ph in linRange(ph0,ph1,nph)]:
-    cmds.append(mxgsDRMCmd(name,pdgID,nPriPerE,rad,rad0,th,ph,e0,e1,ne))
-  return "\n".join(cmds)
+    cmds.append(("mpirun -H `head -%d $PBS_NODEFILE | tail -1` -np 1 "%ctr)+mxgsDRMCmd(name,pdgID,nPriPerE,rad,rad0,th,ph,e0,e1,ne)+" &")
+    ctr = ctr+1
+  return "\n".join(cmds)+"\nwait"
 
 
 def commands(name,pdgID,nPriPerE,rad,rad0,theta,phi,energy):
@@ -76,7 +83,7 @@ def walltimeStr(nPriPerE,nPriE,rate=250):
   return "%02d:%02d:%02d"%(h,m,s)
 
 name = "testJob"
-ntheta = 1
+ntheta = 2
 nphi = 1
 ne = 7
 nPriPerE = 100000
