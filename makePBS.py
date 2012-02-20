@@ -84,14 +84,14 @@ def walltimeStr(nPriPerE,nPriE,rate=250):
 
 name = "testJob"
 ntheta = 2
-nphi = 1
+nphi = 2
 ne = 7
-nPriPerE = 100000
+nPriPerE = 10000
 
-#printPBS(sys.stdout,name,ntheta*nphi,commands(name,22,nPriPerE,0.6,0.0,(0,45,ntheta),(0,270,nphi),(0.1,100,ne)),walltimeStr(nPriPerE,ne,250));
+printPBS(sys.stdout,name,ntheta*nphi,commands(name,22,nPriPerE,0.6,0.0,(0,45,ntheta),(0,270,nphi),(0.1,100,ne)),walltimeStr(nPriPerE,ne,250));
 
-name = sys.argv[1]
-rad = float(sys.argv[2])
-printPBS(sys.stdout,name,ntheta*nphi,commands(name,22,nPriPerE,rad+1.0,rad,(0,45,ntheta),(0,270,nphi),(0.1,100,ne)),walltimeStr(nPriPerE,ne,250));
+#name = sys.argv[1]
+#rad = float(sys.argv[2])
+#printPBS(sys.stdout,name,ntheta*nphi,commands(name,22,nPriPerE,rad+1.0,rad,(0,45,ntheta),(0,270,nphi),(0.1,100,ne)),walltimeStr(nPriPerE,ne,250));
 
 
