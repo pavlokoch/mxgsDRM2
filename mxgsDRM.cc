@@ -18,26 +18,27 @@
 
 int main(int argc, char** argv){
   int i,j,k;
-  int nargs = 14;
+  int nargs = 15;
   if(argc < nargs){
     cout << "usage:\n" 
       << argv[0] 
-      << " priPDGID(22,11,-11,...) nPriPerE priStartDiskRad(m) priStartDiskRad0(m) theta(deg) phi(deg) Emin(MeV) Emax(MeV) numEnergies outEMin outEMax outNumE outputfileName  ...rest of arguments written as comment to output file...\n";
+      << " interactive(0|1) priPDGID(22,11,-11,...) nPriPerE priStartDiskRad(m) priStartDiskRad0(m) theta(deg) phi(deg) Emin(MeV) Emax(MeV) numEnergies outEMin outEMax outNumE outputfileName  ...rest of arguments written as comment to output file...\n";
     return 1;
   }
 
-  int priPDGID; sscanf(argv[1],"%d",&priPDGID);
-  int nPriPerE; sscanf(argv[2],"%d",&nPriPerE);
-  double priStartDiskRad; sscanf(argv[3],"%lf",&priStartDiskRad);
-  double priStartDiskRad0; sscanf(argv[4],"%lf",&priStartDiskRad0);
-  double priTheta; sscanf(argv[5],"%lf",&priTheta);
-  double priPhi; sscanf(argv[6],"%lf",&priPhi);
-  double priEMin; sscanf(argv[7],"%lf",&priEMin);
-  double priEMax; sscanf(argv[8],"%lf",&priEMax);
-  int priNumE; sscanf(argv[9],"%d",&priNumE);
-  double outEMin; sscanf(argv[10],"%lf",&outEMin);
-  double outEMax; sscanf(argv[11],"%lf",&outEMax);
-  int outNumE; sscanf(argv[12],"%d",&outNumE);
+  int interactive; sscanf(argv[1],"%d",&interactive);
+  int priPDGID; sscanf(argv[2],"%d",&priPDGID);
+  int nPriPerE; sscanf(argv[3],"%d",&nPriPerE);
+  double priStartDiskRad; sscanf(argv[4],"%lf",&priStartDiskRad);
+  double priStartDiskRad0; sscanf(argv[5],"%lf",&priStartDiskRad0);
+  double priTheta; sscanf(argv[6],"%lf",&priTheta);
+  double priPhi; sscanf(argv[7],"%lf",&priPhi);
+  double priEMin; sscanf(argv[8],"%lf",&priEMin);
+  double priEMax; sscanf(argv[9],"%lf",&priEMax);
+  int priNumE; sscanf(argv[10],"%d",&priNumE);
+  double outEMin; sscanf(argv[11],"%lf",&outEMin);
+  double outEMax; sscanf(argv[12],"%lf",&outEMax);
+  int outNumE; sscanf(argv[13],"%d",&outNumE);
 
   double *Epri = new double[priNumE];
   for(i=0; i<priNumE; ++i){
@@ -57,7 +58,7 @@ int main(int argc, char** argv){
   gsl_histogram_set_ranges(hCZT,outBins,outNumE+1);
 
   // start output process
-  std::ofstream out(argv[13]);
+  std::ofstream out(argv[14]);
   out << "#";
   for(i=nargs; i<argc; ++i){ out << ' ' << argv[i]; }
   out << endl;
@@ -122,25 +123,6 @@ int main(int argc, char** argv){
 
   G4UImanager* UI=0;
 
-  int dumpVRML=0;
-  if(dumpVRML){
-    //// dump VRML of geometry.
-    G4UImanager* UI = G4UImanager::GetUIpointer();
-    G4String command = "/vis/sceneHandler/create VRML2FILE";
-    UI->ApplyCommand(command); 
-    command = "/vis/viewer/create";
-    UI->ApplyCommand(command); 
-    //command = "/vis/viewer/set/style surface";
-    //UI->ApplyCommand(command); 
-    command = "/vis/drawVolume";
-    UI->ApplyCommand(command); 
-    command = "/vis/viewer/flush";
-    UI->ApplyCommand(command); 
-    ////////
-
-    return(0);
-  }
-
   UI = G4UImanager::GetUIpointer();
   G4String command = "/run/beamOn 1";
 
@@ -153,10 +135,11 @@ int main(int argc, char** argv){
     // set primary energy
     pgen->setPriEn(Epri[j]);
 
-    //// use for interactive session to doublecheck things via command line.
-    //G4UIsession* session = new G4UIterminal(new G4UItcsh);
-    //session->SessionStart();
-    //delete session;
+    if(interactive){
+      G4UIsession* session = new G4UIterminal(new G4UItcsh);
+      session->SessionStart();
+      delete session;
+    }
 
     // main event loop for this primary energy
     for(k=0; k<nPriPerE; ++k){
@@ -215,4 +198,12 @@ int main(int argc, char** argv){
 /vis/scene/add/trajectories
 /vis/scene/add/hits
 /run/beamOn 1
+
+DUMP VRML FILE:
+/vis/sceneHandler/create VRML2FILE
+/vis/viewer/create
+/vis/viewer/set/style surface
+/vis/drawVolume
+/vis/viewer/flush
+
 */

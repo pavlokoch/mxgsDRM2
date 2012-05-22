@@ -22,7 +22,7 @@ def logRange(min,max,length):
 def mxgsDRMCmd(name,pdgID,nPriPerE,rad,rad0,theta,phi,emin,emax,numE):
   outfn = "%s/%s/mats_%d_%d_%.2f_%.2f_%.2f_%.2f_%.2g_%.2g_%d.txt"%(resultsDir,name,pdgID,nPriPerE,rad,rad0,theta,phi,emin,emax,numE)
   comment = outfn
-  return "./mxgsDRM %d %d %f %f %f %f %g %g %d %g %g %d %s %s"%(pdgID,nPriPerE,rad,rad0,theta,phi,emin,emax,numE,outMinE,outMaxE,outNumE,outfn,comment)
+  return "./mxgsDRM %d %d %d %f %f %f %f %g %g %d %g %g %d %s %s"%(0,pdgID,nPriPerE,rad,rad0,theta,phi,emin,emax,numE,outMinE,outMaxE,outNumE,outfn,comment)
 
 def mpirunCmd(name,pdgID,nPriPerE,rad,rad0,(th0,th1,nth),(ph0,ph1,nph),(e0,e1,ne)):
   #  for th in linRange(th0,th1,nth) for ph in linRange(ph0,ph1,nph)])
