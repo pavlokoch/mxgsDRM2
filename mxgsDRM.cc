@@ -120,7 +120,28 @@ int main(int argc, char** argv){
   // initialize G4 kernel
   runManager->Initialize();
 
-  G4UImanager* UI = G4UImanager::GetUIpointer();
+  G4UImanager* UI=0;
+
+  int dumpVRML=0;
+  if(dumpVRML){
+    //// dump VRML of geometry.
+    G4UImanager* UI = G4UImanager::GetUIpointer();
+    G4String command = "/vis/sceneHandler/create VRML2FILE";
+    UI->ApplyCommand(command); 
+    command = "/vis/viewer/create";
+    UI->ApplyCommand(command); 
+    //command = "/vis/viewer/set/style surface";
+    //UI->ApplyCommand(command); 
+    command = "/vis/drawVolume";
+    UI->ApplyCommand(command); 
+    command = "/vis/viewer/flush";
+    UI->ApplyCommand(command); 
+    ////////
+
+    return(0);
+  }
+
+  UI = G4UImanager::GetUIpointer();
   G4String command = "/run/beamOn 1";
 
 
