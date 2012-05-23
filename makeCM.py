@@ -1,11 +1,17 @@
-﻿w=12.0
-dx=dy=15.0
-sep=dx-w
-x0=0.0
-y0=0.0
-z=0.0
-thk=1.0
-cmwid = 742
+﻿w=43.0        # width of hole
+dx=dy=46.0    # grid spacing
+sep=dx-w      # separation between holes
+x0=0.0        # origin
+y0=0.0        # origin
+z=0.0         # origin
+thk=1.0       # thickness of mask
+cmwid = 742   # width of overall mask
+
+repx = 1      # number of repeats of mask pattern in x direction
+repy = 1      # number of repeats of mask pattern in y direction
+repsep_dx = 0 # separation between repetitions of mask pattern
+repsep_dy = 0 # separation between repetitions of mask pattern
+
 
 def name(i,j,suffix=""):
   return "cm_%02d_%02d%s"%(i,j,suffix)
@@ -55,11 +61,11 @@ def printRepSepPositions(nx,ny,pattern,xsep,ysep):
   for i in range(nx):
     for j in range(ny):
       print "<position name=\"%s\" unit=\"mm\" x=\"%f\" y=\"%f\" z=\"%f\"/>"%(name(i,j,"_reppos"),xmin + i*xwid+sep/2, ymin+j*ywid+sep/2,z)
-      if(i < nx-1):
+      if(i < nx-1 and repsep_dx > 0):
         print "<position name=\"%s\" unit=\"mm\" x=\"%f\" y=\"%f\" z=\"%f\"/>"%(name(i,j,"_xrepseppos"),xmin + i*xwid + xwid/2+sep/2, ymin+j*ywid+sep/2,z)
-      if(j < ny-1):
+      if(j < ny-1 and repsep_dy > 0):
         print "<position name=\"%s\" unit=\"mm\" x=\"%f\" y=\"%f\" z=\"%f\"/>"%(name(i,j,"_yrepseppos"),xmin + i*xwid+sep/2, ymin+j*ywid + ywid/2+sep/2,z)
-      if(j < ny-1 and i<nx-1):
+      if(j < ny-1 and i<nx-1 and repsep_dx > 0 and repsep_dy > 0):
         print "<position name=\"%s\" unit=\"mm\" x=\"%f\" y=\"%f\" z=\"%f\"/>"%(name(i,j,"_xyrepseppos"),xmin + i*xwid + xwid/2+sep/2, ymin+j*ywid + ywid/2+sep/2,z)
 
 
@@ -92,9 +98,13 @@ def printVolumes(pattern):
       printVol(pattern[j][i],i,j)
 
 def printRepSepVolumes(nx,ny):
-  print "<volume name=\"yrepsep_v\"> <materialref ref=\"W\"/> <solidref ref=\"yrepsep\"/> </volume>"
-  print "<volume name=\"xrepsep_v\"> <materialref ref=\"W\"/> <solidref ref=\"xrepsep\"/> </volume>"
-  print "<volume name=\"xyrepsep_v\"> <materialref ref=\"W\"/> <solidref ref=\"xyrepsep\"/> </volume>"
+  if(repsep_dy > 0):
+    print "<volume name=\"yrepsep_v\"> <materialref ref=\"W\"/> <solidref ref=\"yrepsep\"/> </volume>"
+  if(repsep_dx > 0):
+    print "<volume name=\"xrepsep_v\"> <materialref ref=\"W\"/> <solidref ref=\"xrepsep\"/> </volume>"
+  if(repsep_dy > 0 and repsep_dx > 0):
+    print "<volume name=\"xyrepsep_v\"> <materialref ref=\"W\"/> <solidref ref=\"xyrepsep\"/> </volume>"
+
   print "<volume name=\"xminsep_v\"> <materialref ref=\"W\"/> <solidref ref=\"xminsep\"/> </volume>"
   print "<volume name=\"yminsep_v\"> <materialref ref=\"W\"/> <solidref ref=\"yminsep\"/> </volume>"
   print "<volume name=\"xb_v\"> <materialref ref=\"W\"/> <solidref ref=\"xb\"/> </volume>"
@@ -125,11 +135,13 @@ def printRepPhysVols(nx,ny):
   for i in range(nx):
     for j in range(ny):
       print "<physvol> <volumeref ref=\"codedMask_rep\"/> <positionref ref=\"%s\"/> <rotationref ref=\"id\"/> </physvol>"%name(i,j,"_reppos")
-      if(i < nx-1):
+
+      # separators of repetitions of coded mask pattern.
+      if(i < nx-1 and repsep_dx>0):
         print "<physvol> <volumeref ref=\"xrepsep_v\"/> <positionref ref=\"%s\"/> <rotationref ref=\"id\"/> </physvol>"%name(i,j,"_xrepseppos")
-      if(j < ny-1):
+      if(j < ny-1 and repsep_dy>0):
         print "<physvol> <volumeref ref=\"yrepsep_v\"/> <positionref ref=\"%s\"/> <rotationref ref=\"id\"/> </physvol>"%name(i,j,"_yrepseppos")
-      if(j < ny-1 and i<nx-1):
+      if(j < ny-1 and i<nx-1 and repsep_dx>0 and repsep_dy>0):
         print "<physvol> <volumeref ref=\"xyrepsep_v\"/> <positionref ref=\"%s\"/> <rotationref ref=\"id\"/> </physvol>"%name(i,j,"_xyrepseppos")
 
 def printGDML(pattern):
@@ -139,7 +151,7 @@ def printGDML(pattern):
   print "<define>"
   print "<rotation name=\"id\"/>"
   printPositions(pattern)
-  printRepSepPositions(4,2,pattern,dx,6)
+  printRepSepPositions(repx,repy,pattern,repsep_dx,repsep_dy)
   print "</define>"
   print "<materials>"
   print "<material name=\"W\" Z=\"74\"> <D value=\"19.25\" unit=\"g/cm3\"/> <atom value=\"183.84\"/> </material>"
@@ -149,17 +161,17 @@ def printGDML(pattern):
   print "<box name=\"codedMask_rep_mv\" lunit=\"mm\" x=\"%f\" y=\"%f\" z=\"%f\"/>"%(len(pattern[0])*dx,len(pattern)*dy,1)
   print "<box name=\"codedMask_mv\" lunit=\"mm\" x=\"%f\" y=\"%f\" z=\"%f\"/>"%(cmwid,cmwid,1)
   printBoxes(pattern)
-  printRepSepBoxes(4,2,pattern,dx,6)
+  printRepSepBoxes(repx,repy,pattern,repsep_dx,repsep_dy)
   print "</solids>"
   print "<structure>"
   printVolumes(pattern)
-  printRepSepVolumes(4,2)
+  printRepSepVolumes(repx,repy)
   print ""
   printVolume(pattern)
   print "<volume name=\"codedMask\">"
   print "<materialref ref=\"Vacuum\"/>"
   print "<solidref ref=\"codedMask_mv\"/>"
-  printRepPhysVols(4,2)
+  printRepPhysVols(repx,repy)
   print ""
   print "<auxiliary auxtype=\"visibility\" auxvalue=\"invisible\"/>"
   print "</volume>"
@@ -194,4 +206,33 @@ pattern = [
     [0,1,1,0,1,1,0,1,0,0,1],
     [1,0,0,1,0,1,1,0,1,0,0]]
 
-printGDML(pattern)
+pattern2 = [
+    [0,0,0,0,0,1,1,1],
+    [1,0,1,1,1,0,0,1],
+    [1,0,1,0,1,1,0,1],
+    [1,0,1,0,1,0,0,0],
+    [0,1,0,1,0,0,1,0],
+    [1,1,1,0,1,1,0,0],
+    [1,1,1,1,1,0,0,0],
+    [1,1,1,1,1,1,0,1]]
+
+pattern3 = [
+    [0,0,0,0,0,1,1,1, 0,0,0,0,0,1,1,1],
+    [1,0,1,1,1,0,0,1, 1,0,1,1,1,0,0,1],
+    [1,0,1,0,1,1,0,1, 1,0,1,0,1,1,0,1],
+    [1,0,1,0,1,0,0,0, 1,0,1,0,1,0,0,0],
+    [0,1,0,1,0,0,1,0, 0,1,0,1,0,0,1,0],
+    [1,1,1,0,1,1,0,0, 1,1,1,0,1,1,0,0],
+    [1,1,1,1,1,0,0,0, 0,1,1,1,1,0,0,0],
+    [1,1,1,1,1,1,0,0, 0,0,1,1,1,1,0,1],
+
+    [0,0,0,0,0,1,0,0, 0,0,0,0,0,1,1,1],
+    [1,0,1,1,1,0,0,0, 0,0,1,1,1,0,0,1],
+    [1,0,1,0,1,1,0,1, 1,0,1,0,1,1,0,1],
+    [1,0,1,0,1,0,0,0, 1,0,1,0,1,0,0,0],
+    [0,1,0,1,0,0,1,0, 0,1,0,1,0,0,1,0],
+    [1,1,1,0,1,1,0,0, 1,1,1,0,1,1,0,0],
+    [1,1,1,1,1,0,0,0, 1,1,1,1,1,0,0,0],
+    [1,1,1,1,1,1,0,1, 1,1,1,1,1,1,0,1]]
+
+printGDML(pattern3)

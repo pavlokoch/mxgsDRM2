@@ -206,4 +206,11 @@ DUMP VRML FILE:
 /vis/drawVolume
 /vis/viewer/flush
 
+CHECK CODED MASK
+/vis/open OGLIX
+/vis/scene/create
+/vis/scene/add/volume
+/vis/sceneHandler/attach
+/vis/viewer/flush
+
 */
