@@ -6420,13 +6420,12 @@
       </physvol>
 
 
-      <!-- CEPA end block ?
+      <!-- CEPA end block  -->
       <physvol>
         <volumeref ref="Columbus3EPF_8_Logical_147892368" />
         <positionref ref="Columbus3EPF_8_Physical_147892456inWorldLogical_147564344p" />
         <rotationref ref="Columbus3EPF_8_Physical_147892456inWorldLogical_147564344r" />
       </physvol>
- -->
 
       <!-- CEPA ? -->
       <physvol>
@@ -9318,8 +9317,8 @@
       </physvol>
       -->
 
-      <!-- adding ASIM -->
-      <physvol> <file name="asim.gdml"/> <position name="asim_pos" unit="mm" x="0" y="2829.7 + 145.8/2 + 863/2" z="-1399.6 + 1130/2 - 863 + 550/2"/> <rotation name="asim_rot" unit="deg" y="180" z="90"/> </physvol>
+      <!-- adding ASIM the last -110 moves it down a bit almost flush with the handle at the bottom of CEPA-->
+      <physvol> <file name="asim.gdml"/> <position name="asim_pos" unit="mm" x="0" y="2829.7 + 145.8/2 + 863/2" z="-1399.6 + 1130/2 - 863 + 550/2 - 110"/> <rotation name="asim_rot" unit="deg" y="180" z="90"/> </physvol>
       <!-- 
       -->
 

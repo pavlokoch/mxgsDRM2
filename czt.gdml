@@ -19,6 +19,10 @@
     <constant name="daf_z0" value="-daf_z/2+daf_t/2"/>
     <constant name="daf_cbl" value="(daf_x-3*daf_t)/2"/>
 
+    <constant name="daf_board_xw" value="(daf_x-3*daf_t-20)/2"/>
+    <constant name="daf_board_yw" value="(daf_y-3*daf_t-50)/2"/>
+    <constant name="daf_board_t" value="700/(0.0027*daf_board_xw*daf_board_yw)"/> <!-- 700 g circuit board -->
+
     <position name="daf_xp_pos" unit="mm" x="daf_x/2-daf_t/2" y="0" z="daf_z0"/>
     <position name="daf_xm_pos" unit="mm" x="-daf_x/2+daf_t/2" y="0" z="daf_z0"/>
     <position name="daf_x0_pos" unit="mm" x="0" y="0" z="daf_z0"/>
@@ -28,6 +32,11 @@
     <position name="daf_y0xp_pos" unit="mm" x="daf_x/2-daf_t-daf_cbl/2" y="0" z="daf_z0"/>
     <position name="daf_ypxm_pos" unit="mm" x="-daf_x/2+daf_t+daf_cbl/2" y="daf_y/2-16-daf_t/2" z="daf_z0"/>
     <position name="daf_ypxp_pos" unit="mm" x="daf_x/2-daf_t-daf_cbl/2" y="daf_y/2-16-daf_t/2" z="daf_z0"/>
+
+    <position name="daf_board_ypxp_pos" unit="mm" x="daf_x/2-daf_t-daf_board_xw/2-5" y="daf_y/2-16-daf_board_yw/2 - daf_t - 5" z="daf_z0"/>
+    <position name="daf_board_ypxm_pos" unit="mm" x="-daf_x/2+daf_t+daf_board_xw/2+5" y="daf_y/2-16-daf_board_yw/2 - daf_t - 5" z="daf_z0"/>
+    <position name="daf_board_ymxp_pos" unit="mm" x="daf_x/2-daf_t-daf_board_xw/2-5" y="-daf_y/2+16+daf_board_yw/2 + daf_t + 5" z="daf_z0"/>
+    <position name="daf_board_ymxm_pos" unit="mm" x="-daf_x/2+daf_t+daf_board_xw/2+5" y="-daf_y/2+16+daf_board_yw/2 + daf_t + 5" z="daf_z0"/>
 
     <!-- czt unit -->
     <constant name="cztu_x" value="46"/>
@@ -234,6 +243,8 @@
     <box name="daf_x_b" lunit="mm" x="daf_t" y="daf_y" z="daf_t"/>
     <box name="daf_ycb_b" lunit="mm" x="daf_cbl" y="daf_t" z="daf_t"/>
 
+    <box name="daf_board_b" lunit="mm" x="daf_board_xw" y="daf_board_yw" z="daf_board_t"/>
+
     <box name="cztu_bx" lunit="mm" x="cztu_x" y="cztu_bw" z="cztu_z"/>
     <box name="cztu_by" lunit="mm" x="cztu_bw" y="cztu_y - cztu_bw" z="cztu_z"/>
     <box name="cztu_ir_b" lunit="mm" x="cztu_x - cztu_bw" y="cztu_y - cztu_bw" z="cztu_irt"/>
@@ -280,6 +291,8 @@
   <structure>  
     <volume name="daf_x_v"> <materialref ref="AL6082T6"/> <solidref ref="daf_x_b"/> </volume>
     <volume name="daf_ycb_v"> <materialref ref="AL6082T6"/> <solidref ref="daf_ycb_b"/> </volume>
+
+    <volume name="daf_board_v"> <materialref ref="AL6082T6"/> <solidref ref="daf_board_b"/> </volume>
 
     <volume name="cztu_bx_v"> <materialref ref="AL6082T6"/> <solidref ref="cztu_bx"/> </volume>
     <volume name="cztu_by_v"> <materialref ref="AL6082T6"/> <solidref ref="cztu_by"/> </volume>
@@ -402,6 +415,11 @@
       <physvol> <volumeref ref="daf_ycb_v"/> <positionref ref="daf_y0xm_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="daf_ycb_v"/> <positionref ref="daf_ypxp_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="daf_ycb_v"/> <positionref ref="daf_ypxm_pos"/> <rotationref ref="id"/> </physvol>
+
+      <physvol> <volumeref ref="daf_board_v"/> <positionref ref="daf_board_ypxm_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="daf_board_v"/> <positionref ref="daf_board_ypxp_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="daf_board_v"/> <positionref ref="daf_board_ymxm_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="daf_board_v"/> <positionref ref="daf_board_ymxp_pos"/> <rotationref ref="id"/> </physvol>
 
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
       <!--

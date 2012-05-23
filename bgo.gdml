@@ -69,6 +69,8 @@
     <position name="bdspBox_xbm_pos" unit="mm" x="-bdspBox_x/2+bdspBox_sidet/2+edgedx/2" y="edgedy/2" z="-bdspBox_z/2+edgedz/2"/>
     <position name="bdspBox_ybp_pos" unit="mm" x="0" y="bdspBox_y/2-bdspBox_sidet/2" z="-bdspBox_z/2+edgedz/2"/>
 
+    <position name="bdsp_pos" unit="mm" x="0" y="0" z="-bdspBox_topt/2"/>
+
     <constant name="bgoShld_z" value="3.75"/>
     <constant name="bgoShld_pbt" value="2.0"/>
     <constant name="bgoShld_tat" value="0.25"/>
@@ -185,6 +187,8 @@
     <box name="bdspBox_xbb" lunit="mm" x="bdspBox_sidet - edgedx" y="bdspBox_y - edgedy" z="edgedz"/>
     <box name="bdspBox_ybb" lunit="mm" x="bdspBox_x - 2*bdspBox_sidet" y="bdspBox_sidet - 2*edgedy" z="edgedz"/>
 
+    <box name="bdsp_b" lunit="mm" x="bdspBox_x-3*bdspBox_sidet" y="bdspBox_y-3*bdspBox_sidet" z="350/(0.0027*(bdspBox_x-3*bdspBox_sidet)*(bdspBox_y-3*bdspBox_sidet))"/>
+
     <box name="bgoMod1_mv_0" lunit="mm" x="wx" y="wy" z="wz"/>
     <box name="bgoMod1_mv_ext" lunit="mm" x="wx*10" y="bdspBox_y" z="(wz+bgoShld_z+bdspBox_z-bgoMod_ztot)*2"/>
     <subtraction name="bgoMod1_mv"> <first ref="bgoMod1_mv_0"/> <second ref="bgoMod1_mv_ext"/> <position name="crap1" unit="mm" x="0" y="-wy/2+bdspBox_y/2" z="-wz/2"/> </subtraction>
@@ -207,7 +211,7 @@
     <tube name="pmtHsg_tube" lunit="mm" aunit="deg" rmin="pmtHsg_rad - pmtHsg_t" rmax="pmtHsg_rad" z="pmtHsg_l - pmtHsg_base_t" startphi="0" deltaphi="360"/>
     <tube name="pmtHsg_end" lunit="mm" aunit="deg" rmin="0" rmax="pmtHsg_rad - pmtHsg_t" z="pmtHsg_end_t" startphi="0" deltaphi="360"/>
     <tube name="pmtSpng" lunit="mm" aunit="deg" rmin="25" rmax="57/2" z="20" startphi="0" deltaphi="360"/>
-    <tube name="pmt" lunit="mm" aunit="deg" rmin="0" rmax="10" z="pmt_l" startphi="0" deltaphi="360"/>
+    <tube name="pmt" lunit="mm" aunit="deg" rmin="12" rmax="20" z="pmt_l" startphi="0" deltaphi="360"/>
 
     <box name="bgoBox_top_b" lunit="mm" x="bgoBox_wx" y="bgoBox_side_l" z="5"/>
     <xtru name="bgoBox_top_h" lunit="mm">
@@ -283,6 +287,8 @@
     <volume name="bgoShld_sn_v"> <materialref ref="Tin"/> <solidref ref="bgoShld_sn"/> </volume>
     <volume name="bgoShld_ss_v"> <materialref ref="StainlessSteel"/> <solidref ref="bgoShld_ss"/> </volume>
 
+    <volume name="bdsp_v"> <materialref ref="AL6082T6"/> <solidref ref="bdsp_b"/> </volume>
+
     <volume name="bdspBox">
       <materialref ref="Vacuum"/>
       <solidref ref="bdspBox_mv"/>
@@ -298,7 +304,9 @@
       <physvol> <volumeref ref="bdspBox_ybb_v"/> <positionref ref="bdspBox_ybp_pos"/> <rotationref ref="id"/> </physvol>
       -->
 
-      <!-- other parts here? there must be _something_ in this box... -->
+      <!-- other parts here... -->
+      <physvol> <volumeref ref="bdsp_v"/> <positionref ref="bdsp_pos"/> <rotationref ref="id"/> </physvol>
+      
 
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
       <!--

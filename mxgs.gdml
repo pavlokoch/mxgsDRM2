@@ -83,6 +83,8 @@
     <rotation name="dpuBox_ffm_rot" unit="deg" x="0"/>
     <rotation name="dpuBox_ffp_rot" unit="deg" x="180"/>
 
+    <position name="dpu_pos" unit="mm" x="0" y="0" z="0"/>
+
     <!-- definitions for hopper: hop_... -->
     <!-- box  (mv1) -->
     <constant name="hop_b_wx" value="420"/>
@@ -360,12 +362,21 @@
     <element name="Iron" formula="Fe" Z="26.0"> <atom value="55.845"/> </element>
     <element name="Chromium" formula="Cr" Z="24.0"> <atom value="51.996"/> </element>
 
+    <element name="Tungsten" formula="W" Z="74"> <atom value="183.84"/> </element>
+
     <material name="AL6082T6">
       <D value="2.70" unit="g/cm3"/> 
       <fraction n="0.974" ref="Aluminum"/>
       <fraction n="0.009" ref="Magnesium"/>
       <fraction n="0.007" ref="Manganese"/>
       <fraction n="0.01" ref="Silicon"/>
+    </material>
+
+    <!-- aluminum-tungsten composite pseudo-material to simplify hopper walls/ears, not require extra volumes for hopper shield. -->
+    <material name="hop_ALW">
+      <D value="3.34" unit="g/cm3"/> 
+      <fraction n="0.808" ref="AL6082T6"/>
+      <fraction n="0.192" ref="Tungsten"/>
     </material>
 
     <material name="Kapton">
@@ -413,7 +424,7 @@
     <box name="lowHsg_bym" lunit="mm" x="lowHsg_bymp_wx" y="lowHsg_bymp_wy" z="lowHsg_bymp_wz"/>
     <box name="lowHsg_byp" lunit="mm" x="lowHsg_bymp_wx" y="lowHsg_bymp_wy" z="lowHsg_bymp_wz"/>
     <box name="lowHsg_blid" lunit="mm" x="lowHsg_blid_wx" y="lowHsg_blid_wy" z="lowHsg_blid_wz"/>
-    <box name="lowHsg_psu" lunit="mm" x="340" y="535" z="13.23"/> <!-- thickness calculated to give 6.5 kg of AL6082T6. -->
+    <box name="lowHsg_psu" lunit="mm" x="340" y="535" z="14.86"/> <!-- thickness calculated to give 7.3 kg of AL6082T6. -->
 
     <!-- solids for dpu box: dpuBox_... -->
     <box name="dpuBox_mv_0" lunit="mm" x="169.9" y="575" z="dpuBox_bbck_wz+dpuBox_bb_wz"/>
@@ -448,6 +459,8 @@
       <section zOrder="1" zPosition="-145+dpuBox_bb_wz/2" xOffset="0" yOffset="0" scalingFactor="1"/>
       <section zOrder="2" zPosition="-dpuBox_bb_wz/2" xOffset="0" yOffset="0" scalingFactor="1"/>
     </xtru>
+
+    <box name="dpu_b" lunit="mm" x="169.9-50" y="dpuBox_bb_wy-30" z="2250/(0.0027*(169.9-50)*(dpuBox_bb_wy-30))"/>
 
     <!-- solids for hopper: hop_... -->
     <box name="hop_bxm" lunit="mm" x="hop_b_t" y="hop_b_wy" z="hop_b_wz - hop_b_t"/>
@@ -659,6 +672,8 @@
     <volume name="dpuBox_bb_v"> <materialref ref="AL6082T6"/> <solidref ref="dpuBox_bb"/> </volume>
     <volume name="dpuBox_sides_v"> <materialref ref="AL6082T6"/> <solidref ref="dpuBox_sides"/> </volume>
 
+    <volume name="dpu_v"> <materialref ref="AL6082T6"/> <solidref ref="dpu_b"/> </volume>
+
     <volume name="dpuBox_bt_v"> <materialref ref="AL6082T6"/> <solidref ref="dpuBox_bt"/> </volume>
     <volume name="dpuBox_ffmm_v"> <materialref ref="AL6082T6"/> <solidref ref="dpuBox_ff"/> </volume>
     <volume name="dpuBox_ffmp_v"> <materialref ref="AL6082T6"/> <solidref ref="dpuBox_ff"/> </volume>
@@ -671,18 +686,20 @@
     <volume name="hop_bym_v"> <materialref ref="AL6082T6"/> <solidref ref="hop_bym"/> </volume>
     <volume name="hop_byp_v"> <materialref ref="AL6082T6"/> <solidref ref="hop_byp"/> </volume>
     <volume name="hop_bzp_v"> <materialref ref="AL6082T6"/> <solidref ref="hop_bzp"/> </volume>
-    <volume name="hop_ear1_v"> <materialref ref="AL6082T6"/> <solidref ref="hop_ear"/> </volume>
-    <volume name="hop_ear2_v"> <materialref ref="AL6082T6"/> <solidref ref="hop_ear"/> </volume>
-    <volume name="hop_ear3_v"> <materialref ref="AL6082T6"/> <solidref ref="hop_ear"/> </volume>
-    <volume name="hop_ear4_v"> <materialref ref="AL6082T6"/> <solidref ref="hop_ear"/> </volume>
-    <volume name="hop_ctl_v"> <materialref ref="AL6082T6"/> <solidref ref="hop_ctl"/> </volume>
-    <volume name="hop_cts_v"> <materialref ref="AL6082T6"/> <solidref ref="hop_cts"/> </volume>
+
+    <volume name="hop_ear1_v"> <materialref ref="hop_ALW"/> <solidref ref="hop_ear"/> </volume>
+    <volume name="hop_ear2_v"> <materialref ref="hop_ALW"/> <solidref ref="hop_ear"/> </volume>
+    <volume name="hop_ear3_v"> <materialref ref="hop_ALW"/> <solidref ref="hop_ear"/> </volume>
+    <volume name="hop_ear4_v"> <materialref ref="hop_ALW"/> <solidref ref="hop_ear"/> </volume>
+
+    <volume name="hop_ctl_v"> <materialref ref="hop_ALW"/> <solidref ref="hop_ctl"/> </volume>
+    <volume name="hop_cts_v"> <materialref ref="hop_ALW"/> <solidref ref="hop_cts"/> </volume>
     <volume name="hop_smsup_v"> <materialref ref="AL6082T6"/> <solidref ref="hop_smsup"/> </volume>
     <volume name="hop_lgsup_v"> <materialref ref="AL6082T6"/> <solidref ref="hop_lgsup"/> </volume>
     <volume name="hop_tfwd_v"> <materialref ref="AL6082T6"/> <solidref ref="hop_tfwd"/> </volume>
     <volume name="hop_tfwcc_v"> <materialref ref="AL6082T6"/> <solidref ref="hop_tfwcc"/> </volume>
     <volume name="hop_tfwsc_v"> <materialref ref="AL6082T6"/> <solidref ref="hop_tfwsc"/> </volume>
-    <volume name="hop_ctsb_v"> <materialref ref="AL6082T6"/> <solidref ref="hop_ctsb"/> </volume>
+    <volume name="hop_ctsb_v"> <materialref ref="hop_ALW"/> <solidref ref="hop_ctsb"/> </volume>
     <volume name="hop_foil_v"> <materialref ref="Kapton"/> <solidref ref="hop_foil"/> </volume>
     <volume name="hop_foilframe_v"> <materialref ref="Kapton"/> <solidref ref="hop_foilframe"/> </volume>
 
@@ -779,6 +796,9 @@
       <physvol> <volumeref ref="dpuBox_ffmp_v"/> <positionref ref="dpuBox_ffmp_pos"/> <rotationref ref="dpuBox_ffm_rot"/> </physvol>
       <physvol> <volumeref ref="dpuBox_ffpm_v"/> <positionref ref="dpuBox_ffpm_pos"/> <rotationref ref="dpuBox_ffp_rot"/> </physvol>
       <physvol> <volumeref ref="dpuBox_ffpp_v"/> <positionref ref="dpuBox_ffpp_pos"/> <rotationref ref="dpuBox_ffp_rot"/> </physvol>
+
+      <physvol> <volumeref ref="dpu_v"/> <positionref ref="dpu_pos"/> <rotationref ref="id"/> </physvol>
+
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
       <!--
       -->
@@ -808,6 +828,7 @@
       <solidref ref="hop_mv3"/>
 
       <!-- hop ears -->
+      <!-- sides of hopper (next 4) -->
       <physvol> <volumeref ref="hop_ear1_v"/> <positionref ref="hop_ear1_pos"/> <rotationref ref="z90"/> </physvol>
       <physvol> <volumeref ref="hop_ear2_v"/> <positionref ref="hop_ear2_pos"/> <rotationref ref="z270"/> </physvol>
       <physvol> <volumeref ref="hop_ear3_v"/> <positionref ref="hop_ear3_pos"/> <rotationref ref="id"/> </physvol>
@@ -825,6 +846,7 @@
       <physvol> <volumeref ref="hop_foilframe_v"/> <positionref ref="hop_foilframe_yp_pos"/> <rotationref ref="id"/> </physvol>
       <!-- end hop ears -->
 
+      <!-- hopper ears (next 8) -->
       <physvol> <volumeref ref="hop_ctl_v"/> <positionref ref="hop_ctlmm_pos"/> <rotationref ref="z180"/> </physvol>
       <physvol> <volumeref ref="hop_ctl_v"/> <positionref ref="hop_ctlmp_pos"/> <rotationref ref="z270"/> </physvol>
       <physvol> <volumeref ref="hop_ctl_v"/> <positionref ref="hop_ctlpm_pos"/> <rotationref ref="z90"/> </physvol>
@@ -833,6 +855,7 @@
       <physvol> <volumeref ref="hop_cts_v"/> <positionref ref="hop_ctsmp_pos"/> <rotationref ref="z180"/> </physvol>
       <physvol> <volumeref ref="hop_cts_v"/> <positionref ref="hop_ctspm_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="hop_cts_v"/> <positionref ref="hop_ctspp_pos"/> <rotationref ref="z270"/> </physvol>
+
       <physvol> <volumeref ref="hop_tfwd_v"/> <positionref ref="hop_tfwd_xmm_pos"/> <rotationref ref="hop_tfwd_xmm_rot"/> </physvol>
       <physvol> <volumeref ref="hop_tfwd_v"/> <positionref ref="hop_tfwd_xmp_pos"/> <rotationref ref="hop_tfwd_xmp_rot"/> </physvol>
       <physvol> <volumeref ref="hop_tfwd_v"/> <positionref ref="hop_tfwd_xpm_pos"/> <rotationref ref="hop_tfwd_xpm_rot"/> </physvol>
@@ -853,6 +876,7 @@
       <physvol> <volumeref ref="hop_tfwsc_v"/> <positionref ref="hop_tfwsc_ym_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="hop_tfwsc_v"/> <positionref ref="hop_tfwsc_yp_pos"/> <rotationref ref="id"/> </physvol>
 
+      <!-- bottom of hopper ears (next 4) -->
       <physvol> <volumeref ref="hop_ctsb_v"/> <positionref ref="hop_ctsbxm_pos"/> <rotationref ref="z90"/> </physvol>
       <physvol> <volumeref ref="hop_ctsb_v"/> <positionref ref="hop_ctsbxp_pos"/> <rotationref ref="z90"/> </physvol>
       <physvol> <volumeref ref="hop_ctsb_v"/> <positionref ref="hop_ctsbym_pos"/> <rotationref ref="id"/> </physvol>

@@ -202,9 +202,10 @@ int main(int argc, char** argv){
 DUMP VRML FILE:
 /vis/sceneHandler/create VRML2FILE
 /vis/viewer/create
-/vis/viewer/set/style surface
 /vis/drawVolume
 /vis/viewer/flush
+
+/vis/viewer/set/style surface
 
 CHECK CODED MASK
 /vis/open OGLIX
