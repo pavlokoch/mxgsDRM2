@@ -24,6 +24,10 @@ def mxgsDRMCmd(name,pdgID,nPriPerE,rad,rad0,theta,phi,emin,emax,numE):
   comment = outfn
   return "./mxgsDRM %d %d %d %f %f %f %f %g %g %d %g %g %d %s %s"%(0,pdgID,nPriPerE,rad,rad0,theta,phi,emin,emax,numE,outMinE,outMaxE,outNumE,outfn,comment)
 
+def nthLineCmd(filename,n):
+  #return("head -%d %s | tail -1"%(n,filename))
+  return("sed -n '%d{p;q;}' %s"%(n,filename))
+
 def mpirunCmd(name,pdgID,nPriPerE,rad,rad0,(th0,th1,nth),(ph0,ph1,nph),(e0,e1,ne)):
   #  for th in linRange(th0,th1,nth) for ph in linRange(ph0,ph1,nph)])
   cmds = []
@@ -31,7 +35,7 @@ def mpirunCmd(name,pdgID,nPriPerE,rad,rad0,(th0,th1,nth),(ph0,ph1,nph),(e0,e1,ne
   ### block to use mpirun
   #ctr=1
   #for (ph,th) in [(ph,th) for th in linRange(th0,th1,nth) for ph in linRange(ph0,ph1,nph)]:
-  #  cmds.append(("-H `head -%d $PBS_NODEFILE | tail -1` -np 1 "%ctr)+mxgsDRMCmd(name,pdgID,nPriPerE,rad,rad0,th,ph,e0,e1,ne))
+  #  cmds.append("-H `%s` -np 1 "%(nthLineCmd("$PBS_NODEFILE",ctr))+mxgsDRMCmd(name,pdgID,nPriPerE,rad,rad0,th,ph,e0,e1,ne))
   #  #cmds.append(" -np 1 "+mxgsDRMCmd(name,pdgID,nPriPerE,rad,rad0,th,ph,e0,e1,ne))
   #  ctr = ctr+1
   #return "mpirun " + " : ".join(cmds)
@@ -44,7 +48,7 @@ def mpirunCmd(name,pdgID,nPriPerE,rad,rad0,(th0,th1,nth),(ph0,ph1,nph),(e0,e1,ne
   ### block for separate mpirun commands:
   ctr=1
   for (ph,th) in [(ph,th) for th in linRange(th0,th1,nth) for ph in linRange(ph0,ph1,nph)]:
-    cmds.append(("mpirun -H `head -%d $PBS_NODEFILE | tail -1` -np 1 "%ctr)+mxgsDRMCmd(name,pdgID,nPriPerE,rad,rad0,th,ph,e0,e1,ne)+" &")
+    cmds.append(("mpirun -H `%s` -np 1 "%nthLineCmd("$PBS_NODEFILE",ctr))+mxgsDRMCmd(name,pdgID,nPriPerE,rad,rad0,th,ph,e0,e1,ne)+" &")
     ctr = ctr+1
   return "\n".join(cmds)+"\nwait"
 
