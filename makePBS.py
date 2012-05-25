@@ -1,8 +1,8 @@
 ﻿from math import *
 import sys
 
-workingDir = "~/sim-build";
-resultsDir = "~/results";
+workingDir = "~/sim-build"
+resultsDir = "~/results"
 
 outMinE = 0.001
 outMaxE = 110.0
@@ -19,6 +19,12 @@ def logRange(min,max,length):
   else:
     return [10**(log10(min) + float(n)/(length-1)*(log10(max)-log10(min))) for n in range(length)]
 
+def blocks(lst,n):
+  if(len(lst) % n != 0):
+    print("WARNING: grid didn't divide evenly")
+  d = len(lst)/n;
+  return [lst[i:(i+d)] for i in range(0,len(lst),d)]
+
 def mxgsDRMCmd(name,pdgID,nPriPerE,rad,rad0,theta,phi,emin,emax,numE):
   outfn = "%s/%s/mats_%d_%d_%.2f_%.2f_%.2f_%.2f_%.2g_%.2g_%d.txt"%(resultsDir,name,pdgID,nPriPerE,rad,rad0,theta,phi,emin,emax,numE)
   comment = outfn
@@ -28,29 +34,13 @@ def nthLineCmd(filename,n):
   #return("head -%d %s | tail -1"%(n,filename))
   return("sed -n '%d{p;q;}' %s"%(n,filename))
 
-def mpirunCmd(name,pdgID,nPriPerE,rad,rad0,(th0,th1,nth),(ph0,ph1,nph),(e0,e1,ne)):
+def mpirunCmds(name,pdgID,nPriPerE,rad,rad0,(th0,th1,nth),(ph0,ph1,nph),(e0,e1,ne)):
   #  for th in linRange(th0,th1,nth) for ph in linRange(ph0,ph1,nph)])
   cmds = []
 
-  ### block to use mpirun
-  #ctr=1
-  #for (ph,th) in [(ph,th) for th in linRange(th0,th1,nth) for ph in linRange(ph0,ph1,nph)]:
-  #  cmds.append("-H `%s` -np 1 "%(nthLineCmd("$PBS_NODEFILE",ctr))+mxgsDRMCmd(name,pdgID,nPriPerE,rad,rad0,th,ph,e0,e1,ne))
-  #  #cmds.append(" -np 1 "+mxgsDRMCmd(name,pdgID,nPriPerE,rad,rad0,th,ph,e0,e1,ne))
-  #  ctr = ctr+1
-  #return "mpirun " + " : ".join(cmds)
-
-  #### block for sequential jobs
-  #for (ph,th) in [(ph,th) for th in linRange(th0,th1,nth) for ph in linRange(ph0,ph1,nph)]:
-  #  cmds.append(mxgsDRMCmd(name,pdgID,nPriPerE,rad,rad0,th,ph,e0,e1,ne))
-  #return "\n".join(cmds)
-
-  ### block for separate mpirun commands:
-  ctr=1
   for (ph,th) in [(ph,th) for th in linRange(th0,th1,nth) for ph in linRange(ph0,ph1,nph)]:
-    cmds.append(("mpirun -H `%s` -np 1 "%nthLineCmd("$PBS_NODEFILE",ctr))+mxgsDRMCmd(name,pdgID,nPriPerE,rad,rad0,th,ph,e0,e1,ne)+" &")
-    ctr = ctr+1
-  return "\n".join(cmds)+"\nwait"
+    cmds.append(mxgsDRMCmd(name,pdgID,nPriPerE,rad,rad0,th,ph,e0,e1,ne))
+  return "\n".join(cmds)
 
 
 def commands(name,pdgID,nPriPerE,rad,rad0,theta,phi,energy):
@@ -59,43 +49,56 @@ def commands(name,pdgID,nPriPerE,rad,rad0,theta,phi,energy):
       ,"source geant4.sh"
       ,"cd ~/sim-build"
       ,"mkdir -p %s/%s"%(resultsDir,name)
-      ,mpirunCmd(name,pdgID,nPriPerE,rad,rad0,theta,phi,energy)]
+      ,mpirunCmds(name,pdgID,nPriPerE,rad,rad0,theta,phi,energy)]
 
-def printPBS(outf,name,n,cmds,walltime):
-  numNodes = int(n/2) + n%2
+def writePBS(outfn,name,n,cmds,walltime):
+  outf = open(outfn,"w")
+  numNodes = 1 #int(n/2) + n%2
   outf.write("#! /bin/sh -\n")
   outf.write("#PBS -S /bin/sh\n")
   outf.write("#PBS -N \"%s\"\n"%name)
   outf.write("#PBS -A fysisk\n")
-  outf.write("#PBS -l walltime=%s,nodes=%d:ppn=2\n"%(walltime,numNodes))
+  outf.write("#PBS -l walltime=%s,nodes=%d:ppn=1\n"%(walltime,numNodes))
   outf.write("#PBS -l pmem=500mb\n")
-  outf.write("#PBS -m abe\n");
-  outf.write("#PBS -M brant.carlson@ift.uib.no\n");
+  outf.write("#PBS -m abe\n")
+  outf.write("#PBS -M brant.carlson@ift.uib.no\n")
   outf.write("#PBS -o %s.stdout.txt\n"%name)
   outf.write("#PBS -e %s.stderr.txt\n"%name)
   outf.write("")
   for cmd in cmds:
     outf.write(cmd)
     outf.write("\n")
+  outf.close()
 
 
-def walltimeStr(nPriPerE,nPriE,rate=250):
-  sTot = nPriPerE*nPriE/rate
+# TODO: make a better approximation here
+def walltimeStr(nPriPerE,nPriE,nth,nph,rate=250):
+  sTot = nPriPerE*nPriE*nth*nph/rate
   h = int(sTot/3600)
   m = int((sTot-h*3600)/60)
   s = int((sTot-h*3600-m*60))
   return "%02d:%02d:%02d"%(h,m,s)
 
-name = "testJob"
-ntheta = 2
-nphi = 2
-ne = 7
-nPriPerE = 10000
+def writeJobScript(name,(thmin,thmax,ntheta),(phmin,phmax,nphi)):
+  emin = 0.1
+  emax = 100
+  nPriPerE = 10000
+  ne = 7
+  pdgID = 22
+  writePBS("%s.pbs"%name,name,ntheta*nphi,
+      commands(name,pdgID,nPriPerE,0.6,0.0,(thmin,thmax,ntheta),(phmin,phmax,nphi),(emin,emax,ne)),
+      walltimeStr(nPriPerE,ne,ntheta,nphi,250))
 
-printPBS(sys.stdout,name,ntheta*nphi,commands(name,22,nPriPerE,0.6,0.0,(0,45,ntheta),(0,270,nphi),(0.1,100,ne)),walltimeStr(nPriPerE,ne,250));
+def writeJobGrid(baseName,(thmin,thmax,nth,nthBlks),(phmin,phmax,nph,nphBlks)):
+  thetas = linRange(thmin,thmax,nth)
+  phis = linRange(phmin,phmax,nph)
+  thblks = blocks(thetas,nthBlks)
+  phblks = blocks(phis,nphBlks)
 
-#name = sys.argv[1]
-#rad = float(sys.argv[2])
-#printPBS(sys.stdout,name,ntheta*nphi,commands(name,22,nPriPerE,rad+1.0,rad,(0,45,ntheta),(0,270,nphi),(0.1,100,ne)),walltimeStr(nPriPerE,ne,250));
+  for (thblk,phblk) in [((min(ths),max(ths),len(ths)),(min(phs),max(phs),len(phs))) for ths in thblks for phs in phblks]:
+    name = "%s_%.0f_%.0f_%.0f_%.0f"%(baseName,thblk[0],thblk[1],phblk[0],phblk[1])
+    print(name)
+    writeJobScript(name,thblk,phblk)
 
+#writeJobScript("testJob",0,40,5,0,90,10,10000)
 

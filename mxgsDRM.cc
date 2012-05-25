@@ -26,6 +26,11 @@ int main(int argc, char** argv){
     return 1;
   }
 
+  time_t t = time(0);
+  struct tm tm = *localtime(&t);
+  cout << "execution started: " << tm.tm_year << '/' << tm.tm_mon+1  << '/' << tm.tm_mday << ' '
+    << tm.tm_hour << ':' << tm.tm_min << ':' << tm.tm_sec << endl;
+
   int interactive; sscanf(argv[1],"%d",&interactive);
   int priPDGID; sscanf(argv[2],"%d",&priPDGID);
   int nPriPerE; sscanf(argv[3],"%d",&nPriPerE);
@@ -168,6 +173,12 @@ int main(int argc, char** argv){
   gsl_histogram_free(hCZT);
   delete runManager;
   delete visManager;
+
+  t = time(0);
+  tm = *localtime(&t);
+  cout << "execution finished: " << tm.tm_year+1900 << '/' << tm.tm_mon+1  << '/' << tm.tm_mday << ' '
+    << tm.tm_hour << ':' << tm.tm_min << ':' << tm.tm_sec << endl;
+
   return 0;
 }
 
