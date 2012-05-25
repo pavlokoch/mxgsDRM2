@@ -854,7 +854,9 @@
 <physvol> <volumeref ref="cm_13_15_v"/> <positionref ref="cm_13_15_pos"/> <rotationref ref="id"/> </physvol>
 <physvol> <volumeref ref="cm_14_15_v"/> <positionref ref="cm_14_15_pos"/> <rotationref ref="id"/> </physvol>
 <physvol> <volumeref ref="cm_15_15_v"/> <positionref ref="cm_15_15_pos"/> <rotationref ref="id"/> </physvol>
+<!--
 <auxiliary auxtype="visibility" auxvalue="invisible"/>
+-->
 </volume>
 <volume name="codedMask">
 <materialref ref="Vacuum"/>
@@ -867,7 +869,9 @@
 <physvol> <volumeref ref="yb_v"/> <positionref ref="ypb_pos"/> <rotationref ref="id"/> </physvol>
 <physvol> <volumeref ref="codedMask_rep"/> <positionref ref="cm_00_00_reppos"/> <rotationref ref="id"/> </physvol>
 
+<!--
 <auxiliary auxtype="visibility" auxvalue="invisible"/>
+-->
 </volume>
 </structure>
 <setup name="Default" version="1.0">

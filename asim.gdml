@@ -48,8 +48,8 @@
 
       <physvol> <file name="mmia.gdml"/> <positionref ref="mmia_pos"/> <rotationref ref="id"/> </physvol>
 
-      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       <!-- 
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       -->
     </volume>
 
@@ -58,18 +58,20 @@
       <solidref ref="world_box"/>
       <physvol> <volumeref ref="asim"/> <positionref ref="orig"/> <rotationref ref="id"/> </physvol>
 
-      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       <!-- 
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       -->
     </volume>
 
 
   </structure>
   <setup name="Default" version="1.0">
-    <!-- 
+    <!--
+         -->
     <world ref="asim"/> 
-     -->
+    <!-- 
     <world ref="asim_world"/>
+     -->
   </setup>
 </gdml> 
 

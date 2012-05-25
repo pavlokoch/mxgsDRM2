@@ -308,8 +308,8 @@
       <physvol> <volumeref ref="bdsp_v"/> <positionref ref="bdsp_pos"/> <rotationref ref="id"/> </physvol>
       
 
-      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       <!--
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       -->
     </volume>
 
@@ -334,8 +334,8 @@
       <physvol> <volumeref ref="pmtSpng_v"/> <positionref ref="pmtSpng_pos"/> <rotationref ref="xm90"/> </physvol>
       <physvol> <volumeref ref="pmtHsg_end_v"/> <positionref ref="pmtHsg_end_pos"/> <rotationref ref="xm90"/> </physvol>
 
-      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       <!--
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       -->
     </volume>
 
@@ -346,8 +346,8 @@
       <physvol> <volumeref ref="bgoShld_ta_v"/> <positionref ref="bgoShld_taPos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="bgoShld_sn_v"/> <positionref ref="bgoShld_snPos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="bgoShld_ss_v"/> <positionref ref="bgoShld_ssPos"/> <rotationref ref="id"/> </physvol>
-      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       <!--
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       -->
     </volume>
 
@@ -364,8 +364,8 @@
         </replicate_along_axis>
       </replicavol>
 
-      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       <!--
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       -->
     </volume>
 
@@ -376,8 +376,8 @@
       <physvol> <volumeref ref="bgoMod3_rep"/> <position name="modxp" z="bgoMod3_bgoOffset"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="bgoShld"/> <position name="shldp" y="-wy/2+bdspBox_y/2" z="-bgoBox_wz/2 - bgoShld_z/2 + bgoMod3_bgoOffset"/> <rotationref ref="z180"/> </physvol>
       <physvol> <volumeref ref="bdspBox"/> <position name="dspbp" y="-wy/2+bdspBox_y/2" z="-bgoBox_wz/2 - bgoShld_z - bdspBox_z/2 + bgoMod3_bgoOffset"/> <rotationref ref="z180"/> </physvol>
-      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       <!--
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       -->
     </volume>
 
@@ -394,8 +394,8 @@
         </replicate_along_axis>
       </replicavol>
 
-      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       <!--
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       -->
     </volume>
 
@@ -412,8 +412,8 @@
         </replicate_along_axis>
       </replicavol>
 
-      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       <!--
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       -->
     </volume>
     

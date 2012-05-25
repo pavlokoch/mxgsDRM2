@@ -71,9 +71,10 @@ def writePBS(outfn,name,n,cmds,walltime):
   outf.close()
 
 
-# TODO: make a better approximation here
-def walltimeStr(nPriPerE,nPriE,nth,nph,rate=250):
-  sTot = nPriPerE*nPriE*nth*nph/rate
+# test runs suggest rate = 700primaries/second, spinup ~ 10 s.
+# these estimates are padded in case particles shot in from another direction take longer.
+def walltimeStr(nPriPerE,nPriE,nth,nph,rate=350,spinup=15):
+  sTot = nth*nph*(spinup + nPriPerE*nPriE/rate)
   h = int(sTot/3600)
   m = int((sTot-h*3600)/60)
   s = int((sTot-h*3600-m*60))

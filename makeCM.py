@@ -122,7 +122,9 @@ def printVolume(pattern):
   print "<materialref ref=\"Vacuum\"/>"
   print "<solidref ref=\"codedMask_rep_mv\"/>"
   printPhysVolumes(pattern)
+  print "<!--"
   print "<auxiliary auxtype=\"visibility\" auxvalue=\"invisible\"/>"
+  print "-->"
   print "</volume>"
 
 def printRepPhysVols(nx,ny):
@@ -173,7 +175,9 @@ def printGDML(pattern):
   print "<solidref ref=\"codedMask_mv\"/>"
   printRepPhysVols(repx,repy)
   print ""
+  print "<!--"
   print "<auxiliary auxtype=\"visibility\" auxvalue=\"invisible\"/>"
+  print "-->"
   print "</volume>"
   print "</structure>"
   print "<setup name=\"Default\" version=\"1.0\">"

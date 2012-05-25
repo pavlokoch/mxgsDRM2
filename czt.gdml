@@ -345,8 +345,8 @@
       <physvol> <volumeref ref="cztu_ir_v"/> <positionref ref="cztu_ir_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="cztu_ip_v"/> <positionref ref="cztu_ipp_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="cztu_ip_v"/> <positionref ref="cztu_ipm_pos"/> <rotationref ref="z180"/> </physvol>
-      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       <!--
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       -->
     </volume>
 
@@ -360,8 +360,8 @@
       <physvol> <volumeref ref="chip_halfspacer_v"/> <positionref ref="chip_spacer_xp_pos"/> <rotationref ref="z90"/> </physvol>
       <physvol> <volumeref ref="chip_halfspacer_v"/> <positionref ref="chip_spacer_ym_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="chip_halfspacer_v"/> <positionref ref="chip_spacer_yp_pos"/> <rotationref ref="id"/> </physvol>
-      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       <!--
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       -->
     </volume>
 
@@ -378,8 +378,8 @@
         </replicate_along_axis>
       </replicavol>
 
-      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       <!--
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       -->
     </volume>
 
@@ -396,8 +396,8 @@
         </replicate_along_axis>
       </replicavol>
 
-      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       <!--
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       -->
     </volume>
 
@@ -421,8 +421,8 @@
       <physvol> <volumeref ref="daf_board_v"/> <positionref ref="daf_board_ymxm_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="daf_board_v"/> <positionref ref="daf_board_ymxp_pos"/> <rotationref ref="id"/> </physvol>
 
-      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       <!--
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       -->
     </volume>
 
@@ -439,8 +439,8 @@
         </replicate_along_axis>
       </replicavol>
 
-      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       <!--
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       -->
     </volume>
     <volume name="cztu16">
@@ -456,8 +456,8 @@
         </replicate_along_axis>
       </replicavol>
 
-      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       <!--
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       -->
     </volume>
 
@@ -498,8 +498,8 @@
       <physvol> <volumeref ref="dauf_p_v"/> <positionref ref="dauf_x0p_pos"/> <rotationref ref="xm90"/> </physvol>
       <physvol> <volumeref ref="dauf_p_v"/> <positionref ref="dauf_xpp_pos"/> <rotationref ref="xm90"/> </physvol>
 
-      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       <!-- 
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       -->
     </volume>
 
@@ -539,8 +539,8 @@
       <physvol> <volumeref ref="cztMods2_1"/> <position name="crap1" unit="mm" y="dauf_y/2+0.001"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="cztMods2_2"/> <position name="crap2" unit="mm" y="-dauf_y/2-0.001"/> <rotationref ref="z180"/> </physvol>
 
-      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       <!--
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       -->
     </volume>
 

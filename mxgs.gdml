@@ -750,8 +750,8 @@
       <physvol> <volumeref ref="rs_scrBox_v"/> <positionref ref="rs_scrBox_xmzp_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="rs_scrBox_v"/> <positionref ref="rs_scrBox_xpzp_pos"/> <rotationref ref="id"/> </physvol>
 
-      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       <!--
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       -->
     </volume>
 
@@ -763,8 +763,8 @@
       <physvol> <volumeref ref="lowCov_b1_v"/> <positionref ref="lowCov_b1_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="lowCov_t1_v"/> <positionref ref="lowCov_t1_pos"/> <rotationref ref="lowCov_t1_rot"/> </physvol>
       <physvol> <volumeref ref="lowCov_b2_v"/> <positionref ref="lowCov_b2_pos"/> <rotationref ref="id"/> </physvol>
-      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       <!--
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       -->
     </volume>
 
@@ -780,8 +780,8 @@
 
       <physvol> <volumeref ref="lowHsg_psu_v"/> <positionref ref="lowHsg_psu_pos"/> <rotationref ref="id"/> </physvol>
 
-      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       <!--
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       -->
     </volume>
 
@@ -799,8 +799,8 @@
 
       <physvol> <volumeref ref="dpu_v"/> <positionref ref="dpu_pos"/> <rotationref ref="id"/> </physvol>
 
-      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       <!--
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       -->
     </volume>
 
@@ -818,8 +818,8 @@
       <!--
       -->
 
-      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       <!--
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       -->
     </volume>
 
@@ -890,8 +890,8 @@
       <physvol> <volumeref ref="cms_keystone_v"/> <positionref ref="cms_keystone_pos"/> <rotationref ref="id"/> </physvol>
       <!--
       -->
-      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       <!--
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       -->
     </volume>
 
@@ -922,8 +922,8 @@
       <!--
       -->
 
-      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       <!--
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       -->
     </volume>
 
@@ -935,8 +935,8 @@
       <physvol> <volumeref ref="ws_bot_v"/> <positionref ref="ws_bot_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="ws_bot_v"/> <positionref ref="ws_top_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="ws_mid_v"/> <positionref ref="ws_mid_pos"/> <rotationref ref="id"/> </physvol>
-      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       <!--
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       -->
     </volume>
 
@@ -949,8 +949,8 @@
       <physvol> <volumeref ref="hop_box"/> <positionref ref="hop_mv1_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="hop_top"/> <positionref ref="hop_mv3_pos"/> <rotationref ref="id"/> </physvol>
       <!--
-      -->
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
+      -->
     </volume>
 
     <volume name="MXGS">
@@ -975,8 +975,8 @@
       <physvol> <volumeref ref="wakeSupport"/> <positionref ref="ws_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="ramSupport"/> <positionref ref="rs_pos"/> <rotationref ref="id"/> </physvol>
 
-      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       <!--
+      <auxiliary auxtype="visibility" auxvalue="invisible"/>
       -->
     </volume>
 
@@ -984,7 +984,9 @@
       <materialref ref="Vacuum"/>
       <solidref ref="WorldBox"/>
       <physvol> <volumeref ref="MXGS"/> <positionref ref="orig"/> <rotationref ref="id"/> </physvol>
+      <!--
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
+      -->
     </volume>
 
   </structure>

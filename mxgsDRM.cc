@@ -112,7 +112,7 @@ int main(int argc, char** argv){
   //double targetY = 0.2;
   //double targetZ = -0.125;
 
-  double targetDisp = 100;
+  double targetDisp = 20;
 
   PrimaryGeneratorAction *pgen = new PrimaryGeneratorAction(priPDGID,
       priStartDiskRad,priStartDiskRad0,
