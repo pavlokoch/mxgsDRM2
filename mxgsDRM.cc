@@ -104,8 +104,8 @@ int main(int argc, char** argv){
   // set mandatory user action class
   // targetY/Y/Z are the coordinates (m) of the center of MXGS in the colombus.gdml reference frame.
   ////// target for columbus.gdml.
-  double targetX = 0.0;
-  double targetY = 2.8297 + 0.1458/2.0 + 0.8630/2.0;
+  double targetX = 0.0 - 0.207;
+  double targetY = 2.8297 + 0.1458/2.0 + 0.8630/2.0 - 0.046;
   double targetZ = -1.3996 + 1.1300/2.0 - 0.8630 + 0.5500/2.0;
   ////// target for asim.gdml.
   //double targetX = 0.0;
@@ -155,11 +155,11 @@ int main(int argc, char** argv){
     out << "BGO";
     for(k=0; k<outNumE; ++k){
       out << ' ' << gsl_histogram_get(hBGO,k);
-    } out << endl;
+    } out << endl << flush;
     out << "CZT";
     for(k=0; k<outNumE; ++k){
       out << ' ' << gsl_histogram_get(hCZT,k);
-    } out << endl;
+    } out << endl << flush;
   }
 
 

@@ -11,6 +11,7 @@ library(splancs);
 library(ggplot2);
 library(plyr);
 library(parallel);
+library(reshape);
 source("~/R/colormaps.r");
 
 
@@ -254,7 +255,7 @@ binomCI <- function(x,n,conf.lev=0.6826895){
 }
 
 # effective areas measured in cm^2/keV
-readDRMs_df <- function(fn,nPriPerE=1.0,rDisk=1.0){
+readDRMs_df <- function(fn,nPriPerE=1.0,rDisk1=1.0,rDisk0=0.0){
   f <- file(fn,"rt");
   l <- readLines(f,5);
   close(f);
@@ -293,7 +294,7 @@ readDRMs_df <- function(fn,nPriPerE=1.0,rDisk=1.0){
   ccis <- binomCI(cdf$value,nPriPerE);
 
   # convert to cm^2/keV
-  norm <- pi*rDisk**2*100^2/((e2-e1)*1000.0)/nPriPerE;
+  norm <- pi*(rDisk1**2-rDisk0**2)*100^2/((e2-e1)*1000.0)/nPriPerE;
 
   x <- data.frame(outE=bdf$X1
                   ,inE=bdf$X2
@@ -312,7 +313,9 @@ readDRMs_df <- function(fn,nPriPerE=1.0,rDisk=1.0){
                   ,outEBinLow=e1
                   ,outEBinHigh=e2);
   attr(x,"nPriPerE") <- nPriPerE;
-  attr(x,"rDisk") <- rDisk;
+  attr(x,"rDisk") <- sqrt(rDisk1**2+rDisk0**2)
+  attr(x,"rDisk1") <- rDisk1;
+  attr(x,"rDisk0") <- rDisk0;
   x;
 }
 

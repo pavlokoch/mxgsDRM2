@@ -71,35 +71,36 @@ def writePBS(outfn,name,n,cmds,walltime):
   outf.close()
 
 
-# test runs suggest rate = 700primaries/second, spinup ~ 10 s.
+# test runs suggest rate = 450primaries/second, spinup ~ 10 s (for full
+# columbus, direction where paricles either hit ASIM or columbus).
 # these estimates are padded in case particles shot in from another direction take longer.
-def walltimeStr(nPriPerE,nPriE,nth,nph,rate=350,spinup=15):
+def walltimeStr(nPriPerE,nPriE,nth,nph,rate=350,spinup=12):
   sTot = nth*nph*(spinup + nPriPerE*nPriE/rate)
   h = int(sTot/3600)
   m = int((sTot-h*3600)/60)
   s = int((sTot-h*3600-m*60))
   return "%02d:%02d:%02d"%(h,m,s)
 
-def writeJobScript(name,(thmin,thmax,ntheta),(phmin,phmax,nphi)):
-  emin = 0.1
-  emax = 100
-  nPriPerE = 10000
-  ne = 7
+def writeJobScript(name,(thmin,thmax,ntheta),(phmin,phmax,nphi),(emin,emax,ne,nPriPerE)):
   pdgID = 22
   writePBS("%s.pbs"%name,name,ntheta*nphi,
       commands(name,pdgID,nPriPerE,0.6,0.0,(thmin,thmax,ntheta),(phmin,phmax,nphi),(emin,emax,ne)),
       walltimeStr(nPriPerE,ne,ntheta,nphi,250))
 
-def writeJobGrid(baseName,(thmin,thmax,nth,nthBlks),(phmin,phmax,nph,nphBlks)):
+def writeJobGrid(baseName,(thmin,thmax,nth,nthBlks),(phmin,phmax,nph,nphBlks),(emin,emax,ne,neBlks)):
   thetas = linRange(thmin,thmax,nth)
   phis = linRange(phmin,phmax,nph)
+  es = logRange(emin,emax,ne)
   thblks = blocks(thetas,nthBlks)
   phblks = blocks(phis,nphBlks)
+  eblks = blocks(es,neBlks)
 
-  for (thblk,phblk) in [((min(ths),max(ths),len(ths)),(min(phs),max(phs),len(phs))) for ths in thblks for phs in phblks]:
-    name = "%s_%.0f_%.0f_%.0f_%.0f"%(baseName,thblk[0],thblk[1],phblk[0],phblk[1])
+  nPriPerE = 1000000
+
+  for (thblk,phblk,eblk) in [((min(ths),max(ths),len(ths)),(min(phs),max(phs),len(phs)),(min(es),max(es),len(es),nPriPerE)) for ths in thblks for phs in phblks for es in eblks]:
+    name = "%s_%.0f_%.0f_%.0f_%.0f_%.1g_%.1g"%(baseName,thblk[0],thblk[1],phblk[0],phblk[1],eblk[0],eblk[1])
     print(name)
-    writeJobScript(name,thblk,phblk)
+    writeJobScript(name,thblk,phblk,eblk)
 
 #writeJobScript("testJob",0,40,5,0,90,10,10000)
 
