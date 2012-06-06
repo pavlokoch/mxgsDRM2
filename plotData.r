@@ -12,70 +12,7 @@ library(ggplot2);
 library(plyr);
 library(parallel);
 library(reshape);
-source("~/R/colormaps.r");
-
-
-readData2sqlite <- function(fn,tabName){
-  con <- dbConnect(SQLite(),fn);
-  q <- dbSendQuery(con,statement=sprintf("select * from %s",tabName));
-  x <- fetch(q,-1);
-  dbClearResult(q);
-  dbDisconnect(con);
-  x;
-}
-
-getDataConnection <- function(fn){
-  con <- dbConnect(SQLite(),fn);
-  f <- function(query){
-    q <- dbSendQuery(con,statement=query);
-    x <- fetch(q,-1);
-    dbClearResult(q);
-    x;
-  }
-  f;
-}
-
-plotDRMTheta <- function(r,ee,nbins=50,breaks=seq(0,180,length.out=nbins+1),mult=5,add=FALSE,...){
-  hp <- hist(r$thp,breaks=breaks,plot=FALSE);
-  ha <- hist(r$th,breaks=breaks,plot=FALSE);
-  e <- ha$mids;
-  a <- ha$counts/hp$counts*100*100/mult;
-  if(add){
-    lines(e,a,type='l',...);
-  }else{
-    plot(e,a,type='l',...); #,xlab=expression(theta*"  "*(degree)),ylab=expression(A[eff]*"  "*(cm^2)),main="effective area, 3 MeV photons [PRELIMINARY]");
-  }
-  mtext(ee,side=4,at=a[length(a)],cex=0.6);
-}
-
-plotDRMPhi <- function(r,ee,nbins=50,breaks=seq(-180,180,length.out=nbins+1),mult=5,add=FALSE,...){
-  hp <- hist(r$php,breaks=breaks,plot=FALSE);
-  ha <- hist(r$ph,breaks=breaks,plot=FALSE);
-  e <- ha$mids;
-  a <- ha$counts/hp$counts*100*100/mult;
-  if(add){
-    lines(e,a,type='l',...);
-  }else{
-    plot(e,a,type='l',...); #,xlab=expression(theta*"  "*(degree)),ylab=expression(A[eff]*"  "*(cm^2)),main="effective area, 3 MeV photons [PRELIMINARY]");
-  }
-  mtext(ee,side=4,at=a[length(a)],cex=0.6);
-}
-
-readDRM <- function(dbfn,fullEnergy=FALSE){
-  db <- getDataConnection(dbfn);
-  a <- db("select * from evtsBGO, pcles where evtsBGO.priIdx = pcles.idx and evtsBGO.totEDep>0.01");
-  #a <- db("select * from evtsCZT, pcles where evtsCZT.priIdx = pcles.idx and evtsCZT.totEDep>0.01");
-  p <- db("select * from pcles");
-
-  e0 <- p$ee[1];
-  sel <- if(fullEnergy){a$totEDep>0.95*e0;}else{a$totEDep>0;}
-
-  thp <- atan2(sqrt(p$px**2+p$py**2),-p$pz)*180/pi;
-  th <- atan2(sqrt(a$px[sel]**2+a$py[sel]**2),-a$pz[sel])*180/pi;
-  php <- atan2(p$py,p$px)*180/pi;
-  ph <- atan2(a$py[sel],a$px[sel])*180/pi;
-  list(th=th,ph=ph,thp=thp,php=php);
-}
+source("~/R/utils.r");
 
 plotAngleDRMs <- function(plotDRMFunc,fullEnergy=FALSE,breaks=seq(90,180,length.out=20),...){
   fnames <- c("test_22_1e+02.db","test_30.db","test_0.3.db","test_0.1.db","test_1.db","test_10.db","test_3.db");
@@ -134,61 +71,40 @@ measureEfficiency <- function(fn="filenameGoesHere",de=0,dp=0,mult=5,dist=-1){
 }
 
 efficiencyDataSet <- function(){
-  rbind(measureEfficiency("eff_22_0.36_0.db"),
-        measureEfficiency("eff_22_0.356_0.05.db"),
-        measureEfficiency("eff_22_0.36_0.1.db"),
-        measureEfficiency("eff_22_0.36_0.2.db"),
-        measureEfficiency("eff_22_0.36_0.3.db"),
-        measureEfficiency("eff_22_0.36_0.4.db"),
-        measureEfficiency("eff_22_0.36_0.5.db"),
+  rbind(measureEfficiency("efficiency/eff_22_0.36_0.db"), measureEfficiency("efficiency/eff_22_0.356_0.05.db"),
+        measureEfficiency("efficiency/eff_22_0.36_0.1.db"), measureEfficiency("efficiency/eff_22_0.36_0.2.db"),
+        measureEfficiency("efficiency/eff_22_0.36_0.3.db"), measureEfficiency("efficiency/eff_22_0.36_0.4.db"),
+        measureEfficiency("efficiency/eff_22_0.36_0.5.db"),
 
-        measureEfficiency("eff_22_0.51_0.db"),
-        measureEfficiency("eff_22_0.511_0.05.db"),
-        measureEfficiency("eff_22_0.51_0.1.db"),
-        measureEfficiency("eff_22_0.51_0.2.db"),
-        measureEfficiency("eff_22_0.51_0.3.db"),
-        measureEfficiency("eff_22_0.51_0.4.db"),
-        measureEfficiency("eff_22_0.51_0.5.db"),
+        measureEfficiency("efficiency/eff_22_0.51_0.db"), measureEfficiency("efficiency/eff_22_0.511_0.05.db"),
+        measureEfficiency("efficiency/eff_22_0.51_0.1.db"), measureEfficiency("efficiency/eff_22_0.51_0.2.db"),
+        measureEfficiency("efficiency/eff_22_0.51_0.3.db"), measureEfficiency("efficiency/eff_22_0.51_0.4.db"),
+        measureEfficiency("efficiency/eff_22_0.51_0.5.db"),
 
-        measureEfficiency("eff_22_0.66_0.db"),
-        measureEfficiency("eff_22_0.662_0.05.db"),
-        measureEfficiency("eff_22_0.66_0.1.db"),
-        measureEfficiency("eff_22_0.66_0.2.db"),
-        measureEfficiency("eff_22_0.66_0.3.db"),
-        measureEfficiency("eff_22_0.66_0.4.db"),
-        measureEfficiency("eff_22_0.66_0.5.db"),
+        measureEfficiency("efficiency/eff_22_0.66_0.db"), measureEfficiency("efficiency/eff_22_0.662_0.05.db"),
+        measureEfficiency("efficiency/eff_22_0.66_0.1.db"), measureEfficiency("efficiency/eff_22_0.66_0.2.db"),
+        measureEfficiency("efficiency/eff_22_0.66_0.3.db"), measureEfficiency("efficiency/eff_22_0.66_0.4.db"),
+        measureEfficiency("efficiency/eff_22_0.66_0.5.db"),
 
-        measureEfficiency("eff_22_0.83_0.db"),
-        measureEfficiency("eff_22_0.835_0.05.db"),
-        measureEfficiency("eff_22_0.83_0.1.db"),
-        measureEfficiency("eff_22_0.83_0.2.db"),
-        measureEfficiency("eff_22_0.83_0.3.db"),
-        measureEfficiency("eff_22_0.83_0.4.db"),
-        measureEfficiency("eff_22_0.83_0.5.db"),
+        measureEfficiency("efficiency/eff_22_0.83_0.db"), measureEfficiency("efficiency/eff_22_0.835_0.05.db"),
+        measureEfficiency("efficiency/eff_22_0.83_0.1.db"), measureEfficiency("efficiency/eff_22_0.83_0.2.db"),
+        measureEfficiency("efficiency/eff_22_0.83_0.3.db"), measureEfficiency("efficiency/eff_22_0.83_0.4.db"),
+        measureEfficiency("efficiency/eff_22_0.83_0.5.db"),
 
-        measureEfficiency("eff_22_1.2_0.db"),
-        measureEfficiency("eff_22_1.17_0.05.db"),
-        measureEfficiency("eff_22_1.2_0.1.db"),
-        measureEfficiency("eff_22_1.2_0.2.db"),
-        measureEfficiency("eff_22_1.2_0.3.db"),
-        measureEfficiency("eff_22_1.2_0.4.db"),
-        measureEfficiency("eff_22_1.2_0.5.db"),
+        measureEfficiency("efficiency/eff_22_1.2_0.db"), measureEfficiency("efficiency/eff_22_1.17_0.05.db"),
+        measureEfficiency("efficiency/eff_22_1.2_0.1.db"), measureEfficiency("efficiency/eff_22_1.2_0.2.db"),
+        measureEfficiency("efficiency/eff_22_1.2_0.3.db"), measureEfficiency("efficiency/eff_22_1.2_0.4.db"),
+        measureEfficiency("efficiency/eff_22_1.2_0.5.db"),
 
-        measureEfficiency("eff_22_1.27_0.db"),
-        measureEfficiency("eff_22_1.27_0.05.db"),
-        measureEfficiency("eff_22_1.27_0.1.db"),
-        measureEfficiency("eff_22_1.27_0.2.db"),
-        measureEfficiency("eff_22_1.27_0.3.db"),
-        measureEfficiency("eff_22_1.27_0.4.db"),
-        measureEfficiency("eff_22_1.27_0.5.db"),
+        measureEfficiency("efficiency/eff_22_1.27_0.db"), measureEfficiency("efficiency/eff_22_1.27_0.05.db"),
+        measureEfficiency("efficiency/eff_22_1.27_0.1.db"), measureEfficiency("efficiency/eff_22_1.27_0.2.db"),
+        measureEfficiency("efficiency/eff_22_1.27_0.3.db"), measureEfficiency("efficiency/eff_22_1.27_0.4.db"),
+        measureEfficiency("efficiency/eff_22_1.27_0.5.db"),
 
-        measureEfficiency("eff_22_1.3_0.db"),
-        measureEfficiency("eff_22_1.33_0.05.db"),
-        measureEfficiency("eff_22_1.3_0.1.db"),
-        measureEfficiency("eff_22_1.3_0.2.db"),
-        measureEfficiency("eff_22_1.3_0.3.db"),
-        measureEfficiency("eff_22_1.3_0.4.db"),
-        measureEfficiency("eff_22_1.3_0.5.db"));
+        measureEfficiency("efficiency/eff_22_1.3_0.db"), measureEfficiency("efficiency/eff_22_1.33_0.05.db"),
+        measureEfficiency("efficiency/eff_22_1.3_0.1.db"), measureEfficiency("efficiency/eff_22_1.3_0.2.db"),
+        measureEfficiency("efficiency/eff_22_1.3_0.3.db"), measureEfficiency("efficiency/eff_22_1.3_0.4.db"),
+        measureEfficiency("efficiency/eff_22_1.3_0.5.db"));
 }
 
 # i.e. plotEfficiencies(eds,eds$gt200)
@@ -238,7 +154,8 @@ readDRMs <- function(fn){
   list(b=bdf,c=cdf,i=priLine,om=om,obks=outLine);
 }
 
-#vectorize over x.
+#vectorized over x.
+# default confidence level gives 1 sigma error bar if normal approx holds.
 binomCI <- function(x,n,conf.lev=0.6826895){
   #print(c(x,n,conf.lev));
   alpha <- 1-conf.lev;
@@ -255,7 +172,7 @@ binomCI <- function(x,n,conf.lev=0.6826895){
 }
 
 # effective areas measured in cm^2/keV
-readDRMs_df <- function(fn,nPriPerE=1.0,rDisk1=1.0,rDisk0=0.0){
+readDRMs_df <- function(fn,nPriPerE=1.0,rDisk1=1.0,rDisk0=0.0,combineOutBins=1){
   f <- file(fn,"rt");
   l <- readLines(f,5);
   close(f);
@@ -266,32 +183,24 @@ readDRMs_df <- function(fn,nPriPerE=1.0,rDisk1=1.0,rDisk0=0.0){
 
   print("reading file, loading matrices...");
   a <- read.table(fn);
-  bdf <- data.matrix(subset(a,a$V1=="BGO")[,-1]);
-  cdf <- data.matrix(subset(a,a$V1=="CZT")[,-1]);
+  bdf <- t(data.matrix(subset(a,a$V1=="BGO")[,-1]));
+  cdf <- t(data.matrix(subset(a,a$V1=="CZT")[,-1]));
+
+  combMat <- outer(seq(dim(bdf)[1]/combineOutBins),seq(dim(bdf)[1]),function(i,j){ifelse(j/combineOutBins-i<=0 & j/combineOutBins-i>-1,1,0)});
+
+  bdf <- combMat %*% bdf;
+  cdf <- combMat %*% cdf;
+
+  outLine <- outLine[seq(1,length(outLine),by=combineOutBins)];
 
   om <- (outLine[-1] + outLine[-length(outLine)])/2;
   deo <- (outLine[-1] - outLine[-length(outLine)]);
 
-  #list(b=bdf,c=cdf,i=priLine,om=om,obks=outLine);
-
-  bdf <- data.frame(melt(t(matrix(bdf,ncol=length(om),dimnames=list(priLine,om)))));
-  cdf <- data.frame(melt(t(matrix(cdf,ncol=length(om),dimnames=list(priLine,om)))));
+  bdf <- data.frame(melt(matrix(bdf,nrow=length(om),dimnames=list(om,priLine))));
+  cdf <- data.frame(melt(matrix(cdf,nrow=length(om),dimnames=list(om,priLine))));
 
   e1 <- outLine[findInterval(bdf$X1,outLine)];
   e2 <- outLine[findInterval(bdf$X1,outLine)+1];
-
-  #print("calculating error bars...");
-  #pb <- create_progress_bar("text"); pb$init(length(bdf$value)+length(cdf$value));
-  #bcis <- mapply(function(suc,try){pb$step(); binom.test(suc,try,conf.level=0.6826895)$conf.int},bdf$value,nPriPerE);
-  #ccis <- mapply(function(suc,try){pb$step(); binom.test(suc,try,conf.level=0.6826895)$conf.int},cdf$value,nPriPerE);
-  #pb$term();
-
-  ## multi-core apply, doesn't work, for now... results are the wrong shape, or something.
-  #bcis <- mclapply(bdf$value,function(suc,try){pb$step(); binom.test(suc,try,conf.level=0.6826895)$conf.int},nPriPerE,mc.cores=4);
-  #ccis <- mclapply(cdf$value,function(suc,try){pb$step(); binom.test(suc,try,conf.level=0.6826895)$conf.int},nPriPerE,mc.cores=4);
-
-  bcis <- binomCI(bdf$value,nPriPerE);
-  ccis <- binomCI(cdf$value,nPriPerE);
 
   # convert to cm^2/keV
   norm <- pi*(rDisk1**2-rDisk0**2)*100^2/((e2-e1)*1000.0)/nPriPerE;
@@ -299,27 +208,45 @@ readDRMs_df <- function(fn,nPriPerE=1.0,rDisk1=1.0,rDisk0=0.0){
   x <- data.frame(outE=bdf$X1
                   ,inE=bdf$X2
                   ,ctsB=bdf$value
-                  ,cBmin=bcis[,1]*nPriPerE
-                  ,cBmax=bcis[,2]*nPriPerE
                   ,areaB=bdf$value*norm
-                  ,aBmin=bcis[,1]*nPriPerE*norm
-                  ,aBmax=bcis[,2]*nPriPerE*norm
                   ,ctsC=cdf$value
-                  ,cCmin=ccis[,1]*nPriPerE
-                  ,cCmax=ccis[,2]*nPriPerE
                   ,areaC=cdf$value*norm
-                  ,aCmin=ccis[,1]*nPriPerE*norm
-                  ,aCmax=ccis[,2]*nPriPerE*norm
                   ,outEBinLow=e1
                   ,outEBinHigh=e2);
   attr(x,"nPriPerE") <- nPriPerE;
   attr(x,"rDisk") <- sqrt(rDisk1**2+rDisk0**2)
   attr(x,"rDisk1") <- rDisk1;
   attr(x,"rDisk0") <- rDisk0;
+  attr(x,"norm") <- norm;
+  attr(x,"outEBins") <- outLine;
   x;
 }
 
+addErrorBars_df <- function(df){
+  nPriPerE <- attr(df,"nPriPerE");
+  norm <- attr(df,"norm");
+
+  print("calculating BGO error bars...");
+  bcis <- binomCI(df$ctsB,nPriPerE);
+  print("calculating CZT error bars...");
+  ccis <- binomCI(df$ctsC,nPriPerE);
+  print("done");
+
+  df$cBmin <- bcis[,1]*nPriPerE;
+  df$cBmax <- bcis[,2]*nPriPerE;
+  df$aBmin <- bcis[,1]*nPriPerE*norm;
+  df$aBmax <- bcis[,2]*nPriPerE*norm;
+
+  df$cCmin <- ccis[,1]*nPriPerE;
+  df$cCmax <- ccis[,2]*nPriPerE;
+  df$aCmin <- ccis[,1]*nPriPerE*norm;
+  df$aCmax <- ccis[,2]*nPriPerE*norm;
+
+  df;
+}
+
 lalf <- function(x){y <- x; y[y==0]<-1; y <- log10(y); y[x==0] <- min(y); y};
+
 imageDRM <- function(a,drm){
   p <- ggplot(data=a) + geom_tile(aes(x=inE,y=outE,
                                       #alpha=areaB));
@@ -343,19 +270,19 @@ lineDRM <- function(a,e,justGeom=FALSE,col="black",...){
          ,geom_ribbon(data=a,aes(x=outE,ymin=aBmin,ymax=aBmax),alpha=0.3,fill=col));
   }else{
     #p <- ggplot(data=a) + geom_line(aes(x=outE,y=areaB));
-    p <- ggplot(data=a);
+    p <- ggplot(data=a) + theme_bw();
 
     #print(a);
 
     #p <- p + geom_ribbon(aes(x=outE,ymin=cBmin,ymax=cBmax),alpha=0.3,fill=col);
     #p <- p + geom_line(aes(x=outE,y=ctsB));
-    p <- p + geom_ribbon(aes(x=outE,ymin=aBmin,ymax=aBmax),alpha=0.3,fill=col);
+    #p <- p + geom_ribbon(aes(x=outE,ymin=aBmin,ymax=aBmax),alpha=0.3,fill=col);
     p <- p + geom_line(aes(x=outE,y=areaB),colour=col);
     p <- p + geom_point(data=subset(a,a$areaB>0),aes(x=outE,y=areaB),colour=col);
 
     #p <- p + xlim(1,e*1.2);
     p <- p + scale_x_log10(limits=c(0.01,e*1.2));
-    p <- p + scale_y_log10(limits=range(c(a$areaB[a$areaB>0],a$aBmax)));
+    p <- p + scale_y_log10();
     #p <- p + ylim(0,200);
     
     p <- p + ylab(expression("effective area (cm"^2/"keV)"));
@@ -372,21 +299,86 @@ lineDRM <- function(a,e,justGeom=FALSE,col="black",...){
   }
 }
 
-lineDRM_multi <- function(a,e){
+lineDRM_multi <- function(a,e,geomOnly=FALSE,col='black'){
   ine <- as.real(levels(factor(a$inE)));
 
   e <- ine[findInterval(e,ine)];
 
   a <- subset(a,a$inE %in% e);
 
-  p <- ggplot(data=a) + geom_line(aes(x=outE,y=ctsB,group=inE,color=sprintf("%.2f MeV",inE)));
+  g <- geom_line(data=a,aes(x=outE,y=ctsB,group=inE,color=sprintf("%.2f MeV",inE)));
+
+  p <- ggplot();
   #p <- p + scale_color_brewer();
-  p <- p + scale_color_discrete(name=expression(E[pri]));
+  p <- p + scale_color_manual(values=cbpr,name=expression(E[pri]));
   p <- p + theme_bw();
   p <- p + scale_x_log10();
+  #p <- p + xlim(limits=c(0,5));
+  p <- p + scale_y_log10();
 
-  print(p);
+  p <- p + xlab("Energy deposited (MeV)");
+
+  if(geomOnly){
+    g;
+  }else{
+    p+g;
+  }
 }
+
+# assumes d1 and d2 are subsets of DRM data frames describing same primary energy.
+compareDRMs <- function(d1,d2){
+  range <- c(0.01,1.1*max(d1$outE[d1$ctsB>0],d2$outE[d2$ctsB>0],na.rm=TRUE));
+  #range[1] <- range[2]-0.1;
+  p <- ggplot() + theme_bw();
+  p <- p + geom_line(data=d1,aes(x=outE,y=ctsB),col='black');
+  p <- p + geom_line(data=d2,aes(x=outE,y=ctsB),col='blue');
+  p <- p + scale_x_log10(limits=range);
+  p <- p + scale_y_log10();
+  p <- p + xlab("Energy deposited (MeV)");
+  p;
+}
+
+testInterpBG <- function(df,e){
+  ntrp <- interpolateDRMbg(df,e);
+  e <- ntrp$e;
+  dfs <- subset(df,df$inE==e);
+  p1 <- compareDRMs(dfs,interpDRMtoDF(ntrp));
+  p2 <- drmDiffPlot(dfs,interpDRMtoDF(ntrp));
+  multiplot(p1,p2,cols=1);
+  print(e);
+}
+
+testInterp <- function(df,e){
+  eIn <- unique(df$inE);
+  ei <- findInterval(e,eIn);
+  e1 <- eIn[ei-1];
+  e2 <- eIn[ei+1];
+  e <- eIn[ei];
+  print(c(e1,e2,e));
+  ntrp <- interpolateDRMs(df,e1,e2,e);
+  dfs <- subset(df,df$inE==e);
+  p1 <- compareDRMs(dfs,ntrp);
+  p2 <- drmDiffPlot(dfs,ntrp);
+  multiplot(p1,p2,cols=1);
+  print(e);
+}
+
+drmDiffPlot <- function(d1,d2){
+  diff <- data.frame(outE=d1$outE,dc=d1$ctsB-d2$ctsB,type="delta(ctsB)");
+  diffsig <- data.frame(outE=d1$outE,dc=(d1$ctsB-d2$ctsB)/sqrt(d1$ctsB+1),type="delta(ctsB)/sqrt(ctsB+1)");
+  diff <- rbind(diff,diffsig);
+
+  range <- c(0.01,1.1*max(d1$outE[d1$ctsB>0],d2$outE[d2$ctsB>0],na.rm=TRUE));
+  #range[1] <- range[2]-0.1;
+  p <- ggplot() + theme_bw();
+  p <- p + geom_line(data=diff,aes(x=outE,y=dc),col='black');
+  p <- p + scale_x_log10(limits=range);
+  p <- p + facet_wrap(~ type, ncol=1,scale = "free_y");
+  p <- p + xlab("Energy deposited (MeV)");
+  p <- p + ylab("Difference in ctsB");
+  p;
+}
+  
 
 integrateDRM <- function(a,eIn,eOutMin,eOutMax){
   a <- subset(a,a$inE==eIn);
@@ -436,37 +428,33 @@ totalEffArea <- function(df){
   #print(nPriPerE);
   sumB <- sum(df$ctsB);
   sumC <- sum(df$ctsC);
-  bci <- binomCI(sumB,nPriPerE);
-  cci <- binomCI(sumC,nPriPerE);
+  #bci <- binomCI(sumB,nPriPerE);
+  #cci <- binomCI(sumC,nPriPerE);
 
   x <- df[1,];
   x$outEBinHigh <- df$outEBinHigh[length(df$outEBinHigh)];
   x$outE <- (x$outEBinLow+x$outEBinHigh)/2;
   x$ctsB <- sumB;
-  x$cBmin <- bci[1]*nPriPerE;
-  x$cBmax <- bci[2]*nPriPerE;
+  #x$cBmin <- bci[1]*nPriPerE;
+  #x$cBmax <- bci[2]*nPriPerE;
   x$ctsC <- sumC;
-  x$cCmin <- cci[1]*nPriPerE;
-  x$cCmax <- cci[2]*nPriPerE;
+  #x$cCmin <- cci[1]*nPriPerE;
+  #x$cCmax <- cci[2]*nPriPerE;
   norm <- pi*attr(df,"rDisk")**2*100^2/nPriPerE;
   de <- 1000*(x$outEBinHigh-x$outEBinLow);
   x$areaC <- x$ctsC*norm/de
   x$areaB <- x$ctsB*norm/de
   x$areaCcmsq <- x$ctsC*norm;
   x$areaBcmsq <- x$ctsB*norm;
-  x$aBmin=bci[1]*nPriPerE*norm/de;
-  x$aBmax=bci[2]*nPriPerE*norm/de;
-  x$aCmin=cci[1]*nPriPerE*norm/de;
-  x$aCmax=cci[2]*nPriPerE*norm/de;
+  #x$aBmin=bci[1]*nPriPerE*norm/de;
+  #x$aBmax=bci[2]*nPriPerE*norm/de;
+  #x$aCmin=cci[1]*nPriPerE*norm/de;
+  #x$aCmax=cci[2]*nPriPerE*norm/de;
   x;
 }
 
-combineDRMOutBins <- function(a,ncomb){
-  a$merger <- floor(ncomb:(length(a$outEBinHigh)+ncomb-1)/ncomb);
-  b <- ddply(a,.(merger),totalEffArea,.progress="text");
-  attr(b,"nPriPerE") <- attr(a,"nPriPerE");
-  attr(b,"rDisk") <- attr(a,"rDisk");
-  b;
+combineDRMs <- function(dfs){
+
 }
 
 averageDRMs <- function(drms){
@@ -496,18 +484,6 @@ averageDRMs <- function(drms){
   d;
 }
 
-
-interpolateDRM <- function(a,epri){
-  ine <- as.real(levels(factor(a$inE)));
-  i <- findInterval(e,ine)
-  e1 <- ine[i];
-  e2 <- ine[i+1];
-
-  d1 <- subset(a,a$inE == e1);
-  d2 <- subset(a,a$inE == e2);
-
-}
-
 drmCDF <- function(drm){
   norm <- pi*attr(drm,"rDisk")**2*100.0^2/attr(drm,"nPriPerE");
   data.frame(outE = drm$outE, inE=drm$inE, aB=cumsum(drm$ctsB)*norm, aC=cumsum(drm$ctsC)*norm);
@@ -519,3 +495,128 @@ bgoMat <- function(drm){
   inE <- as.real(levels(factor(drm$inE)));
   matrix(drm$ctsB,nrow=length(outE));
 }
+
+interpolateDRMbg <- function(df,e){
+  inEs <- unique(df$inE);
+  e <- inEs[findInterval(e,inEs)];
+  dfa <- attributes(df);
+  df <- subset(df, df$inE == e); attributes(df) <- dfa;
+  outE <- df$outE;
+  outEb <- attr(df,"outEBins");
+  cts <- df$ctsB;
+  eBinMid <- outE[findInterval(e,outEb)];
+  eBinMin <- outEb[findInterval(e,outEb)];
+
+  me <- 0.510998903;
+  moveLines <- c(e,e-me,e-2*me);
+  statLines <- c(me,2*me);
+
+  lines <- if(e>2*me){c(moveLines,statLines);}else{c(e);}
+
+  mvidxs <- if(e>2*me){c(1,2,3)}else{c(1)};
+  stidxs <- if(e>2*me){c(4,5)}else{c()};
+
+  toDrop <- findInterval(lines,outEb);
+  outEd <- outE[-toDrop];
+  ctsd <- cts[-toDrop];
+  outEdd <- outE[toDrop];
+  ctsdd <- cts[toDrop];
+
+  ctsd <- ctsd[outEd<=eBinMid];
+  outEd <- outEd[outEd<=eBinMid];
+
+  lEmax <- max(outEd);
+  f <- loess(ctsd~outEd,weights=1/(ctsd+1),span=11/length(ctsd),control=loess.control(surface="direct"));
+  #f <- loess(ctsd~outEd,span=11/length(ctsd),control=loess.control(surface="direct"));
+
+
+  bg <- function(oE){
+    ans <- ifelse(oE>eBinMin,0,predict(f,oE));
+    ans[ans<0 | is.na(ans)] <- 0;
+    ans;
+  }
+  peakCts <- ctsdd - bg(lines);
+
+  list(e=e,bg=bg,sl=statLines,slc=peakCts[stidxs],ml=moveLines,mlc=peakCts[mvidxs],outE=outE,outEb=outEb);
+}
+
+interpDRMtoDF <- function(ntrp){
+
+  addLines <- function(lines,lcts,cts){
+    ctr <- 1;
+    for(ee in lines){
+      i <- findInterval(ee,ntrp$outEb);
+      cts[i] <- cts[i] + lcts[ctr];
+      ctr <- ctr + 1;
+    }
+    cts
+  }
+
+  bg <- ntrp$bg(ntrp$outE);
+  ctsB <- addLines(ntrp$sl,ntrp$slc,bg);
+  ctsB <- addLines(ntrp$ml,ntrp$mlc,ctsB);
+
+  data.frame(outE=ntrp$outE,ctsB=ctsB,inE=ntrp$e);
+}
+
+interpolateDRMs_givenE <- function(df,e1,e2,e){
+  i1 <- interpolateDRMbg(df,e1);
+  i2 <- interpolateDRMbg(df,e2);
+  f1 <- i1$bg;
+  f2 <- i2$bg;
+
+  pf1 <- (e2-e)/(e2-e1);
+  pf2 <- 1-pf1;
+
+  bg <- function(oE){
+    x <- oE/e;
+    pf1*f1(x*e1)+pf2*f2(x*e2);
+  }
+
+  outE <- unique(df$outE);
+
+  cbg <- bg(outE);
+
+  outEb <- attr(df,"outEBins");
+
+  addLines <- function(lines,lcts,cts){
+    ctr <- 1;
+    for(ee in lines){
+      i <- findInterval(ee,outEb);
+      cts[i] <- cts[i] + lcts[ctr];
+      ctr <- ctr + 1;
+    }
+    cts
+  }
+  
+  cbg <- addLines(i1$sl,i1$slc*pf1,cbg);
+  cbg <- addLines(i2$sl,i2$slc*pf2,cbg);
+
+  n <- max(length(i1$ml),length(i2$ml));
+  mlines <- pf1*c(i1$ml,rep(0,n-length(i1$ml)))+pf2*c(i2$ml,rep(0,n-length(i2$ml)));
+  mlcts <- pf1*c(i1$mlc,rep(0,n-length(i1$mlc)))+pf2*c(i2$mlc,rep(0,n-length(i2$mlc)));
+
+  cbg <- addLines(mlines,mlcts,cbg)
+
+  dfa <- attributes(df);
+  d <- data.frame(outE=outE,
+                  inE=e,
+                  ctsB=cbg);
+  #attributes(d) <- dfa;
+  d;
+}
+
+interpolateDRMs <- function(df,e){
+  es <- unique(df$inE);
+  if(e<min(es) || e>max(es)){
+    print("out of range!");
+    return(0);
+  }
+  e1 <- es[findInterval(e,es)]
+  e2 <- es[findInterval(e,es)+1]
+  interpolateDRMs_givenE(df,e1,e2,e);
+}
+
+# TODO: convolution of spectrum function with detector response interpolation.
+# TODO: given a spectrum to assume, construct a DRM.
+

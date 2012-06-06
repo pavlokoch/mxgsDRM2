@@ -1,0 +1,12 @@
+﻿grid
+	theta
+		0 15 30 45 60 75 90
+	phi
+		0 30 60 90 120 150 180
+	Ein
+		0.01 to 100 MeV, x
+	
+npri
+	rad 0.6 m (enough to encompass all of MXGS)
+		total effective area 1 cm^2 implies one out of ~11000 hits.
+	therefore should run at least 10^6 primaries

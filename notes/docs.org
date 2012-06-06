@@ -1,0 +1,120 @@
+#+TITLE:     DRM Notes
+#+AUTHOR:    Brant Carlson
+#+EMAIL:     brant.carlson@ift.uib.no
+#+DESCRIPTION: describes detector response matrices and how they are generated
+#+PROPERTY: eval no-export
+#+OPTIONS: ^:{}
+
+#+begin_src R :session s1 :results silent :exports none
+source("../plotData.r");
+#+end_src
+  
+* Introduction
+** Primer on gamma-ray spectra
+Data from particle detectors often needs a great deal of interpretation.  The spectrum measured by a solid state detector for a simple monoenergetic gamma-ray source like Cesium-137, shown in Figure \ref{fig:gammaRaySpect}, can be surprisingly complicated depending on the physics involved.  There are several identifiable features:
+- Full-energy peak :: All of the energy of the incident photon is absorbed within the detector.
+- Compton edge :: The incident photon Compton-scatters $\sim 180^\circ$ within the detector and escapes, the Compton electron deposits all its energy.
+- One-escape peak :: The incident photon pair-produces in the detector, the positron annihilates in the detector, and one of the annihilation photons escapes the detector.
+- Two-escape peak :: The incident photon pair-produces in the detector, the positron annihilates in the detector, and both of the annihilation photons escape the detector.
+- Compton continuum :: The incident photon Compton-scatters at an angle less than $180^\circ$ and escapes, the Compton electron deposits some or all of its energy.
+- Annihilation line :: The incident photon pair-produces somewhere outside the detector, the positron annihilates, and one of the annihilation photons is detected at full energy.
+- Backscatter peak :: The incident photon Compton-scatters at a large angle outside the detector, then enters the detector and deposites all of its energy.
+- X-ray lines :: The incident photon is photoelectrically absorbed outside the detector, ejecting an inner electron from the absorbing atom.  X-rays are emitted as remaining atomic electrons relax to fill the hole left by the ejected electron.  These x-rays can be detected.
+There spectral features will not all appear depending on the energy of the incident photon.  In the case of MXGS, we expect a broad distribution of incident photon energies, meaning the measured spectrum will be a combination of some or all of these spectral features and their variation with energy convolved with the incident photon spectrum.  Perhaps suffice it to say this is a complicated problem made only more complicated by secondary processes like multiple scattering from non-detector mass, simultaneous energy deposition in multiple detector elements, and incident particles other than photons.  The whole problem must also be treated as a function of the direction from which the incident particle arrives.
+
+** Spectrum determination
+Given these complications, it is not generally possibly to determine the incident photon energy spectrum directly from the observed ``counts'' spectrum: the inverse problem cannot be solved.  The best that can be done is to solve the forward problem: predict the observed spectrum that would result from a given incident spectrum.  This can be done by simulating the response of the detector to particles with a variety of energies.  One can then combine these single-energy responses to determine the response of the detector to a spectrum of incident particles.
+
+Typically, this is expressed as a detector response matrix (DRM).  Each row of the matrix represents the likelihood of observing a count at a particular energy as a function of the incident particle energy.  Alternatively, each column of the matrix represents the spectrum of counts observed for a particular incident photon energy.  The response of the detector to a given incident particle spectrum is the simply the matrix-vector product of the DRM with the incident particle spectrum.  This DRM is a function of the incident particle direction and of course particle type.  There are some subtleties, of course, described below, but this is the fundamental outline of the process.  The goal of this document is to simulate the detector response and determine the detector response matrices relevant to MXGS.
+
+This goal breaks down into two main parts: detector simulation (Section \ref{sect:geant}), and detector response matrix construction (Section \ref{sect:processing}).  The technical details of the format and use of the resulting DRMs is described in Section \ref{sect:DRMuse}.
+
+
+* Detector simulations
+The simulation of the response of a particle detector is typically done as a Monte Carlo simulation of incident particles and how they might interact with the detector and its support structure.  These Monte Carlo simulations avoid the difficulties of accurately calculating the extremely complex integrals over incident particle position, possible interaction locations, possible interaction types, possible product particle geometry, possible product particle interactions, ... etc.  Such simulations have a long history in particle physics, and the tools used to construct them are quite mature.  The simulation tool used here is GEANT4, produced by CERN.  GEANT4 has been used for many years, and is used not only for detector simulations but also for particle accelerator design, radiotherapy, and medical physics, and is in general useful whenever energetic particle properties need to be simulated.  A GEANT4 simulation consists of several parts: the relevant laws of physics, the geometry of the simulation, generation of initial energetic particles, and data collection from the ``sensitive'' portions of the geometry (the detector), all tied together in a single program.  Technical details are given in the appendix.
+
+** Relevant laws of physics
+GEANT4 has an extremely flexible notion of ``the laws of physics.''  A simulation can be constructed that handles fictitious particles (the ``geantino'' for example), or uses any number of more realistic models of the familiar physics processes like Compton scattering.  Thankfully, GEANT4 includes many pre-defined ``physics lists'' that combine all of the physics GEANT4 knows about with various approximations suitable for various regimes.  Note that this is both good, as a user has some assurance that GEANT physics resembles real physics, and bad because GEANT often includes too much physics (e.g. photonuclear reactions, decay of the resulting nuclei, etc.) and therefore can run very slowly and give confusing results.  The simulations described in this document use the LHEP physics list, which includes GEANT4's treatment of:
+- photon :: Compton scattering, pair production, and photoelectric effect, with extensions to include photonuclear reactions.
+- lepton :: Multiple scattering, ionization, bremsstrahlung, and annihilation, for electrons, muons, and taus, and their antiparticles, with extension to include electro-nuclear interactions.
+- hadron :: Relevant physics for charged hadrons (protons, neutrons, pions, kaons, deuterons, etc.), and assorted inelastic processes (e.g. pion absorption).
+- decay :: All unstable particles decay with the relevant half-lives, probabilities, and product particles.
+
+
+** Geometry
+GEANT treats the geometry of parts of the simulation as simple solids (cubes, cylinders, tubes, spheres, etc.), combined with boolean operations (union, difference, intersection), the ``constructive solid geometry'' (CSG) approach.  This poses some difficulties, as the parts used for MXGS are designed with Creo Elements/Pro (Pro/Engineer), which uses a surface-based representation of parts, the ``boundary representation'' (BREP) approach.  While BREP is very useful (almost all CAD programs use BREP), there is no simple and efficient way to convert from BREP to CSG for use by GEANT.[fn:1]  As such, it was necessary to manually construct the geometry for GEANT4 from technical drawings of MXGS parts.  This has the decided disadvantage of requiring manual attention whenever the design changes.  Hopefully in the future this problem can be solved.
+
+[fn:1] And not for lack of searching.  There are some commercial conversion tools, but none that take Pro/E files.  There are some non-commercial tools, but none that actually work.  I thought for a while that I could construct a chain from Pro/E to BRLCad to a general output format that I could write a program to convert to a format suitable for GEANT4, but I decided the problem was too complicated.  It is possible to convert from Pro/E to STEP and from STEP to GDML, but the resulting solids are very inefficient.
+
+The geometry of the simulation is described by a series of files written in Geometry Description Markup Language (GDML, file extension .gdml), an XML-based format describing sizes, shapes, positions, and materials of elements of the simulation.  These files were constructed by hand over the series of several weeks.  If this seems like a waste of effort, discussions with the Fermi/GBM have repeatedly suggested that such detailed models of the spacecraft are necessary to ensure accurate simulation results: one small detail may not matter, but taken together, many small details can be quite important.  For example, the housing of a single BGO crystal is an aluminum box several millimeters thick but with thinner triangular-shaped regions milled away to reduce mass while retaining stiffness.  In reality, the thick regions of the box will block low-energy x-rays, while the thin regions will tend to allow such x-rays to pass.  As such, it is not correct to approximate the box as uniformly thick (too many low-energy x-rays blocked), uniformly thin (too few low-energy x-rays blocked), or uniformly intermediate (intermediate amount of x-rays blocked but with the wrong energy dependence).  Details like that may not be relevant in the end, but tending to include too much detail is prudent.
+
+Each GDML file has the following sections
+- define :: Definitions of constants, positions, and rotations.
+- materials :: Definitions of elements and mixtures used to fill detector volumes.
+- solids :: Definitions and combinations of shapes to define volumes.
+- structure :: Definitions of volumes for simulation, which link solids to materials, and physical volumes, which link volumes to positions and rotations.
+- setup :: Identifies the ``world volume'' for the GDML file, within which all simulation will take place.
+
+GDML files can include each other, so the overall structure is as follows:
+- columbus.gdml :: geometry of the Columbus module, includes asim.gdml and aces.gdml
+- asim.gdml :: includes mmia.gdml and mxgs.gdml
+- mxgs.gdml :: geometry of the outer structer of MXGS, includes codedMask.gdml and instrument.gdml
+- instrument.gdml :: geometry of the shielding box, includes bgo.gdml and czt.gdml
+- aces.gdml :: includes a crude model of the ACES instrument.
+- codedMask.gdml :: generated by code in makeCM.py, describes the geometry of the tungsten shield in the coded mask.
+- bgo.gdml :: geometry of the BGO detectors, including support structure.
+- czt.gdml :: geometry of the CZT detectors, including support structure.
+
+The drawings used to construct these files are current up to early 2012, with the exception of some of the new thermal and support structure.
+
+The geometry used in the simulations is shown in Figure \ref{fig:geom}.
+
+** Primary particle generation
+The primary particles to be simulated in this geometry are produced in a beam, incident from a given direction, centered on the detector.  The coordinate system used for the simulations has polar angle $\theta$ and azimuthal angle $\phi$, with $\theta=0^\circ$ corresponding to particles incident from directly below the space station (i.e. directly into MXGS).  $\theta=90^\circ$, $\phi=90^\circ$ points toward Columbus.
+
+This raises several questions: what initial directions should be used, and how wide should the beam be made?  I don't have good answers yet, this section is unfinished.  The initial directions are chosen over a grid with resolution TBD.  
+
+** Detector response simulation
+Given physics, geometry, and a population of initial particles, the simulation can proceed.  As the simulation executes, a particle may be detected if it interacts within the sensitive volume of the detector (i.e. within the BGO bar or CZT wafer volumes).  Such an interaction will deposit a certain amount of energy in the detector, and the detectors are designed to produce a signal dependent on this energy deposition.  The conversion of energy deposition to signal strength is not straightforward, however.  In the case of BGO, the position of the energy deposition will determine the efficiency for scintillation photons to make their way to the photomultiplier tube, while in the CZT layer, the position of the energy deposition may fall on a boundary between multiple pixels.  For simplicity, we ignore the details of the physics connecting energy deposition to signal strength and simply record energy deposition.  In keeping with the framework described above of a single detector response matrix, we also sum all the energy deposition due to a single incident particle within the BGO and CZT layers.  In other words, if an incident high-energy photon pair produces in a CZT wafer, there will be multiple energy deposition events as the electron and positron propagate out of the CZT wafer, and possibly multiple energy deposition events in multiple the BGO bars as the electron, positron, and/or annihilation photons are absorbed.  In the simulation, such a process results in two numbers, the total energy deposited in the CZT wafers and the total energy deposited in the BGO bars.
+
+As the simulation continues, many primary particles are simulated, producing many CZT and BGO energy deposition events.  These events are recorded and will be used to construct the detector response matrix.
+
+** Simulation control
+The structure described above is held together by the main simulation program, mxgsDRM.cc.  This program takes a variety of parameters determining the simulation to be executed:
+
+#+begin_src sh :exports code
+./mxgsDRM interactive(0|1) priPDGID(22,11,-11,...) nPriPerE priStartDiskRad(m) priStartDiskRad0(m) theta(deg) phi(deg) Emin(MeV) Emax(MeV) numEnergies outEMin outEMax outNumE outputfileName  ...rest of arguments written as comment to output file...
+#+end_src
+
+- interactive :: 0 for automatic run, 1 to be given a prompt to issue visualization and simulation commands via the GEANT4 command line.
+- priPGDID :: PDG identified for the primary particle (22 for photons, 11 for electrons, -11 for positrons, etc.).
+- nPriPerE :: number of primary particles per initial energy bin.
+- priStartDiskRad :: maximum radius of beam of incident particles in meters, typically 0.6 m.
+- priStartDiskRad0 :: minimum radius of beam of incident particles in meters, typically 0.0 m.
+- theta :: polar angle from front of mxgs in degrees for all primary particles.
+- phi :: azimuthal angle from side of mxgs in degrees for all primary particles.
+- Emin, Emax :: limits of logarithmic initial energy grid in MeV.
+- numEnergies :: number of initial energies to use in logarithmic initial energy grid.  For example, Emin = 0.1, Emax = 10, numEnergies = 3 will produce a grid with energies at 0.1, 1, and 1 MeV.
+- outEMin, outEMax, outNumE :: limits and number of bins in histogram of energy deposition events in CZT and BGO layers.
+- outputfileName :: name of output file to write histograms.
+
+The main program constructs the physics and geometry of the simulation, then produces particles in a beam with the specified geometry.  nPriPerE primary particles are produced at each primary energy, and for each primary energy, two histograms counting energy deposition events (CZT and BGO) are accumulated and written to the output file. 
+		 
+In order to achieve an accurate estimate of the detector response matrix, these histograms must each have many events, several thousand at a minimum.  As a beam of particles large enough to encompass MXGS, MMIA, ACES, and some of Columbus must be at least 1 m in radius, many particles will not reach the sensitive volume of the detector.  As such, around $10^6$ initial particles must be simulated at each primary energy (nPriPerE = $10^6$).  Given a grid of many initial energies, many millions of initial particles must be simulated in order to construct a single DRM.  As the DRM depends on the direction and identity of the initial particles, many DRMs must be created.  These simulations therefore take quite a large amount of computer time.  As a bare minimum, only running $5\times 10^5$ initial particles per primary energy at a grid of $\theta$ with $15^\circ$ resolution from $0^\circ$ to $90^\circ$ (7 $\theta$s) and $\phi$ with 30 degree resolution from $0^\circ$ to $180^\circ$ (7 $\phi$s) and a logarithmic grid in energy from 10 keV to 100 MeV with 41 points, just over $10^9$ primary particles must be simulated.  Test simulations on desktop computers run at an average rate of $\sim 500$ primary particles per second, so this minimal run corresponds to $\sim 20$ CPU-days of computer time.
+
+These lengthy run times means running on a supercomputer is beneficial, and thankfully the structure of the simulations poses no obstacle to such simulations.  The supercomputer in question is fimm.bccs.uib.no, an 800-core cluster used for a variety of projects.  Running a simulation on such a supercomputer entails writing scripts to submit to the job queue.  Here these scripts are automatically generated by the program makePBS.py.  Changing the parameters in makePBS.py produces a set of .pbs files that can be submitted to the queue.  Once submitted, the scripts ensure that the output is placed in a directory of results, ready for processing once the jobs complete.  There are a lot of details here that I'm skipping over (copying the simulation to fimm, compiling GEANT on fimm, compiling the simulation on fimm, ensuring the environment is set correctly, submitting the scripts, etc.), but that describes the overall process.
+
+  
+* GEANT output processing
+As described above, the output of the main simulation program is a file containing two sets of histograms, one set of BGO histograms and one set of CZT histograms.  Each histogram describes the number of energy deposition events per energy deposition bin as a function of deposited energy for a single primary energy.  These energy deposition histograms are converted into columns of the detector response matrix.
+
+
+
+* DRM format/usage
+
+
+** subsection
+#+begin_src R :session s1 :results output graphics :file 03_03_2012_calibration/spectra.png :width 800 :height 480 :exports both
+# code goes here.
+#+end_src
+
