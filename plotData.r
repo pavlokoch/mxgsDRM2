@@ -540,63 +540,57 @@ interpolateDRMbg <- function(df,e){
   list(e=e,bg=bg,sl=statLines,slc=peakCts[stidxs],ml=moveLines,mlc=peakCts[mvidxs],outE=outE,outEb=outEb);
 }
 
-interpDRMtoDF <- function(ntrp){
-
-  addLines <- function(lines,lcts,cts){
-    ctr <- 1;
-    for(ee in lines){
-      i <- findInterval(ee,ntrp$outEb);
-      cts[i] <- cts[i] + lcts[ctr];
-      ctr <- ctr + 1;
-    }
-    cts
+addLines <- function(outEb,lines,lcts,cts){
+  ctr <- 1;
+  for(ee in lines){
+    i <- findInterval(ee,outEb);
+    cts[i] <- cts[i] + lcts[ctr];
+    ctr <- ctr + 1;
   }
+  cts
+}
 
+interpDRMtoDF <- function(ntrp){
   bg <- ntrp$bg(ntrp$outE);
-  ctsB <- addLines(ntrp$sl,ntrp$slc,bg);
-  ctsB <- addLines(ntrp$ml,ntrp$mlc,ctsB);
+  ctsB <- addLines(ntrp$outEb,ntrp$sl,ntrp$slc,bg);
+  ctsB <- addLines(ntrp$outEb,ntrp$ml,ntrp$mlc,ctsB);
 
   data.frame(outE=ntrp$outE,ctsB=ctsB,inE=ntrp$e);
+}
+
+interpolateH_bg <- function(i1,i2,e){
+  f1 <- i1$bg;
+  f2 <- i2$bg;
+  oE <- i1$outE;
+
+  pf1 <- (i2$e-e)/(i2$e-i1$e);
+  pf2 <- 1-pf1;
+
+  x <- oE/e;
+  pf1*f1(x*i1$e)+pf2*f2(x*i2$e);
 }
 
 interpolateDRMs_givenE <- function(df,e1,e2,e){
   i1 <- interpolateDRMbg(df,e1);
   i2 <- interpolateDRMbg(df,e2);
-  f1 <- i1$bg;
-  f2 <- i2$bg;
 
   pf1 <- (e2-e)/(e2-e1);
   pf2 <- 1-pf1;
 
-  bg <- function(oE){
-    x <- oE/e;
-    pf1*f1(x*e1)+pf2*f2(x*e2);
-  }
+  cbg <- interpolateH_bg(i1,i2,e);
 
-  outE <- unique(df$outE);
-
-  cbg <- bg(outE);
+  outE <- i1$outE;
 
   outEb <- attr(df,"outEBins");
-
-  addLines <- function(lines,lcts,cts){
-    ctr <- 1;
-    for(ee in lines){
-      i <- findInterval(ee,outEb);
-      cts[i] <- cts[i] + lcts[ctr];
-      ctr <- ctr + 1;
-    }
-    cts
-  }
   
-  cbg <- addLines(i1$sl,i1$slc*pf1,cbg);
-  cbg <- addLines(i2$sl,i2$slc*pf2,cbg);
+  cbg <- addLines(outEb,i1$sl,i1$slc*pf1,cbg);
+  cbg <- addLines(outEb,i2$sl,i2$slc*pf2,cbg);
 
   n <- max(length(i1$ml),length(i2$ml));
   mlines <- pf1*c(i1$ml,rep(0,n-length(i1$ml)))+pf2*c(i2$ml,rep(0,n-length(i2$ml)));
   mlcts <- pf1*c(i1$mlc,rep(0,n-length(i1$mlc)))+pf2*c(i2$mlc,rep(0,n-length(i2$mlc)));
 
-  cbg <- addLines(mlines,mlcts,cbg)
+  cbg <- addLines(outEb,mlines,mlcts,cbg)
 
   dfa <- attributes(df);
   d <- data.frame(outE=outE,
@@ -617,6 +611,87 @@ interpolateDRMs <- function(df,e){
   interpolateDRMs_givenE(df,e1,e2,e);
 }
 
+drmConvolver <- function(df){
+  inEs <- unique(df$inE);
+  ntrps <- lapply(inEs,function(e){interpolateDRMbg(df,e)})
+  outE <- ntrps[[1]]$outE;
+  outEb <- ntrps[[1]]$outEb;
+  bgs <- lapply(ntrps,function(ntrp){ntrp$bg(outE)});
+
+  linBSL <- function(e){
+    j1 <- findInterval(e,inEs);
+    j2 <- j1+1;
+    bg <- interpolateH_bg(ntrps[[j1]],ntrps[[j2]],e);
+    lns <- ntrps[[j2]]$sl;
+    if(length(lns)>0){
+      p1 <- (inEs[j2]-e)/(inEs[j2]-inEs[j1]); p2 <- 1-p1;
+      lcts <- p1*ntrps[[j1]]$slc + p2*ntrps[[j2]]$slc;
+      addLines(outEb,lns,lcts,bg);
+    }else{
+      bg;
+    }
+  }
+
+  bslConv <- function(e1,e2,sf){ #background and static line convolution
+    oEs <- outE[outE>=e1 & outE<=e2];
+    bwds <- diff(outEb)[outE>=e1 & outE<=e2];
+    wts <- sf(oEs)*bwds;
+    wts <- wts/sum(wts); 
+    bg <- Reduce(function(v,i){v + linBSL(oEs[i])*wts[i]}, seq(length(oEs)),rep(0,length(outE)));
+  }
+
+  mlConv <- function(e1,e2,sf){ #spectral line contribution to convolution
+    poEs <- outE[outE>=e1 & outE<=e2];
+    pbwds <- diff(outEb)[outE>=e1 & outE<=e2];
+    oEs <- outE;
+    bwds <- diff(outEb);
+    wts <- sf(oEs);
+    wts <- wts/sum(wts); 
+
+    #sapply here simplifies down to a matrix, i.e. mlm[,1]= ntrps[[1]]$ml
+    i1 <- findInterval(e1,inEs);
+    i2 <- findInterval(e2,inEs)+1;
+    mlm <- sapply(ntrps[i1:i2],function(xx)c(xx$ml,rep(0,3-length(xx$ml))));
+    mlcm <- sapply(ntrps[i1:i2],function(xx)c(xx$mlc,rep(0,3-length(xx$mlc))));
+
+    fs <- lapply(1:nrow(mlm),function(i){approxfun(mlm[i,],mlcm[i,],yleft=0,yright=0)});
+
+    me <- 0.510998903;
+    f1 <- function(e){fs[[1]](e)*(e>e1 & e<e2)*sf(e)};
+    f2 <- function(e){fs[[2]](e)*(e+me>e1 & e+me<e2)*sf(e+me)};
+    f3 <- function(e){fs[[3]](e)*(e+2*me>e1 & e+2*me<e2)*sf(e+2*me)};
+
+    n1 <- sum(sf(oEs)*(oEs>e1 & oEs<e2));
+    n2 <- sum(sf(oEs+me)*(oEs+me>e1 & oEs+me<e2));
+    n3 <- sum(sf(oEs+2*me)*(oEs+2*me>e1 & oEs+2*me<e2));
+
+    (f1(oEs)/n1+f2(oEs)/n2+f3(oEs)/n3)*bwds;
+    # TODO: properly normalized?
+  }
+
+  function(e1,e2,sf){
+    bslConv(e1,e2,sf)+mlConv(e1,e2,sf);
+  }
+}
+
+makeDRM <- function(dCr,spect,inEBins){
+  elow <- head(inEBins,-1);
+  ehigh <- tail(inEBins,-1);
+  mapply(dCr,elow,ehigh,MoreArgs=list(spect));
+}
+  
+
 # TODO: convolution of spectrum function with detector response interpolation.
+drmConvolution <- function(df,e1,e2,f){
+  oE <- unique(df$outE);
+  oEd <- oE[oE>=e1 & oE<=e2];
+  wts <- f(oEd);
+  wts <- wts/sum(wts);
+
+  svs <- mapply(function(oe,wt){print(oe); interpolateDRMs(df,oe)$ctsB*wt;}, oEd, wts, SIMPLIFY=FALSE);
+  ctsB <- Reduce("+",svs,rep(0,length(svs[[1]])));
+  data.frame(outE=oE,inE=sum(oEd*wts),ctsB=ctsB);
+}
+
 # TODO: given a spectrum to assume, construct a DRM.
 
