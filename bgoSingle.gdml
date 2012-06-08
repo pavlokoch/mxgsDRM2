@@ -253,7 +253,7 @@
 
     <box name="bgoBox_end_b" lunit="mm" x="bgoBox_wx" y="bgoBox_end_t" z="bgoBox_wz"/>
 
-    <box name="bgo_b" lunit="mm" x="bgoBox_wx - 10" y="bgoBox_side_l" z="bgoBox_wz - 10"/>
+    <box name="bgo_b" lunit="mm" x="bgoBox_wx - 10 - 2" y="bgoBox_side_l - 2" z="bgoBox_wz - 10 - 2.5"/>
 
   </solids>
 
