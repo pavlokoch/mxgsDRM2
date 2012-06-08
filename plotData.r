@@ -18,7 +18,7 @@ plotAngleDRMs <- function(plotDRMFunc,fullEnergy=FALSE,breaks=seq(90,180,length.
   fnames <- c("test_22_1e+02.db","test_30.db","test_0.3.db","test_0.1.db","test_1.db","test_10.db","test_3.db");
   ees <- c(100,30,0.3,0.1,1,10,3);
   add<-FALSE;
-  for(i in seq(length(fnames))){
+  for(i in seq_along(fnames)){
     fn <- fnames[i];
     ee <- ees[i];
     r <- readDRM(fn,fullEnergy);
@@ -171,6 +171,10 @@ binomCI <- function(x,n,conf.lev=0.6826895){
   matrix(c(p.L(x, alpha), p.U(x, alpha)),ncol=2);
 }
 
+sumRowGroupsMat <- function(nRows,nGrp){
+  outer(seq(nRows/nGrp),seq(nRows),function(i,j){ifelse(j/nGrp-i<=0 & j/nGrp-i>-1,1,0)});
+}
+
 # effective areas measured in cm^2/keV
 readDRMs_df <- function(fn,nPriPerE=1.0,rDisk1=1.0,rDisk0=0.0,combineOutBins=1){
   f <- file(fn,"rt");
@@ -186,7 +190,7 @@ readDRMs_df <- function(fn,nPriPerE=1.0,rDisk1=1.0,rDisk0=0.0,combineOutBins=1){
   bdf <- t(data.matrix(subset(a,a$V1=="BGO")[,-1]));
   cdf <- t(data.matrix(subset(a,a$V1=="CZT")[,-1]));
 
-  combMat <- outer(seq(dim(bdf)[1]/combineOutBins),seq(dim(bdf)[1]),function(i,j){ifelse(j/combineOutBins-i<=0 & j/combineOutBins-i>-1,1,0)});
+  combMat <- sumRowGroupsMat(dim(bdf)[1],combineOutBins);
 
   bdf <- combMat %*% bdf;
   cdf <- combMat %*% cdf;
@@ -623,9 +627,9 @@ drmConvolver <- function(df){
     j2 <- j1+1;
     bg <- interpolateH_bg(ntrps[[j1]],ntrps[[j2]],e);
     lns <- ntrps[[j2]]$sl;
-    if(length(lns)>0){
+    if(length(ntrps[[j2]]$slc)>0){
       p1 <- (inEs[j2]-e)/(inEs[j2]-inEs[j1]); p2 <- 1-p1;
-      lcts <- p1*ntrps[[j1]]$slc + p2*ntrps[[j2]]$slc;
+      lcts <- p1*c(ntrps[[j1]]$slc,rep(0,2-length(ntrps[[j1]]$slc))) + p2*ntrps[[j2]]$slc;
       addLines(outEb,lns,lcts,bg);
     }else{
       bg;
@@ -637,7 +641,7 @@ drmConvolver <- function(df){
     bwds <- diff(outEb)[outE>=e1 & outE<=e2];
     wts <- sf(oEs)*bwds;
     wts <- wts/sum(wts); 
-    bg <- Reduce(function(v,i){v + linBSL(oEs[i])*wts[i]}, seq(length(oEs)),rep(0,length(outE)));
+    bg <- Reduce(function(v,i){v + linBSL(oEs[i])*wts[i]}, seq_along(oEs),rep(0,length(outE)));
   }
 
   mlConv <- function(e1,e2,sf){ #spectral line contribution to convolution
@@ -657,29 +661,50 @@ drmConvolver <- function(df){
     fs <- lapply(1:nrow(mlm),function(i){approxfun(mlm[i,],mlcm[i,],yleft=0,yright=0)});
 
     me <- 0.510998903;
-    f1 <- function(e){fs[[1]](e)*(e>e1 & e<e2)*sf(e)};
-    f2 <- function(e){fs[[2]](e)*(e+me>e1 & e+me<e2)*sf(e+me)};
-    f3 <- function(e){fs[[3]](e)*(e+2*me>e1 & e+2*me<e2)*sf(e+2*me)};
+    f1 <- fs[[1]](oEs)*(oEs>e1 & oEs<e2)*sf(oEs);
+    f2 <- fs[[2]](oEs)*(oEs+me>e1 & oEs+me<e2)*sf(oEs+me);
+    f3 <- fs[[3]](oEs)*(oEs+2*me>e1 & oEs+2*me<e2)*sf(oEs+2*me);
 
     n1 <- sum(sf(oEs)*(oEs>e1 & oEs<e2));
     n2 <- sum(sf(oEs+me)*(oEs+me>e1 & oEs+me<e2));
     n3 <- sum(sf(oEs+2*me)*(oEs+2*me>e1 & oEs+2*me<e2));
 
-    (f1(oEs)/n1+f2(oEs)/n2+f3(oEs)/n3)*bwds;
-    # TODO: properly normalized?
+    print(c(n1,n2,n3));
+    print(c(max(f1),max(f2),max(f3)));
+
+    
+    a1 <- if(n1>0){f1/n1}else{0};
+    a2 <- if(n2>0){f2/n2}else{0};
+    a3 <- if(n3>0){f3/n3}else{0};
+
+    # TODO: doublecheck normalization.
+    a1+a2+a3;
   }
 
-  function(e1,e2,sf){
-    bslConv(e1,e2,sf)+mlConv(e1,e2,sf);
-  }
+  list(f=function(e1,e2,sf){ bslConv(e1,e2,sf)+mlConv(e1,e2,sf); },
+       fb=function(e1,e2,sf)bslConv(e1,e2,sf),
+       fm=function(e1,e2,sf)mlConv(e1,e2,sf),
+       inE = inEs,
+       outE = outE,
+       outEb = outEb);
 }
 
-makeDRM <- function(dCr,spect,inEBins){
+rebinDRMMat <- function(eInb,eOutb){
+  eInbl <- head(eInb,-1);
+  eInbu <- tail(eInb,-1);
+  eOutbl <- head(eOutb,-1);
+  eOutbu <- tail(eOutb,-1);
+  outer(seq_along(eOutbl),seq_along(eInbl),
+        function(i,j)pmax(0,(pmin(eInbu[j],eOutbu[i])-pmax(eInbl[j],eOutbl[i]))/(eInbu[j]-eInbl[j])));
+}
+
+makeDRM <- function(dCr,spect,inEBins,outEBins){
   elow <- head(inEBins,-1);
   ehigh <- tail(inEBins,-1);
-  mapply(dCr,elow,ehigh,MoreArgs=list(spect));
+  mat <- mapply(dCr$f,elow,ehigh,MoreArgs=list(spect));
+  rebinMat <- rebinDRMMat(dCr$outEb,outEBins);
+  rebinMat %*% mat;
 }
-  
 
 # TODO: convolution of spectrum function with detector response interpolation.
 drmConvolution <- function(df,e1,e2,f){
