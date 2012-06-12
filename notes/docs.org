@@ -109,6 +109,8 @@ These lengthy run times means running on a supercomputer is beneficial, and than
 As described above, the output of the main simulation program is a file containing two sets of histograms, one set of BGO histograms and one set of CZT histograms.  Each histogram describes the number of energy deposition events per energy deposition bin as a function of deposited energy for a single primary energy.  These energy deposition histograms are converted into columns of the detector response matrix.
 
 
+** Technical details
+The manipulations and processing described above are written in R, a language typically used for statistical computing and visualization.  The file plotData.r includes functions to read the output from GEANT, smooth histograms, interpolate between smoothed histograms, convolve spectra with detector response, and make plots.  The file is heavily commented and should be self-explanatory given the above description.
 
 * DRM format/usage
 
