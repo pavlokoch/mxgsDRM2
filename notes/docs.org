@@ -22,6 +22,11 @@ Data from particle detectors often needs a great deal of interpretation.  The sp
 - X-ray lines :: The incident photon is photoelectrically absorbed outside the detector, ejecting an inner electron from the absorbing atom.  X-rays are emitted as remaining atomic electrons relax to fill the hole left by the ejected electron.  These x-rays can be detected.
 There spectral features will not all appear depending on the energy of the incident photon.  In the case of MXGS, we expect a broad distribution of incident photon energies, meaning the measured spectrum will be a combination of some or all of these spectral features and their variation with energy convolved with the incident photon spectrum.  Perhaps suffice it to say this is a complicated problem made only more complicated by secondary processes like multiple scattering from non-detector mass, simultaneous energy deposition in multiple detector elements, and incident particles other than photons.  The whole problem must also be treated as a function of the direction from which the incident particle arrives.
 
+#+CAPTION: Sample gamma-ray spectra, here from an Americium-Beryllium neutron source measured with a Germanium detector.  Various features are speculatively labeled, but many more are visible.
+#+LABEL: fig:gammaRaySpect
+[[./Am-Be-SourceSpectrum.jpg]]
+
+
 ** Spectrum determination
 Given these complications, it is not generally possibly to determine the incident photon energy spectrum directly from the observed ``counts'' spectrum: the inverse problem cannot be solved.  The best that can be done is to solve the forward problem: predict the observed spectrum that would result from a given incident spectrum.  This can be done by simulating the response of the detector to particles with a variety of energies.  One can then combine these single-energy responses to determine the response of the detector to a spectrum of incident particles.
 
@@ -31,6 +36,7 @@ This goal breaks down into two main parts: detector simulation (Section \ref{sec
 
 
 * Detector simulations
+\label{sect:geant}
 The simulation of the response of a particle detector is typically done as a Monte Carlo simulation of incident particles and how they might interact with the detector and its support structure.  These Monte Carlo simulations avoid the difficulties of accurately calculating the extremely complex integrals over incident particle position, possible interaction locations, possible interaction types, possible product particle geometry, possible product particle interactions, ... etc.  Such simulations have a long history in particle physics, and the tools used to construct them are quite mature.  The simulation tool used here is GEANT4, produced by CERN.  GEANT4 has been used for many years, and is used not only for detector simulations but also for particle accelerator design, radiotherapy, and medical physics, and is in general useful whenever energetic particle properties need to be simulated.  A GEANT4 simulation consists of several parts: the relevant laws of physics, the geometry of the simulation, generation of initial energetic particles, and data collection from the ``sensitive'' portions of the geometry (the detector), all tied together in a single program.  Technical details are given in the appendix.
 
 ** Relevant laws of physics
@@ -69,6 +75,11 @@ The drawings used to construct these files are current up to early 2012, with th
 
 The geometry used in the simulations is shown in Figure \ref{fig:geom}.
 
+#+CAPTION: view of the geometry as used in GEANT.
+#+LABEL: fig:geom
+[[./freewrlsnap.png]]
+
+
 ** Primary particle generation
 The primary particles to be simulated in this geometry are produced in a beam, incident from a given direction, centered on the detector.  The coordinate system used for the simulations has polar angle $\theta$ and azimuthal angle $\phi$, with $\theta=0^\circ$ corresponding to particles incident from directly below the space station (i.e. directly into MXGS).  $\theta=90^\circ$, $\phi=90^\circ$ points toward Columbus.
 
@@ -83,7 +94,11 @@ As the simulation continues, many primary particles are simulated, producing man
 The structure described above is held together by the main simulation program, mxgsDRM.cc.  This program takes a variety of parameters determining the simulation to be executed:
 
 #+begin_src sh :exports code
-./mxgsDRM interactive(0|1) priPDGID(22,11,-11,...) nPriPerE priStartDiskRad(m) priStartDiskRad0(m) theta(deg) phi(deg) Emin(MeV) Emax(MeV) numEnergies outEMin outEMax outNumE outputfileName  ...rest of arguments written as comment to output file...
+./mxgsDRM interactive(0|1) priPDGID(22,11,-11,...) \
+    nPriPerE priStartDiskRad(m) priStartDiskRad0(m) \
+    theta(deg) phi(deg) Emin(MeV) Emax(MeV) numEnergies \
+    outEMin outEMax outNumE outputfileName  \
+    ...rest of arguments written as comment to output file...
 #+end_src
 
 - interactive :: 0 for automatic run, 1 to be given a prompt to issue visualization and simulation commands via the GEANT4 command line.
@@ -110,6 +125,7 @@ These lengthy run times means running on a supercomputer is beneficial, and than
 
   
 * GEANT output processing
+\label{sect:processing}
 As described above, the output of the main simulation program is a file containing two sets of histograms, one set of BGO histograms and one set of CZT histograms.  Each histogram describes the number of energy deposition events per energy deposition bin as a function of deposited energy for a single primary energy.  These histograms need to be processed to become a true detector response matrix.
 
 First, the histograms must be interpreted in the context of the simulation.  The $i$th entry of a histogram, $N_i$, refers to the number of times a total energy was deposited in the sensitive detector between $E^\mathrm{dep}_i$ and $E^\mathrm{dep}_{i+1}$ (i.e. $E^\mathrm{dep}_i$ are the bin boundaries of the histogram).  $N_i$ can be converted to an effective area by dividing by the total number of primary particles simulated and multiplying by the area over which those primaries were spread: $A^\mathrm{eff}_i = \frac{N_i}{n_\mathrm{pri}}*\pi*r_\mathrm{pri}^2$.  This effective area is a function of both the position and the size of the energy deposition bin in question, and typically the size of the energy bin is divided out: $\frac{dA^\mathrm{eff}(E^\mathrm{dep})}{dE^\mathrm{dep}} = A^\mathrm{eff}/(E^\mathrm{dep}_{i+1} - E^\mathrm{dep}_{i})$.  Since this process applies to the histograms generated for each primary energy $E^\mathrm{pri}$, the results can be seen as a function also of $E^\mathrm{pri}$: $\frac{dA^\mathrm{eff}(E^\mathrm{dep},E^\mathrm{pri})}{dE^\mathrm{dep}}$.
@@ -139,18 +155,13 @@ The smoothed single histograms described above only capture the response of the 
 
 The continuum interpolation cannot be done with a typical bilinear method, since bilinear interpolation cannot capture a sharp cutoff that is not aligned to the grid such as the requirement that the maximum energy that can be deposited is the energy of the primary.  As such, the interpolation scheme used here is a weighted average of the two histograms with their energy deposition axes scaled such that the full energy peaks align.  More mathematically, if $f_1(E^\mathrm{dep})$ and $f_2(E^\mathrm{dep})$ are the smoothed estimates of the continuum for two nearby primary energies $E_1^\mathrm{pri}$ and $E_2^\mathrm{pri}$, the estimate of the continuum at an intermediate energy $E^\mathrm{pri}$ is
 \begin{equation}
-f(E^\mathrm{dep}) = 
-f_1(\frac{E^\mathrm{dep} E_1^\mathrm{pri}}{E^\mathrm{pri}})
-  \frac{E_2^\mathrm{pri}-E^\mathrm{pri}}{E_2^\mathrm{pri}-E_1^\mathrm{pri}} 
-+ 
-f_2(\frac{E^\mathrm{dep} E_2^\mathrm{pri}}{E^\mathrm{pri}})
-  \frac{E^\mathrm{pri}-E_1^\mathrm{pri}}{E_2^\mathrm{pri}-E_1^\mathrm{pri}}
+f(E^\mathrm{dep}) = f_1(\frac{E^\mathrm{dep} E_1^\mathrm{pri}}{E^\mathrm{pri}}) \frac{E_2^\mathrm{pri}-E^\mathrm{pri}}{E_2^\mathrm{pri}-E_1^\mathrm{pri}} + f_2(\frac{E^\mathrm{dep} E_2^\mathrm{pri}}{E^\mathrm{pri}}) \frac{E^\mathrm{pri}-E_1^\mathrm{pri}}{E_2^\mathrm{pri}-E_1^\mathrm{pri}}
 \end{equation}
 This essentially interpolates between the two continua along lines radiating out from the origin.
 
 The counts in spectral lines can simply be linearly interpolated.
 
-This interpolation can be tested by interpolating from to the histogram for a known $E^\mathrm{pri}$ from the histograms from flanking $E^\mathrm{pri}$s.  A sample is shown in Figure \ref{fig:sampleInterpTest}.  Though there may seem to be some systematic offsets near full energy, the significance of those offsets is minimal as seen in the bottom panel, and note also that in the actual DRM calculations, the interpolation will be only between neigboring $E^\mathrm{pri}$, not over the longer interval in the figure as was done solely for confirmation of the interpolation technique.
+This interpolation can be tested by interpolating from to the histogram for a known $E^\mathrm{pri}$ from the histograms from flanking values of $E^\mathrm{pri}$.  A sample is shown in Figure \ref{fig:sampleInterpTest}.  Though there may seem to be some systematic offsets near full energy, the significance of those offsets is minimal as seen in the bottom panel, and note also that in the actual DRM calculations, the interpolation will be only between neigboring $E^\mathrm{pri}$, not over the longer interval in the figure as was done solely for confirmation of the interpolation technique.
 
 #+CAPTION: Top panel: Energy deposition histogram for 3.98 MeV photons at normal incidence on the BGO detector (black), compared to an interpolation to the histogram for 3.98 MeV photons based on histograms for 3.16 MeV and 5.01 MeV primary photons (blue).  The bottom panels show the results of subtracting the interpolated histogram from the original, both in absolute counts and in standard deviations.
 #+LABEL: fig:sampleInterpTest
@@ -193,6 +204,7 @@ All of the analysis described above can be repeated for each simulated primary p
 The manipulations and processing described above are written in R, a language typically used for statistical computing and visualization.  The file plotData.r includes functions to read the output from GEANT, smooth histograms, interpolate between smoothed histograms, convolve spectra with detector response, and make plots.  The file is heavily commented and should be self-explanatory given the above description.
 
 * DRM format/usage
+\label{sect:DRMuse}
 A detector response matrix as simulated, smoothed, interpolated, convolved, and normalized as described above, is thankfully straightforward to use.  The DRM in question has associated $E^\mathrm{pri}$ and $E^\mathrm{dep}$ bins.  The desired primary spectrum is integrated over $E^\mathrm{pri}$ bins, giving a vector of fluence in each primary energy bin (counts per area in each bin).  The DRM (in cm$^2$) is then multiplied by this vector, giving the predicted counts in each $E^\mathrm{dep}$ bin.  These deposited energy counts can be directly compared to the measured counts.
 
 
