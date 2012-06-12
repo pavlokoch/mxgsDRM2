@@ -98,7 +98,11 @@ The structure described above is held together by the main simulation program, m
 - outEMin, outEMax, outNumE :: limits and number of bins in histogram of energy deposition events in CZT and BGO layers.
 - outputfileName :: name of output file to write histograms.
 
-The main program constructs the physics and geometry of the simulation, then produces particles in a beam with the specified geometry.  nPriPerE primary particles are produced at each primary energy, and for each primary energy, two histograms counting energy deposition events (CZT and BGO) are accumulated and written to the output file. 
+The main program constructs the physics and geometry of the simulation, then produces particles in a beam with the specified geometry.  nPriPerE primary particles are produced at each primary energy, and for each primary energy, two histograms counting energy deposition events (CZT and BGO) are accumulated and written to the output file.  Sample energy deposition histograms are shown in Figure \ref{fig:sampleHistograms}.
+
+#+CAPTION: Sample energy deposition histograms for the BGO detector for a variety of primary energies.  Note that the energy deposition bins are uniform in logarithmic space.  Features like the full energy peak, one- and two-escape peaks, and the 500 keV annihilation line are clearly visible, but the Compton edge feature often seen in such spectra is difficult to identify due to multiple scattering in the complex geometry.
+#+LABEL: fig:sampleHistograms
+[[./sampleHists.pdf]]
 		 
 In order to achieve an accurate estimate of the detector response matrix, these histograms must each have many events, several thousand at a minimum.  As a beam of particles large enough to encompass MXGS, MMIA, ACES, and some of Columbus must be at least 1 m in radius, many particles will not reach the sensitive volume of the detector.  As such, around $10^6$ initial particles must be simulated at each primary energy (nPriPerE = $10^6$).  Given a grid of many initial energies, many millions of initial particles must be simulated in order to construct a single DRM.  As the DRM depends on the direction and identity of the initial particles, many DRMs must be created.  These simulations therefore take quite a large amount of computer time.  As a bare minimum, only running $5\times 10^5$ initial particles per primary energy at a grid of $\theta$ with $15^\circ$ resolution from $0^\circ$ to $90^\circ$ (7 $\theta$s) and $\phi$ with 30 degree resolution from $0^\circ$ to $180^\circ$ (7 $\phi$s) and a logarithmic grid in energy from 10 keV to 100 MeV with 41 points, just over $10^9$ primary particles must be simulated.  Test simulations on desktop computers run at an average rate of $\sim 500$ primary particles per second, so this minimal run corresponds to $\sim 20$ CPU-days of computer time.
 
@@ -106,13 +110,90 @@ These lengthy run times means running on a supercomputer is beneficial, and than
 
   
 * GEANT output processing
-As described above, the output of the main simulation program is a file containing two sets of histograms, one set of BGO histograms and one set of CZT histograms.  Each histogram describes the number of energy deposition events per energy deposition bin as a function of deposited energy for a single primary energy.  These energy deposition histograms are converted into columns of the detector response matrix.
+As described above, the output of the main simulation program is a file containing two sets of histograms, one set of BGO histograms and one set of CZT histograms.  Each histogram describes the number of energy deposition events per energy deposition bin as a function of deposited energy for a single primary energy.  These histograms need to be processed to become a true detector response matrix.
 
+First, the histograms must be interpreted in the context of the simulation.  The $i$th entry of a histogram, $N_i$, refers to the number of times a total energy was deposited in the sensitive detector between $E^\mathrm{dep}_i$ and $E^\mathrm{dep}_{i+1}$ (i.e. $E^\mathrm{dep}_i$ are the bin boundaries of the histogram).  $N_i$ can be converted to an effective area by dividing by the total number of primary particles simulated and multiplying by the area over which those primaries were spread: $A^\mathrm{eff}_i = \frac{N_i}{n_\mathrm{pri}}*\pi*r_\mathrm{pri}^2$.  This effective area is a function of both the position and the size of the energy deposition bin in question, and typically the size of the energy bin is divided out: $\frac{dA^\mathrm{eff}(E^\mathrm{dep})}{dE^\mathrm{dep}} = A^\mathrm{eff}/(E^\mathrm{dep}_{i+1} - E^\mathrm{dep}_{i})$.  Since this process applies to the histograms generated for each primary energy $E^\mathrm{pri}$, the results can be seen as a function also of $E^\mathrm{pri}$: $\frac{dA^\mathrm{eff}(E^\mathrm{dep},E^\mathrm{pri})}{dE^\mathrm{dep}}$.
+
+This function, determined at the $E^\mathrm{dep}$ bin centers and each $E^\mathrm{pri}$, approximates the true detector response function.  ... give examples ...  Ideally, the input spectrum would be convolved with this function to determine the detected count distribution.  However, the detector does not measure the count distribution, only a sampling from that distribution, binned according to the digitization process during data collection.  As such, what we need is not $\frac{dA^\mathrm{eff}(E^\mathrm{dep},E^\mathrm{pri})}{dE^\mathrm{dep}}$, but its integral over the output bins.  We also need to know $\frac{dA^\mathrm{eff}(E^\mathrm{dep},E^\mathrm{pri})}{dE^\mathrm{dep}}$ at all $E^\mathrm{pri}$, not just the $E^\mathrm{pri}$ used in the simulation, requiring some interpolation.  Constructing a true DRM from this function subsequently requires assumption of a functional form of input spectrum and integration over some set of $E^\mathrm{pri}$ bins.  This processing, from histogram to function to DRM, breaks down into smoothing of individual histograms, interpolation between histograms, convolution with interpolated histograms, and DRM generation, described as follows.
+
+
+
+** Smoothing of single histograms
+The simulation results, i.e. histograms such as those shown in Figure \ref{fig:sampleHistograms}, are binned with very fine resolution to preserve as much information as possible.  The bins are far to fine to be useful, however, with the counts in each bin subject to wild statistical fluctuation.  This requires some sort of rebinning or smoothing.  Rebinning blurs out spectral features like the 511 keV annihilation line, which we would like to preserve, and smoothing cannot accurately capture such sharp spectral features.  Fortunately, such spectral features are limited in number and appear at predictable locations.  The only features identifiable in the spectra are the full-energy peak($E^\mathrm{pri}$), the annihilation line (511 keV), and one- and two-escape peaks ($E^\mathrm{pri} - 511$ keV, $E^\mathrm{pri} - 2 \times 511$ keV).  There may or may not also be a contribution from a two-annihilation-photon line ($2\times 511$ keV), especially at high primary energies, so this is also included.  As such, the approach taken here is to smooth the histogram without the spectral lines to give an estimate of the continuum, storing their values separately.
+
+The smoothing technique used is weighted loess smoothing.  The loess estimate of a function at a point is the value of a weighted quadratic regression fit to the neighbors of the point in question.  The weights are determined by the distance from the point in question and the size of the neighborhood here is taken to be the nearest 11 points.  This smoothing effectively dampens out the statistical fluctuations, but note that the resulting points are no longer statistically independent.  The result of this procedure is a smoothed estimate of the continuum portion of the histogram.
+
+This background can then be subtracted from the counts in the bins containing spectral lines, giving an estimate of the number of counts in each line.  A combination of these peak estimates with the continuum estimate can be compared to the original histogram as shown in Figures \ref{fig:sampleInterpBG1} and \ref{fig:sampleInterpBG2}.  These continuum and spectral line estimates can then be built upon to estimate the overall detector response function.
+
+#+CAPTION: Top panel: Energy deposition histogram for 3.16 MeV photons at normal incidence on the BGO detector (black), compared to its smoothed counterpart (blue).  The bottom panels show the results of subtracting the smoothed histogram from the original, both in absolute counts and in standard deviations.
+#+LABEL: fig:sampleInterpBG1
+[[./sampleInterpBG.pdf]]
+
+#+CAPTION: Top panel: Energy deposition histogram for 0.32 MeV photons at normal incidence on the BGO detector (black), compared to its smoothed counterpart (blue).  The bottom panels show the results of subtracting the smoothed histogram from the original, both in absolute counts and in standard deviations.
+#+LABEL: fig:sampleInterpBG2
+[[./sampleInterpBG2.pdf]]
+
+
+** Interpolation between histograms
+The smoothed single histograms described above only capture the response of the detector to a single primary energy.  Multiple smoothed histograms must be interpolated to determine the response at an arbitrary energy between those simulated.  This interpolation must include both interpolation of the continuum and of the spectral lines.
+
+The continuum interpolation cannot be done with a typical bilinear method, since bilinear interpolation cannot capture a sharp cutoff that is not aligned to the grid such as the requirement that the maximum energy that can be deposited is the energy of the primary.  As such, the interpolation scheme used here is a weighted average of the two histograms with their energy deposition axes scaled such that the full energy peaks align.  More mathematically, if $f_1(E^\mathrm{dep})$ and $f_2(E^\mathrm{dep})$ are the smoothed estimates of the continuum for two nearby primary energies $E_1^\mathrm{pri}$ and $E_2^\mathrm{pri}$, the estimate of the continuum at an intermediate energy $E^\mathrm{pri}$ is
+\begin{equation}
+f(E^\mathrm{dep}) = 
+f_1(\frac{E^\mathrm{dep} E_1^\mathrm{pri}}{E^\mathrm{pri}})
+  \frac{E_2^\mathrm{pri}-E^\mathrm{pri}}{E_2^\mathrm{pri}-E_1^\mathrm{pri}} 
++ 
+f_2(\frac{E^\mathrm{dep} E_2^\mathrm{pri}}{E^\mathrm{pri}})
+  \frac{E^\mathrm{pri}-E_1^\mathrm{pri}}{E_2^\mathrm{pri}-E_1^\mathrm{pri}}
+\end{equation}
+This essentially interpolates between the two continua along lines radiating out from the origin.
+
+The counts in spectral lines can simply be linearly interpolated.
+
+This interpolation can be tested by interpolating from to the histogram for a known $E^\mathrm{pri}$ from the histograms from flanking $E^\mathrm{pri}$s.  A sample is shown in Figure \ref{fig:sampleInterpTest}.  Though there may seem to be some systematic offsets near full energy, the significance of those offsets is minimal as seen in the bottom panel, and note also that in the actual DRM calculations, the interpolation will be only between neigboring $E^\mathrm{pri}$, not over the longer interval in the figure as was done solely for confirmation of the interpolation technique.
+
+#+CAPTION: Top panel: Energy deposition histogram for 3.98 MeV photons at normal incidence on the BGO detector (black), compared to an interpolation to the histogram for 3.98 MeV photons based on histograms for 3.16 MeV and 5.01 MeV primary photons (blue).  The bottom panels show the results of subtracting the interpolated histogram from the original, both in absolute counts and in standard deviations.
+#+LABEL: fig:sampleInterpTest
+[[./sampleInterpTest.pdf]]
+
+There are some small errors for primaries with energies just above 1 MeV due to linear interpolation of annihilation and escape peaks which appear at slightly different rates in the simulation as in the interpolation, but these errors are not washed out in later stages and can be easily be removed if desired.
+
+
+** Convolution with input spectrum form
+The smoothing and interpolation described above all acted on the energy deposition histograms derived from simulations.  Construction of a DRM requires integration over bins, both in energy deposition and in primary energy.
+
+As mentioned initially, a DRM is a matrix that converts from an input particle spectrum to a measured counts spectrum.  Writing a vector to represent a spectrum either requries some assumption about the interpolation between points or it implies some binning of the spectrum.  Interpolation is typically not used as a detector response matrix cannot be written due to interdependence of elements for reasonable interpolation schemes.  Binning, on the other hand, requries some assumption of the shape of the primary spectrum within a bin: if one of the numbers in the vector is 10, does that imply 10 primaries uniformly distributed over the bin, or exponentially, or logarithmically, or something else?  This is especially important at high energies, where logarithmic bins get very large and the differences between uniform, linear, exponential, and power law spectra are large.
+
+As such, construction of a DRM requires convolution of a primary spectrum with the functions described above.  This convolution can be constructed from the smoothing and interpolations described above.  There is some subtlety related to the difference between continuum and the spectral line representations, however.
+
+Convolution with the continuum is relatively straightforward and is done over a grid in primary energy over the range of interest.  Here the convolution of the primary spectrum with the continuum part of the detector response is simply the sum of the interpolated continua produced by primaries of each primary energy in the grid over the range of interest, weighted by the spectrum and the width of the the primary energy bin.  This sum is then normalized over the sum of all the weights used, converting it to a weighted average.
+
+Contributions to the convolution from spectral lines are slightly more complicated.  Since spectral lines are arguably delta functions, spectral lines whose positions depend on the primary energy contribute to a particular energy deposition bin by an amount proportional both to the width of the energy deposition bin and to the primary spectrum at the primary energy necessary to put the line in the given energy deposition bin.  This calculation has to be done over the entire energy deposition histogram, not simply over the range of primary energies of interest, since the bin sizes are unequal and a grid at full energy will not produce proper spacing at the two-escape peak, for example.  Again, these calculations need to be normalized by dividing by the sum of all the weights used to give a weighted average consistent with the continuum contribution.
+
+Stationary spectral lines (annihilation and $2\times$-annihilation lines) contribute counts given by the weighted average of their interpolated contributions.
+
+Sample convolution outputs are shown in Figure \ref{fig:sampleConvolutions}.
+   
+#+CAPTION: Sample convolution of two input spectra with detector response interpolations.  The two input spectra are taken to be only nonzero for 3.6 MeV $< E^\mathrm{pri} <$ 4 MeV, with one $\propto 1/E^\mathrm{pri}^3$ and $\propto E^\mathrm{pri}^3$ as labeled.
+#+LABEL: fig:sampleConvolutions
+[[./sampleConv.pdf]]
+
+** DRM generation
+Given convolution of a given primary spectrum with the interpolated detector response, construction of a DRM requries repeated calculation of that convolution over the required primary energy bins.  The resulting detector response may not have the desired energy deposition bins, requiring rebinning by summing such that the counts are properly distributed over the desired bins.  
+
+The final conversion that must be made is to normalize the matrix.  All of the manipulations described above act on histograms of observed counts, as the histograms are more smooth and their statistics are more easily understood than for representations of functions describing effective area per energy deposited.  As such, the matrices must be normalized in the same manner as histograms, i.e. by dividing by the total number of primaries simulated and multiplying by the area illuminated by the primaries.  This gives the DRM as measured in effective area, i.e. cm$^2$.  An image plot of a sample square DRM produced is shown in Figure \ref{fig:sampleDRM}.
+
+#+CAPTION: Sample DRM as calculated for normal incidence photons on the BGO detector with a $1/E^\mathrm{pri}$ spectrum.  The color indicates the effective area for counts in the given deposited energy bin for primaries in the given primary energy bin in cm$^2$.  Scanning across the plot at a particular primary energy gives the shape of the deposited energy spectrum for the given primary energy.
+#+LABEL: fig:sampleDRM
+[[./sampleDRM.pdf]]
+
+All of the analysis described above can be repeated for each simulated primary particle direction.  If desired, interpolation in direction can be made with the DRM matrix entries.
 
 ** Technical details
 The manipulations and processing described above are written in R, a language typically used for statistical computing and visualization.  The file plotData.r includes functions to read the output from GEANT, smooth histograms, interpolate between smoothed histograms, convolve spectra with detector response, and make plots.  The file is heavily commented and should be self-explanatory given the above description.
 
 * DRM format/usage
+A detector response matrix as simulated, smoothed, interpolated, convolved, and normalized as described above, is thankfully straightforward to use.  The DRM in question has associated $E^\mathrm{pri}$ and $E^\mathrm{dep}$ bins.  The desired primary spectrum is integrated over $E^\mathrm{pri}$ bins, giving a vector of fluence in each primary energy bin (counts per area in each bin).  The DRM (in cm$^2$) is then multiplied by this vector, giving the predicted counts in each $E^\mathrm{dep}$ bin.  These deposited energy counts can be directly compared to the measured counts.
 
 
 ** subsection

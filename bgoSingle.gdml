@@ -310,7 +310,6 @@
       <solidref ref="bgoMod1_mv"/>
 
       <!--
-      -->
       <physvol> <volumeref ref="bgoBox_bot_v"/> <positionref ref="bgoBox_bot_pos"/> <rotationref ref="y180"/> </physvol>
       <physvol> <volumeref ref="bgoBox_side_v"/> <positionref ref="bgoBox_sidexm_pos"/> <rotationref ref="zpToxp"/> </physvol>
       <physvol> <volumeref ref="bgoBox_side_v"/> <positionref ref="bgoBox_sidexp_pos"/> <rotationref ref="zpToxm"/> </physvol>
@@ -318,6 +317,7 @@
       <physvol> <volumeref ref="bgoBox_end_v"/> <positionref ref="bgoBox_end_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="bgoBox_sp_v"/> <positionref ref="bgoBox_spzp_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="bgoBox_sp_v"/> <positionref ref="bgoBox_spzm_pos"/> <rotationref ref="id"/> </physvol>
+      -->
 
       <physvol> <volumeref ref="bgo_v"/> <positionref ref="bgo_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="pmtHsg_base_v"/> <positionref ref="pmtHsg_base_pos"/> <rotationref ref="id"/> </physvol>

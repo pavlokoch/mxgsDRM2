@@ -309,8 +309,10 @@ lineDRM_multi <- function(a,e,geomOnly=FALSE,col='black'){
   e <- ine[findInterval(e,ine)];
 
   a <- subset(a,a$inE %in% e);
+  a$estr <- sprintf("%.2f MeV",a$inE);
+  a$estr <- ordered(factor(a$estr),levels=sprintf("%.2f MeV",sort(unique(a$inE))))
 
-  g <- geom_line(data=a,aes(x=outE,y=ctsB,group=inE,color=sprintf("%.2f MeV",inE)));
+  g <- geom_line(data=a,aes(x=outE,y=ctsB,group=inE,color=estr));
 
   p <- ggplot();
   #p <- p + scale_color_brewer();
@@ -321,6 +323,8 @@ lineDRM_multi <- function(a,e,geomOnly=FALSE,col='black'){
   p <- p + scale_y_log10();
 
   p <- p + xlab("Energy deposited (MeV)");
+
+  p <- p + ylab("counts per bin");
 
   if(geomOnly){
     g;
@@ -359,7 +363,7 @@ testInterp <- function(df,e){
   e2 <- eIn[ei+1];
   e <- eIn[ei];
   print(c(e1,e2,e));
-  ntrp <- interpolateDRMs(df,e1,e2,e);
+  ntrp <- interpolateDRMs_givenE(df,e1,e2,e);
   dfs <- subset(df,df$inE==e);
   p1 <- compareDRMs(dfs,ntrp);
   p2 <- drmDiffPlot(dfs,ntrp);
@@ -686,7 +690,8 @@ drmConvolver <- function(df){
        fm=function(e1,e2,sf)mlConv(e1,e2,sf),
        inE = inEs,
        outE = outE,
-       outEb = outEb);
+       outEb = outEb,
+       attrs = attributes(df));
 }
 
 rebinDRMMat <- function(eInb,eOutb){
@@ -701,22 +706,15 @@ rebinDRMMat <- function(eInb,eOutb){
 makeDRM <- function(dCr,spect,inEBins,outEBins){
   elow <- head(inEBins,-1);
   ehigh <- tail(inEBins,-1);
+  norm <- pi*(dCr$attrs$rDisk1**2-dCr$attrs$rDisk0**2)*100^2/dCr$attrs$nPriPerE
   mat <- mapply(dCr$f,elow,ehigh,MoreArgs=list(spect));
   rebinMat <- rebinDRMMat(dCr$outEb,outEBins);
-  rebinMat %*% mat;
+  norm * rebinMat %*% mat;
 }
 
-# TODO: convolution of spectrum function with detector response interpolation.
-drmConvolution <- function(df,e1,e2,f){
-  oE <- unique(df$outE);
-  oEd <- oE[oE>=e1 & oE<=e2];
-  wts <- f(oEd);
-  wts <- wts/sum(wts);
-
-  svs <- mapply(function(oe,wt){print(oe); interpolateDRMs(df,oe)$ctsB*wt;}, oEd, wts, SIMPLIFY=FALSE);
-  ctsB <- Reduce("+",svs,rep(0,length(svs[[1]])));
-  data.frame(outE=oE,inE=sum(oEd*wts),ctsB=ctsB);
+applyDrmConvolution_makeDF <- function(dCr,e1,e2,spect){
+  data.frame(ctsB=dCr$f(e1,e2,spect),
+             outE=dCr$outE,
+             inE=e1);
 }
-
-# TODO: given a spectrum to assume, construct a DRM.
 
