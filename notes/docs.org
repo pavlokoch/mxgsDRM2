@@ -50,7 +50,7 @@ GEANT4 has an extremely flexible notion of ``the laws of physics.''  A simulatio
 ** Geometry
 GEANT treats the geometry of parts of the simulation as simple solids (cubes, cylinders, tubes, spheres, etc.), combined with boolean operations (union, difference, intersection), the ``constructive solid geometry'' (CSG) approach.  This poses some difficulties, as the parts used for MXGS are designed with Creo Elements/Pro (Pro/Engineer), which uses a surface-based representation of parts, the ``boundary representation'' (BREP) approach.  While BREP is very useful (almost all CAD programs use BREP), there is no simple and efficient way to convert from BREP to CSG for use by GEANT.[fn:1]  As such, it was necessary to manually construct the geometry for GEANT4 from technical drawings of MXGS parts.  This has the decided disadvantage of requiring manual attention whenever the design changes.  Hopefully in the future this problem can be solved.
 
-[fn:1] And not for lack of searching.  There are some commercial conversion tools, but none that take Pro/E files.  There are some non-commercial tools, but none that actually work.  I thought for a while that I could construct a chain from Pro/E to BRLCad to a general output format that I could write a program to convert to a format suitable for GEANT4, but I decided the problem was too complicated.  It is possible to convert from Pro/E to STEP and from STEP to GDML, but the resulting solids are very inefficient.
+[fn:1] And not for lack of searching.  The best pathway from Pro/E to GEANT is to use Pro/E to produce a STEP file, convert the STEP file to a GDML file with FastRad (commercial), and read the GDML file with GEANT.  There are some non-commercial tools, but none that actually work.  I thought for a while that I could construct a chain from Pro/E to BRLCad to a general output format that I could write a program to convert to a format suitable for GEANT4 (BRLCad is also a CSG system), but I decided the problem was too complicated.
 
 The geometry of the simulation is described by a series of files written in Geometry Description Markup Language (GDML, file extension .gdml), an XML-based format describing sizes, shapes, positions, and materials of elements of the simulation.  These files were constructed by hand over the series of several weeks.  If this seems like a waste of effort, discussions with the Fermi/GBM have repeatedly suggested that such detailed models of the spacecraft are necessary to ensure accurate simulation results: one small detail may not matter, but taken together, many small details can be quite important.  For example, the housing of a single BGO crystal is an aluminum box several millimeters thick but with thinner triangular-shaped regions milled away to reduce mass while retaining stiffness.  In reality, the thick regions of the box will block low-energy x-rays, while the thin regions will tend to allow such x-rays to pass.  As such, it is not correct to approximate the box as uniformly thick (too many low-energy x-rays blocked), uniformly thin (too few low-energy x-rays blocked), or uniformly intermediate (intermediate amount of x-rays blocked but with the wrong energy dependence).  Details like that may not be relevant in the end, but tending to include too much detail is prudent.
 
@@ -200,8 +200,19 @@ The final conversion that must be made is to normalize the matrix.  All of the m
 
 All of the analysis described above can be repeated for each simulated primary particle direction.  If desired, interpolation in direction can be made with the DRM matrix entries.
 
+** Error analysis
+Given the complexity of the above analysis, it is not particularly easy to estimate the statistical errors present in the final convolved DRM.  However, multiple simulations with the same parameters can be passed through the same processing steps and compared.  Figure \ref{fig:drmDiff} shows the standard deviation of the DRMs from a set of 5 simulations cm$^2$, and Figure \ref{fig:drmDiffPercent} shows the standard deviation divided by the mean in percentage.  The largest percent errors are $\sim 10$ %, but these occur in regions where the effective area is small.  These results seem therefore to be quite accurate, typically to within 3%.
+
+#+CAPTION: Standard deviation of DRM elements over 7 identical simulations.  This is a representation of the statistical error in a single DRM, here executed with $5\times 10^5$ primary particles per primary energy.
+#+LABEL: fig:drmDiff
+[[./drmStdDev.pdf]]
+
+#+CAPTION: Like Figure \ref{fig:drmDiff}, but showing standard deviation over mean of DRM elements, expressed as a percent.  This is a representation of the statistical error in a single DRM relative to the DRM itself.
+#+LABEL: fig:drmDiffPercent
+[[./drmPercErr.pdf]]
+
 ** Technical details
-The manipulations and processing described above are written in R, a language typically used for statistical computing and visualization.  The file plotData.r includes functions to read the output from GEANT, smooth histograms, interpolate between smoothed histograms, convolve spectra with detector response, and make plots.  The file is heavily commented and should be self-explanatory given the above description.
+The manipulations and processing described above are written in R, a language typically used for statistical computing and visualization.  The file procDRM.r includes functions to read the output from GEANT, smooth histograms, interpolate between smoothed histograms, convolve spectra with detector response, and make plots.  The file is heavily commented and should be self-explanatory given the above description.
 
 * DRM format/usage
 \label{sect:DRMuse}
