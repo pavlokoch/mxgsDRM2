@@ -13,8 +13,9 @@ library(ggplot2); # plotting library
 library(reshape); # utilities for rearranging vectors and matrices.
 source("~/R/utils.r"); # color maps, multiplot function.
 
-# Calculate a binomial confidence interval, vectorized over x.
-# default confidence level gives 1 sigma error bar if normal approx holds.
+# Calculate a confidence interval for probability p in binomial given
+# observation of x successes out of n trials, vectorized over x.  default
+# confidence level gives 1 sigma error bar if normal approx holds.
 binomCI <- function(x,n,conf.lev=0.6826895){
   #print(c(x,n,conf.lev));
   alpha <- 1-conf.lev;
@@ -38,14 +39,16 @@ sumRowGroupsMat <- function(nRows,nGrp){
 
 # read GEANT output.
 # effective areas measured in cm^2/keV
+# returns a data table with columns for input and output energies, counts and
+# effective areas for BGO and CZT layers.  Pay the most attention to the ctsB
+# variable, as it is the easiest to understand.  The attributes store relevant
+# parameters for later calculation.
 readDRMs_df <- function(fn,nPriPerE=1.0,rDisk1=1.0,rDisk0=0.0,combineOutBins=1){
   f <- file(fn,"rt");
   l <- readLines(f,5);
   close(f);
   priLine <- as.real(strsplit(l[3]," ")[[1]][-1:-3])
   outLine <- as.real(strsplit(l[4]," ")[[1]][-1:-5])
-  #print(l[1]);
-  #print(l[2]);
 
   print("reading file, loading matrices...");
   a <- read.table(fn);
@@ -88,6 +91,9 @@ readDRMs_df <- function(fn,nPriPerE=1.0,rDisk1=1.0,rDisk0=0.0,combineOutBins=1){
   x;
 }
 
+# add columns to DRM data table describing error bars.
+# This calculation may take a long time and/or use up all the memory on the
+# computer.  Use with caution.
 addErrorBars_df <- function(df){
   nPriPerE <- attr(df,"nPriPerE");
   norm <- attr(df,"norm");
@@ -111,22 +117,15 @@ addErrorBars_df <- function(df){
   df;
 }
 
-lalf <- function(x){y <- x; y[y==0]<-1; y <- log10(y); y[x==0] <- min(y); y};
-
-imageDRM <- function(a,drm){
-  p <- ggplot(data=a) + geom_tile(aes(x=inE,y=outE,
-                                      #alpha=areaB));
-                                      alpha=lalf(areaB)));
-                                      #fill=lalf(areaB)));
-  #p <- p + scale_fill_gradientn(colours=jet.colors(7));
-  p <- p + scale_alpha_continuous(name=expression(log[10](cm^2/keV)));
-  p <- p + scale_x_log10()+scale_y_log10();
-  p <- p + ylab("energy deposited (MeV)") + xlab("input energy (MeV)");
-  p <- p + theme_bw();
-  print(p);
-}
-
-lineDRM <- function(a,e,geomOnly=FALSE,col='black'){
+# plot the DRM simulation results at the given energies.
+# Rounds desired energies down to the nearest value that was simulated.
+# geomOnly is useful for those familiar with ggplot for stacking multiple
+# plots.
+#
+# example:
+# a <- readDRMs_df(...);
+# lineDRM(a,c(1,10,100);
+lineDRM <- function(a,e,geomOnly=FALSE){
   ine <- as.real(levels(factor(a$inE)));
 
   e <- ine[findInterval(e,ine)];
@@ -156,10 +155,15 @@ lineDRM <- function(a,e,geomOnly=FALSE,col='black'){
   }
 }
 
-# assumes d1 and d2 are subsets of DRM data frames describing same primary energy.
+plotDRM <- function(inBins,outBins,drm){
+  image.plot(outBins,inBins,drm,log='xy',xlab="deposited energy (MeV)",ylab="primary energy (MeV)",legend.lab="effective area (cm^2)",legend.mar=4);
+}
+
+# compares two DRM data tables.
+# Assumes d1 and d2 are subsets of DRM data frames describing same primary energy.
+# d1 is shown in black, d2 is shown in blue.
 compareDRMs <- function(d1,d2){
   range <- c(0.01,1.1*max(d1$outE[d1$ctsB>0],d2$outE[d2$ctsB>0],na.rm=TRUE));
-  #range[1] <- range[2]-0.1;
   p <- ggplot() + theme_bw();
   p <- p + geom_line(data=d1,aes(x=outE,y=ctsB),col='black');
   p <- p + geom_line(data=d2,aes(x=outE,y=ctsB),col='blue');
@@ -169,82 +173,18 @@ compareDRMs <- function(d1,d2){
   p;
 }
   
-integrateDRM <- function(a,eIn,eOutMin,eOutMax){
-  a <- subset(a,a$inE==eIn);
-
-  #f <- approxfun(a$outEBinLow,a$areaB,method="constant",f=0,yleft=0,yright=0);
-  #integrate(f,eOutMin,eOutMax,rel.tol=0.001,abs.tol=0.001,subdivisions=1000);
-
-  e1 <- a$outEBinLow;
-  e2 <- a$outEBinHigh;
-
-  de <- (e2-e1)*1000; # keV
-  integral <- sum(de[a$outEBinLow > eOutMin]*a$areaB[a$outEBinLow > eOutMin]);
-  bdySel <- a$outEBinLow < eOutMin & a$outEBinHigh > eOutMin;
-  bdyFrac <- (a$outEBinHigh-eOutMin)/de;
-  integral <- integral + sum(bdySel*de*a$areaB*bdyFrac);
-  integral;
-}
-
-integrateCrosSecs <- function(a){
-  e1 <- a$outEBinLow;
-  e2 <- a$outEBinHigh;
-  de <- (e2-e1)*1000; # keV
-
-  eIn <- as.real(levels(factor(a$inE)));
-  anyDepSig <- mapply(function(e){integrateDRM(a,e,0,100)},eIn);
-  fullEDepSig <- mapply(function(e){integrateDRM(a,e,e*0.9,100)},eIn);
-
-  sig <- data.frame(eIn=eIn,sig=c(anyDepSig,fullEDepSig)
-                    ,type=c(rep("total",length(anyDepSig)),rep("full-energy",length(fullEDepSig))));
-
-  p <- ggplot(data=sig) + geom_line(aes(x=eIn,y=sig,group=type,color=type));
-  p <- p + scale_x_log10()+scale_y_log10();
-  p <- p + ylab(expression("integrated cross section ("*cm^2*")")) + xlab("input energy (MeV)");
-  p <- p + theme_bw();
-  print(p);
-}
-
+# take the subset of a DRM data table, preserving attributes.
 subsetEADF <- function(df,sel){
   x <- subset(df,sel);
-  attr(x,"nPriPerE") = attr(df,"nPriPerE");
-  attr(x,"rDisk") = attr(df,"rDisk");
+  attributes(x) <- attributes(df);
   x;
 }
 
-totalEffArea <- function(df){
-  nPriPerE <- attr(df,"nPriPerE");
-  #print(nPriPerE);
-  sumB <- sum(df$ctsB);
-  sumC <- sum(df$ctsC);
-  #bci <- binomCI(sumB,nPriPerE);
-  #cci <- binomCI(sumC,nPriPerE);
-
-  x <- df[1,];
-  x$outEBinHigh <- df$outEBinHigh[length(df$outEBinHigh)];
-  x$outE <- (x$outEBinLow+x$outEBinHigh)/2;
-  x$ctsB <- sumB;
-  #x$cBmin <- bci[1]*nPriPerE;
-  #x$cBmax <- bci[2]*nPriPerE;
-  x$ctsC <- sumC;
-  #x$cCmin <- cci[1]*nPriPerE;
-  #x$cCmax <- cci[2]*nPriPerE;
-  norm <- pi*attr(df,"rDisk")**2*100^2/nPriPerE;
-  de <- 1000*(x$outEBinHigh-x$outEBinLow);
-  x$areaC <- x$ctsC*norm/de
-  x$areaB <- x$ctsB*norm/de
-  x$areaCcmsq <- x$ctsC*norm;
-  x$areaBcmsq <- x$ctsB*norm;
-  #x$aBmin=bci[1]*nPriPerE*norm/de;
-  #x$aBmax=bci[2]*nPriPerE*norm/de;
-  #x$aCmin=cci[1]*nPriPerE*norm/de;
-  #x$aCmax=cci[2]*nPriPerE*norm/de;
-  x;
-}
-
+# interpolate a DRM simulation, separating the continuum (bg) from the spectral
+# lines.
 interpolateDRMbg <- function(df,e){
   inEs <- unique(df$inE);
-  e <- inEs[findInterval(e,inEs)];
+  e <- inEs[findInterval(e,inEs)]; # round down to nearest simulated E.
   dfa <- attributes(df);
   df <- subset(df, df$inE == e); attributes(df) <- dfa;
   outE <- df$outE;
@@ -254,38 +194,48 @@ interpolateDRMbg <- function(df,e){
   eBinMin <- outEb[findInterval(e,outEb)];
 
   me <- 0.510998903;
-  moveLines <- c(e,e-me,e-2*me);
-  statLines <- c(me,2*me);
+  moveLines <- c(e,e-me,e-2*me); # moving lines: full-energy, one-escape, and two-escape peaks.
+  statLines <- c(me,2*me); # static lines: annihilation, and twice-annihilation.
 
+  # combine lines, ignoring annihilation and escape if primary energy too low.
   lines <- if(e>2*me){c(moveLines,statLines);}else{c(e);}
 
+  # indices in lines array of static and moving lines.
   mvidxs <- if(e>2*me){c(1,2,3)}else{c(1)};
   stidxs <- if(e>2*me){c(4,5)}else{c()};
 
+  # drop bins containing lines from DRM simulation results
   toDrop <- findInterval(lines,outEb);
   outEd <- outE[-toDrop];
   ctsd <- cts[-toDrop];
   outEdd <- outE[toDrop];
   ctsdd <- cts[toDrop];
 
+  # drop everything at or above the full-energy peak.
   ctsd <- ctsd[outEd<=eBinMid];
   outEd <- outEd[outEd<=eBinMid];
 
-  lEmax <- max(outEd);
+  # do weighted LOESS smoothing.  span is the fraction of the dataset to use,
+  # and the control variable allows for extrapolation (not really used, but may
+  # prevent NA from popping up.  Weights are calculated as in poisson error
+  # bars, to prevent bias.
   f <- loess(ctsd~outEd,weights=1/(ctsd+1),span=11/length(ctsd),control=loess.control(surface="direct"));
-  #f <- loess(ctsd~outEd,span=11/length(ctsd),control=loess.control(surface="direct"));
 
-
+  # function to evaluate loess smoothed continuum, stripping out NA's and negatives.
   bg <- function(oE){
     ans <- ifelse(oE>eBinMin,0,predict(f,oE));
     ans[ans<0 | is.na(ans)] <- 0;
     ans;
   }
+
+  # subtract continuum contribution from spectral lines.
   peakCts <- ctsdd - bg(lines);
 
   list(e=e,bg=bg,sl=statLines,slc=peakCts[stidxs],ml=moveLines,mlc=peakCts[mvidxs],outE=outE,outEb=outEb);
 }
 
+# add spectral line contributions (lines, lcts) to a histogram containing the
+# continuum (outEb, cts).
 addLines <- function(outEb,lines,lcts,cts){
   ctr <- 1;
   for(ee in lines){
@@ -296,6 +246,7 @@ addLines <- function(outEb,lines,lcts,cts){
   cts
 }
 
+# convert the results of DRM bg interpolation to a DRM data table.
 interpDRMtoDF <- function(ntrp){
   bg <- ntrp$bg(ntrp$outE);
   ctsB <- addLines(ntrp$outEb,ntrp$sl,ntrp$slc,bg);
@@ -304,6 +255,8 @@ interpDRMtoDF <- function(ntrp){
   data.frame(outE=ntrp$outE,ctsB=ctsB,inE=ntrp$e);
 }
 
+# interpolation helper function, takes two bg interpolations and an energy, and
+# makes a linear interpolation along lines radiating out from the origin.
 interpolateH_bg <- function(i1,i2,e){
   f1 <- i1$bg;
   f2 <- i2$bg;
@@ -316,36 +269,46 @@ interpolateH_bg <- function(i1,i2,e){
   pf1*f1(x*i1$e)+pf2*f2(x*i2$e);
 }
 
+# given a DRM data table and two energies to use as interpolation base points,
+# interpolate in between.
 interpolateDRMs_givenE <- function(df,e1,e2,e){
+  # do background/line interpolation at input energies.
   i1 <- interpolateDRMbg(df,e1);
   i2 <- interpolateDRMbg(df,e2);
 
+  # fractional contributions
   pf1 <- (e2-e)/(e2-e1);
   pf2 <- 1-pf1;
 
+  # do background interpolation between energies.
   cbg <- interpolateH_bg(i1,i2,e);
 
   outE <- i1$outE;
-
   outEb <- attr(df,"outEBins");
   
+  # add stationary spectral lines to background.
   cbg <- addLines(outEb,i1$sl,i1$slc*pf1,cbg);
   cbg <- addLines(outEb,i2$sl,i2$slc*pf2,cbg);
 
+  # interpolate moving lines to final position, intensity.
   n <- max(length(i1$ml),length(i2$ml));
   mlines <- pf1*c(i1$ml,rep(0,n-length(i1$ml)))+pf2*c(i2$ml,rep(0,n-length(i2$ml)));
   mlcts <- pf1*c(i1$mlc,rep(0,n-length(i1$mlc)))+pf2*c(i2$mlc,rep(0,n-length(i2$mlc)));
 
+  # add moving lines to background.
   cbg <- addLines(outEb,mlines,mlcts,cbg)
 
   dfa <- attributes(df);
+  dfa$names <- c("outE","inE","ctsB");
+  dfa$row.names = seq_along(outE);
   d <- data.frame(outE=outE,
                   inE=e,
                   ctsB=cbg);
-  #attributes(d) <- dfa;
+  attributes(d) <- dfa;
   d;
 }
 
+# wrapper for interpolateDRMs_givenE that determines energies automatically.
 interpolateDRMs <- function(df,e){
   es <- unique(df$inE);
   if(e<min(es) || e>max(es)){
@@ -357,6 +320,8 @@ interpolateDRMs <- function(df,e){
   interpolateDRMs_givenE(df,e1,e2,e);
 }
 
+# construct a function that convolves a DRM with a given primary spectrum
+# between two given primary energies.
 drmConvolver <- function(df){
   inEs <- unique(df$inE);
   ntrps <- lapply(inEs,function(e){interpolateDRMbg(df,e)})
@@ -364,12 +329,13 @@ drmConvolver <- function(df){
   outEb <- ntrps[[1]]$outEb;
   bgs <- lapply(ntrps,function(ntrp){ntrp$bg(outE)});
 
+  # interpolation of background and static lines
   linBSL <- function(e){
     j1 <- findInterval(e,inEs);
     j2 <- j1+1;
-    bg <- interpolateH_bg(ntrps[[j1]],ntrps[[j2]],e);
+    bg <- interpolateH_bg(ntrps[[j1]],ntrps[[j2]],e); # background interp.
     lns <- ntrps[[j2]]$sl;
-    if(length(ntrps[[j2]]$slc)>0){
+    if(length(ntrps[[j2]]$slc)>0){ # static line interp.
       p1 <- (inEs[j2]-e)/(inEs[j2]-inEs[j1]); p2 <- 1-p1;
       lcts <- p1*c(ntrps[[j1]]$slc,rep(0,2-length(ntrps[[j1]]$slc))) + p2*ntrps[[j2]]$slc;
       addLines(outEb,lns,lcts,bg);
@@ -378,21 +344,23 @@ drmConvolver <- function(df){
     }
   }
 
-  bslConv <- function(e1,e2,sf){ #background and static line convolution
+  #background and static line convolution
+  bslConv <- function(e1,e2,sf){
     oEs <- outE[outE>=e1 & outE<=e2];
     bwds <- diff(outEb)[outE>=e1 & outE<=e2];
     wts <- sf(oEs)*bwds;
     wts <- wts/sum(wts); 
+    # sum over primary energies given by output bins between energy limits.
     bg <- Reduce(function(v,i){v + linBSL(oEs[i])*wts[i]}, seq_along(oEs),rep(0,length(outE)));
   }
 
-  mlConv <- function(e1,e2,sf){ #spectral line contribution to convolution
+  # moving line convolution
+  mlConv <- function(e1,e2,sf){
+    print(c(e1,e2));
     poEs <- outE[outE>=e1 & outE<=e2];
     pbwds <- diff(outEb)[outE>=e1 & outE<=e2];
     oEs <- outE;
     bwds <- diff(outEb);
-    wts <- sf(oEs);
-    wts <- wts/sum(wts); 
 
     #sapply here simplifies down to a matrix, i.e. mlm[,1]= ntrps[[1]]$ml
     i1 <- findInterval(e1,inEs);
@@ -400,26 +368,27 @@ drmConvolver <- function(df){
     mlm <- sapply(ntrps[i1:i2],function(xx)c(xx$ml,rep(0,3-length(xx$ml))));
     mlcm <- sapply(ntrps[i1:i2],function(xx)c(xx$mlc,rep(0,3-length(xx$mlc))));
 
+    # make functions interpolating linearly in spectral line positions, cts.
+    # note that there are always 3 moving lines, so nrow(mlm) = 3.
     fs <- lapply(1:nrow(mlm),function(i){approxfun(mlm[i,],mlcm[i,],yleft=0,yright=0)});
 
+    # use functions to determine counts in each output bin, weighted by primary
+    # spectrum and bin width.  Note that primary spectrum is evaluated at the
+    # primary energy necessary to put the line in question at the output bin in
+    # question.
     me <- 0.510998903;
-    f1 <- fs[[1]](oEs)*(oEs>e1 & oEs<e2)*sf(oEs);
-    f2 <- fs[[2]](oEs)*(oEs+me>e1 & oEs+me<e2)*sf(oEs+me);
-    f3 <- fs[[3]](oEs)*(oEs+2*me>e1 & oEs+2*me<e2)*sf(oEs+2*me);
+    f1 <- fs[[1]](oEs)*(oEs>e1 & oEs<e2)*sf(oEs)*bwds;
+    f2 <- fs[[2]](oEs)*(oEs+me>e1 & oEs+me<e2)*sf(oEs+me)*bwds;
+    f3 <- fs[[3]](oEs)*(oEs+2*me>e1 & oEs+2*me<e2)*sf(oEs+2*me)*bwds;
 
-    n1 <- sum(sf(oEs)*(oEs>e1 & oEs<e2));
-    n2 <- sum(sf(oEs+me)*(oEs+me>e1 & oEs+me<e2));
-    n3 <- sum(sf(oEs+2*me)*(oEs+2*me>e1 & oEs+2*me<e2));
+    n1 <- sum(sf(oEs)*bwds*(oEs>e1 & oEs<e2));
+    n2 <- sum(sf(oEs+me)*bwds*(oEs+me>e1 & oEs+me<e2));
+    n3 <- sum(sf(oEs+2*me)*bwds*(oEs+2*me>e1 & oEs+2*me<e2));
 
-    print(c(n1,n2,n3));
-    print(c(max(f1),max(f2),max(f3)));
-
-    
     a1 <- if(n1>0){f1/n1}else{0};
     a2 <- if(n2>0){f2/n2}else{0};
     a3 <- if(n3>0){f3/n3}else{0};
 
-    # TODO: doublecheck normalization.
     a1+a2+a3;
   }
 
