@@ -243,6 +243,7 @@ All of the analysis described above can be repeated for each simulated primary p
 Given the complexity of the above analysis, it is not particularly easy to estimate the statistical errors present in the final convolved DRM.  However, multiple simulations with the same parameters can be passed through the same processing steps and compared.  Figure \ref{fig:drmDiff} shows the standard deviation of the DRMs from a set of 5 simulations cm$^2$, and Figure \ref{fig:drmDiffPercent} shows the standard deviation divided by the mean in percentage.  The largest percent errors are $\sim 10$ %, but these occur in regions where the effective area is small.  These results seem therefore to be quite accurate, typically to within 3%.
 
 #+begin_src R :session s1 :exports none :results silent
+  # warning: this block takes a long time to run.  30-60 minutes, probably.
   fns <- c("../results/mxgsDRM_1/mats_22_500000_0.60_0.00_0.00_0.00_0.01_1e+02_41.txt",
            "../results/mxgsDRM_1/mats_22_500000_0.60_0.00_0.00_30.00_0.01_1e+02_41.txt",
            "../results/mxgsDRM_1/mats_22_500000_0.60_0.00_0.00_60.00_0.01_1e+02_41.txt",
