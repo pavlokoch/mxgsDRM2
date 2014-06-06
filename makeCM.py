@@ -85,7 +85,8 @@ def printRepSepBoxes(nx,ny,pattern,xsep,ysep):
       print "<box name=\"xrepsep\" lunit=\"mm\" x=\"%f\" y=\"%f\" z=\"%f\"/>"%(xsep,ywid,thk)
   if repy > 1:
       print "<box name=\"yrepsep\" lunit=\"mm\" x=\"%f\" y=\"%f\" z=\"%f\"/>"%(xwid,ysep,thk)
-  print "<box name=\"xyrepsep\" lunit=\"mm\" x=\"%f\" y=\"%f\" z=\"%f\"/>"%(xsep,ysep,thk)
+  if repx > 1 and repy > 1:
+      print "<box name=\"xyrepsep\" lunit=\"mm\" x=\"%f\" y=\"%f\" z=\"%f\"/>"%(xsep,ysep,thk)
   print "<box name=\"xminsep\" lunit=\"mm\" x=\"%f\" y=\"%f\" z=\"%f\"/>"%(sep,ywid*ny+(ny-1)*ysep+sep,thk)
   print "<box name=\"yminsep\" lunit=\"mm\" x=\"%f\" y=\"%f\" z=\"%f\"/>"%(xwid*nx+(nx-1)*xsep,sep,thk)
 

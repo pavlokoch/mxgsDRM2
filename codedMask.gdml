@@ -293,7 +293,6 @@
 <box name="cmopen" lunit="mm" x="43.000000" y="3.000000" z="1.000000"/>
 <box name="cmclosed" lunit="mm" x="43.000000" y="46.000000" z="1.000000"/>
 <box name="cmysep" lunit="mm" x="3.000000" y="736.000000" z="1.000000"/>
-<box name="xyrepsep" lunit="mm" x="0.000000" y="0.000000" z="1.000000"/>
 <box name="xminsep" lunit="mm" x="3.000000" y="739.000000" z="1.000000"/>
 <box name="yminsep" lunit="mm" x="736.000000" y="3.000000" z="1.000000"/>
 <box name="yb" lunit="mm" x="742.000000" y="1.500000" z="1.000000"/>
