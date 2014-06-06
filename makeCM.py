@@ -81,8 +81,10 @@ def printRepSepBoxes(nx,ny,pattern,xsep,ysep):
   ymw = len(pattern)*dy*ny + (ny-1)*ysep + sep
   xbwid = (cmwid - xmw)/2.0
   ybwid = (cmwid - ymw)/2.0
-  print "<box name=\"xrepsep\" lunit=\"mm\" x=\"%f\" y=\"%f\" z=\"%f\"/>"%(xsep,ywid,thk)
-  print "<box name=\"yrepsep\" lunit=\"mm\" x=\"%f\" y=\"%f\" z=\"%f\"/>"%(xwid,ysep,thk)
+  if repx > 1:
+      print "<box name=\"xrepsep\" lunit=\"mm\" x=\"%f\" y=\"%f\" z=\"%f\"/>"%(xsep,ywid,thk)
+  if repy > 1:
+      print "<box name=\"yrepsep\" lunit=\"mm\" x=\"%f\" y=\"%f\" z=\"%f\"/>"%(xwid,ysep,thk)
   print "<box name=\"xyrepsep\" lunit=\"mm\" x=\"%f\" y=\"%f\" z=\"%f\"/>"%(xsep,ysep,thk)
   print "<box name=\"xminsep\" lunit=\"mm\" x=\"%f\" y=\"%f\" z=\"%f\"/>"%(sep,ywid*ny+(ny-1)*ysep+sep,thk)
   print "<box name=\"yminsep\" lunit=\"mm\" x=\"%f\" y=\"%f\" z=\"%f\"/>"%(xwid*nx+(nx-1)*xsep,sep,thk)

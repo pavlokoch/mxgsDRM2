@@ -184,8 +184,11 @@
     <box name="bdspBox_top" lunit="mm" x="bdspBox_x" y="bdspBox_y" z="bdspBox_topt"/>
     <box name="bdspBox_xb" lunit="mm" x="bdspBox_sidet" y="bdspBox_y" z="bdspBox_z - bdspBox_topt - edgedz"/>
     <box name="bdspBox_yb" lunit="mm" x="bdspBox_x-2*bdspBox_sidet" y="bdspBox_sidet" z="bdspBox_z - bdspBox_topt - edgedz"/>
+
+    <!-- note: edgedz = 0 now...  these two are no longer used.
     <box name="bdspBox_xbb" lunit="mm" x="bdspBox_sidet - edgedx" y="bdspBox_y - edgedy" z="edgedz"/>
     <box name="bdspBox_ybb" lunit="mm" x="bdspBox_x - 2*bdspBox_sidet" y="bdspBox_sidet - 2*edgedy" z="edgedz"/>
+    -->
 
     <box name="bdsp_b" lunit="mm" x="bdspBox_x-3*bdspBox_sidet" y="bdspBox_y-3*bdspBox_sidet" z="350/(0.0027*(bdspBox_x-3*bdspBox_sidet)*(bdspBox_y-3*bdspBox_sidet))"/>
 
@@ -279,8 +282,11 @@
     <volume name="bdspBox_top_v"> <materialref ref="AL6082T6"/> <solidref ref="bdspBox_top"/> </volume>
     <volume name="bdspBox_xb_v"> <materialref ref="AL6082T6"/> <solidref ref="bdspBox_xb"/> </volume>
     <volume name="bdspBox_yb_v"> <materialref ref="AL6082T6"/> <solidref ref="bdspBox_yb"/> </volume>
+
+    <!-- note: these two are no longer used 
     <volume name="bdspBox_xbb_v"> <materialref ref="AL6082T6"/> <solidref ref="bdspBox_xbb"/> </volume>
     <volume name="bdspBox_ybb_v"> <materialref ref="AL6082T6"/> <solidref ref="bdspBox_ybb"/> </volume>
+    -->
 
     <volume name="bgoShld_pb_v"> <materialref ref="Lead"/> <solidref ref="bgoShld_pb"/> </volume>
     <volume name="bgoShld_ta_v"> <materialref ref="Tantalum"/> <solidref ref="bgoShld_ta"/> </volume>
