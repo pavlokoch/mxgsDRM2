@@ -4,6 +4,7 @@
 #include <fstream>
 #include <iostream>
 #include "globals.hh"
+#include "CLHEP/Units/SystemOfUnits.h"
 using namespace std;
 
 const int PERIM_WIRE_NUM=-1;
@@ -38,13 +39,13 @@ class HitRecorder{
             << pri_vx << ' '
             << pri_vy << ' ' 
             << pri_vz << ' '
-            << pri_x/m << ' '
-            << pri_y/m << ' '
-            << pri_z/m << "   "
-            << edep00/keV << ' '
-            << edep01/keV << ' '
-            << edep10/keV << ' '
-            << edep11/keV << endl;
+            << pri_x/CLHEP::m << ' '
+            << pri_y/CLHEP::m << ' '
+            << pri_z/CLHEP::m << "   "
+            << edep00/CLHEP::keV << ' '
+            << edep01/CLHEP::keV << ' '
+            << edep10/CLHEP::keV << ' '
+            << edep11/CLHEP::keV << endl;
         }
       }
     }

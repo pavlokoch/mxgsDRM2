@@ -8,13 +8,18 @@
 #include "G4UIterminal.hh"
 #include "Randomize.hh"
 #include "G4UItcsh.hh"
-#include "LHEP.hh"
+//#include "LHEP.hh" // gone in 9.10?
 #include "QGSP_BERT_HP.hh"
 #include <time.h>
 #include <iostream>
 #include <stdio.h>
 #include <fcntl.h>
 #include "gsl/gsl_histogram.h"
+
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 int main(int argc, char** argv){
   int i,j,k;
@@ -99,7 +104,7 @@ int main(int argc, char** argv){
   // set mandatory initialization classes
   DetectorConstruction *world = new DetectorConstruction(hBGO,hCZT);
   runManager->SetUserInitialization(world);
-  runManager->SetUserInitialization(new LHEP());
+  runManager->SetUserInitialization(new QGSP_BERT_HP());
 
   // set mandatory user action class
   // targetY/Y/Z are the coordinates (m) of the center of MXGS in the colombus.gdml reference frame.

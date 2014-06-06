@@ -9,6 +9,7 @@
 #include "globals.hh"
 #include <sqlite3.h>
 #include "EventInfo.hh"
+#include "CLHEP/Units/SystemOfUnits.h"
 
 using namespace std;
 
@@ -20,7 +21,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction(int pdgID, double startDiskRad,
   particleGun = new G4ParticleGun(1);
   pTable = G4ParticleTable::GetParticleTable();
   pdgencoding = pdgID;
-  th = theta_deg*pi/180.0; ph = phi_deg*pi/180.0;
+  th = theta_deg*CLHEP::pi/180.0; ph = phi_deg*CLHEP::pi/180.0;
   x0 = targetX; y0 = targetY; z0 = targetZ;
   rDisk = startDiskRad;
   rDisk0 = startDiskRad0;
@@ -39,15 +40,15 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
     cout << ctr << ": " << enMeV << ' ' 
       << vx << ' ' << vy << ' ' << vz << ' ' 
       << x << ' ' << y << ' ' << z <<  ' '
-      << pTable->FindParticle(pdgencoding)->GetPDGMass()/kg << endl;
+      << pTable->FindParticle(pdgencoding)->GetPDGMass()/CLHEP::kg << endl;
   }
   ++ctr;
 
   particleGun->SetParticleDefinition(pTable->FindParticle(pdgencoding));
-  particleGun->SetParticlePosition(G4ThreeVector(x*m, y*m, z*m));
+  particleGun->SetParticlePosition(G4ThreeVector(x*CLHEP::m, y*CLHEP::m, z*CLHEP::m));
   G4ThreeVector v(vx,vy,vz);
   particleGun->SetParticleMomentumDirection(v);
-  particleGun->SetParticleEnergy(enMeV*MeV);
+  particleGun->SetParticleEnergy(enMeV*CLHEP::MeV);
 
   particleGun->GeneratePrimaryVertex(anEvent);
 }
@@ -72,7 +73,7 @@ void PrimaryGeneratorAction::drawPrimary(){
   double r = sqrt((rDisk*rDisk - rDisk0*rDisk0)*CLHEP::RandFlat::shoot() + rDisk0*rDisk0);
   //double r = rDisk*sqrt(0.75*CLHEP::RandFlat::shoot() + 0.25);
 
-  double diskth = CLHEP::RandFlat::shoot(2*pi);
+  double diskth = CLHEP::RandFlat::shoot(2*CLHEP::pi);
   x = r*cos(diskth);
   y = r*sin(diskth);
   z = 0;

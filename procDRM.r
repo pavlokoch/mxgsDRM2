@@ -1,4 +1,10 @@
-# This file includes code to process histograms from GEANT simulations into detector response matrices.
+
+# This file includes code to process histograms from GEANT simulations
+# into detector response matrices.
+# 
+# WARNING: this file can be manually edited for use directly in R, but
+# can also be automatically generated from the appendix in
+# notes/docs.org.  Edit with caution!
 # 
 # Basic usage from the R prompt:
 # a <- readDRMs_df("../results/mxgsDRM_1/mats_22_500000_0.60_0.00_0.00_30.00_0.01_1e+02_41.txt",combineOutBins=2,nPriPerE=500000,rDisk1=0.6,rDisk0=0.0);
@@ -464,4 +470,29 @@ testInterp <- function(df,e){
   p2 <- drmDiffPlot(dfs,ntrp);
   multiplot(p1,p2,cols=1);
   print(e);
+}
+
+makeDRM_batch <- function(fns,nPriPerE,rDisk,bins,primarySpect){
+  for(fn in fns){
+    print("*****************************");
+    print(sprintf("working on %s...",fn));
+    print("reading simulation results...");
+    a <- readDRMs_df(fn,combineOutBins=2,nPriPerE=nPriPerE,rDisk=rDisk,rDisk0=0.0);
+    print("making DRM convolver...");
+    f <- drmConvolver(a);
+    print("making DRM...");
+    drm <- makeDRM(f,primarySpect,bins,bins);
+    
+    print("writing output...");
+    outDRMFn <- sprintf("drm_%s",fn);
+    write.table(drm,outDRMFn,row.names=FALSE,col.names=FALSE)
+
+    print("plotting...");
+    plotFn <- sprintf("drmPlot_%s.pdf",fn);
+    pdf(plotFn,width=8,height=8);
+    plotDRM(bins,bins,drm);
+    dev.off();
+    
+    print("done!");
+  }
 }

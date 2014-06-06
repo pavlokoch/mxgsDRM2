@@ -10,6 +10,7 @@
 #include "G4EventManager.hh"
 #include "G4Event.hh"
 #include "gsl/gsl_histogram.h"
+#include "CLHEP/Units/SystemOfUnits.h"
 
 CZTSD::CZTSD(G4String name, gsl_histogram *hc)
 :G4VSensitiveDetector(name)
@@ -26,7 +27,7 @@ void CZTSD::Initialize(G4HCofThisEvent*HCE){
 
 G4bool CZTSD::ProcessHits(G4Step*aStep,G4TouchableHistory* /*ROhist*/)
 {
-  G4double thisEdep = aStep->GetTotalEnergyDeposit()/MeV;
+  G4double thisEdep = aStep->GetTotalEnergyDeposit()/CLHEP::MeV;
   if(thisEdep>0){
     edep += thisEdep;
   }

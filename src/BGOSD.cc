@@ -10,6 +10,7 @@
 #include "G4EventManager.hh"
 #include "G4Event.hh"
 #include "gsl/gsl_histogram.h"
+#include "CLHEP/Units/SystemOfUnits.h"
 
 BGOSD::BGOSD(G4String name, gsl_histogram *hb)
 :G4VSensitiveDetector(name)
@@ -26,7 +27,7 @@ void BGOSD::Initialize(G4HCofThisEvent*HCE){
 
 G4bool BGOSD::ProcessHits(G4Step*aStep,G4TouchableHistory* /*ROhist*/)
 {
-  G4double thisEdep = aStep->GetTotalEnergyDeposit()/MeV;
+  G4double thisEdep = aStep->GetTotalEnergyDeposit()/CLHEP::MeV;
   if(thisEdep>0){
     edep += thisEdep;
   }

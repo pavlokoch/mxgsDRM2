@@ -28,6 +28,7 @@
 #include "G4VisAttributes.hh"
 
 #include "G4GDMLParser.hh"
+#include "CLHEP/Units/SystemOfUnits.h"
 
 using namespace std;
 
@@ -47,7 +48,7 @@ void SamplingGeometry::Construct()
 
   double r=0;
   char name[100];
-  for(r=1.0*m; r<50.0*m; r*=3.0){
+  for(r=1.0*CLHEP::m; r<50.0*CLHEP::m; r*=3.0){
     sprintf(name,"sph_%.1f",r);
     G4Orb *sph = new G4Orb(name,r);
     sprintf(name,"sph_%.1fL",r);
