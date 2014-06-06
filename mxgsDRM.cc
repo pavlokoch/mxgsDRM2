@@ -9,7 +9,9 @@
 #include "Randomize.hh"
 #include "G4UItcsh.hh"
 //#include "LHEP.hh" // gone in 9.10?
-#include "QGSP_BERT_HP.hh"
+//#include "QGSP_BERT_HP.hh" // takes a _long_ time to load the HP part, doesn't include low-energy EM stuff.
+#include "G4PhysListFactory.hh"
+#include "G4VModularPhysicsList.hh"
 #include <time.h>
 #include <iostream>
 #include <stdio.h>
@@ -104,7 +106,14 @@ int main(int argc, char** argv){
   // set mandatory initialization classes
   DetectorConstruction *world = new DetectorConstruction(hBGO,hCZT);
   runManager->SetUserInitialization(world);
-  runManager->SetUserInitialization(new QGSP_BERT_HP());
+
+  G4PhysListFactory factory;
+  G4VModularPhysicsList* physlist = factory.GetReferencePhysList("QGSP_BERT_LIV");
+  //physlist->RegisterPhysics(new G4OpticalPhysics());  // may be useful later? copy-pasted from qweak.jlab.org
+  runManager->SetUserInitialization(physlist);
+
+  // or, instead of using the factory,
+  //runManager->SetUserInitialization(new QGSP_BERT_HP());
 
   // set mandatory user action class
   // targetY/Y/Z are the coordinates (m) of the center of MXGS in the colombus.gdml reference frame.
