@@ -62,6 +62,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   int cztctr=2;
   for(G4GDMLAuxMapType::const_iterator iter=auxmap->begin(); iter!=auxmap->end(); iter++) {
     for(G4GDMLAuxListType::const_iterator vit=(*iter).second.begin(); vit!=(*iter).second.end();vit++) {
+      G4cout << (*vit).type << " " << (*vit).value << G4endl;
       if ((*vit).type=="visibility" && (*vit).value=="invisible") {
         G4cout << "rendering logical volume " << (*iter).first->GetName()
           << " invisible."<< G4endl;

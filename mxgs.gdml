@@ -984,6 +984,7 @@
       <materialref ref="Vacuum"/>
       <solidref ref="WorldBox"/>
       <physvol> <volumeref ref="MXGS"/> <positionref ref="orig"/> <rotationref ref="id"/> </physvol>
+
       <!--
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
       -->

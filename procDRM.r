@@ -3,8 +3,9 @@
 # into detector response matrices.
 # 
 # WARNING: this file can be manually edited for use directly in R, but
-# can also be automatically generated from the appendix in
-# notes/docs.org.  Edit with caution!
+# can also be automatically generated from the appendix in notes/docs.org.
+# If you have emacs and org-mode, it is better to edit in emacs and use
+# org-babel-tangle to generate the file.
 # 
 # Basic usage from the R prompt:
 # a <- readDRMs_df("../results/mxgsDRM_1/mats_22_500000_0.60_0.00_0.00_30.00_0.01_1e+02_41.txt",combineOutBins=2,nPriPerE=500000,rDisk1=0.6,rDisk0=0.0);
@@ -17,11 +18,15 @@
 # libraries necessary
 library(ggplot2); # plotting library
 library(reshape); # utilities for rearranging vectors and matrices.
-source("~/R/utils.r"); # color maps, multiplot function.
+library(fields); # image.plot
+#source("~/R/utils.r"); # color maps, multiplot function.
+
+cbpr <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
 
 # Calculate a confidence interval for probability p in binomial given
 # observation of x successes out of n trials, vectorized over x.  default
 # confidence level gives 1 sigma error bar if normal approx holds.
+# Used for adding error bars to a DRM.
 binomCI <- function(x,n,conf.lev=0.6826895){
   #print(c(x,n,conf.lev));
   alpha <- 1-conf.lev;
@@ -39,6 +44,7 @@ binomCI <- function(x,n,conf.lev=0.6826895){
 
 # construct a matrix that when multiplied by another matrix, gives a matrix
 # with row groups summed together.
+# used for combining simulation output bins if desired (since they're really small by default).
 sumRowGroupsMat <- function(nRows,nGrp){
   outer(seq(nRows/nGrp),seq(nRows),function(i,j){ifelse(j/nGrp-i<=0 & j/nGrp-i>-1,1,0)});
 }
@@ -49,12 +55,12 @@ sumRowGroupsMat <- function(nRows,nGrp){
 # effective areas for BGO and CZT layers.  Pay the most attention to the ctsB
 # variable, as it is the easiest to understand.  The attributes store relevant
 # parameters for later calculation.
-readDRMs_df <- function(fn,nPriPerE=1.0,rDisk1=1.0,rDisk0=0.0,combineOutBins=1){
+readDRMs_df <- function(fn,nPriPerE=1.0,rDisk1=1.0,rDisk0=0.0,combineOutBins=1,defaultDet='bgo'){
   f <- file(fn,"rt");
   l <- readLines(f,5);
   close(f);
-  priLine <- as.real(strsplit(l[3]," ")[[1]][-1:-3])
-  outLine <- as.real(strsplit(l[4]," ")[[1]][-1:-5])
+  priLine <- as.double(strsplit(l[3]," ")[[1]][-1:-3])
+  outLine <- as.double(strsplit(l[4]," ")[[1]][-1:-5])
 
   print("reading file, loading matrices...");
   a <- read.table(fn);
@@ -68,6 +74,7 @@ readDRMs_df <- function(fn,nPriPerE=1.0,rDisk1=1.0,rDisk0=0.0,combineOutBins=1){
 
   outLine <- outLine[seq(1,length(outLine),by=combineOutBins)];
 
+  # centers and widths of output energy bins
   om <- (outLine[-1] + outLine[-length(outLine)])/2;
   deo <- (outLine[-1] - outLine[-length(outLine)]);
 
@@ -88,6 +95,10 @@ readDRMs_df <- function(fn,nPriPerE=1.0,rDisk1=1.0,rDisk0=0.0,combineOutBins=1){
                   ,areaC=cdf$value*norm
                   ,outEBinLow=e1
                   ,outEBinHigh=e2);
+
+  x$cts <- if(defaultDet=='bgo'){x$ctsB}else{x$ctsC}
+  x$area <- if(defaultDet=='bgo'){x$areaB}else{x$areaC}
+  
   attr(x,"nPriPerE") <- nPriPerE;
   attr(x,"rDisk") <- sqrt(rDisk1**2+rDisk0**2)
   attr(x,"rDisk1") <- rDisk1;
@@ -132,7 +143,7 @@ addErrorBars_df <- function(df){
 # a <- readDRMs_df(...);
 # lineDRM(a,c(1,10,100);
 lineDRM <- function(a,e,geomOnly=FALSE){
-  ine <- as.real(levels(factor(a$inE)));
+  ine <- as.double(levels(factor(a$inE)));
 
   e <- ine[findInterval(e,ine)];
 
@@ -140,7 +151,7 @@ lineDRM <- function(a,e,geomOnly=FALSE){
   a$estr <- sprintf("%.2f MeV",a$inE);
   a$estr <- ordered(factor(a$estr),levels=sprintf("%.2f MeV",sort(unique(a$inE))))
 
-  g <- geom_line(data=a,aes(x=outE,y=ctsB,group=inE,color=estr));
+  g <- geom_line(data=a,aes(x=outE,y=cts,group=inE,color=estr));
 
   p <- ggplot();
   #p <- p + scale_color_brewer();
@@ -169,10 +180,10 @@ plotDRM <- function(inBins,outBins,drm){
 # Assumes d1 and d2 are subsets of DRM data frames describing same primary energy.
 # d1 is shown in black, d2 is shown in blue.
 compareDRMs <- function(d1,d2){
-  range <- c(0.01,1.1*max(d1$outE[d1$ctsB>0],d2$outE[d2$ctsB>0],na.rm=TRUE));
   p <- ggplot() + theme_bw();
-  p <- p + geom_line(data=d1,aes(x=outE,y=ctsB),col='black');
-  p <- p + geom_line(data=d2,aes(x=outE,y=ctsB),col='blue');
+  range <- c(0.01,1.1*max(d1$outE[d1$cts>0],d2$outE[d2$cts>0],na.rm=TRUE));
+  p <- p + geom_line(data=d1,aes(x=outE,y=cts),col='black');
+  p <- p + geom_line(data=d2,aes(x=outE,y=cts),col='blue');
   p <- p + scale_x_log10(limits=range);
   p <- p + scale_y_log10();
   p <- p + xlab("Energy deposited (MeV)");
@@ -186,8 +197,9 @@ subsetEADF <- function(df,sel){
   x;
 }
 
-# interpolate a DRM simulation, separating the continuum (bg) from the spectral
-# lines.
+# interpolate a DRM simulation over bins, separating the continuum (bg) from the spectral
+# lines.  i.e. smooth a single DRM to limit noise.
+# interpolation BETWEEN multiple DRMs is handled elsewhere.
 interpolateDRMbg <- function(df,e){
   inEs <- unique(df$inE);
   e <- inEs[findInterval(e,inEs)]; # round down to nearest simulated E.
@@ -195,7 +207,9 @@ interpolateDRMbg <- function(df,e){
   df <- subset(df, df$inE == e); attributes(df) <- dfa;
   outE <- df$outE;
   outEb <- attr(df,"outEBins");
-  cts <- df$ctsB;
+  
+  cts <- df$cts;
+  
   eBinMid <- outE[findInterval(e,outEb)];
   eBinMin <- outEb[findInterval(e,outEb)];
 
@@ -252,13 +266,13 @@ addLines <- function(outEb,lines,lcts,cts){
   cts
 }
 
-# convert the results of DRM bg interpolation to a DRM data table.
+# convert the results of DRM bg interpolation/smoothing back to a DRM data table (histogram).
 interpDRMtoDF <- function(ntrp){
   bg <- ntrp$bg(ntrp$outE);
-  ctsB <- addLines(ntrp$outEb,ntrp$sl,ntrp$slc,bg);
-  ctsB <- addLines(ntrp$outEb,ntrp$ml,ntrp$mlc,ctsB);
+  cts <- addLines(ntrp$outEb,ntrp$sl,ntrp$slc,bg);
+  cts <- addLines(ntrp$outEb,ntrp$ml,ntrp$mlc,cts);
 
-  data.frame(outE=ntrp$outE,ctsB=ctsB,inE=ntrp$e);
+  data.frame(outE=ntrp$outE,cts=cts,inE=ntrp$e);
 }
 
 # interpolation helper function, takes two bg interpolations and an energy, and
@@ -305,11 +319,9 @@ interpolateDRMs_givenE <- function(df,e1,e2,e){
   cbg <- addLines(outEb,mlines,mlcts,cbg)
 
   dfa <- attributes(df);
-  dfa$names <- c("outE","inE","ctsB");
-  dfa$row.names = seq_along(outE);
-  d <- data.frame(outE=outE,
-                  inE=e,
-                  ctsB=cbg);
+  dfa$names <- c("outE","inE","cts");
+  dfa$row.names <- seq_along(outE);
+  d <- data.frame(outE=outE, inE=e, cts=cbg)
   attributes(d) <- dfa;
   d;
 }
@@ -336,13 +348,15 @@ drmConvolver <- function(df){
   bgs <- lapply(ntrps,function(ntrp){ntrp$bg(outE)});
 
   # interpolation of background and static lines
+  # returns a histogram of interpolated counts containing background + static line contributions
   linBSL <- function(e){
     j1 <- findInterval(e,inEs);
     j2 <- j1+1;
     bg <- interpolateH_bg(ntrps[[j1]],ntrps[[j2]],e); # background interp.
     lns <- ntrps[[j2]]$sl;
     if(length(ntrps[[j2]]$slc)>0){ # static line interp.
-      p1 <- (inEs[j2]-e)/(inEs[j2]-inEs[j1]); p2 <- 1-p1;
+      p1 <- (inEs[j2]-e)/(inEs[j2]-inEs[j1]);
+      p2 <- 1-p1;
       lcts <- p1*c(ntrps[[j1]]$slc,rep(0,2-length(ntrps[[j1]]$slc))) + p2*ntrps[[j2]]$slc;
       addLines(outEb,lns,lcts,bg);
     }else{
@@ -351,6 +365,9 @@ drmConvolver <- function(df){
   }
 
   #background and static line convolution
+  # returns a histogram summed from many results from linBSL
+  # taken from many primary energies, weighted by the given $sf \propto dN/dE$ spectrum
+  # grid in input energies is taken from output energies.  reasonable, but not required(?)
   bslConv <- function(e1,e2,sf){
     oEs <- outE[outE>=e1 & outE<=e2];
     bwds <- diff(outEb)[outE>=e1 & outE<=e2];
@@ -363,11 +380,12 @@ drmConvolver <- function(df){
   # moving line convolution
   mlConv <- function(e1,e2,sf){
     print(c(e1,e2));
-    poEs <- outE[outE>=e1 & outE<=e2];
-    pbwds <- diff(outEb)[outE>=e1 & outE<=e2];
+    #poEs <- outE[outE>=e1 & outE<=e2];  # unused?
+    #pbwds <- diff(outEb)[outE>=e1 & outE<=e2];  # unused?
     oEs <- outE;
     bwds <- diff(outEb);
 
+    # extract info from the interpolations for the range needed
     #sapply here simplifies down to a matrix, i.e. mlm[,1]= ntrps[[1]]$ml
     i1 <- findInterval(e1,inEs);
     i2 <- findInterval(e2,inEs)+1;
@@ -375,7 +393,8 @@ drmConvolver <- function(df){
     mlcm <- sapply(ntrps[i1:i2],function(xx)c(xx$mlc,rep(0,3-length(xx$mlc))));
 
     # make functions interpolating linearly in spectral line positions, cts.
-    # note that there are always 3 moving lines, so nrow(mlm) = 3.
+    # note that there are always 3 moving lines (since the arrays above are padded),
+    # so nrow(mlm) = 3.
     fs <- lapply(1:nrow(mlm),function(i){approxfun(mlm[i,],mlcm[i,],yleft=0,yright=0)});
 
     # use functions to determine counts in each output bin, weighted by primary
@@ -407,6 +426,10 @@ drmConvolver <- function(df){
        attrs = attributes(df));
 }
 
+# like sumRowGroupsMat, but properly accounting for splitting of bins.
+# used to decrease resolution of output bins to match desired outputs.
+# assumes bins that split have uniform density, which isn't a terrible approximation
+# since before splitting the bins are really small.
 rebinDRMMat <- function(eInb,eOutb){
   eInbl <- head(eInb,-1);
   eInbu <- tail(eInb,-1);
@@ -426,24 +449,22 @@ makeDRM <- function(dCr,spect,inEBins,outEBins){
 }
 
 applyDrmConvolution_makeDF <- function(dCr,e1,e2,spect){
-  data.frame(ctsB=dCr$f(e1,e2,spect),
-             outE=dCr$outE,
-             inE=e1);
+  data.frame(cts=dCr$f(e1,e2,spect), outE=dCr$outE, inE=e1);
 }
 
 drmDiffPlot <- function(d1,d2){
-  diff <- data.frame(outE=d1$outE,dc=d1$ctsB-d2$ctsB,type="delta(ctsB)");
-  diffsig <- data.frame(outE=d1$outE,dc=(d1$ctsB-d2$ctsB)/sqrt(d1$ctsB+1),type="delta(ctsB)/sqrt(ctsB+1)");
+  diff <- data.frame(outE=d1$outE,dc=d1$cts-d2$cts,type="delta(cts)");
+  diffsig <- data.frame(outE=d1$outE,dc=(d1$cts-d2$cts)/sqrt(d1$cts+1),type="delta(cts)/sqrt(cts+1)");
   diff <- rbind(diff,diffsig);
 
-  range <- c(0.01,1.1*max(d1$outE[d1$ctsB>0],d2$outE[d2$ctsB>0],na.rm=TRUE));
+  range <- c(0.01,1.1*max(d1$outE[d1$cts>0],d2$outE[d2$cts>0],na.rm=TRUE));
   #range[1] <- range[2]-0.1;
   p <- ggplot() + theme_bw();
   p <- p + geom_line(data=diff,aes(x=outE,y=dc),col='black');
   p <- p + scale_x_log10(limits=range);
   p <- p + facet_wrap(~ type, ncol=1,scale = "free_y");
   p <- p + xlab("Energy deposited (MeV)");
-  p <- p + ylab("Difference in ctsB");
+  p <- p + ylab("Difference in cts");
   p;
 }
 
@@ -472,12 +493,18 @@ testInterp <- function(df,e){
   print(e);
 }
 
-makeDRM_batch <- function(fns,nPriPerE,rDisk,bins,primarySpect){
+# for example, running R in the directory with the simulation results files:
+# makeDRM_batch(fns=list.files(pattern="^mats_22_.*.txt",include.dirs=FALSE),
+#               nPriPerE=500000,
+#               rDisk=0.6,
+#               bins=10**seq(-1,2,length.out=40),
+#               primarySpect=function(e){1/e})
+makeDRM_batch <- function(fns,nPriPerE,rDisk,bins,primarySpect,det='bgo'){
   for(fn in fns){
     print("*****************************");
     print(sprintf("working on %s...",fn));
     print("reading simulation results...");
-    a <- readDRMs_df(fn,combineOutBins=2,nPriPerE=nPriPerE,rDisk=rDisk,rDisk0=0.0);
+    a <- readDRMs_df(fn,combineOutBins=2,nPriPerE=nPriPerE,rDisk=rDisk,rDisk0=0.0,defaultDet=det);
     print("making DRM convolver...");
     f <- drmConvolver(a);
     print("making DRM...");

@@ -204,9 +204,27 @@ int main(int argc, char** argv){
 /vis/viewer/set/projection perspective 20 deg
 /vis/viewer/set/viewpointThetaPhi 90 0
 /vis/viewer/panTo 1.4226 3.7341
+/vis/viewer/set/viewpointThetaPhi 140 40
 /vis/scene/add/trajectories
 /vis/scene/add/hits
+/vis/viewer/zoom 2
+/vis/viewer/zoom 2
+/vis/viewer/zoom 2
+
+/vis/geometry/set/visibility asim 1 0
+/vis/geometry/set/visibility mxgs_world 1 0
+/vis/geometry/set/visibility codedMask 1 0
+
+/vis/geometry/set/colour codedMask -1 red
+
+/vis/viewer/set/style surface
+
 /run/beamOn 1
+
+
+#set to aluminum but with much lower density than normal aluminum
+/vis/geometry/set/colour Columbus3EPF_8_Logical_147892368 -1 blue
+
 
 /vis/viewer/set/background white
 
