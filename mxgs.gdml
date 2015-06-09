@@ -236,6 +236,9 @@
     <position name="hop_mv3_pos" unit="mm" x="0" y="0" z="hop_angDepth+hop_ct_z/2+hop_b_t/2 - hop_mv0_dz - hop_mv3_dz - mv3disp"/>
     <position name="hop_pos" unit="mm" x="0 + mxgs_dx" y="0 + mxgs_dy" z="hop_b_wz - hop_b_t/2+lowHsg_bxmp_wz+lowHsg_blid_wz+lowCov_b1_wz/2 + hop_mv0_dz + mxgs_dz"/>
 
+    <position name="hop_mv1_pos_wrtMXGS" x="0 + (0 + mxgs_dx)" y="0 + (0 + mxgs_dy)" z="-hop_mv1_dz-hop_mv0_dz + (hop_b_wz - hop_b_t/2+lowHsg_bxmp_wz+lowHsg_blid_wz+lowCov_b1_wz/2 + hop_mv0_dz + mxgs_dz)"/>
+    <position name="hop_mv3_pos_wrtMXGS" unit="mm" x="0 + (0 + mxgs_dx)" y="0 + (0 + mxgs_dy)" z="hop_angDepth+hop_ct_z/2+hop_b_t/2 - hop_mv0_dz - hop_mv3_dz - mv3disp + (hop_b_wz - hop_b_t/2+lowHsg_bxmp_wz+lowHsg_blid_wz+lowCov_b1_wz/2 + hop_mv0_dz + mxgs_dz)"/>
+
     <!-- coded mask base -->
     <constant name="cm_mv_x" value="746.2"/>
     <constant name="cmb_sbx" value="746.2-15.1"/>
@@ -478,6 +481,7 @@
     -->
 
     <box name="hop_mv0" lunit="mm" x="hop_top_w + sup_latdisp_fudge*2.1" y="hop_top_w + sup_latdisp_fudge*2.1" z="hop_b_wz+hop_angDepth+hop_ct_z"/>
+
     <box name="hop_mv1" lunit="mm" x="hop_b_wx" y="hop_b_wy" z="hop_b_wz"/>
     <!-- <box name="hop_mv2" lunit="mm" x="hop_top_w" y="hop_top_w" z="hop_angDepth"/> -->
 
@@ -491,7 +495,12 @@
     <subtraction name="hop_mv3_4"> <first ref="hop_mv3_3"/> <second ref="hop_mv3_ext3"/> <position name="crap13" x="hop_top_w/2" y="hop_top_w/2" z="-(hop_angDepth+hop_ct_z)/2"/> <rotation name="crap14" unit="deg" x="-hop_ang"/> </subtraction>
     <subtraction name="hop_mv3"> <first ref="hop_mv3_4"/> <second ref="hop_mv3_ext3"/> <position name="crap15" x="0" y="hop_top_w/2+50" z="-(hop_angDepth+hop_ct_z)/2"/> <rotation name="crap16" unit="deg" x="-hop_ang"/> </subtraction>
 
-
+    <subtraction name="hop_mv0_sub"> <first ref="hop_mv0"/> <second ref="dpuBox_mv"/>
+      <position x="(lowCov_t1_z/2 + lowCov_b2_wx/2 + lowCov_b1_wx/2 + mxgs_dx)-(0 + mxgs_dx)"
+        y="(0 + mxgs_dy)-(0 + mxgs_dy)" 
+        z="(lowCov_b1_wz/2+dpuBox_bbck_wz/2+dpuBox_bb_wz/2 + mxgs_dz)-(hop_b_wz - hop_b_t/2+lowHsg_bxmp_wz+lowHsg_blid_wz+lowCov_b1_wz/2 + hop_mv0_dz + mxgs_dz)"/>
+      <rotationref ref="id"/>
+    </subtraction>
 
     <box name="hop_bym" lunit="mm" x="hop_b_wx-2*hop_b_t" y="hop_b_t" z="hop_b_wz - hop_b_t"/>
     <box name="hop_byp" lunit="mm" x="hop_b_wx-2*hop_b_t" y="hop_b_t" z="hop_b_wz - hop_b_t"/>
@@ -940,18 +949,16 @@
       -->
     </volume>
 
+    <!--
     <volume name="hop">
       <materialref ref="Vacuum"/>
-      <solidref ref="hop_mv0"/>
+      <solidref ref="hop_mv0_sub"/>
 
-      <!--
-      -->
       <physvol> <volumeref ref="hop_box"/> <positionref ref="hop_mv1_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="hop_top"/> <positionref ref="hop_mv3_pos"/> <rotationref ref="id"/> </physvol>
-      <!--
       <auxiliary auxtype="visibility" auxvalue="invisible"/>
-      -->
     </volume>
+      -->
 
     <volume name="MXGS">
       <materialref ref="Vacuum"/>
@@ -963,7 +970,13 @@
       <!--
       -->
       <physvol> <volumeref ref="dpuBox"/> <positionref ref="dpuBox_pos"/> <rotationref ref="id"/> </physvol>
+
+      <!--
       <physvol> <volumeref ref="hop"/> <positionref ref="hop_pos"/> <rotationref ref="id"/> </physvol>
+      had to move hop_box and hop_top here because hop_mv0 was ... enclosing other stuff here.
+      -->
+      <physvol> <volumeref ref="hop_box"/> <positionref ref="hop_mv1_pos_wrtMXGS"/> <rotationref ref="id"/> </physvol> 
+      <physvol> <volumeref ref="hop_top"/> <positionref ref="hop_mv3_pos_wrtMXGS"/> <rotationref ref="id"/> </physvol>
 
       <physvol> <volumeref ref="codedMask_imp"/> <positionref ref="codedMask_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="ssifp_v"/> <positionref ref="ssifp_ym_pos"/> <rotationref ref="id"/> </physvol>

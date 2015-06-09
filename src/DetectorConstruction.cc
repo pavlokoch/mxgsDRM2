@@ -43,7 +43,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 {
   char fn[1000];
   //sprintf(fn,"%s/columbus.gdml",getenv("MY_GDML_PATH"));
-  sprintf(fn,"columbus.gdml");
+  //sprintf(fn,"columbus.gdml");
+  sprintf(fn,"asim.gdml");
   //// NOTE: using asim.gdml, need to use asim_world volume instead of asim volume for world ref in asim.gdml.
   //// i.e. <world ref="asim_world"> vs <world ref="asim"> at end of asim.gdml.
   //// also have to adjust the target position.

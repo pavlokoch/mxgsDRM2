@@ -55,10 +55,10 @@
 
     <constant name="chip_x" value="cztu_x"/>
     <constant name="chip_y" value="cztu_y"/>
-    <constant name="chip_z" value="7.5"/>
+    <constant name="chip_z" value="8.5"/>
     <constant name="chip_cw" value="40"/>
     <constant name="chip_ch" value="5"/>
-    <constant name="chip_tpcbz" value="0.5"/>
+    <constant name="chip_tpcbz" value="0.2"/>
     <constant name="chip_bpcbz" value="2.0"/>
     <constant name="chip_bpcbw" value="42"/>
     <constant name="chip_spacer_w" value="5.8"/>
@@ -69,7 +69,6 @@
     <constant name="chip_spacer_latdisp" value="chip_cw/2+chip_spacer_w/4.0"/>
     <position name="chip_bpcb_pos" unit="mm" x="0" y="0" z="-chip_z/2+chip_bpcbz/2"/>
     <position name="chip_c_pos" unit="mm" x="0" y="0" z="-chip_z/2+chip_bpcbz+chip_ch/2"/>
-    <position name="chip_tpcb_pos" unit="mm" x="0" y="0" z="chip_z/2-chip_tpcbz/2"/>
     <position name="chip_spacer_xm_pos" unit="mm" x="-chip_spacer_latdisp" y="0" z="-chip_z/2+chip_bpcbz+chip_spacer_h/2"/>
     <position name="chip_spacer_xp_pos" unit="mm" x="chip_spacer_latdisp" y="0" z="-chip_z/2+chip_bpcbz+chip_spacer_h/2"/>
     <position name="chip_spacer_ym_pos" unit="mm" x="0" y="-chip_spacer_latdisp" z="-chip_z/2+chip_bpcbz+chip_spacer_h/2"/>
@@ -124,11 +123,19 @@
     <position name="cztModpm_pos" unit="mm" x="dauf_x/2" y="-dauf_y/2" z="0"/>
     <position name="cztModpp_pos" unit="mm" x="dauf_x/2" y="dauf_y/2" z="0"/>
 
-    <constant name="czt_z" value="dauf_z+daf_z"/>
+    <constant name="wire_t" value="1.0"/>
+    <constant name="wire_cu_diam" value="0.4"/>
+    <constant name="czt_z" value="dauf_z+daf_z+wire_t"/>
     <constant name="czt_x" value="dauf_x*2"/>
     <constant name="czt_y" value="daf_y"/>
     <position name="daf_pos" unit="mm" x="0" y="0" z="-czt_z/2+daf_z/2"/>
-    <position name="czt_pos" unit="mm" x="0" y="0" z="czt_z/2-dauf_z/2"/>
+    <position name="czt_pos" unit="mm" x="0" y="0" z="czt_z/2-dauf_z/2-wire_t/2"/>
+
+    <constant name="kapton_thickness" value="0.3"/>
+    <position name="czt_kapton_pos" unit="mm" x="0" y="0" z="chip_z/2-kapton_thickness/2"/>
+    <position name="wire_pos1" unit="mm" x="10" y="0" z="chip_z/2-kapton_thickness-wire_t/2"/>
+    <position name="wire_pos2" unit="mm" x="-10" y="0" z="chip_z/2-kapton_thickness-wire_t/2"/>
+    <position name="chip_tpcb_pos" unit="mm" x="0" y="0" z="chip_z/2-chip_tpcbz/2-kapton_thickness-wire_t"/>
 
     <position name="cztu4_mv_pext1_pos" unit="mm" x="0" y="cztu_bw/2+chip_cw/2 - cztu_y/2" z="-cztu_z/2+cztu_z+chip_bpcbz+(chip_ch+chip_tpcbz)/2"/>
     <position name="cztu4_mv_mext1_pos" unit="mm" x="0" y="cztu_bw/2+chip_cw/2 - cztu_y/2 - cztu_y" z="-cztu_z/2+cztu_z+chip_bpcbz+(chip_ch+chip_tpcbz)/2"/>
@@ -156,6 +163,8 @@
 
     <element name="Carbon" formula="C" Z="6.0"> <atom value="12.0107"/> </element>
     <element name="Hydrogen" formula="H" Z="1.0"> <atom value="1.008"/> </element>
+
+    <element name="Copper" formula="Cu" Z="29.0"> <atom value="63.546"/> </element>
 
     <element name="Boron" formula="B" Z="5.0"> <atom value="10.811"/> </element>
     <element name="Sodium" formula="Na" Z="11.0"> <atom value="22.990"/> </element>
@@ -222,6 +231,16 @@
       <composite n="1" ref="Carbon"/>
     </material>
 
+    <!-- mass fractions here calculated assuming 0.1mm of copper out of 2mm thickness of F2C, i.e. Teflon -->
+    <material name="TeflonWithCopper">
+      <D value="2.54" unit="g/cm3"/>
+      <fraction n="0.626" ref="Fluorine"/>
+      <fraction n="0.198" ref="Carbon"/>
+      <fraction n="0.176" ref="Copper"/>
+    </material>
+
+
+
     <material name="Vespel" formula="C22H10O5N2">
       <D value="1.43" unit="g/cm3"/>
       <composite n="22" ref="Carbon"/>
@@ -230,11 +249,20 @@
       <composite n="2" ref="Nitrogen"/>
     </material>
 
+    <material name="Kapton">
+      <D value="1.42" unit="g/cm3"/>
+      <fraction n="0.026362" ref="Hydrogen"/>
+      <fraction n="0.691133" ref="Carbon"/>
+      <fraction n="0.073270" ref="Nitrogen"/>
+      <fraction n="0.209235" ref="Oxygen"/>
+    </material>
+
     <material name="Vacuum" Z="1.0"> <D value="1.0e-25" unit="g/cm3"/> <atom value="1.00794"/> </material>
 
     <material name="Lead" Z="82."> <D value="11.35" unit="g/cm3"/> <atom value="207.2"/> </material>
     <material name="Tin"  Z="50."> <D value="7.31" unit="g/cm3"/> <atom value="117.81"/> </material>
     <material name="Tantalum" Z="73."> <D value="16.65" unit="g/cm3"/> <atom value="180.95"/> </material>
+    <material name="Copper" Z="29."> <D value="8.96" unit="g/cm3"/> <atom value="63.546"/> </material>
 
   </materials>
 
@@ -281,10 +309,15 @@
     <box name="cztu4_mv" lunit="mm" x="cztu_x*4" y="cztu_y" z="cztu_z"/>
     <box name="cztu16_mv" lunit="mm" x="cztu_x*4" y="cztu_y*4" z="cztu_z"/>
 
-    <box name="cztMod_mv" lunit="mm" x="dauf_x" y="dauf_y" z="dauf_z"/>
-    <box name="cztMods_mv" lunit="mm" x="2*dauf_x" y="2*dauf_y+0.004" z="dauf_z"/>
-    <box name="cztMods2_mv" lunit="mm" x="2*dauf_x" y="dauf_y" z="dauf_z"/>
+    <box name="cztMod_mv" lunit="mm" x="dauf_x" y="dauf_y" z="dauf_z+wire_t"/>
+    <box name="cztMods_mv" lunit="mm" x="2*dauf_x" y="2*dauf_y+0.004" z="dauf_z+wire_t"/>
+    <box name="cztMods2_mv" lunit="mm" x="2*dauf_x" y="dauf_y" z="dauf_z+wire_t"/>
     <box name="czt_mv" lunit="mm" x="czt_x" y="czt_y+0.005" z="czt_z"/>
+
+    <box name="czt_kapton" lunit="mm" x="chip_cw+chip_spacer_w" y="chip_cw+chip_spacer_w" z="kapton_thickness"/>
+    <box name="wire_mv" lunit="mm" x="1" y="1" z="chip_cw+chip_spacer_w"/>
+    <tube name="wire_cu" lunit="mm" aunit="deg" rmin="0.0" rmax="0.2" z="chip_cw+chip_spacer_w" startphi="0" deltaphi="360"/>
+    <tube name="wire_ins" lunit="mm" aunit="deg" rmin="0.2" rmax="0.5" z="chip_cw+chip_spacer_w" startphi="0" deltaphi="360"/>
 
   </solids>
 
@@ -298,7 +331,7 @@
     <volume name="cztu_by_v"> <materialref ref="AL6082T6"/> <solidref ref="cztu_by"/> </volume>
     <volume name="cztu_ir_v"> <materialref ref="AL6082T6"/> <solidref ref="cztu_ir"/> </volume>
     <volume name="cztu_ip_v"> <materialref ref="AL6082T6"/> <solidref ref="cztu_ip"/> </volume>
-    <volume name="chip_bpcb_v"> <materialref ref="Teflon"/> <solidref ref="chip_bpcb"/> </volume>
+    <volume name="chip_bpcb_v"> <materialref ref="TeflonWithCopper"/> <solidref ref="chip_bpcb"/> </volume>
     <volume name="chip_tpcb_v"> <materialref ref="Teflon"/> <solidref ref="chip_tpcb"/> </volume>
     <volume name="chip_halfspacer_v"> <materialref ref="Vespel"/> <solidref ref="chip_halfspacer"/> </volume>
     <volume name="czt16_bxp_v"> <materialref ref="AL6082T6"/> <solidref ref="czt16_bxp"/> </volume>
@@ -308,6 +341,16 @@
     <volume name="dauf_p_v"> <materialref ref="AL6082T6"/> <solidref ref="dauf_p"/> </volume>
 
     <volume name="chip_pixel_v"> <materialref ref="CZT"/> <solidref ref="chip_pixel"/> <auxiliary auxtype="sensitive" auxvalue="czt"/> </volume>
+
+    <volume name="cztKapton"> <materialref ref="Kapton"/> <solidref ref="czt_kapton"/> </volume>
+    <volume name="wireCu"> <materialref ref="Copper"/> <solidref ref="wire_cu"/> </volume>
+    <volume name="wireIns"> <materialref ref="Teflon"/> <solidref ref="wire_ins"/> </volume>
+    <volume name="wire">
+      <materialref ref="Vacuum"/>
+      <solidref ref="wire_mv"/>
+      <physvol> <volumeref ref="wireCu"/> <positionref ref="orig"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="wireIns"/> <positionref ref="orig"/> <rotationref ref="id"/> </physvol>
+    </volume>
 
     <volume name="chip_pixrow_v">
       <materialref ref="Vacuum"/>
@@ -355,6 +398,10 @@
       <solidref ref="cztc_mv"/>
       <physvol> <volumeref ref="chip_bpcb_v"/> <positionref ref="chip_bpcb_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="chip_tpcb_v"/> <positionref ref="chip_tpcb_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="cztKapton"/> <positionref ref="czt_kapton_pos"/> <rotationref ref="id"/> </physvol>
+      <physvol> <volumeref ref="wire"/> <positionref ref="wire_pos1"/> <rotationref ref="xm90"/> </physvol>
+      <physvol> <volumeref ref="wire"/> <positionref ref="wire_pos2"/> <rotationref ref="xm90"/> </physvol>
+
       <physvol> <volumeref ref="chip_c_v"/> <positionref ref="chip_c_pos"/> <rotationref ref="id"/> </physvol>
       <physvol> <volumeref ref="chip_halfspacer_v"/> <positionref ref="chip_spacer_xm_pos"/> <rotationref ref="z90"/> </physvol>
       <physvol> <volumeref ref="chip_halfspacer_v"/> <positionref ref="chip_spacer_xp_pos"/> <rotationref ref="z90"/> </physvol>

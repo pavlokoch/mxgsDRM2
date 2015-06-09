@@ -201,6 +201,13 @@ int main(int argc, char** argv){
 /vis/scene/create
 /vis/scene/add/volume
 /vis/sceneHandler/attach
+/vis/viewer/set/projection o
+/vis/viewer/set/viewpointThetaPhi 90 0
+/vis/geometry/set/visibility asim -1 0
+/vis/geometry/set/visibility czt -1 1
+/vis/geometry/set/colour cztKapton -1 red
+
+
 /vis/viewer/set/projection perspective 20 deg
 /vis/viewer/set/viewpointThetaPhi 90 0
 /vis/viewer/panTo 1.4226 3.7341
@@ -218,6 +225,7 @@ int main(int argc, char** argv){
 /vis/geometry/set/colour codedMask -1 red
 
 /vis/viewer/set/style surface
+/vis/viewer/set/style wireframe
 
 /run/beamOn 1
 
