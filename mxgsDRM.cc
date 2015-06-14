@@ -27,8 +27,8 @@ int main(int argc, char** argv){
   int i,j,k;
   int nargs = 15;
   if(argc < nargs){
-    cout << "usage:\n" 
-      << argv[0] 
+    cout << "usage:\n"
+      << argv[0]
       << " interactive(0|1) priPDGID(22,11,-11,...) nPriPerE priStartDiskRad(m) priStartDiskRad0(m) theta(deg) phi(deg) Emin(MeV) Emax(MeV) numEnergies outEMin outEMax outNumE outputfileName  ...rest of arguments written as comment to output file...\n";
     return 1;
   }
@@ -162,7 +162,7 @@ int main(int argc, char** argv){
 
     // main event loop for this primary energy
     for(k=0; k<nPriPerE; ++k){
-      UI->ApplyCommand(command); 
+      UI->ApplyCommand(command);
     }
 
     // write histogram line(s) to matrices.
@@ -203,6 +203,16 @@ int main(int argc, char** argv){
 /vis/sceneHandler/attach
 /vis/viewer/set/projection o
 /vis/viewer/set/viewpointThetaPhi 90 0
+/vis/viewer/panTo 1.4226 3.7341
+/vis/viewer/set/viewpointThetaPhi 140 40
+/vis/scene/add/trajectories
+/vis/scene/add/hits
+/vis/viewer/zoom 2
+/vis/viewer/zoom 2
+/vis/viewer/zoom 2
+
+
+
 /vis/geometry/set/visibility asim -1 0
 /vis/geometry/set/visibility czt -1 1
 /vis/geometry/set/colour cztKapton -1 red
