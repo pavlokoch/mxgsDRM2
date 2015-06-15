@@ -55,7 +55,7 @@ def writePBS(outfn,name,n,cmds,walltime):
   outf = open(outfn,"w")
   numNodes = 1 #int(n/2) + n%2
   outf.write("#! /bin/sh -\n")
-  outf.write("#PBS -S /bin/sh\n")
+  outf.write("#PBS -S /bin/bash\n")
   outf.write("#PBS -N \"%s\"\n"%name)
   outf.write("#PBS -A fysisk\n")
   outf.write("#PBS -l walltime=%s,nodes=%d:ppn=1\n"%(walltime,numNodes))
