@@ -1,7 +1,7 @@
 ﻿from math import *
 import sys
 
-workingDir = "~/sim-build"
+workingDir = "~/mxgsDRM_build"
 resultsDir = "~/results"
 
 outMinE = 0.001
@@ -44,17 +44,17 @@ def mpirunCmds(name,pdgID,nPriPerE,rad,rad0,(th0,th1,nth),(ph0,ph1,nph),(e0,e1,n
 
 
 def commands(name,pdgID,nPriPerE,rad,rad0,theta,phi,energy):
-  return ["module unload pgi","module load gcc"
-      ,"cd ~/geant/geant4.9.5-install/bin/"
+  return [ # "module unload pgi","module load gcc"  #not necessary anymore?
+      "cd ~/geant-install/bin/"
       ,"source geant4.sh"
-      ,"cd ~/sim-build"
+      ,"cd %s"%workingDir
       ,"mkdir -p %s/%s"%(resultsDir,name)
       ,mpirunCmds(name,pdgID,nPriPerE,rad,rad0,theta,phi,energy)]
 
 def writePBS(outfn,name,n,cmds,walltime):
   outf = open(outfn,"w")
   numNodes = 1 #int(n/2) + n%2
-  outf.write("#! /bin/sh -\n")
+  outf.write("#! /bin/bash -\n")
   outf.write("#PBS -S /bin/bash\n")
   outf.write("#PBS -N \"%s\"\n"%name)
   outf.write("#PBS -A fysisk\n")
@@ -74,7 +74,7 @@ def writePBS(outfn,name,n,cmds,walltime):
 # test runs suggest rate = 450primaries/second, spinup ~ 10 s (for full
 # columbus, direction where paricles either hit ASIM or columbus).
 # these estimates are padded in case particles shot in from another direction take longer.
-def walltimeStr(nPriPerE,nPriE,nth,nph,rate=350,spinup=12):
+def walltimeStr(nPriPerE,nPriE,nth,nph,rate=230,spinup=30):
   sTot = nth*nph*(spinup + nPriPerE*nPriE/rate)
   h = int(sTot/3600)
   m = int((sTot-h*3600)/60)
@@ -85,22 +85,21 @@ def writeJobScript(name,(thmin,thmax,ntheta),(phmin,phmax,nphi),(emin,emax,ne,nP
   pdgID = 22
   writePBS("%s.pbs"%name,name,ntheta*nphi,
       commands(name,pdgID,nPriPerE,0.6,0.0,(thmin,thmax,ntheta),(phmin,phmax,nphi),(emin,emax,ne)),
-      walltimeStr(nPriPerE,ne,ntheta,nphi,250))
+      walltimeStr(nPriPerE,ne,ntheta,nphi))
 
-def writeJobGrid(baseName,(thmin,thmax,nth,nthBlks),(phmin,phmax,nph,nphBlks),(emin,emax,ne,neBlks)):
-  thetas = linRange(thmin,thmax,nth)
-  phis = linRange(phmin,phmax,nph)
-  es = logRange(emin,emax,ne)
+def writeJobGrid(baseName,thetas,nthBlks,phis,nphBlks,estats):
   thblks = blocks(thetas,nthBlks)
   phblks = blocks(phis,nphBlks)
-  eblks = blocks(es,neBlks)
 
-  nPriPerE = 1000000
-
-  for (thblk,phblk,eblk) in [((min(ths),max(ths),len(ths)),(min(phs),max(phs),len(phs)),(min(es),max(es),len(es),nPriPerE)) for ths in thblks for phs in phblks for es in eblks]:
-    name = "%s_%.0f_%.0f_%.0f_%.0f_%.1g_%.1g"%(baseName,thblk[0],thblk[1],phblk[0],phblk[1],eblk[0],eblk[1])
+  for (thblk,phblk) in [((min(ths),max(ths),len(ths)),(min(phs),max(phs),len(phs)))
+          for ths in thblks for phs in phblks]:
+    name = "%s_%.0f_%.0f_%.0f_%.0f"%(baseName,thblk[0],thblk[1],phblk[0],phblk[1])
     print(name)
-    writeJobScript(name,thblk,phblk,eblk)
+    writeJobScript(name,thblk,phblk,estats)
 
 #writeJobScript("testJob",0,40,5,0,90,10,10000)
 
+thetas = [0.0,15.,30.,45.,60.,75.,90.,120.,150.,180.]
+phis = linRange(-90,90,7)
+estats = (0.01,100.0,41,500000)
+writeJobGrid("asim2",thetas,len(thetas),phis,len(phis),estats)
