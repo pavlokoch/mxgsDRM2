@@ -73,9 +73,9 @@ def writePBS(outfn,name,n,cmds,walltime):
 
 # runs suggest rate = 550primaries/second, spinup ~ <30 s (for full
 # columbus, direction where paricles either hit ASIM or columbus).
-# estimates as default arguments are padded in case particles shot in 
+# estimates as default arguments are padded in case particles shot in
 # from another direction take longer.
-def walltimeStr(nPriPerE,nPriE,nth,nph,rate=400,spinup=30):
+def walltimeStr(nPriPerE,nPriE,nth,nph,rate=350,spinup=30):
   sTot = nth*nph*(spinup + nPriPerE*nPriE/rate)
   h = int(sTot/3600)
   m = int((sTot-h*3600)/60)
