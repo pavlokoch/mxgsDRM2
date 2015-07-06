@@ -381,9 +381,9 @@ There are some minor overlaps in the geomtery as described here.  These overlaps
 ** Supercomputer job execution notes
 The supercomputer used to run these simulations is fimm.bccs.uib.no.  Accounts can be requested at https://hpc.uib.no/signup/.  Once an account has been issued, GEANT4 must be compiled on the cluster with GDML support and data downloads.  For the set of simulations run in June 2015, it was necessary to download and build and install the XercesC++ library (to a prefix like sharedLibs in the user's home directory) in order to support reading from the GDML and the GSL for the histogramming in detector response matrix genertaion (installed to the ~/gsl prefix, since that's where CMake will look, see cmake/FindGSL.cmake in the source directory).  It was not necessary to switch the compiler to gcc as it was in June 2012 (see https://docs.hpc.uib.no/wiki/Application_development_(Fimm) for info on how to do this if necessary).
 
-NOTE: issues with shared libraries.
-
 After building GEANT4, it is necessary to transfer and rebuild the simulation.  This is straightforward transferring with git or rsync and rebuilding with cmake as any GEANT4 application would be built.
+
+The resulting executable should run without issues on either the login node or on the cluster nodes.  There may be issues with missing shared libraries on the cluster nodes, but these issues can be rectified by emailing the FIMM help people (hpc-support@hpc.uib.no, probably Saerda Halifu).
 
 With an executable ready to go, the DRM simulations can be executed with the queueing system.  Jobs must be submitted with qsub script.pbs, where script.pbs is a job script file.  There is a Python script, makePBS.py, to generate these scripts, see especially the writeJobGrid(...) function.  Each job script runs one or more DRM simulations covering a chunk of the angle range of interest.  The .pbs files generated, once they make it through the queue and run, create output directories for the resulting histograms and populate those directories with the appropriate simulation results.
 
@@ -930,7 +930,7 @@ With an executable ready to go, the DRM simulations can be executed with the que
   }
 
   # for example, running R in the directory with the simulation results files:
-  # makeDRM_batch(fns=list.files(pattern="^mats_22_.*.txt",include.dirs=FALSE),
+  # makeDRM_batch(fns=list.files("resultsDir",pattern="^mats_22_.*.txt",include.dirs=FALSE,full.name=TRUE),
   #               nPriPerE=500000,
   #               rDisk=0.6,
   #               bins=10**seq(-1,2,length.out=40),
@@ -955,20 +955,33 @@ With an executable ready to go, the DRM simulations can be executed with the que
       print("plotting...");
       plotFn <- sprintf("%s/drmPlot_logScale500Max_%s.pdf",dn,fn);
       pdf(plotFn,width=8,height=8);
-      plotDRM(bins,bins,drm,log='xy',zlim=c(0,500));
+      plotDRM(bins,bins,drm,log='xy',zlim=c(0,500),main=fn);
       dev.off();
       plotFn <- sprintf("%s/drmPlot_logScale_%s.pdf",dn,fn);
       pdf(plotFn,width=8,height=8);
-      plotDRM(bins,bins,drm,log='xy');
+      plotDRM(bins,bins,drm,log='xy',main=fn);
       dev.off();
       plotFn <- sprintf("%s/drmPlot_linScale_%s.pdf",dn,fn);
       pdf(plotFn,width=8,height=8);
-      plotDRM(bins,bins,drm);
+      plotDRM(bins,bins,drm,main=fn);
       dev.off();
       
       print("done!");
     }
   } 
+
+
+  # needs some additional setup to be run in the REPL...
+  # library(runParallel)
+  # cl <- makeCluster(4) # number of CPUs
+  # registerDoParallel(cl)
+  # then makeDRM_batch_parallel(...)
+  makeDRM_batch_parallel <- function(fns,nPriPerE,rDisk1=0.6,rDisk0=0.0,bins,primarySpect,det='bgo'){
+      foreach(fn=fns) %dopar% {
+          source("../procDRM.r");
+          makeDRM_batch(c(fn),nPriPerE,rDisk1,rDisk0,bins,primarySpect,det)
+      }
+  }
 
   # note dropping 0-20 keV bin since it's not relevant to include all the way down to zero.
   # note also division by 1000 to convert to MeV.
