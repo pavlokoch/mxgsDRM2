@@ -5,7 +5,8 @@
 # WARNING: this file can be manually edited for use directly in R, but
 # can also be automatically generated from the appendix in notes/docs.org.
 # If you have emacs and org-mode, it is better to edit in emacs and use
-# org-babel-tangle to generate the file.
+# org-babel-tangle to generate the file.  That way the file and the document
+# will stay in sync.
 # 
 # Basic usage from the R prompt:
 # a <- readDRMs_df("../results/mxgsDRM_1/mats_22_500000_0.60_0.00_0.00_30.00_0.01_1e+02_41.txt",combineOutBins=2,nPriPerE=500000,rDisk1=0.6,rDisk0=0.0);
@@ -22,6 +23,26 @@ library(fields); # image.plot
 #source("~/R/utils.r"); # color maps, multiplot function.
 
 cbpr <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+
+# from Robin Evans, http://cran.r-project.org/web/packages/rje/index.html
+cubeHelix <- function (n, start = 0.5, r = -1.5, hue = 1, gamma = 1, reverse=FALSE) 
+{
+    M = matrix(c(-0.14861, -0.29227, 1.97294, 1.78277, -0.90649, 
+        0), ncol = 2)
+    lambda = seq(0, 1, length.out = n)
+    l = rep(lambda^gamma, each = 3)
+    phi = 2 * pi * (start/3 + r * lambda)
+    t = rbind(cos(phi), sin(phi))
+    out = l + hue * l * (1 - l)/2 * (M %*% t)
+    out = pmin(pmax(out, 0), 1)
+    out = apply(out, 2, function(x) rgb(x[1], x[2], x[3]))
+    if(reverse){
+        rev(out);
+    }else{
+        out;
+    }
+}
+
 
 # Calculate a confidence interval for probability p in binomial given
 # observation of x successes out of n trials, vectorized over x.  default
@@ -55,7 +76,7 @@ sumRowGroupsMat <- function(nRows,nGrp){
 # effective areas for BGO and CZT layers.  Pay the most attention to the ctsB
 # variable, as it is the easiest to understand.  The attributes store relevant
 # parameters for later calculation.
-readDRMs_df <- function(fn,nPriPerE=1.0,rDisk1=1.0,rDisk0=0.0,combineOutBins=1,defaultDet='bgo'){
+readDRMs_df <- function(fn,nPriPerE=1.0,rDisk1=0.6,rDisk0=0.0,combineOutBins=1,defaultDet='bgo'){
   f <- file(fn,"rt");
   l <- readLines(f,5);
   close(f);
@@ -172,8 +193,14 @@ lineDRM <- function(a,e,geomOnly=FALSE){
   }
 }
 
-plotDRM <- function(inBins,outBins,drm){
-  image.plot(outBins,inBins,drm,log='xy',xlab="deposited energy (MeV)",ylab="primary energy (MeV)",legend.lab="effective area (cm^2)",legend.mar=4);
+#suggested additional argumens: log="xy", zlim=c(0,500)
+plotDRM <- function(inBins,outBins,drm,...){
+    image.plot(outBins,inBins,drm,xlab="deposited energy (MeV)",ylab="primary energy (MeV)",legend.lab="effective area (cm^2)",legend.mar=4,col=cubeHelix(1000,reverse=TRUE),...);
+}
+
+# makes plot in matrix sense, i.e. with origin at upper left instead of lower left.
+plotDRMAsMat <- function(drm,...){
+    image.plot(t(drm)[,ncol(drm):1],legend.lab="effective area (cm^2)",legend.mar=4,col=cubeHelix(1000,reverse=TRUE),...);
 }
 
 # compares two DRM data tables.
@@ -426,6 +453,15 @@ drmConvolver <- function(df){
        attrs = attributes(df));
 }
 
+# convolution with detector resolution
+detResConvMat <- function(eOutb,relErrAt1MeV=0.05){
+  el <- head(eOutb,-1);
+  eu <- tail(eOutb,-1);
+  em <- (el+eu)/2.0;
+  w <- sqrt(em)*relErrAt1MeV;
+  outer(seq_along(el),seq_along(el), function(i,j)(pnorm(eu[i],em[j],w[j])-pnorm(el[i],em[j],w[j])));
+}
+
 # like sumRowGroupsMat, but properly accounting for splitting of bins.
 # used to decrease resolution of output bins to match desired outputs.
 # assumes bins that split have uniform density, which isn't a terrible approximation
@@ -439,13 +475,18 @@ rebinDRMMat <- function(eInb,eOutb){
         function(i,j)pmax(0,(pmin(eInbu[j],eOutbu[i])-pmax(eInbl[j],eOutbl[i]))/(eInbu[j]-eInbl[j])));
 }
 
-makeDRM <- function(dCr,spect,inEBins,outEBins){
+makeDRM <- function(dCr,spect,inEBins,outEBins,relErrAt1MeV=0.05){
   elow <- head(inEBins,-1);
   ehigh <- tail(inEBins,-1);
   norm <- pi*(dCr$attrs$rDisk1**2-dCr$attrs$rDisk0**2)*100^2/dCr$attrs$nPriPerE
   mat <- mapply(dCr$f,elow,ehigh,MoreArgs=list(spect));
   rebinMat <- rebinDRMMat(dCr$outEb,outEBins);
-  norm * rebinMat %*% mat;
+  if(relErrAt1MeV>0){
+      resConvMat <- detResConvMat(dCr$outEb,relErrAt1MeV);
+      norm * rebinMat %*% resConvMat %*% mat;
+  }else{
+      norm * rebinMat %*% mat;
+  }
 }
 
 applyDrmConvolution_makeDF <- function(dCr,e1,e2,spect){
@@ -494,32 +535,65 @@ testInterp <- function(df,e){
 }
 
 # for example, running R in the directory with the simulation results files:
-# makeDRM_batch(fns=list.files(pattern="^mats_22_.*.txt",include.dirs=FALSE),
+# makeDRM_batch(fns=list.files("resultsDir",pattern="^mats_22_.*.txt",include.dirs=FALSE,full.name=TRUE),
 #               nPriPerE=500000,
 #               rDisk=0.6,
 #               bins=10**seq(-1,2,length.out=40),
 #               primarySpect=function(e){1/e})
-makeDRM_batch <- function(fns,nPriPerE,rDisk,bins,primarySpect,det='bgo'){
+makeDRM_batch <- function(fns,nPriPerE,rDisk1=0.6,rDisk0=0.0,bins,primarySpect,det='bgo'){
   for(fn in fns){
     print("*****************************");
     print(sprintf("working on %s...",fn));
     print("reading simulation results...");
-    a <- readDRMs_df(fn,combineOutBins=2,nPriPerE=nPriPerE,rDisk=rDisk,rDisk0=0.0,defaultDet=det);
+    a <- readDRMs_df(fn,combineOutBins=2,nPriPerE=nPriPerE,rDisk1=rDisk1,rDisk0=rDisk0,defaultDet=det);
     print("making DRM convolver...");
     f <- drmConvolver(a);
     print("making DRM...");
     drm <- makeDRM(f,primarySpect,bins,bins);
     
     print("writing output...");
-    outDRMFn <- sprintf("drm_%s",fn);
+    dn = dirname(fn);
+    fn = basename(fn);
+    outDRMFn <- sprintf("%s/drm_%s",dn,fn);
     write.table(drm,outDRMFn,row.names=FALSE,col.names=FALSE)
 
     print("plotting...");
-    plotFn <- sprintf("drmPlot_%s.pdf",fn);
+    plotFn <- sprintf("%s/drmPlot_logScale500Max_%s.pdf",dn,fn);
     pdf(plotFn,width=8,height=8);
-    plotDRM(bins,bins,drm);
+    plotDRM(bins,bins,drm,log='xy',zlim=c(0,500),main=fn);
+    dev.off();
+    plotFn <- sprintf("%s/drmPlot_logScale_%s.pdf",dn,fn);
+    pdf(plotFn,width=8,height=8);
+    plotDRM(bins,bins,drm,log='xy',main=fn);
+    dev.off();
+    plotFn <- sprintf("%s/drmPlot_linScale_%s.pdf",dn,fn);
+    pdf(plotFn,width=8,height=8);
+    plotDRM(bins,bins,drm,main=fn);
     dev.off();
     
     print("done!");
   }
+} 
+
+
+# needs some additional setup to be run in the REPL...
+# library(runParallel)
+# cl <- makeCluster(4) # number of CPUs
+# registerDoParallel(cl)
+# then makeDRM_batch_parallel(...)
+makeDRM_batch_parallel <- function(fns,nPriPerE,rDisk1=0.6,rDisk0=0.0,bins,primarySpect,det='bgo'){
+    foreach(fn=fns) %dopar% {
+        source("../procDRM.r");
+        makeDRM_batch(c(fn),nPriPerE,rDisk1,rDisk0,bins,primarySpect,det)
+    }
 }
+
+# note dropping 0-20 keV bin since it's not relevant to include all the way down to zero.
+# note also division by 1000 to convert to MeV.
+rhessiBins <- c(20.0, 25.0, 30.0, 35.0, 40.0, 45.0, 50.0, 60.0, 70.0, 80.0, 100.0,
+                120.0, 140.0, 160.0, 200.0, 250.0, 300.0, 350.0, 400.0, 500.0, 600.0,
+                700.0, 800.0, 1000.0, 1200.0, 1400.0, 1700.0, 2000.0, 2500.0, 3000.0,
+                3500.0, 4000.0, 5000.0, 6000.0, 7000.0, 9000.0, 11000.0, 13000.0,
+                15000.0, 17500.0, 19999.0, 23000.0, 30000.0, 40000.0) / 1000.0;
+
+logBins <- 10**seq(-2,2,length.out=41);
