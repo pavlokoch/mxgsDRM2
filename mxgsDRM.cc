@@ -143,8 +143,8 @@ int main(int argc, char** argv){
   G4UImanager* UI=0;
 
   UI = G4UImanager::GetUIpointer();
-  G4String command = "/run/beamOn 1";
-
+  //  G4String command = "/run/beamOn 1";
+  std::ostringstream command;	//command for GEANT4
 
   for(j=0; j<priNumE; ++j){ // loop over primary energies.
     // reset the histograms.
@@ -161,9 +161,12 @@ int main(int argc, char** argv){
     }
 
     // main event loop for this primary energy
-    for(k=0; k<nPriPerE; ++k){
-      UI->ApplyCommand(command);
-    }
+    command.str(""); //empty command
+    command << "/run/beamOn " << nPriPerE << std::flush;
+    UI->ApplyCommand(command.str());
+    //    for(k=0; k<nPriPerE; ++k){
+    //  UI->ApplyCommand(command);
+    // }
 
     // write histogram line(s) to matrices.
     out << "BGO";
