@@ -47,6 +47,7 @@ set(GDML_FILES
   instrument.gdml
   mmia.gdml
   mxgs.gdml
+  vis.mac
   )
 
 foreach(_gdml ${GDML_FILES})
