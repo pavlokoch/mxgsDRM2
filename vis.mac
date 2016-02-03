@@ -1,3 +1,4 @@
+# Brant's script
 /vis/open OGL
 /vis/scene/create
 /vis/scene/add/volume
@@ -11,3 +12,92 @@
 /vis/viewer/zoom 2
 /vis/viewer/zoom 2
 /vis/viewer/zoom 2
+
+# Extras
+# Draw smooth trajectories at end of event, showing trajectory points
+# as markers 2 pixels wide:
+/vis/scene/add/trajectories smooth
+/vis/modeling/trajectories/create/drawByCharge
+/vis/modeling/trajectories/drawByCharge-0/default/setDrawStepPts true
+/vis/modeling/trajectories/drawByCharge-0/default/setStepPtsSize 1
+# (if too many tracks cause core dump => /tracking/storeTrajectory 0)
+#
+# Draw hits at end of event:
+#/vis/scene/add/hits
+#Set display limit to million
+/vis/ogl/set/displayListLimit 1000000 
+#
+# Particle filter:
+#/vis/filtering/trajectories/create/particleFilter
+#
+# To invert the above, drawing all particles except gammas,
+# keep the above two lines but also add:
+#/vis/filtering/trajectories/particleFilter-0/invert true
+#
+# Many other options are available with /vis/modeling and /vis/filtering.
+# For example, to select colour by particle ID:
+#/vis/modeling/trajectories/create/drawByParticleID
+#/vis/modeling/trajectories/drawByParticleID-0/default/setDrawStepPts true
+# To select or override default colours (note: e+ is blue by default):
+#/vis/modeling/trajectories/list
+#/vis/modeling/trajectories/drawByParticleID-0/set e+ yellow
+#
+# To superimpose all of the events from a given run:
+/vis/scene/endOfEventAction accumulate
+#
+# Re-establish auto refreshing and verbosity:
+/vis/viewer/set/autoRefresh true
+#/vis/verbose warnings
+#
+# For file-based drivers, use this to create an empty detector view:
+#/vis/viewer/flush
+
+
+# Add macro shortcuts to the menu if gps will be used
+#/gui/addMenu particle Particle
+#/gui/addButton particle "gamma" "/gps/particle gamma"
+#/gui/addButton particle "e-" "/gps/particle e-"
+#/gui/addButton particle "e+" "/gps/particle e+"
+
+#/gui/addMenu energy Energy
+#/gui/addButton energy "mono 10   keV" "/gps/ene/mono 10 keV"
+#/gui/addButton energy "mono 100  keV" "/gps/ene/mono 100 keV"
+#/gui/addButton energy "mono 200  keV" "/gps/ene/mono 200 keV"
+#/gui/addButton energy "mono 300  keV" "/gps/ene/mono 300 keV"
+#/gui/addButton energy "mono 400  keV" "/gps/ene/mono 400 keV"
+#/gui/addButton energy "mono 500  keV" "/gps/ene/mono 500 keV"
+#/gui/addButton energy "mono 511  keV" "/gps/ene/mono 511 keV"
+#/gui/addButton energy "mono 600  keV" "/gps/ene/mono 600 keV"
+#/gui/addButton energy "mono 662  keV" "/gps/ene/mono 662 keV"
+#/gui/addButton energy "mono 700  keV" "/gps/ene/mono 700 keV"
+#/gui/addButton energy "mono 800  keV" "/gps/ene/mono 800 keV"
+#/gui/addButton energy "mono 900  keV" "/gps/ene/mono 900 keV"
+#/gui/addButton energy "mono 1000 keV" "/gps/ene/mono 1000 keV"
+#/gui/addButton energy "mono 10   MeV" "/gps/ene/mono 10 MeV"
+#/gui/addButton energy "mono 100  MeV" "/gps/ene/mono 100  MeV"
+#/gui/addButton energy "mono 1000 MeV" "/gps/ene/mono 1000 MeV"
+#/gui/addButton energy "exp" "/gps/ene/type Exp"
+#/gui/addButton energy "200 keV" "/gps/ene/ezero 0.2"
+
+#/gui/addMenu source Source
+#/gui/addButton source "iso" "/gps/ang/type iso"
+#/gui/addButton source "cos" "/gps/ang/type cos"
+#/gui/addButton source "planar" "/gps/ang/type planar"
+#/gui/addButton source "beam1d" "/gps/ang/type beam1d"
+#/gui/addButton source "beam2d" "/gps/ang/type beam2d"
+#/gui/addButton source "focused" "/gps/ang/type focused"
+
+/gui/addMenu run Run
+/gui/addButton run "1 particle" "/run/beamOn 1"
+/gui/addButton run "3 particles" "/run/beamOn 3"
+/gui/addButton run "10 particles" "/run/beamOn 10"
+/gui/addButton run "25 particles" "/run/beamOn 25"
+/gui/addButton run "100 particles" "/run/beamOn 100"
+/gui/addButton run "1000 particles" "/run/beamOn 1000"
+/gui/addButton run "10^4 particles" "/run/beamOn 10000"
+/gui/addButton run "10^5 particles" "/run/beamOn 100000"
+/gui/addButton run "10^6 particles" "/run/beamOn 1000000"
+/gui/addButton run "10^7 particles" "/run/beamOn 1000000"
+/gui/addButton run "10^8 particles" "/run/beamOn 1000000"
+
+

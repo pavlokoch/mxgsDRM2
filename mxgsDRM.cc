@@ -23,6 +23,10 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#ifdef G4UI_USE
+#include "G4UIExecutive.hh"
+#endif
+
 int main(int argc, char** argv){
   int i,j,k;
   int nargs = 15;
@@ -134,8 +138,10 @@ int main(int argc, char** argv){
       targetX,targetY,targetZ,targetDisp);
   runManager->SetUserAction(pgen);
 
-  G4VisManager* visManager = new G4VisExecutive;
+#ifdef G4VIS_USE
+  G4VisManager* visManager = new G4VisExecutive("Errors");
   visManager->Initialize();
+#endif
 
   // initialize G4 kernel
   runManager->Initialize();
@@ -144,6 +150,7 @@ int main(int argc, char** argv){
 
   UI = G4UImanager::GetUIpointer();
   //  G4String command = "/run/beamOn 1";
+  //
   std::ostringstream command;	//command for GEANT4
 
   for(j=0; j<priNumE; ++j){ // loop over primary energies.
@@ -155,9 +162,16 @@ int main(int argc, char** argv){
     pgen->setPriEn(Epri[j]);
 
     if(interactive){
-      G4UIsession* session = new G4UIterminal(new G4UItcsh);
-      session->SessionStart();
-      delete session;
+//Brant's original ui
+//      G4UIsession* session = new G4UIterminal(new G4UItcsh);
+//      session->SessionStart();
+//      delete session;
+// more advanced ui
+#ifdef G4VIS_USE
+		G4UIExecutive* ui = new G4UIExecutive(argc, argv);
+		UI->ApplyCommand("/control/execute vis.mac"); 
+		ui->SessionStart();   
+#endif 
     }
 
     // main event loop for this primary energy
