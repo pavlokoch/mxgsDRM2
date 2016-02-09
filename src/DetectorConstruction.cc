@@ -72,7 +72,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
       if ((*vit).type=="sensitive" && (*vit).value=="czt") {
         G4cout << "making logical volume " << (*iter).first->GetName() << " CZT sensitive."<< G4endl;
         G4LogicalVolume* myvol = (*iter).first;
-        sprintf(sdname,"bgo_%d",bgoctr); ++bgoctr;
+        sprintf(sdname,"czt_%d",cztctr); ++cztctr;
         CZTSD *czt = new CZTSD(sdname,hCZT);
         myvol->SetSensitiveDetector(czt);
         G4SDManager::GetSDMpointer()->AddNewDetector(czt);
@@ -80,7 +80,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
       if ((*vit).type=="sensitive" && (*vit).value=="bgo") {
         G4cout << "making logical volume " << (*iter).first->GetName() << " BGO sensitive."<< G4endl;
         G4LogicalVolume* myvol = (*iter).first;
-        sprintf(sdname,"czt_%d",cztctr); ++cztctr;
+        sprintf(sdname,"bgo_%d",bgoctr); ++bgoctr;
         BGOSD *bgo = new BGOSD(sdname,hBGO);
         myvol->SetSensitiveDetector(bgo);
         G4SDManager::GetSDMpointer()->AddNewDetector(bgo);
