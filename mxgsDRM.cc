@@ -120,7 +120,7 @@ int main(int argc, char** argv){
   //runManager->SetUserInitialization(new QGSP_BERT_HP());
 
   // set mandatory user action class
-  // targetY/Y/Z are the coordinates (m) of the center of MXGS in the colombus.gdml reference frame.
+  // targetX/Y/Z are the coordinates (m) of the center of MXGS in the colombus.gdml reference frame.
   ////// target for columbus.gdml.
   double targetX = 0.0 - 0.207;
   double targetY = 2.8297 + 0.1458/2.0 + 0.8630/2.0 - 0.046;
@@ -139,7 +139,7 @@ int main(int argc, char** argv){
   runManager->SetUserAction(pgen);
 
 #ifdef G4VIS_USE
-  G4VisManager* visManager = new G4VisExecutive("Errors");
+  G4VisManager* visManager = new G4VisExecutive("Errors"); //only init and error messages
   visManager->Initialize();
 #endif
 
@@ -151,7 +151,7 @@ int main(int argc, char** argv){
   UI = G4UImanager::GetUIpointer();
   //  G4String command = "/run/beamOn 1";
   //
-  std::ostringstream command;	//command for GEANT4
+  std::ostringstream command;	//command
 
   for(j=0; j<priNumE; ++j){ // loop over primary energies.
     // reset the histograms.
@@ -162,11 +162,11 @@ int main(int argc, char** argv){
     pgen->setPriEn(Epri[j]);
 
     if(interactive){
-//Brant's original ui
+// Brant's original ui
 //      G4UIsession* session = new G4UIterminal(new G4UItcsh);
 //      session->SessionStart();
 //      delete session;
-// more advanced ui
+// more advanced QT ui
 #ifdef G4VIS_USE
 		G4UIExecutive* ui = new G4UIExecutive(argc, argv);
 		UI->ApplyCommand("/control/execute vis.mac"); 
